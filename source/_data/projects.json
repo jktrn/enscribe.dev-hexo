@@ -1,0 +1,17 @@
+[
+    {
+       "name":"🌐 enscribe.dev",
+       "url":"https://jktrn.github.io",
+       "desc":"The website you're looking at, right now! Currently undergoing intense development and soon to be under a custom domain name."
+    },
+    {
+       "name":"📘 cyber",
+       "url":"http://github.com/jktrn/cyber",
+       "desc":"Compiled resources for the HTPA TSA cybersecurity team."
+    },
+    {
+        "name":"🤖 botscribe",
+        "url":"http://github.com/jktrn/botscribe",
+        "desc":"(on hold) A NodeJS discord bot that interacts with the **osu!** API to obtain player info"
+     }
+]
