@@ -5,16 +5,16 @@
 # Site
 title: "Jason's Space 🐳"
 subtitle: "Here's my collective presence on the internet. Thanks for stopping by."
-description: "Hey! 👋 My name's Jason, and I go by the handle **enscribe/jktrn** on pretty much every account. I do a lot of things to find fulfillment ⁠— I love participating in cybersecurity [CTF](https://jktrn.github.io/profile/ctftime) events, competitive [rhythm games](https://jktrn.github.io/profile/osu), [clean documentation](https://github.com/htpa-tsa/cyber), gluttony, [web development](https://github.com/jktrn/jktrn.github.io) and [Tetris](https://jktrn.github.io/profile/tetrio). My entire internet presence can be found on this blog. Love ya, thanks for stopping by! 	(・ω・)ノ"
+description: "Hey! 👋 My name's Jason, and I go by the handle **enscribe/jktrn** on pretty much every account. I do a lot of things to find fulfillment ⁠— I love participating in cybersecurity [CTF](https://enscribe.dev/profile/ctftime) events, competitive [rhythm games](https://enscribe.dev/profile/osu), [clean documentation](https://github.com/htpa-tsa/cyber), gluttony, [web development](https://github.com/jktrn/jktrn.github.io) and [Tetris](https://enscribe.dev/profile/tetrio). My entire internet presence can be found on this blog. Love ya, thanks for stopping by! 	(・ω・)ノ"
 keywords:
 author: jktrn
 language: en
-timezone: ''
+# timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://jktrn.github.io/
-permalink: :year/:month/:day/:title/
+url: https://enscribe.dev/
+# permalink: 
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -70,13 +70,9 @@ default_category: uncategorized
 category_map:
 tag_map:
 
-# Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
 meta_generator: true
 
-# Date / Time format
-## Hexo uses Moment.js to parse and display date
-## You can customize the date format as defined in
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: MMMM D, YYYY
 time_format: HH:mm:ss
@@ -90,16 +86,12 @@ pagination_dir: page
 
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
-include:
-exclude:
+# include:
+# exclude:
 ignore:
 
-# Extensions
-## Plugins: https://hexo.io/plugins/
-## Themes: https://hexo.io/themes/
 theme: cactus
 
-# Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
@@ -115,16 +107,12 @@ alias:
   profile/steam/index.html: https://steamcommunity.com/id/Enscribe/
   profile/spotify/index.html: https://open.spotify.com/user/190ew3n8ykzdzexi8w094a79r?si=593d39b17e424aac/
   profile/discord/index.html: https://discord.com/users/268178914982100994/
-  profile/mail/index.html: mailto:123jasont@gmail.com
+  profile/mail/index.html: mailto:contact@enscribe.dev
   profile/ctftime/index.html: https://ctftime.org/user/130832/
   profile/twitter/index.html: https://twitter.com/pwnscribe/
 
 hide_posts:
   enable: true
-  # Change the filter name to fit your need
   filter: hidden
-  # Generators which you want to expose all posts (include hidden ones) to.
-  # Common generators: index, tag, category, archive, sitemap, feed, etc.
   public_generators: []
-  # Add "noindex" meta tag to prevent hidden posts from being indexed by search engines
   noindex: true

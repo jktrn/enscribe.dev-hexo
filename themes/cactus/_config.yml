@@ -26,9 +26,9 @@ nav:
 # (see https://fontawesome.com/icons?d=gallery&s=brands);
 # only 'mail' is an exception.
 social_links:
-  github: http://jktrn.github.io/profile/github
-  discord: https://jktrn.github.io/profile/discord
-  mail: https://jktrn.github.io/profile/mail
+  github: http://enscribe.dev/profile/github
+  discord: https://enscribe.dev/profile/discord
+  mail: https://enscribe.dev/profile/mail
 
 # Customize the overview with displaying a tagcloud on the index page.
 # Options: https://hexo.io/docs/helpers.html#tagcloud
@@ -84,15 +84,7 @@ logo:
   gravatar: false
   grayout: true
 
-# Customize the favicons.
-# Cactus supports a limited set of the three most important icons:
-#   - desktop: The classic favion.ico file.
-#   - android: A 192x192 PNG file.
-#   - apple:  A 180x180 PNG file.
-# These can be generated with http://realfavicongenerator.net/
-# Options:
-#   - url: where the icon can be found
-#   - gravatar: whether to create a favicon from your Gravatar
+
 favicon:
   desktop:
     url: https://avatars.githubusercontent.com/u/71956291?v=4
@@ -115,7 +107,6 @@ colorscheme: dark
 
 # Maximal width of the page in rem units.
 page_width: 48
-
 
 ##############################################################################
 # Miscellaneous

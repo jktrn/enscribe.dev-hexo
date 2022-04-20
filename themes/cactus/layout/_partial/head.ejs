@@ -5,12 +5,13 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="theme-color" content="#82C4E4">
-    <meta property="og:site_name" content="enscribe.dev">
-    <meta property="og:image" content="https://files.catbox.moe/btc2c0.PNG" />
-    <meta name="twitter:card" content="summary_large_image">
 
     <%- open_graph({
-        image:          thumbnail(page),
+        site_name:      "enscribe.dev",
+        image:          "https://files.catbox.moe/btc2c0.PNG",
+        description:    "This is essentially a blog where I serve CTF writeups and general cybersecurity information. Thanks for stopping by!",
+        twitter_card:   "summary_large_image",
+
         fb_app_id:      theme.open_graph.fb_app_id,
         fb_admins:      theme.open_graph.fb_admins,
         twitter_id:     theme.open_graph.twitter_id,
