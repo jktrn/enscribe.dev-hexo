@@ -95,7 +95,7 @@ theme: cactus
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/jktrn/jktrn.github.io.git
+  repo: https://github.com/jktrn/enscribe.dev.git
 
 alias:
   profile/github/index.html: https://github.com/jktrn/
