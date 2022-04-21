@@ -1,8 +1,8 @@
 [
     {
        "name":"🌐 enscribe.dev",
-       "url":"https://jktrn.github.io",
-       "desc":"The website you're looking at, right now! Currently undergoing intense development and soon to be under a custom domain name."
+       "url":"https://enscribe.dev",
+       "desc":"The website you're looking at, right now! With a brand-spanking new domain name."
     },
     {
        "name":"📘 cyber",
@@ -12,6 +12,6 @@
     {
         "name":"🤖 botscribe",
         "url":"http://github.com/jktrn/botscribe",
-        "desc":"(on hold) A NodeJS discord bot that interacts with the **osu!** API to obtain player info"
+        "desc":"(on hold) A NodeJS discord bot that interacts with the **osu!** API to obtain player info."
      }
 ]
