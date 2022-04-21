@@ -33,7 +33,7 @@ Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted
 |Off The Grid                |104   |crypto   |Solved    |                                                                           |
 |Buzz Ransomware             |110   |crypto   |Unsolved  |                                                                           |
 |Information Paradox         |293   |crypto   |Unsolved  |                                                                           |
-|Rahool's Challenge          |331   |crypto   |Solved    |[click here!](https://jktrn.github.io/ctfs/shctf/crypto/rahools-challenge/)|
+|Rahool's Challenge          |331   |crypto   |Solved    |[click here!](https://enscribe.dev/ctfs/shctf/crypto/rahools-challenge/)|
 |Invisible Stargate          |336   |crypto   |Unsolved  |                                                                           |
 |Easy Crypto Challenge       |356   |crypto   |Unsolved  |                                                                           |
 |Strange Traffic             |100   |forensics|Solved    |                                                                           |
@@ -53,7 +53,7 @@ Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted
 |Launched                    |100   |osint    |Solved    |                                                                           |
 |FRK War                     |100   |prog     |Unsolved  |                                                                           |
 |Bodies                      |???   |prog     |Deprecated|                                                                           |
-|Warmup to the Dark Side     |100   |pwn      |Solved    |[click here!](https://jktrn.github.io/ctfs/shctf/pwn/warmup-to-the-dark-side)|
+|Warmup to the Dark Side     |100   |pwn      |Solved    |[click here!](https://enscribe.dev/ctfs/shctf/pwn/warmup-to-the-dark-side)|
 |Guardians of the Galaxy     |100   |pwn      |Solved    |                                                                           |
 |Vader                       |100   |pwn      |Solved    |                                                                           |
 |T0NY TR4N5L4T0R             |120   |pwn      |Solved    |                                                                           |
@@ -79,4 +79,4 @@ Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted
 |Mysterious Broadcast        |100   |web      |Solved    |                                                                           |
 |Flag in Space               |100   |web      |Solved    |                                                                           |
 |Space Traveler              |100   |web      |Solved    |                                                                           |
-|R2D2                        |100   |web      |Solved    |[click here!](https://jktrn.github.io/ctfs/shctf/web/r2d2/)                |
+|R2D2                        |100   |web      |Solved    |[click here!](https://enscribe.dev/ctfs/shctf/web/r2d2/)                |

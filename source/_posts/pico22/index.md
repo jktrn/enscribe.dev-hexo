@@ -31,10 +31,10 @@ This is a two-week long timed CTF competition. Challenges increase in difficulty
 ## 🏆 Challenges
 |Name                |Points|Category |Status  |Writeup                                                                   |
 |--------------------|------|---------|--------|--------------------------------------------------------------------------|
-|basic-file-exploit  |100   |pwn      |Solved  |[click here!](https://jktrn.github.io/ctfs/pico22/pwn/basic-file-exploit/)|
-|buffer overflow 0   |100   |pwn      |Solved  |[click here!](https://jktrn.github.io/ctfs/pico22/pwn/buffer-overflow-0/) |
-|CVE-XXXX-XXXX       |100   |pwn      |Solved  |[click here!](https://jktrn.github.io/ctfs/pico22/pwn/cve-xxxx-xxxx/)     |
-|buffer overflow 1   |200   |pwn      |Solved  |[click here!](https://jktrn.github.io/ctfs/pico22/pwn/buffer-overflow-1/) |
+|basic-file-exploit  |100   |pwn      |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/pwn/basic-file-exploit/)|
+|buffer overflow 0   |100   |pwn      |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/pwn/buffer-overflow-0/) |
+|CVE-XXXX-XXXX       |100   |pwn      |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/pwn/cve-xxxx-xxxx/)     |
+|buffer overflow 1   |200   |pwn      |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/pwn/buffer-overflow-1/) |
 |RPS                 |200   |pwn      |Solved  |                                                                          |
 |x-sixty-what        |200   |pwn      |Solved  |                                                                          |
 |buffer overflow 2   |300   |pwn      |Solved  |                                                                          |
@@ -45,7 +45,7 @@ This is a two-week long timed CTF competition. Challenges increase in difficulty
 |function overwrite  |400   |pwn      |Unsolved|                                                                          |
 |stack cache         |400   |pwn      |Unsolved|                                                                          |
 |solfire             |500   |pwn      |Unsolved|                                                                          |
-|basic-mod1          |100   |crypto   |Solved  |[click here!](https://jktrn.github.io/ctfs/pico22/crypto/basic-mod1/)     |
+|basic-mod1          |100   |crypto   |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/crypto/basic-mod1/)     |
 |basic-mod2          |100   |crypto   |Solved  |                                                                          |
 |credstuff           |100   |crypto   |Solved  |                                                                          |
 |morse-code          |100   |crypto   |Solved  |                                                                          |
