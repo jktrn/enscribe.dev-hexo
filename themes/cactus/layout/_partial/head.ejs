@@ -5,11 +5,16 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="theme-color" content="#82C4E4">
+    <% if (is_home()) { %> 
+      <meta property="og:description" content="This is essentially a blog where I serve CTF writeups and general cybersecurity information. Thanks for stopping by!" />
+    <% } %>
+    <% if (is_archive()) { %> 
+      <meta property="og:description" content="Here are all of my available posts. They're primarily writeups!" />
+    <% } %>
 
     <%- open_graph({
         site_name:      "enscribe.dev",
-        image:          "https://files.catbox.moe/btc2c0.PNG",
-        description:    "This is essentially a blog where I serve CTF writeups and general cybersecurity information. Thanks for stopping by!",
+        image:          "https://files.catbox.moe/y7b94g.PNG",
         twitter_card:   "summary_large_image",
 
         fb_app_id:      theme.open_graph.fb_app_id,

@@ -1,5 +1,5 @@
 ---
-title: Contact
+title: Contact 📞
 date: 2022-04-05 16:20:02
 description: "Here's all of my socials, methods of contact, etc. Check them out!"
 ---
