@@ -1,26 +1,24 @@
 ---
 title: ctf-dropdown-template
-tags:
+hidden: true
+permalink: ctfs/NAME HERE PLEASE
 ---
-<details>
-<summary>EMOJI HERE<strong>CTF-NAME-FORMATTED</strong> (CTF-NAME) [DATE-START - DATE-END]</summary>
 
-### 📜 Information
+## 📜 Information
 DESCRIPTION HERE
 
 **Start Time**: 
 **End Time**: 
+**Discord**: [click here!]()
 **CTFTime**: [click here!]()
 
-### 🥇 Placement
+## 🥇 Placement
 **Team Name**: ``
 **Place**: 
 **Points**: 
 
-### 👥 Team Info
+## 👥 Team Info
 USER TABLE HERE
 
-### 🏆 Challenges
+## 🏆 Challenges
 CHALLENGE TABLE HERE
-
-</details>
