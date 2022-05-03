@@ -7,7 +7,6 @@ description: "Here's information, statistics, and writeups for all of my previou
 | Placement     | Name                                                    | Date             | Team            | Points | CTFtime                                       |
 |---------------|---------------------------------------------------------|------------------|-----------------|--------|-----------------------------------------------|
 |               |                                                         |                  |                 |        | ⠀                                             |
-| TBD           | 📐 [ångstromCTF 2022]()                                 | 29-04 May 2022   | `Project Sekai` | TBD    | [click here!](https://ctftime.org/event/1588) |
 | 02 of 436 🥈 | 🦅 [PatriotCTF](https://enscribe.dev/ctfs/patriot/)     | 29-30 April 2022 | `View Source`   | 21296  | [click here!](https://ctftime.org/event/1616) |
 | 03 of 758 🥉 | 👥 [CrewCTF 2022](https://enscribe.dev/ctfs/crew/)      | 15-17 April 2022 | `Project Sekai` | 21000  | [click here!](https://ctftime.org/event/1568) |
 | 04 of 501 🥈*| 🔐 [JerseyCTF II](https://enscribe.dev/ctfs/jersey/)    | 09-10 April 2022 | `View Source`   | 11315  | [click here!](https://ctftime.org/event/1590) |
