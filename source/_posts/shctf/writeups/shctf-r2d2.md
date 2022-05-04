@@ -5,6 +5,7 @@ tags:
 - ctf
 - shctf
 - web
+hidden: true
 description: "Writeup for the Space Heroes CTF web challenge [R2D2]."
 permalink: ctfs/shctf/web/r2d2/
 ---
