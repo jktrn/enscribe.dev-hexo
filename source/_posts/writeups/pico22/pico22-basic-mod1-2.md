@@ -5,7 +5,7 @@ tags:
 - ctf
 - pico22
 - crypto
-description: "Writeup for the picoCTF 2022 crypto challenge [basic-mod1]."
+description: "Writeup for the picoCTF 2022 crypto challenge [basic-mod1/2]."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
 ---
 
@@ -52,7 +52,7 @@ y = x.split()
 a = string.ascii_uppercase + string.digits + "_"
 
 # Insane list comprehension
-z = [a[i % 37] for i in y]
+z = [a[int(i) % 37] for i in y]
 print("picoCTF{"+''.join(z)+"}")
 ```
 
