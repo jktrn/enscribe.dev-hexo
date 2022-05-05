@@ -5,6 +5,7 @@ hidden: true
 permalink: ctfs/pico22/
 ---
 ## 📜 Information
+
 picoCTF 2022 is an annual capture-the-flag (CTF) hacking competition where participants gain access to a safe and unique hands on experience. Participants must reverse engineer, break, hack, decrypt, and think creatively and critically to solve the challenges and capture the flags.
 
 This is a two-week long timed CTF competition. Challenges increase in difficulty as players progress. All are welcome to join but this CTF is recommended for players with some programming knowledge. Players with no previous programming or CTF experience may prefer our challenges.
@@ -14,11 +15,13 @@ This is a two-week long timed CTF competition. Challenges increase in difficulty
 **CTFTime**: [click here!](https://ctftime.org/event/1578)
 
 ## 🥇 Placement
+
 **Team Name**: `NLE CHAKRA`
 **Place**: 86 of 1329 (US Middle/High School)
 **Points**: 8900
 
 ## 👥 Team Info
+
 | Username           | Score  |
 |--------------------|--------|
 | enscribe (captain) | 5600   |
@@ -27,8 +30,8 @@ This is a two-week long timed CTF competition. Challenges increase in difficulty
 | joyly              | 0      |
 | Darkvirgo15        | 0      |
 
-
 ## 🏆 Challenges
+
 |Name                |Points|Category |Status  |Writeup                                                                   |
 |--------------------|------|---------|--------|--------------------------------------------------------------------------|
 |basic-file-exploit  |100   |pwn      |Solved  |[click here!](https://enscribe.dev/ctfs/pico22/pwn/basic-file-exploit/)|

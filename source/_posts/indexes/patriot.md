@@ -6,6 +6,7 @@ permalink: ctfs/patriot/
 ---
 
 ## 📜 Information
+
 PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition hosted by GMU's cybersecurity club, MasonCC. All are welcome to participate, including students and security professionals. Challenges will range from beginner to expert, so there should be something for everyone.
 
 **Start Time**: Fri, 29 April 2022, 14:00 PDT
@@ -14,11 +15,13 @@ PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition h
 **CTFTime**: [click here!](https://ctftime.org/event/1616)
 
 ## 🥇 Placement
+
 **Team Name**: `View Source`
 **Place**: 02 of 436 🥈
 **Points**: 21296
 
 ## 👥 Team Info
+
 | Username       | Score |
 |----------------|-------|
 | neil (Captain) | 9672  |
@@ -26,8 +29,8 @@ PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition h
 | jayden         | 6503  |
 | real sheep     | 2218  |
 
-
 ## 🏆 Challenges
+
 | Challenge                   | Category  | Points | Time Solved             | Writeup |
 |-----------------------------|-----------|--------|-------------------------|---------|
 | Base64 Times 10             | crypto    | 10     | April 29th, 2:24:56 PM  |         |
@@ -94,4 +97,3 @@ PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition h
 | Apocalypse Security - 2     | web       | 204    | April 29th, 7:04:12 PM  |         |
 | Excellent Database          | web       | 426    | April 30th, 6:58:54 AM  |         |
 | Chewy or Crunchy            | web       | 466    | April 29th, 2:43:35 PM  |
-

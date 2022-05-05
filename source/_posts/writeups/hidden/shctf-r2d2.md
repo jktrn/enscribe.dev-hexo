@@ -11,9 +11,10 @@ permalink: ctfs/shctf/web/r2d2/
 ---
 
 ## 📜 Description
+
 We wouldn't miss the opportunity to make this dad joke. \
-http://173.230.138.139/ \
-https://spaceheroes-web-r2d2.chals.io
+<http://173.230.138.139/> \
+<https://spaceheroes-web-r2d2.chals.io>
 
 **Author:** v10l3nt
 
@@ -34,7 +35,9 @@ Let's take a look at the source code with `F12`.
 <h4>No, you are the one who is useless.</h4>
 </html>
 ```
+
 We see that the image on the website is named `robots.jpeg`. What happens if we visit `robots.txt`? 🤔
+
 ```sh
 $ curl http://173.230.138.139/robots.txt
 shctf{th1s-aster0id-1$-n0t-3ntir3ly-stable}

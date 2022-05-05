@@ -5,9 +5,10 @@ hidden: true
 permalink: ctfs/dctf/
 ---
 ## 📜 Information
+
 For the second year in a row, DragonSec SI is organizing their flagship dCTF. The online CTF will feature challenges from rev, crypto, pwn, web, misc (possibly mobile). Expect both beginner-friendly as well as complicated challenges.
 
-You can read more about the event on our web site https://dragonsec.si/en
+You can read more about the event on our web site <https://dragonsec.si/en>
 
 Infra sponsored by goo.gle/ctfsponsorship
 
@@ -16,11 +17,13 @@ Infra sponsored by goo.gle/ctfsponsorship
 **CTFTime**: [click here!](https://ctftime.org/event/1568)
 
 ## 🥇 Placement
+
 **Team Name**: `View Source`
 **Place**: 26 of 426
 **Points**: 1600
 
 ## 👥 Team Info
+
 | Username       | Score |
 | -------------- | ----- |
 | Sheep          | 0     |
@@ -32,6 +35,7 @@ Infra sponsored by goo.gle/ctfsponsorship
 | n0t RJCYBER    | 0     |
 
 ## 🏆 Challenges
+
 | Challenge     | Category  | Points | Time Solved            |
 | ------------- | --------- | ------ | ---------------------- |
 | Secure Creds  | forensics | 100    | April 15th, 5:16:07 PM |

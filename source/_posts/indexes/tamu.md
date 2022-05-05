@@ -5,9 +5,10 @@ hidden: true
 permalink: ctfs/tamu/
 ---
 ## 📜 Information
+
 Texas A&M University CTF event.
 This CTF is geared more towards university and high school students, but anyone may compete!
-https://cybersecurity.tamu.edu/
+<https://cybersecurity.tamu.edu/>
 
 **Start Time**: Fri, 15 April 2022, 11:00 PDT
 **End Time**: Sun, 17 April 2022, 11:00 PDT
@@ -15,16 +16,19 @@ https://cybersecurity.tamu.edu/
 **Discord**: [click here!](https://discord.gg/8DFfzbnj)
 
 ## 🥇 Placement
+
 **Team Name**: `Project Sekai`
 **Place**: 19 of 477
 **Points**: 3528
 
 ## 👥 Team Info
+
 | Username       | Score |
 | -------------- | ----- |
 | pjsk (Captain) | 3258  |
 
 ## 🏆 Challenges
+
 | Challenge             | Category  | Points | Time Solved             | Writeup |
 | --------------------- | --------- | ------ | ----------------------- | ------- |
 | Take a Byte           | crypto    | 100    | April 16th, 12:19:38 AM |         |

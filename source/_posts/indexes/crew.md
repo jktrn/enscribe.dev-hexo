@@ -5,29 +5,10 @@ hidden: true
 permalink: ctfs/crew/
 ---
 ## 📜 Information
+
 CrewCTF is an annual cybersecurity Capture The Flag competition hosted by `TheHackersCrew`. The first edition, `CrewCTF 2022`, will start at 17:00 GMT on April 15th and run for 48 hours, ending at 17:00 GMT on April 17th.
 
 With beginner to expert level challenges, our contest will be a great opportunity for students (and professionals) of any skill level to pick up, practice, and master skills in cybersecurity. Challenge containerization provides safe, hands-on environments for contestants to practice developing exploits and hacking.
-
-
-<details>
-<summary>Read more...</summary>
-Our CTFs are free and open to anyone with an internet connection. No team size limit.
-
-Infra sponsored by Google Cloud Platform (https://g.co/cloud)
-
-Prize Sponsors:
-- DigitalOcean (https://www.digitalocean.com/)
-- Trail of Bits (https://www.trailofbits.com/)
-- zSecurity (https://zsecurity.org/)
-- SSD Secure Disclosure (https://ssd-disclosure.com/)
-- Burp Bounty Pro: (https://burpbounty.net/)
-
-Certificates sponsored by GiveMyCertificate (https://givemycertificate.com/)
-
-Flyer: https://www.thehackerscrew.info/images/crewCTF/CrewCTF%20Flyer.png
-</details>
-
 
 **Start Time**: Fri, 15 April 2022, 10:00 PDT
 **End Time**:  Sun, 17 April 2022, 10:00 PDT
@@ -35,11 +16,13 @@ Flyer: https://www.thehackerscrew.info/images/crewCTF/CrewCTF%20Flyer.png
 **Discord**: [click here!](https://discord.com/invite/jk84AmJkHP)
 
 ## 🥇 Placement
+
 **Team Name**: `Project Sekai`
 **Place**: 03 of 758 🥉
 **Points**: 21000
 
 ## 👥 Team Info
+
 | Username | Score |
 | -------- | ----- |
 | pjsk     | 14855 |
@@ -47,6 +30,7 @@ Flyer: https://www.thehackerscrew.info/images/crewCTF/CrewCTF%20Flyer.png
 | utaha    | 3312  |
 
 ## 🏆 Challenges
+
 |Challenge                         |Category |Points|Time Solved            |Writeup|
 |----------------------------------|---------|------|-----------------------|-------|
 |ez-x0r                            |crypto   |100   |April 15th, 10:34:57 AM|       |

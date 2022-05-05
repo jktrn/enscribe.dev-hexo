@@ -5,6 +5,7 @@ hidden: true
 permalink: ctfs/jersey/
 ---
 ## 📜 Information
+
 JerseyCTF is a beginner-friendly Capture the Flag competition that aims to inspire interest in cybersecurity. Hosted by the NJIT ACM organization and NJIT SCI program, it is geared towards students, beginners, and professionals alike. JerseyCTF provides participants with jeopardy-style questions in categories including cryptography, forensics, binary exploitation/reversing, open-source intelligence, and web exploitation. JerseyCTF features a track parallel to the CTF competition, consisting of presentations and panels with renowned speakers from industry and government. Sponsors include NJCCIC, Gemini, Google, Palo Alto Networks, and more!
 
 **Start Time**: Sat, 09 April 2022, 09:00 PDT
@@ -12,11 +13,13 @@ JerseyCTF is a beginner-friendly Capture the Flag competition that aims to inspi
 **CTFTime**: [click here!](https://ctftime.org/event/1590/)
 
 ## 🥇 Placement
+
 **Team Name**: `View Source`
 **Place**: 🥈 2nd Open Division! (04 of 501)
 **Points**: 11315
 
 ## 👥 Team Info
+
 | User Name     | Score |
 |---------------|-------|
 | vs2 (Captain) | 2480  |
@@ -25,6 +28,7 @@ JerseyCTF is a beginner-friendly Capture the Flag competition that aims to inspi
 | vs4           | 2670  |
 
 ## 🏆 Challenges
+
 |Challenge            |Category |Points|Time Solved             |Writeup|
 |---------------------|---------|------|------------------------|-------|
 |patches              |bin      |200   |April 09th, 10:08:18 PM |       |

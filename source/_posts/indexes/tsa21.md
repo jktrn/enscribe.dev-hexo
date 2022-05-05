@@ -5,6 +5,7 @@ hidden: true
 permalink: ctfs/tsa21/
 ---
 ## 📜 Information
+
 Online Cybersecurity competition for the 2021 Technology Student Association National Conference.
 
 **Start Time**: Tue, 01 June 2021, 7:00 PDT
@@ -12,11 +13,13 @@ Online Cybersecurity competition for the 2021 Technology Student Association Nat
 **CTFTime**: n/a
 
 ## 🥇 Placement
+
 **Team Name**: `VHTPA`
 **Place**: 8 of ~55
 **Points**: n/a
 
 ## 👥 Team Info
+
 | Username               | Score  |
 |------------------------|--------|
 | RobertuhBruh (captain) | n/a    |
@@ -26,4 +29,5 @@ Online Cybersecurity competition for the 2021 Technology Student Association Nat
 | Darkvirgo15            | n/a    |
 
 ## 🏆 Challenges
+
 n/a

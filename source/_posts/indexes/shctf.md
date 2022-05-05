@@ -5,6 +5,7 @@ hidden: true
 permalink: ctfs/shctf/
 ---
 ## 📜 Information
+
 Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted by the FITSEC Team from Florida Tech. Challenges at all levels of difficulty (beginner to expert) for pwn, RE, crypto, web, and forensics.
 
 **Start Time**: Fri, 01 April 2022, 09:00 PDT
@@ -13,11 +14,13 @@ Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted
 **Discord**: [click here!](https://discord.gg/wvuvDUjAeg)
 
 ## 🥇 Placement
+
 **Team Name**: `wh1l3s3c`
 **Place**: 36 of 778
 **Points**: 3483
 
 ## 👥 Team Info
+
 | Username         | Score                                     |
 |-------------------|-------------------------------------------|
 | [p4nth3r](https://github.com/p4nth3r-5237) (Captain) | 1154   |
@@ -25,6 +28,7 @@ Space Heroes CTF is an online jeopardy-style Capture the Flag competition hosted
 | [Zuk0](https://github.com/0xZuk0)                    | 874    |
 
 ## 🏆 Challenges
+
 |Name                        |Points|Category |Status    |Writeup                                                                    |
 |----------------------------|------|---------|----------|---------------------------------------------------------------------------|
 |Wow!                        |100   |crypto   |Solved    |                                                                           |

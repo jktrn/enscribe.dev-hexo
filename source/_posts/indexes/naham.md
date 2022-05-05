@@ -6,19 +6,22 @@ permalink: ctfs/naham/
 ---
 
 ## 📜 Information
+
 From the developers of VirSecCon, H@cktivityCon, BsidesBOS, GRIMMCon CTF and more, we bring you NahamCon CTF 2022!
 
 **Start Time**: Thu, 28 April 2022, 12:00 PDT
-**End Time**: Sat, 30 April 2022, 12:00 PDT 
+**End Time**: Sat, 30 April 2022, 12:00 PDT
 **Discord**: [click here!](https://discord.com/invite/ucCz7uh)
 **CTFTime**: [click here!](https://ctftime.org/event/1630)
 
 ## 🥇 Placement
+
 **Team Name**: `Project Sekai`
 **Place**: 06 of 3273
 **Points**: 22001
 
 ## 🏆 Challenges
+
 | Challenge            | Category  | Points | Time Solved             | Writeup |
 |----------------------|-----------|--------|-------------------------|---------|
 | Baby RSA Quiz        | crypto    | 50     | April 28th, 12:45:52 PM |         |
