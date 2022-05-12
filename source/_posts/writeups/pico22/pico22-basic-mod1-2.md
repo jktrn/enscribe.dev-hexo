@@ -27,7 +27,7 @@ Let's go over what it's asking:
   - 26-35 = Decimal digits (0-9)
   - 36 = Underscore ("_")
 
-I was too lazy to learn python and do that, so here it is in native Javascript (secret redacted):
+I was too lazy to learn python and do that, so here it is in native Javascript:
 
 ```js
 // Splitting into array
@@ -89,7 +89,7 @@ Let's go over what it's asking once again:
   - 27-36 = Decimal digits (0-9)
   - 37 = Underscore ("_")
 
-Here's a stupidly long Javascript snippet I made to solve this (secret redacted):
+Here's a stupidly long Javascript snippet I made to solve this:
 
 ```js
 //Splitting into array

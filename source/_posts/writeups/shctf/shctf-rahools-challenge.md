@@ -74,7 +74,7 @@ Message:A + Key:B = 0 + B = O
 Enter the answer with no spaces and all upper case:
   ```
   ## 🌌 "Reconnaissance"
-  For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, `Rahool` is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, hat's what we'll be doing here.
+  For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, `Rahool` is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
   
   ## 🔍 Actual Reconnaissance
   Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII is substitution. This means that the plaintext is simply substituted by a value determined by the algorithm. Throwing it into this [cipher identifier](https://www.boxentriq.com/code-breaking/cipher-identifier), we find that it is a **Vigenère** cipher.
@@ -85,7 +85,7 @@ Enter the answer with no spaces and all upper case:
   
   A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**. 
   
-  To encrypt using addition, take the the position in the alphabet of the first letter in the plaintext (make sure it starts at 0, i.e. A = 0, B = 1, C = 2) and add it with the position of your key (if the key was "key", the position would be 11). Then, take the **modulo** 26 (divide by 26 to get the remainder, symbol `%`), as some numbers add up to greater than 26.
+  To encrypt using addition, take the position in the alphabet of the first letter in your plaintext (make sure it starts at 0, i.e. A = 0, B = 1, C = 2) and add it with the position of your key (if the key was "key", the position would be 10 as K = 10). Then, take the **modulo** 26 (divide by 26 to get the remainder, symbol `%`), as some numbers add up to greater than 26.
   ```
   Plaintext: hello
   Key: key
