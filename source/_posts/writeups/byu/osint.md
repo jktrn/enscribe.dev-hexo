@@ -12,7 +12,7 @@ thumbnail: https://files.catbox.moe/i3eaov.PNG
 
 ![Banner](https://files.catbox.moe/i3eaov.PNG)
 
-# Intro
+### Intro
 
 So, we played BYU CTF 2022. There were **9 OSINT challenges**. 9. It was absolutely party-time for a CTF player w/ OSINT-emphasis like me, and a tragedy for people who dislike the inherently guessy nature behind the genre. Our team managed to solve them all, so here was our (albeit flawed) thought process behind it.
 
@@ -116,6 +116,8 @@ This is where the rabbit hole begins. I looked around the reviews section of thi
 
 > Robert Skouson
 In all my days, I have never seen such a magnificent water tower.  Being in its presence has given me powers beyond comprehension.  I have mastered flight in the downward direction.  I have 100% recall of events that happened to me in the last 5 minutes.  I have also discovered I am completely invisible when no one is looking.   This water tower has changed my view of who I am, and my ultimate potential.
+
+This guy even claims it to be holy water:
 
 > Nicholas Martinez
 This water from Wyatt P. Memorial Water tower has changed the way I see water, and drink it. Everytime I see this water tower, it makes me want quality water. Forget Poland Spring or Fiji. This is quality water! You know how in the Book of John Chapter 2, the Savior Jesus Christ turned water into wine? Well he actually turned already good wine to water from Wyatt P. Memorial Water tower.

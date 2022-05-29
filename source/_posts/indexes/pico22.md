@@ -2,6 +2,7 @@
 title: 🚩 picoCTF 2022
 date: 2022-04-10 17:07:16
 hidden: true
+description: "Information regarding placement, solves, and writeups for picoCTF 2022."
 permalink: ctfs/pico22/
 thumbnail: https://files.catbox.moe/5udwod.png
 ---

@@ -2,6 +2,7 @@
 title: 💾 TSA CTF 2021
 date: 2022-04-10 17:07:16
 hidden: true
+description: "Information regarding placement, solves, and writeups for TSA CTF 2021."
 permalink: ctfs/tsa21/
 thumbnail: https://files.catbox.moe/5udwod.png
 ---
