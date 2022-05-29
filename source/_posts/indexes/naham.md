@@ -3,6 +3,7 @@ title: 🕵️ NahamCon 2022
 date: 2022-04-30 19:32:30
 hidden: true
 permalink: ctfs/naham/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 
 ## 📜 Information

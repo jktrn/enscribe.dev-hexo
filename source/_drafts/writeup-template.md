@@ -11,9 +11,11 @@ permalink: ctfs/CTF-NAME/CHAL-TYPE/CHAL-NAME/
 FIND AND REPLACE CTF-NAME, CHAL-TYPE, CHAL-NAME, CHAL-FORMATTED
 
 ## 📜 Description
+
 DESCRIPTION
 
 ---
 
 ## 🔍 Detailed Solution
+
 SOLVE

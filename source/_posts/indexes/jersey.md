@@ -3,6 +3,7 @@ title: 🔐 JerseyCTF II
 date: 2022-04-10 17:07:16
 hidden: true
 permalink: ctfs/jersey/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 ## 📜 Information
 

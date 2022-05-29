@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="theme-color" content="#82C4E4">
     <% if (is_home()) { %> 
-      <meta property="og:description" content="This is essentially a blog where I serve CTF writeups and general cybersecurity information. Thanks for stopping by!" />
+      <meta name="og:description" content="This is essentially a blog where I serve CTF writeups and general cybersecurity information. Thanks for stopping by!" />
+      <meta name="og:image" content="https://i.imgur.com/xIBG8hK.jpg">
     <% } %>
     <% if (is_archive()) { %> 
-      <meta property="og:description" content="Here are all of my available posts. They're primarily writeups!" />
+      <meta name="og:description" content="Here are all of my available posts. They're primarily writeups!" />
+      <meta name="og:image" content="https://i.imgur.com/xIBG8hK.jpg">
     <% } %>
 
     <%- open_graph({
+        image:          thumbnail(page),
         site_name:      "enscribe.dev",
-        image:          "https://i.imgur.com/xIBG8hK.jpg",
         twitter_card:   "summary_large_image",
 
         fb_app_id:      theme.open_graph.fb_app_id,

@@ -3,6 +3,7 @@ title: 🌌 Space Heroes CTF
 date: 2022-04-10 17:07:16
 hidden: true
 permalink: ctfs/shctf/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 ## 📜 Information
 

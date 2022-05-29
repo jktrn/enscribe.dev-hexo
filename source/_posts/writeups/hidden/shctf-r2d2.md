@@ -8,6 +8,7 @@ tags:
 hidden: true
 description: "Writeup for the Space Heroes CTF web challenge [R2D2]."
 permalink: ctfs/shctf/web/r2d2/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 
 ## 📜 Description

@@ -3,6 +3,7 @@ title: 🐲 DCTF 2022
 date: 2022-04-18 17:54:56
 hidden: true
 permalink: ctfs/dctf/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 ## 📜 Information
 

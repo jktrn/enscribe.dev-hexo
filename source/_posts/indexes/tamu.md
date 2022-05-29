@@ -3,6 +3,7 @@ title: 🤠 TAMUctf 2022
 date: 2022-04-18 17:54:56
 hidden: true
 permalink: ctfs/tamu/
+thumbnail: https://files.catbox.moe/5udwod.png
 ---
 ## 📜 Information
 
