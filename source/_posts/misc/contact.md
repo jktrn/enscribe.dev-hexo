@@ -3,6 +3,8 @@ title: Contact 📞
 date: 2022-04-05 16:20:02
 description: "Here's all of my socials, methods of contact, etc. Check them out!"
 thumbnail: https://i.imgur.com/xIBG8hK.jpg
+hidden: true
+permalink: /profiles/
 ---
 <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
 
