@@ -13,8 +13,6 @@ thumbnail: https://files.catbox.moe/5udwod.png
 | 03 of 758 🥉 | 👥 [CrewCTF 2022](https://enscribe.dev/ctfs/crew/)      | 15-17 April 2022 | `Project Sekai` | 21000  | [click here!](https://ctftime.org/event/1568) |
 | 06 of 3273   | 🏴 [NahamCon 2022](https://enscribe.dev/ctfs/naham/)    | 28-30 April 2022 | `Project Sekai` | 22001  | [click here!](https://ctftime.org/event/1630) |
 | 07 of ~55    | 💾 [TSA CTF 2021](https://enscribe.dev/ctfs/tsa21/)     | 01-03 June 2021  | `VHTPA`         | n/a    | n/a (private)                                 |
-| 19 of 477    | 🤠 [TAMUctf 2022](https://enscribe.dev/ctfs/tamu/)      | 15-17 April 2022 | `Project Sekai` | 3528   | [click here!](https://ctftime.org/event/1557) |
-| 26 of 426    | 🐲 [DCTF 2022](https://enscribe.dev/ctfs/dctf/)         | 15-17 April 2022 | `View Source`   | 1600   | [click here!](https://ctftime.org/event/1569) |
 | 36 of 778    | 🌌 [Space Heroes CTF](https://enscribe.dev/ctfs/shctf/) | 01-03 April 2022 | `WhileSEC`      | 3483   | [click here!](https://ctftime.org/event/1567) |
 | 86 of 1329 * | 🚩 [picoCTF 2022](https://enscribe.dev/ctfs/pico22/)    | 15-29 March 2022 | `NLE CHAKRA`    | 8900   | [click here!](https://ctftime.org/event/1578) |
 
@@ -37,7 +35,7 @@ In cybersecurity, capture-the-flag competitions (CTFs) are a typically team-base
 
 ## What team do you currently play on?
 
-Currently I'm freelance, and typically get picked up when advertising myself as a pwn/crypto player in any `#looking-for-group` channel. However, I am looking for a permanent, preferably advanced team to play with. Please feel free to message me if you're looking for one!
+Currently I'm freelance, and typically get picked up when advertising myself as an "experienced" player in any `#looking-for-group` channel. However, I am looking for a permanent, preferably advanced team to play with. Please feel free to message me if you're looking for one!
 
 ## I want to start, but I don't know where?
 
