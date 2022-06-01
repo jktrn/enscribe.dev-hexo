@@ -166,9 +166,29 @@ Would have been easier. Love you, John Hammond.
 
 ---
 
-## 🔪 Murder Mystery [UNDER CONSTRUCTION]
+## 🔪 Murder Mystery
 
-For now, refer to the [official writeup](https://github.com/BYU-CTF-group/BYUCTF-2022/blob/main/OSINT/murder-mystery/Writeup.md).
+**Description**: While searching for secrets of the past, you find a scrap of paper that contains the following information:
+
+`0110111001110010011010000111000001101001011001000100110001001011110100001111`
+
+June 29, 1902
+
+Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?
+
+Flag - `byuctf{inscription_with_underscores}`
+
+Note, the flag will not include the name or dates found in the inscription.
+
+**Solve**: Instantly, we moved to [Cyberchef](https://gchq.github.io/CyberChef/) for the binary conversion, and it resulted in `nrhpidLKÐ`. We thought it was garbage at first, until a teammate noticed "NRHP ID" within the string, which is related to the [National Register of Historic Places](https://history.idaho.gov/nrhp/). Since there's a historic date also in the description, we can immediately conclude that this is the correct path to take. We isolated the last part and converted it into decimal instead - `80002319`.
+
+Following the trail for `NRHP ID 80002319`, we found this [UpWiki Page](https://en.upwiki.one/wiki/Jesse_James_Home_Museum) About the "Jesse James Home Museum", which is the location registered under this ID.
+
+When I looked up "jesse james famous inscription", I found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. Jame's grave:
+
+<img src="https://th-thumbnailer.cdn-si-edu.com/r5FnGAqcaE0MCUaSEbhpdvfuiR8=/fit-in/1072x0/https://tf-cmsv2-photocontest-smithsonianmag-prod-approved.s3.amazonaws.com/bc31dc78e6c631d7a028d49cb6216564cfaa492b.JPG" width=600>
+
+Removing the dates and names as the description specifies, the flag is `byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}`.
 
 ---
 
