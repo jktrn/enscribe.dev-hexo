@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Writeup for the Space Heroes CTF pwn challenge [Warmup to the Dark Side]."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
 ## 📜 Description

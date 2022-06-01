@@ -4,7 +4,7 @@ date: 2022-05-28 22:50:00
 tags:
 permalink: /linuxbro-has-bad-ascii/
 hidden: true
-thumbnail: https://i.imgur.com/xIBG8hK.jpg
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
 We are presented with a single file, `main.py`, a "secret value", and a `netcat` command to connect to the service.  When you conenct to the service you are greeted with a message welcoming you to the Thieves Lair, and it asks you to prove your membership by predicting the future. It then prints a message asking you to pick a number between 0 and a very large number. If you guess wrong, it tells you the correct value it was thinking of, and asksyou to guess a new number, this repeates forever. If we guess the right number, we get the flag. My first thought was to hire a psychic to try to predict the future, but none of them could help, so that was a waste of $100. Apparently they only do "vague" predictions of the future.

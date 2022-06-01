@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Writeup for the shctf pwn challenge [Guardians of the Galaxy]."
 permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
 ## 📜 Description

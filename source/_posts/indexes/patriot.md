@@ -4,7 +4,7 @@ date: 2022-04-30 19:32:30
 hidden: true
 description: "Information regarding placement, solves, and writeups for PatriotCTF 2022."
 permalink: ctfs/patriot/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
 ## 📜 Information

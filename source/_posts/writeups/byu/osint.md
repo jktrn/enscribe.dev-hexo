@@ -7,7 +7,7 @@ tags:
 - osint
 description: "All BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
 permalink: ctfs/byu/osint/osint-compilation/
-thumbnail: https://files.catbox.moe/i3eaov.PNG
+thumbnail: https://enscribe.dev/image/banner-ctfs-byu.png
 ---
 
 ![Banner](https://files.catbox.moe/i3eaov.PNG)

@@ -4,7 +4,7 @@ date: 2022-04-10 17:07:16
 hidden: true
 description: "Information regarding placement, solves, and writeups for JerseyCTF II."
 permalink: ctfs/jersey/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 ## 📜 Information
 

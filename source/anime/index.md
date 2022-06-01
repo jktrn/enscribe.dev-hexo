@@ -2,7 +2,7 @@
 title: Anime Watchlist
 description: My complete anime watchlist (imported from MyAnimeList), updated as of 5/16/22.
 date: 2022-05-16 21:26:08
-thumbnail: https://i.imgur.com/xIBG8hK.jpg
+thumbnail: https://enscribe.dev/image/banner.png
 hidden: true
 permalink: /anime/
 ---

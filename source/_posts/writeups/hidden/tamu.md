@@ -4,7 +4,7 @@ date: 2022-04-18 17:54:56
 hidden: true
 description: "Information regarding placement, solves, and writeups for TAMUctf 2022."
 permalink: ctfs/tamu/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 ## 📜 Information
 

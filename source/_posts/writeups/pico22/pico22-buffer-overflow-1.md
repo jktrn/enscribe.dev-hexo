@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Writeup for the picoCTF 2022 pwn challenge [Buffer overflow 1]."
 permalink: ctfs/pico22/pwn/buffer-overflow-1/
-thumbnail: https://files.catbox.moe/5udwod.png
+thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 ## 📜 Description
 
