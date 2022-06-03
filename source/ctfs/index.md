@@ -8,7 +8,7 @@ thumbnail: https://enscribe.dev/image/banner-ctfs.png
 | Placement    | Name                                                    | Date             | Team            | Points | CTFtime                                       |
 |--------------|---------------------------------------------------------|------------------|-----------------|--------|-----------------------------------------------|
 |              |                                                         |                  |                 |        | ⠀                                             |
-| 01 of 435 🥇 | 🐆 [BYUCTF 2022](https://enscribe.dev/ctfs/byu/)        | 29-04 May 2022   | `Project Sekai` | 13980  | [click here!](https://ctftime.org/event/1588) |
+| 01 of 435 🥇 | 🐆 [BYUCTF 2022](https://enscribe.dev/ctfs/byu/)        | 29-04 May 2022   | `Project Sekai` | 13980  | [click here!](https://ctftime.org/event/1660) |
 | 02 of 436 🥈 | 🦅 [PatriotCTF](https://enscribe.dev/ctfs/patriot/)     | 29-30 April 2022 | `View Source`   | 21296  | [click here!](https://ctftime.org/event/1616) |
 | 03 of 758 🥉 | 👥 [CrewCTF 2022](https://enscribe.dev/ctfs/crew/)      | 15-17 April 2022 | `Project Sekai` | 21000  | [click here!](https://ctftime.org/event/1568) |
 | 06 of 3273   | 🏴 [NahamCon 2022](https://enscribe.dev/ctfs/naham/)    | 28-30 April 2022 | `Project Sekai` | 22001  | [click here!](https://ctftime.org/event/1630) |

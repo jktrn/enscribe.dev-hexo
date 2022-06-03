@@ -39,7 +39,7 @@ Thank you, and enjoy.
 
 ---
 
-## 🐼 I don't dream about noodles, dad
+## I don't dream about noodles, dad 🐼
 
 <p class="box">
     Whose signature is found beneath Po's foot?<br>
@@ -54,14 +54,13 @@ I did a quick [Google Lens](https://lens.google/) search with my phone with the 
 <img width=600 src="/image/byu/po2.png" alt="The Daily Universe">
 <center><sub>Credit to <i>The Daily Universe</i></sub></center>
 
-
 > Jason Turner is a BYU computer science program graduate who works at DreamWorks and created all the data for Po’s character. The statue is a tribute to his success, as well as the University’s program and alumni.
 
 Since the tribute is for Jason Turner, we can assume the signature is below his foot. The flag is `byuctf{Jason_Turner}`.
 
 ---
 
-## 🌐 Oh The Vanity
+## Oh The Vanity 🌐
 
 <p class="box">
 The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>
@@ -81,7 +80,7 @@ The flag is `byuctf{05-11-22}`.
 
 ---
 
-## 🧗‍♀️ B0uld3r1ng
+## B0uld3r1ng 🧗
 
 <p class="box">
 I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?
@@ -116,7 +115,7 @@ The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 
 ---
 
-## 💧 Squatter's Rights
+## Squatter's Rights 💦
 
 <p class="box">
 Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??
@@ -170,7 +169,7 @@ Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "Fro
 
 ---
 
-## 💾 Okta? More like OhNah
+## Okta? More like OhNah 💾
 
 <p class="box">Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".
 <br><br>
@@ -190,7 +189,7 @@ Would have been easier. Love you, John Hammond.
 
 ---
 
-## 🔪 Murder Mystery
+## Murder Mystery 🧢
 
 <p class="box">While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>
 <code>0110111001110010011010000111000001101001011001000100110001001011110100001111</code><br>
@@ -212,14 +211,13 @@ Removing the dates and names as the description specifies, the flag is `byuctf{m
 
 ---
 
-## 🎂 Buckeye Billy Birthday
+## Buckeye Billy Birthday 💙
 
 <p class="box">
 Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>
 <a href="https://mywordle.strivemath.com/?word=sokhc">Hint 1</a>  <a href="https://mywordle.strivemath.com/?word=yocod">Hint 2</a>  <a href="https://mywordle.strivemath.com/?word=lffep">Hint 3</a><br>
 format: <code>byuctf{storename}</code>
 </p>
-
 
 I took a look at the three hints, and they were Wordle games that resulted in `WATER`, `CALLS`, and `PROBE`. Since we were looking for a shop (meaning a location), we immediately turned to [what3words](https://what3words.com/) and stumbled across [this location](https://what3words.com/water.calls.probe) in Charlotte, Ohio:
 
@@ -245,7 +243,7 @@ The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb.
 
 ---
 
-## 💬 Buckeye Billy Blabbin'
+## Buckeye Billy Blabbin' 💬
 
 <p class="box">Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!<br>
 Flag will be completely visible once solved! You will see <code>byuctf{}</code>.
@@ -281,7 +279,7 @@ The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Scr
 
 ---
 
-## 🎶 43
+## 43 🎼
 
 <p class="box">
 It’s at your fingertips!! Who made this code?<br><br>
