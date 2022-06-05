@@ -17,6 +17,11 @@ thumbnail: https://enscribe.dev/image/banner-ctfs-byu.png
         font-size: 90%;
         text-align: center;
     }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
 </style>
 
 ![Banner](/image/byu/banner.png)
@@ -261,7 +266,41 @@ I slowly began to despise him... that Buckeye Billy. That stupid, perfectly circ
 
 He tweeted a lot about song lyrics:
 
-<img src="/image/byu/blabbin2.png" width=400 alt="Song Tweets">
+<div class="flex-container">
+    <div>
+        <blockquote width=300 class="twitter-tweet" data-lang="en" data-theme="dark">
+            <p lang="en" dir="ltr">With not enough to eat<br>Who am I, to be blind pretending not to see their
+                needs?<br>A summer&#39;s disregard<br>A broken bottle top<br>And a one man&#39;s soul<br>They follow
+                each other on the wind ya know<br>&#39;Cause they got nowhere to go<br>That&#39;s why I want you to
+                know<br>I&#39;m starting with the ...</p>&mdash; #1 Buckeye Fan billy (@William_buckeye) <a
+                href="https://twitter.com/William_buckeye/status/1515237428025462785?ref_src=twsrc%5Etfw">April 16,
+                2022</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div>
+        <blockquote width=300 class="twitter-tweet" data-lang="en" data-theme="dark">
+            <p lang="en" dir="ltr">Oh, are you some kind of magic mirror<br>Come to show to me<br>God in time and
+                space<br><br>I saw the outline of my Maker dancing backlit<br>By the rays of your incandescent
+                light<br>I saw the figure of my Father shadow dancing<br>By the flames of your electric desire</p>
+            &mdash; #1 Buckeye Fan billy (@William_buckeye) <a
+                href="https://twitter.com/William_buckeye/status/1515238210577657857?ref_src=twsrc%5Etfw">April 16,
+                2022</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div>
+        <blockquote class="twitter-tweet" data-lang="en" data-theme="dark">
+            <p lang="en" dir="ltr">Bring your tired<br>And bring your shame<br>Bring your guilt<br>And bring your
+                pain<br>Don&#39;t you know that&#39;s not your name<br>You will always be much more to me<br>Every day I
+                wrestle with the voices<br>That keep telling me I&#39;m not right<br>But that&#39;s alright</p>&mdash;
+            #1 Buckeye Fan billy (@William_buckeye) <a
+                href="https://twitter.com/William_buckeye/status/1515237017579229185?ref_src=twsrc%5Etfw">April 16,
+                2022</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+</div>
 
 We decided it would be best to create a list of songs, in addition to counting occurrences of topics he discussed (for brainstorming purposes). We ended up with this list:
 
