@@ -5,22 +5,29 @@ tags:
 - ctf
 - shctf
 - pwn
-description: "Writeup for the Space Heroes CTF pwn challenge [Warmup to the Dark Side]."
+description: "Writeup for the Space Heroes CTF pwn challenge \"Warmup to the Dark Side\"."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
-## 📜 Description
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-Once you start down the dark path, forever will it dominate your destiny.
-(And yes, the binary isn't included)
-
-`nc 0.cloud.chals.io 30096`
-**Author**: v10l3nt
-
----
-
-## 🔍 Detailed Solution
+<p class="box">Once you start down the dark path, forever will it dominate your destiny.<br>
+(And yes, the binary isn't included)<br>
+<code>nc 0.cloud.chals.io 30096</code><br>
+<b>Author</b>: v10l3nt</p>
 
 Let's run that `netcat` link to see what's going on:
 

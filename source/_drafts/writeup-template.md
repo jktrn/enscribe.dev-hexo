@@ -5,17 +5,26 @@ tags:
 - ctf
 - CTF-NAME
 - CHAL-TYPE
-description: "Writeup for the CTF-NAME CHAL-TYPE challenge [CHAL-FORMATTED]."
+description: "Writeup for the CTF-NAME CHAL-TYPE challenge \"CHAL-FORMATTED\"."
 permalink: ctfs/CTF-NAME/CHAL-TYPE/CHAL-NAME/
 ---
-FIND AND REPLACE CTF-NAME, CHAL-TYPE, CHAL-NAME, CHAL-FORMATTED
 
-## 📜 Description
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
+<p class="box">
 DESCRIPTION
-
----
-
-## 🔍 Detailed Solution
+</p>
 
 SOLVE

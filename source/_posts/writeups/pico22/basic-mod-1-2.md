@@ -5,20 +5,30 @@ tags:
 - ctf
 - pico22
 - crypto
-description: "Writeup for the picoCTF 2022 crypto challenge [basic-mod1/2]."
+description: "Writeup for the picoCTF 2022 crypto challenges \"basic-mod1/2\"."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
+
 ## basic-mod1
 
-### 📜 Description (1)
-
-We found this weird message being passed around on the servers, we think we have a working decrpytion scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. `picoCTF{decrypted_message}`)
-
----
-
-### 🔍 Detailed Solution (1)
+<p class="box">
+We found this weird message being passed around on the servers, we think we have a working decrpytion scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)
+</p>
 
 Let's go over what it's asking:
 
@@ -28,11 +38,11 @@ Let's go over what it's asking:
   - 26-35 = Decimal digits (0-9)
   - 36 = Underscore ("_")
 
-I was too lazy to learn python and do that, so here it is in native Javascript:
+I was too lazy to learn Python and do that, so here it is in native Javascript:
 
 ```js
 // Splitting into array
-x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 39 396 370 182 328 327 366 70".split();
+x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]".split();
 // Mod 37
 y = x.map(x => x % 37);
 z = [];
@@ -51,12 +61,12 @@ z = z.join("");
 console.log(`picoCTF{${z}}`);
 ```
 
-Looking back at the problem after I learned `python3`, here's a solution that's significantly more efficient:
+Looking back at the problem after I learned Python, here's a solution that's significantly cleaner:
 
 ```py
 #!/usr/bin/env python3
 import string
-x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 39 396 370 182 328 327 366 70"
+x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]"
 y = x.split()
 
 a = string.ascii_uppercase + string.digits + "_"
@@ -66,21 +76,19 @@ z = [a[int(i) % 37] for i in y]
 print("picoCTF{"+''.join(z)+"}")
 ```
 
-```js
-`picoCTF{R0UND_N_R0UND_${secret}}`
+```text
+$ python3 solve.py
+picoCTF{R0UND_N_R0UND_********}
 ```
-
-## basic-mod2
-
-### 📰 Description (2)
-
-A new modular challenge!
-Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore.
-Wrap your decrypted message in the picoCTF flag format (`picoCTF{decrypted_message}`).
 
 ---
 
-### 🔎 Detailed Solution (2)
+## basic-mod2
+
+<p class="box">
+A new modular challenge!
+Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore.
+Wrap your decrypted message in the picoCTF flag format (<code>picoCTF{decrypted_message}</code>).
 
 Let's go over what it's asking once again:
 
@@ -94,7 +102,7 @@ Here's a stupidly long Javascript snippet I made to solve this:
 
 ```js
 //Splitting into array
-x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 39 396 370 182 328 327 366 70".split();
+x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]".split();
 //Mapping to % 41 with modular inverse of 41
 y = x.map(x => x % 41).map(x => modInverse(x, 41));
 z = [];
@@ -119,6 +127,6 @@ function modInverse(a, b) {
 }
 ```
 
-```js
-`picoCTF{1NV3R53LY_H4RD_${secret}}`
+```text
+picoCTF{1NV3R53LY_H4RD_********}
 ```

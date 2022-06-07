@@ -5,17 +5,30 @@ tags:
 - ctf
 - shctf
 - crypto
-description: "Writeup for the Space Heroes CTF crypto challenge [Rahool's Challenge]."
+description: "Writeup for the Space Heroes CTF crypto challenge \"Rahool's Challenge\"."
 permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
 ---
 
-## 📜 Description
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-`nc 0.cloud.chals.io 10294`
-**Author**: excaligator
+<p class="box">
+<code>nc 0.cloud.chals.io 10294</code>
+<code>Author</code>: excaligator
+</p>
 
----
   Let's open that `netcat` link to see what's going on:
 
   ```text
@@ -77,17 +90,17 @@ Message:A + Key:B = 0 + B = O
 Enter the answer with no spaces and all upper case:
   ```
 
-## 🌌 "Reconnaissance"
+### "Reconnaissance" 🧐
 
   For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, `Rahool` is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
   
-## 🔍 Actual Reconnaissance
+### Actual Reconnaissance 🔍
 
   Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII is substitution. This means that the plaintext is simply substituted by a value determined by the algorithm. Throwing it into this [cipher identifier](https://www.boxentriq.com/code-breaking/cipher-identifier), we find that it is a **Vigenère** cipher.
   
   Before moving on, we need to figure out what the h-e-double-hockey-sticks a Vigenère is.
 
-## 👩‍💻 The Vigenère Cipher
+### The Vigenère Cipher 🔐
   
   A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**.
   
@@ -118,7 +131,7 @@ Each of the 26 rows contains the same alphabet, except shifted to the left by on
 
 If I wanted to encrypt `HELLO` with `WORLD` as the key, I would find the cell that intersects with column `H` and row `W`. In that case, it would be `D`. Then, I would find the cell that intersects with column `E` and row `O`. In that case, it would be `S`. Rinse and repeat for the entire phrase.
 
-## 🏴 Cheaters Never Win
+### Cheaters Never Win... 🏴
 
   But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT" and Google the crap out of it. [DCode](https://www.dcode.fr/vigenere-cipher), which can keylessly decrypt substitution ciphers, is the first option. Click, clack, `Ctrl + Shift + C`, `Ctrl + V` later and we have solved it!!1!1!
   
@@ -126,7 +139,7 @@ If I wanted to encrypt `HELLO` with `WORLD` as the key, I would find the cell th
 
 Or not. Wait... the plaintext is telling me to replace my `E` with a `3` and my `O` with an `0`. Those aren't in `RKBGVP`. What's going on? Is the website wrong?
 
-## 🚩 Or Do They?
+### ...Or Do They? 🚩
 
 Let's go back to the drawing board and look at the problem again.
 > We've found ourselves an encrypted engram - Can you break the **(new and improved)** indecipherable cipher?
@@ -136,7 +149,7 @@ Since this cipher is "new and improved", we can assume it's not just your normal
 
 **Take it literally. The letter A (plaintext) plus the letter B (key) is equal to the letter O (ciphertext).**
 
-I solved this challenge via **known-plaintext-attack**. Yeah, it sounds fancy. But here's what I actually did:
+I solved this challenge via **known-plaintext attack**. Yeah, it sounds fancy. But here's what I actually did:
 
 ![Rahool-Vigenere](https://github.com/WhileSEC/shctf/blob/main/images/rahool-vigenere.PNG?raw=true)
   
