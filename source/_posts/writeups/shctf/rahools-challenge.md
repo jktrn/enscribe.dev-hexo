@@ -25,8 +25,8 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 </style>
 
 <p class="box">
-<code>nc 0.cloud.chals.io 10294</code>
-<code>Author</code>: excaligator
+<code>nc 0.cloud.chals.io 10294</code><br>
+<b>Author</b>: excaligator
 </p>
 
   Let's open that `netcat` link to see what's going on:
@@ -90,15 +90,11 @@ Message:A + Key:B = 0 + B = O
 Enter the answer with no spaces and all upper case:
   ```
 
-### "Reconnaissance" 🧐
-
-  For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, `Rahool` is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
+  For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, **Rahool** is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
   
-### Actual Reconnaissance 🔍
-
   Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII is substitution. This means that the plaintext is simply substituted by a value determined by the algorithm. Throwing it into this [cipher identifier](https://www.boxentriq.com/code-breaking/cipher-identifier), we find that it is a **Vigenère** cipher.
   
-  Before moving on, we need to figure out what the h-e-double-hockey-sticks a Vigenère is.
+  Before moving on, we need to figure out what the hell a Vigenère is.
 
 ### The Vigenère Cipher 🔐
   
