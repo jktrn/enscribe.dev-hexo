@@ -4,7 +4,7 @@ date: 2022-05-29 09:12:14
 hidden: true
 description: "Information regarding placement, solves, and writeups for BYUCTF 2022."
 permalink: ctfs/byu/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 ## 📜 Information
 

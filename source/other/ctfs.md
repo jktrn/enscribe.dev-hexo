@@ -1,8 +1,10 @@
 ---
 title: Capture the Flag Info 🏴
-date: 2022-04-04 12:38:45
 description: "Here's information, statistics, and writeups for all of my previous cybersecurity Capture the Flag (CTF) competitions."
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
+permalink: /ctfs/
+hidden: true
+layout: page
 ---
 
 | Placement    | Name                                                    | Date             | Team            | Points | CTFtime                                       |

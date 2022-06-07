@@ -4,7 +4,7 @@ date: 2022-04-18 17:54:56
 hidden: true
 description: "Information regarding placement, solves, and writeups for CrewCTF 2022."
 permalink: ctfs/crew/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 ## 📜 Information
 

@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Writeup for the picoCTF 2022 pwn challenges \"Buffer overflow 0/1\"."
 permalink: ctfs/pico22/pwn/buffer-overflow-0-1/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 <style>
@@ -165,13 +165,13 @@ In the `vuln()` function, we see that once again, the `gets()` function is being
 
 Before we get into the code, we need to figure out how to write our own addresses to the stack. Let's start with a visual:
 
-![Stack Visualization](/image/pico/buffer-overflow-0-1/stack-visual.png)
+![Stack Visualization](/asset/pico/buffer-overflow-0-1/stack-visual.png)
 
 Whenever we call a function, multiple items will be "pushed" onto the **top** of the stack (in the diagram, that will be on the right-most side). It will include any parameters, a return address back to `main()`, a base pointer, and a buffer. Note that the stack grows **downwards**, towards lower memory addresses, but the buffer is written **upwards**, towards higher memory addresses.
 
 We can "smash the stack" by exploiting the `gets()` function. If we pass in a large enough input, it will overwrite the entire buffer and start overflowing into the base pointer and return address within the stack:
 
-![Overflow Visualization](/image/pico/buffer-overflow-0-1/overflow-visual.png)
+![Overflow Visualization](/asset/pico/buffer-overflow-0-1/overflow-visual.png)
 
 If we are delibrate of the characters we pass into `gets()`, we will be able to insert a new address to overwrite the return address to `win()`. Let's try!
 
@@ -301,7 +301,7 @@ gef➤  x win
 Win is at `0x80491f6`, but we need to convert it to the little endian format. You can do this with the pwntools `p32()` command, which results in `\xf6\x91\x04\x08`.
 Let's make a final visual of our payload:
 
-![Payload Visual](/image/pico/buffer-overflow-0-1/payload-visual.png)
+![Payload Visual](/asset/pico/buffer-overflow-0-1/payload-visual.png)
 
 Let's write our payload and send it to the remote server with Python3/pwntools:
 

@@ -7,7 +7,7 @@ tags:
 - osint
 description: "All BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
 permalink: ctfs/byu/osint/osint-compilation/
-thumbnail: https://enscribe.dev/image/banner-ctfs-byu.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs-byu.png
 ---
 
 <style>
@@ -24,7 +24,7 @@ thumbnail: https://enscribe.dev/image/banner-ctfs-byu.png
     }
 </style>
 
-![Banner](/image/byu/banner.png)
+![Banner](/asset/byu/banner.png)
 
 ### Intro
 
@@ -50,13 +50,13 @@ Thank you, and enjoy.
     Whose signature is found beneath Po's foot?<br>
     Flag format - <code>byuctf{Firstname_Lastname}</code><br>
     <br>
-    <img src="/image/byu/po1.png" width=200 alt="Po from Kung Fu Panda">
+    <img src="/asset/byu/po1.png" width=200 alt="Po from Kung Fu Panda">
     <sub>po.png</sub>
 </p>
 
 I did a quick [Google Lens](https://lens.google/) search with my phone with the keyword "BYU" attached and [this](https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/) article turned up:
 
-<img width=600 src="/image/byu/po2.png" alt="The Daily Universe">
+<img width=600 src="/asset/byu/po2.png" alt="The Daily Universe">
 <center><sub>Credit to <i>The Daily Universe</i></sub></center>
 
 > Jason Turner is a BYU computer science program graduate who works at DreamWorks and created all the data for Po’s character. The statue is a tribute to his success, as well as the University’s program and alumni.
@@ -72,13 +72,13 @@ The vanity and audacity of these scammers and their phishing attacks are just ge
 Flag format: <code>byuctf{mm-dd-yyyy}</code>
 <br>
 <br>
-<img width=600 src="/image/byu/sharky1.png" alt="sharky.png">
+<img width=600 src="/asset/byu/sharky1.png" alt="sharky.png">
 <sub>sharky.jpg</sub>
 </p>
 
 Reverse Google Search with a "phishing" crib:
 
-<img width=500 src="/image/byu/sharky2.png" alt="sharky google search">
+<img width=500 src="/asset/byu/sharky2.png" alt="sharky google search">
 
 The [Vanity URL on darkreading.com](https://www.darkreading.com/cloud/vanity-urls-could-be-spoofed-for-social-engineering-attacks)  was published on May 11th, 2022.
 The flag is `byuctf{05-11-22}`.
@@ -90,13 +90,13 @@ The flag is `byuctf{05-11-22}`.
 <p class="box">
 I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?
 <br><br>
-<img width=600 src="/image/byu/bouldering1.png" alt="b0uld3r1ng.png">
+<img width=600 src="/asset/byu/bouldering1.png" alt="b0uld3r1ng.png">
 <sub>b0uld3r1ng.png</sub>
 </p>
 
 Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the `Lizard's Mouth Rock` in Santa Barbara County, California:
 
-![Lizard's Mouth](/image/byu/bouldering2.png)
+![Lizard's Mouth](/asset/byu/bouldering2.png)
 
 The image given to us is a direct screenshot of an image posted by Maps contributer [Jonathan P.](https://www.google.com/maps/contrib/104742787928495148360), although that has little relevance to the challenge.
 
@@ -104,17 +104,17 @@ Moving on, although we have the location of the image taken the flag is in *expl
 
 We checked through the following platforms: Yelp, Google Reviews, TripAdvisor, AllTrails⁠—yet, we couldn't find a recent reviewer by the name of Sam. Luckily, one of my team members searched up "Bouldering Lizard's Mouth" (based on the challenge name) and happened to stumble across [this website](https://www.mountainproject.com/area/105885134/the-lizards-mouth):
 
-![Bouldering Website](/image/byu/bouldering3.png)
+![Bouldering Website](/asset/byu/bouldering3.png)
 
 <center><sub><a href="https://www.mountainproject.com/area/105885134/the-lizards-mouth">The Lizard's Mouth</a> on Mountain Project</sub></center>
 
 We scrolled down to the "Reviews" section and found this:
 
-![Bouldering Comments](/image/byu/bouldering4.png)
+![Bouldering Comments](/asset/byu/bouldering4.png)
 
 Hey, look! A Sam! Let's check out their [profile](https://www.mountainproject.com/user/201354492/samuel-sender):
 
-![Samuel Profile](/image/byu/bouldering5.png)
+![Samuel Profile](/asset/byu/bouldering5.png)
 
 The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 
@@ -125,17 +125,17 @@ The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 <p class="box">
 Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??
 <br><br>
-<img width=600 src="/image/byu/squatter1.png">
+<img width=600 src="/asset/byu/squatter1.png">
 <sub><i>geoguesser.png</i></sub>
 </p>
 
 Hey, look! Another Google Lens problem! Although there's a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:
 
-<img width=300 src="/image/byu/squatter2.png">
+<img width=300 src="/asset/byu/squatter2.png">
 
 Going to the [webpage](http://www.eureka4you.com/water-michigan/MI-Flint1.htm), it mentions that this water tower is in "Genesee County. Mid Michigan.", so with a quick Maps search I stumble across the "Wyatt P. Memorial Water Tower":
 
-<img width=600 src="/image/byu/squatter3.png">
+<img width=600 src="/asset/byu/squatter3.png">
 
 This is where the rabbit hole begins. I looked around the reviews section of this place and found the absolute weirdest, most hilarious reviews of all time:
 
@@ -154,7 +154,7 @@ Professionally speaking as a water tower enthusiast, this has to be one of the b
 
 I actually stumbled across the person it's named after, `Wyatt Pangerl`, and I was super curious as to what the hell was going on:
 
-![Wyatt](/image/byu/squatter4.png)
+![Wyatt](/asset/byu/squatter4.png)
 
 So I opened a ticket. Turns out, this Wyatt guy, a member of their team, managed to get the water tower named after himself after a series of divine, godlike social engineering strategies (assumedly to the county) and exploitation of the [Squatter's Rights](https://homeguides.sfgate.com/squatters-rights-law-california-45887.html) law in California. He also claimed the location on Google Maps and put his burner phone there as well, which we called (he didn't pick up). When I found his Facebook (will not disclose), I saw a multitude of his friends commenting hilarious crap, calling him "ICONIC." and a "LEGEND." for managing to make it happen.
 
@@ -162,11 +162,11 @@ Yet, there was no flag.
 
 I continued to look around and managed to fall deeper into the rabbit hole, OSINTing everything between the model of [Wyatt's car](https://www.kbb.com/chrysler/crossfire/2006/), a Chrysler Crossfire 2006 (🤣) to where his parents file taxes... I even managed to get an award from a head admin for being a dumbass:
 
-![Award](/image/byu/squatter5.png)
+![Award](/asset/byu/squatter5.png)
 
 Then, while on the go, I checked the location on my phone... And look what we've got:
 
-<img src="/image/byu/squatter6.png" width=400>
+<img src="/asset/byu/squatter6.png" width=400>
 
 Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "From the owner" section isn't on Google Chrome. Screw you Wyatt, and your majestic, plump, baby-blue water  tower. The flag is `byuctf{h0w_d1d_1_st34l_4_w4t3r_t0w3r}`. Once again, screw you Wyatt. I hope your taxes are messed up forevermore.
 
@@ -210,7 +210,7 @@ Following the trail for `NRHP ID 80002319`, we found this [UpWiki Page](https://
 
 When I looked up "jesse james famous inscription", I found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James; grave:
 
-<img src="/image/byu/mystery1.png" width=600>
+<img src="/asset/byu/mystery1.png" width=600>
 
 Removing the dates and names as the description specifies, the flag is `byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}`.
 
@@ -226,7 +226,7 @@ format: <code>byuctf{storename}</code>
 
 I took a look at the three hints, and they were Wordle games that resulted in `WATER`, `CALLS`, and `PROBE`. Since we were looking for a shop (meaning a location), we immediately turned to [what3words](https://what3words.com/) and stumbled across [this location](https://what3words.com/water.calls.probe) in Charlotte, Ohio:
 
-![Water Calls Probe](/image/byu/bday1.png)
+![Water Calls Probe](/asset/byu/bday1.png)
 
 We tried a couple of stores around the area to no avail, until an admin told us in a ticket that we were in the wrong place. By extension, we decided to try out various permutations of `water`, `calls` and `probe`:
 
@@ -242,7 +242,7 @@ We tried a couple of stores around the area to no avail, until an admin told us 
 
 Most of them were bogus except [///water.probe.calls](https://what3words.com/water.probe.calls), which was on E. McMillan St, Cincinnati, Ohio. We assumed it was correct (and admin later confirmed) because the nickname "Buckeye Billy" comes from the fact that he loves the [Ohio State University Buckeyes](https://ohiostatebuckeyes.com/) football team. (Bonus: The Ohio Buckeye is a type of nut, and the description says that he is "nutty"). Our teammate somehow connected "history-loving" to old stores in Cincinnati, Ohio, and upon a Google search we found:
 
-![Graeters Google Search](/image/byu/bday2.png)
+![Graeters Google Search](/asset/byu/bday2.png)
 
 The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb. I felt dumb too.
 
@@ -256,7 +256,7 @@ Flag will be completely visible once solved! You will see <code>byuctf{}</code>.
 
 Step 0 is to find his social media account, which we did by searching "Buckeye Billy" on [Twitter](https://twitter.com/William_buckeye):
 
-![Buckeye Twitter](/image/byu/blabbin1.png)
+![Buckeye Twitter](/asset/byu/blabbin1.png)
 
 We scoured his Twitter account on the Wayback Machine for it to no avail (and even found some [deleted stuff](https://web.archive.org/web/20220415232856/https://twitter.com/William_buckeye/status/1515109844771999745) from a previous internal CTF).
 
@@ -304,7 +304,7 @@ He tweeted a lot about song lyrics:
 
 We decided it would be best to create a list of songs, in addition to counting occurrences of topics he discussed (for brainstorming purposes). We ended up with this list:
 
-![Occurences List](/image/byu/blabbin3.png)
+![Occurences List](/asset/byu/blabbin3.png)
 
 Hey, check that out in the Songs list. "3 Words", "One Place", "Greater", "Ice Cream"? That sounds a lot like our previous challenge, `Buckeye Billy Birthday`. Looks like these were meant to be solved in tandem. By extension, "Man in the Mirror" and "Magic Mirror" were also hinted at, and we found a [tweet](https://twitter.com/William_buckeye/status/1515113600750219265) of Billy posing in front of a mirror with a BYU hat. Uncoincidentally, this is the only mention of BYU in his entire profile (I believe):
 
@@ -312,7 +312,7 @@ Hey, check that out in the Songs list. "3 Words", "One Place", "Greater", "Ice C
 
 My team used steganography tools on this image, and lo and behold:
 
-![Flag in Steganography Analysis](/image/byu/blabbin5.png)
+![Flag in Steganography Analysis](/asset/byu/blabbin5.png)
 
 The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Screw you, Buckeye Billy. And Wyatt too, if you're reading.
 
@@ -348,13 +348,13 @@ qwerty ↓4 S fsu om yjr aogr 3{45
 
 "A Day in the Life" is a song by the [Beatles](https://www.youtube.com/watch?v=usNsCeOV4GM) (a fascinatingly good one too), and I took a look the decoded timestamp `2:34` in the music video:
 
-![Beatles video](/image/byu/43-1.png)
+![Beatles video](/asset/byu/43-1.png)
 
 Although I couldn't find who the person in the timestamp was, someone in the comments named the individuals at timestamps:
 
-![Comments](/image/byu/43-2.png)
+![Comments](/asset/byu/43-2.png)
 
-![Nesmith](/image/byu/43-3.png)
+![Nesmith](/asset/byu/43-3.png)
 
 The guy at 3:31 is the same as the guy at 2:34, so it's Michael Nesmith from the Monkees.
 

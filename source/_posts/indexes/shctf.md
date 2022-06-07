@@ -4,7 +4,7 @@ date: 2022-04-10 17:07:16
 hidden: true
 description: "Information regarding placement, solves, and writeups for Space Heroes CTF."
 permalink: ctfs/shctf/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 ## 📜 Information
 

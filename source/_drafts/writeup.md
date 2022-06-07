@@ -7,6 +7,7 @@ tags:
 - CHAL-TYPE
 description: "Writeup for the CTF-NAME CHAL-TYPE challenge \"CHAL-FORMATTED\"."
 permalink: ctfs/CTF-NAME/CHAL-TYPE/CHAL-NAME/
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 <style>

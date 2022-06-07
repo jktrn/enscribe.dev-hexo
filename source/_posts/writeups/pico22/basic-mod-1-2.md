@@ -7,7 +7,7 @@ tags:
 - crypto
 description: "Writeup for the picoCTF 2022 crypto challenges \"basic-mod1/2\"."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 <style>

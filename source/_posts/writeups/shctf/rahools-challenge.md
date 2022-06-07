@@ -7,7 +7,7 @@ tags:
 - crypto
 description: "Writeup for the Space Heroes CTF crypto challenge \"Rahool's Challenge\"."
 permalink: ctfs/shctf/crypto/rahools-challenge/
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 <style>
