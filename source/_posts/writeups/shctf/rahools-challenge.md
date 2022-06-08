@@ -5,7 +5,7 @@ tags:
 - ctf
 - shctf
 - crypto
-description: "Writeup for the Space Heroes CTF crypto challenge \"Rahool's Challenge\"."
+description: "Learn how to manually build and apply a modified Vigenère Cipher! This is my writeup for the Space Heroes CTF cryptography challenge \"Rahool's Challenge\"."
 permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -202,3 +202,5 @@ $ python3 exp.py
 ```
 
 We just solved `Rahool's Challenge` without needing to write any algorithms!
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

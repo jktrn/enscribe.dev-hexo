@@ -5,7 +5,7 @@ tags:
 - ctf
 - byu
 - osint
-description: "All BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
+description: "Here's my writeup for all BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
 permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs-byu.png
 ---
@@ -384,3 +384,5 @@ Damn you, Micky.
 - 🎶 43: **Battlemonger**, neil, enscribe
 
 <sub>Thanks Battlemonger for carry!</sub>
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

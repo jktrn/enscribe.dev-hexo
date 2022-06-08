@@ -5,7 +5,7 @@ tags:
 - ctf
 - shctf
 - pwn
-description: "Writeup for the Space Heroes CTF pwn challenge \"Warmup to the Dark Side\"."
+description: "Learn how to stack smash an ASLR-enabled program... without the binary! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Warmup to the Dark Side\"."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -77,3 +77,5 @@ Let's run this script on the server to see if we can get the flag:
 [+] Jedi Mind tricks dont work on me >>> 
     shctf{I_will_remov3_th3s3_restraints_and_leave_the_c3ll}
 ```
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

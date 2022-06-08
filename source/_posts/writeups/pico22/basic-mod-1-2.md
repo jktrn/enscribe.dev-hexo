@@ -5,7 +5,7 @@ tags:
 - ctf
 - pico22
 - crypto
-description: "Writeup for the picoCTF 2022 crypto challenges \"basic-mod1/2\"."
+description: "Learn how to use JavaScript and Python3 to map numbers to character sets! This is my writeup for the picoCTF 2022 cryptography challenges \"basic-mod1/2\"."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -130,3 +130,5 @@ function modInverse(a, b) {
 ```text
 picoCTF{1NV3R53LY_H4RD_********}
 ```
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

@@ -5,7 +5,7 @@ tags:
 - ctf
 - shctf
 - pwn
-description: "Writeup for the shctf pwn challenge \"Guardians of the Galaxy\"."
+description: "Learn how to brute force a format string attack on ELF binaries! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Guardians of the Galaxy\"."
 permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -91,3 +91,5 @@ $ python3 exp.py
     Oh no, Ronano has seen through the distraction!
     shctf{im_distracting_you}
 ```
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

@@ -5,7 +5,7 @@ tags:
 - ctf
 - pico22
 - pwn
-description: "Writeup for the picoCTF 2022 pwn challenges \"Buffer overflow 0/1\"."
+description: "Learn how to exploit vulnerable C functions to break the program, eventually controlling the flow of code execution! This is a writeup for the picoCTF 2022 binary/pwn challenges \"Buffer overflow 0/1\"."
 permalink: ctfs/pico22/pwn/buffer-overflow-0-1/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -330,3 +330,5 @@ kali@kali:~/pico22/buffer-overflow-1$ python3 exp.py
 ```
 
 You have completed your first `ret2win` buffer overflow on a x32 binary!
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

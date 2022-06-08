@@ -5,7 +5,7 @@ tags:
 - ctf
 - shctf
 - pwn
-description: "Writeup for the shctf pwn challenge \"Vader\"."
+description: "Learn how to exploit ELF binaries using ROP, building a chain of \"gadgets\" on the stack to pass arguments to a function! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Vader\"."
 permalink: ctfs/shctf/pwn/vader/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
@@ -214,4 +214,10 @@ log.success(p.recvallS())
 p.close()
 ```
 
+I don't usually do this, but here's a clip of me initially solving the challenge by running the above script:
+
+<div align="center"><iframe width="600" height="355" src="https://www.youtube.com/embed/rvMORfSC2CU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
 This is considered a "simple" challenge for those experienced with the field of return-oriented programming within pwn/binary challenges. However, I had none prior to this competition, so <kbd>Vader</kbd> was one of the most time-consuming and annoying challenges to work with. Yet, it was probably the most satisfying solve throughout the entire competition, and it was my first time utilizing gadgets and building a ROP chain. I hope you enjoyed!
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
