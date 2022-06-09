@@ -1,7 +1,7 @@
 ---
 title: Anime Watchlist · Jason's Space
 description: My complete anime watchlist (imported from MyAnimeList), updated as of 5/16/22.
-thumbnail: https://enscribe.dev/image/banner.png
+thumbnail: https://enscribe.dev/asset/banner/banner.png
 permalink: /anime/
 hidden: true
 layout: page

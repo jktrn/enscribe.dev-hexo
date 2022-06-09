@@ -2,7 +2,7 @@
 title: Contact · Jason's Space
 date: 2022-04-05 16:20:02
 description: "Check out my social media profiles and methods of contact."
-thumbnail: https://enscribe.dev/image/banner-contact.png
+thumbnail: https://enscribe.dev/asset/banner/banner-contact.png
 hidden: true
 layout: page
 permalink: /profiles/

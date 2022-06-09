@@ -1,7 +1,7 @@
 ---
 title: CTFs · Jason's Space
 description: "Here's information, statistics, and writeups for all of my previous cybersecurity Capture the Flag (CTF) competitions."
-thumbnail: https://enscribe.dev/image/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 permalink: /ctfs/
 hidden: true
 layout: page
