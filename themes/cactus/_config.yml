@@ -41,7 +41,7 @@ tags_overview: false
 #   - sort_updated: sort posts by last modification date instead of creation date.
 posts_overview:
   show_all_posts: false
-  post_count: 5
+  post_count: 6
   sort_updated: false
 
 # Customize the archive view.
@@ -80,20 +80,20 @@ logo:
   enabled: true
   width: 50
   height: 50
-  url: https://avatars.githubusercontent.com/u/71956291?v=4
+  url: https://files.catbox.moe/uzvndx.png
   gravatar: false
   grayout: true
 
 
 favicon:
   desktop:
-    url: https://avatars.githubusercontent.com/u/71956291?v=4
+    url: https://files.catbox.moe/uzvndx.png
     gravatar: false
   android:
-    url: https://avatars.githubusercontent.com/u/71956291?v=4
+    url: https://files.catbox.moe/uzvndx.png
     gravatar: false
   apple:
-    url: https://avatars.githubusercontent.com/u/71956291?v=4
+    url: https://files.catbox.moe/uzvndx.png
     gravatar: false
 
 # The color scheme that should be used to highlight codeblocks.

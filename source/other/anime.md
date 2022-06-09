@@ -1,5 +1,5 @@
 ---
-title: Anime Watchlist
+title: Anime Watchlist · Jason's Space
 description: My complete anime watchlist (imported from MyAnimeList), updated as of 5/16/22.
 thumbnail: https://enscribe.dev/image/banner.png
 permalink: /anime/

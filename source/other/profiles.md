@@ -1,7 +1,7 @@
 ---
-title: Contact 📞
+title: Contact · Jason's Space
 date: 2022-04-05 16:20:02
-description: "Here's all of my socials, methods of contact, etc. Check them out!"
+description: "Check out my social media profiles and methods of contact."
 thumbnail: https://enscribe.dev/image/banner-contact.png
 hidden: true
 layout: page

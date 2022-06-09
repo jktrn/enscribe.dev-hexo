@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: "Jason's Space 🐳"
-subtitle: "Here's my collective presence on the internet. Thanks for stopping by."
+title: "Jason's Space 🔭"
+# subtitle:
 heading: "Hey! My name's Jason, and I go by the handle **enscribe/jktrn** on pretty much every account. I do a lot of things to find fulfillment ⁠— I love participating in cybersecurity [CTF](https://enscribe.dev/profile/ctftime) events, competitive [rhythm games](https://enscribe.dev/profile/osu), [clean documentation](https://github.com/htpa-tsa/cyber), gluttony, [web development](https://github.com/jktrn/jktrn.github.io) and [Tetris](https://enscribe.dev/profile/tetrio). My entire internet presence can be found on this blog. Love ya, thanks for stopping by! 	(・ω・)ノ"
 keywords:
 author: jktrn

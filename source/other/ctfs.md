@@ -1,5 +1,5 @@
 ---
-title: Capture the Flag Info 🏴
+title: CTFs · Jason's Space
 description: "Here's information, statistics, and writeups for all of my previous cybersecurity Capture the Flag (CTF) competitions."
 thumbnail: https://enscribe.dev/image/banner-ctfs.png
 permalink: /ctfs/
