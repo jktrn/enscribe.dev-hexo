@@ -80,20 +80,20 @@ logo:
   enabled: true
   width: 50
   height: 50
-  url: https://files.catbox.moe/uzvndx.png
+  url: /asset/favicon.png
   gravatar: false
   grayout: true
 
 
 favicon:
   desktop:
-    url: https://files.catbox.moe/uzvndx.png
+    url: /asset/favicon.png
     gravatar: false
   android:
-    url: https://files.catbox.moe/uzvndx.png
+    url: /asset/favicon.png
     gravatar: false
   apple:
-    url: https://files.catbox.moe/uzvndx.png
+    url: /asset/favicon.png
     gravatar: false
 
 # The color scheme that should be used to highlight codeblocks.
