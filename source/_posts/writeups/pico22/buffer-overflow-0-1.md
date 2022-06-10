@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Learn how to exploit vulnerable C functions to break the program, eventually controlling the flow of code execution! This is a writeup for the picoCTF 2022 binary/pwn challenges \"Buffer overflow 0/1\"."
 permalink: ctfs/pico22/pwn/buffer-overflow-0-1/
-thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+thumbnail: /asset/banner/banner-buffer-overflow.png
 ---
 
 <style>

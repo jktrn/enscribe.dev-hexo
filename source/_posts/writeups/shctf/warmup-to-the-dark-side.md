@@ -7,7 +7,7 @@ tags:
 - pwn
 description: "Learn how to stack smash an ASLR-enabled program... without the binary! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Warmup to the Dark Side\"."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
-thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+thumbnail: /asset/banner/banner-darkside.png
 ---
 
 <style>
