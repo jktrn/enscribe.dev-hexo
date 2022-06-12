@@ -1,5 +1,5 @@
 ---
-title: 🕵️ NahamCon 2022
+title: 🏴 NahamCon 2022
 date: 2022-04-30 19:32:30
 hidden: true
 description: "Information regarding placement, solves, and writeups for NahamCon 2022."
@@ -7,25 +7,43 @@ permalink: ctfs/naham/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-## 📜 Information
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-From the developers of VirSecCon, H@cktivityCon, BsidesBOS, GRIMMCon CTF and more, we bring you NahamCon CTF 2022!
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-**Start Time**: Thu, 28 April 2022, 12:00 PDT
-**End Time**: Sat, 30 April 2022, 12:00 PDT
-**Discord**: [click here!](https://discord.com/invite/ucCz7uh)
-**CTFTime**: [click here!](https://ctftime.org/event/1630)
+<div class="box">
+    <b>Start Time</b>: Thu, 28 April 2022, 12:00 PDT<br>
+    <b>End Time</b>: Sat, 30 April 2022, 12:00 PDT<br>
+    <b>Discord</b>: <a href="https://discord.com/invite/ucCz7uh">click here!</a><br>
+    <b>CTFTime</b>: <a href="https://ctftime.org/event/1630">click here!</a>
+</div>
 
-## 🥇 Placement
+<div class="box">
+    <b>Team Name</b>: <code>Project Sekai</code><br>
+    <b>Place</b>: 06 of 3273<br>
+    <b>Points</b>: 22001
+</div>
 
-**Team Name**: `Project Sekai`
-**Place**: 06 of 3273
-**Points**: 22001
-
-## 🏆 Challenges
+<div class="box">
+    <details>
+        <summary><b>View Solves:</b></summary>
+        <br>
 
 | Challenge            | Category  | Points | Time Solved             | Writeup |
 |----------------------|-----------|--------|-------------------------|---------|
+|⠀| | | | |
 | Baby RSA Quiz        | crypto    | 50     | April 28th, 12:45:52 PM |         |
 | Unimod               | crypto    | 50     | April 28th, 1:29:11 PM  |         |
 | XORROX               | crypto    | 50     | April 28th, 12:57:16 PM |         |
@@ -97,3 +115,6 @@ From the developers of VirSecCon, H@cktivityCon, BsidesBOS, GRIMMCon CTF and mor
 | Two For One          | web       | 473    | April 29th, 12:30:29 PM |         |
 | Deafcon              | web       | 491    | April 28th, 4:46:03 PM  |         |
 | Poller               | web       | 495    | April 29th, 10:15:12 AM |
+
+</details>
+</div>

@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-basic-mod.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -26,9 +28,9 @@ thumbnail: /asset/banner/banner-basic-mod.png
 
 ## basic-mod1
 
-<p class="box">
+<div class="box">
 We found this weird message being passed around on the servers, we think we have a working decrpytion scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)
-</p>
+</div>
 
 Let's go over what it's asking:
 
@@ -85,10 +87,11 @@ picoCTF{R0UND_N_R0UND_********}
 
 ## basic-mod2
 
-<p class="box">
+<div class="box">
 A new modular challenge!
 Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore.
 Wrap your decrypted message in the picoCTF flag format (<code>picoCTF{decrypted_message}</code>).
+</div>
 
 Let's go over what it's asking once again:
 

@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-guardians.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -24,22 +26,22 @@ thumbnail: /asset/banner/banner-guardians.png
     }
 </style>
 
-<p class="box">
+<div class="box">
 Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? <code>nc 0.cloud.chals.io 12690</code><br>
 <b>Author</b>: GlitchArchetype<br>
-<b>Files</b>: <a href="https://github.com/WhileSEC/shctf/blob/main/challenges/pwn/guardians-of-the-galaxy/files/guardians">guardians</a>
-</p>
+<b>Files</b>: <a href="/asset/shctf/guardians">guardians</a>
+</div>
 
 Let's look at what happens when you run that binary given to us.
 
-```text
+```console
 $ ./guardians 
 Error, please message admins with 'infinity_error'.
 ```
 
 This error is because the binary is probably trying to reference a `flag.txt` within its directory that doesn't exist. Let's create one and run it again:
 
-```text
+```console
 $ touch flag.txt && echo "FLAGHERE" > flag.txt
 $ ./guardians
 Does Quill manage to win the dance battle?
@@ -64,7 +66,7 @@ for i in range(0, 100):
 
 As you can see, it will send a UTF-8 encoded format string, with `str(i)` being the looping variable. If its output contains the flag, the loop breaks and the script will stop. Let's run it:
 
-```text
+```console
 $ python3 exp.py
 [+] Opening connection to 0.cloud.chals.io on port 12690: Done
 [*] Trying offset 0...

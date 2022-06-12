@@ -6,35 +6,44 @@ description: "Information regarding placement, solves, and writeups for CrewCTF 
 permalink: ctfs/crew/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
-## 📜 Information
 
-CrewCTF is an annual cybersecurity Capture The Flag competition hosted by `TheHackersCrew`. The first edition, `CrewCTF 2022`, will start at 17:00 GMT on April 15th and run for 48 hours, ending at 17:00 GMT on April 17th.
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-With beginner to expert level challenges, our contest will be a great opportunity for students (and professionals) of any skill level to pick up, practice, and master skills in cybersecurity. Challenge containerization provides safe, hands-on environments for contestants to practice developing exploits and hacking.
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-**Start Time**: Fri, 15 April 2022, 10:00 PDT
-**End Time**:  Sun, 17 April 2022, 10:00 PDT
-**CTFTime**: [click here!](https://ctftime.org/event/1568)
-**Discord**: [click here!](https://discord.com/invite/jk84AmJkHP)
+<div class="box">
+    <b>Start Time</b>: Fri, 15 April 2022, 10:00 PDT<br>
+    <b>End Time</b>: Sun, 17 April 2022, 10:00 PDT<br>
+    <b>CTFTime</b>: <a href="https://ctftime.org/event/1568">click here!</a><br>
+    <b>Discord</b>: <a href="https://discord.com/invite/jk84AmJkHP">click here!</a>
+</div>
 
-## 🥇 Placement
+<div class="box">
+    <b>Team Name</b>: <code>Project Sekai</code><br>
+    <b>Place</b>: 03 of 758 🥉<br>
+    <b>Points</b>: 21000
+</div>
 
-**Team Name**: `Project Sekai`
-**Place**: 03 of 758 🥉
-**Points**: 21000
-
-## 👥 Team Info
-
-| Username | Score |
-| -------- | ----- |
-| pjsk     | 14855 |
-| rik      | 2833  |
-| utaha    | 3312  |
-
-## 🏆 Challenges
+<div class="box">
+    <details>
+        <summary><b>View Solves:</b></summary>
+        <br>
 
 |Challenge                         |Category |Points|Time Solved            |Writeup|
 |----------------------------------|---------|------|-----------------------|-------|
+|⠀| | | | |
 |ez-x0r                            |crypto   |100   |April 15th, 10:34:57 AM|       |
 |The HUGE e                        |crypto   |238   |April 15th, 11:08:53 AM|       |
 |Malleable Metal                   |crypto   |290   |April 15th, 2:06:51 PM |       |
@@ -73,3 +82,6 @@ With beginner to expert level challenges, our contest will be a great opportunit
 |EzChall                           |web      |906   |April 17th, 2:32:51 AM |       |
 |Robabikia                         |web      |906   |April 16th, 9:11:34 AM |       |
 |EzChall Again                     |web      |917   |April 17th, 4:26:46 AM |       |
+
+</details>
+</div>

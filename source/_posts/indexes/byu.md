@@ -1,32 +1,49 @@
 ---
-title: BYUCTF 2022
+title: 🐱 BYUCTF 2022
 date: 2022-05-29 09:12:14
 hidden: true
 description: "Information regarding placement, solves, and writeups for BYUCTF 2022."
 permalink: ctfs/byu/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
-## 📜 Information
 
-A CTF hosted by BYU Cyberia - A CTF Team at BYU.
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-Challenges will be geared towards beginners, with topics such as Web, Crypto, OSINT, Forensics, Reverse Engineering and more.
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-**Start Time**: Fri, 27 May 2022, 09:00 PDT
-**End Time**:  Sat, 28 May 2022, 21:00 PDT
-**CTFTime**: [click here!](https://ctftime.org/event/1660/)
-**Discord**: [click here!](https://discord.gg/dDtxzwX5Qc)
+<div class="box">
+    <b>Start Time</b>: Fri, 27 May 2022, 09:00 PDT<br>
+    <b>End Time</b>: Sat, 28 May 2022, 21:00 PDT<br>
+    <b>CTFTime</b>: <a href="https://ctftime.org/event/1660/">click here!</a><br>
+    <b>Discord</b>: <a href="https://discord.gg/dDtxzwX5Qc">click here!</a><br>
+</div>
 
-## 🥇 Placement
+<div class="box">
+    <b>Team Name</b>: <code>Project Sekai</code><br>
+    <b>Place</b>: 01 of 435 🥇<br>
+    <b>Points</b>: 13980<br>
+</div>
 
-**Team Name**: `Project Sekai`
-**Place**: 01 of 435 🥇
-**Points**: 13980
-
-## 🏆 Challenges
+<div class="box">
+    <details>
+        <summary><b>View Solves:</b></summary>
+        <br>
 
 | Challenge                           | Category  | Value | Time                  | Writeup |
 |-------------------------------------|-----------|-------|-----------------------|---------|
+|⠀| | | | |
 | Shifting Mindset                    | crypto    | 50    | May 27th, 9:56:36 AM  |         |
 | Truth and Falsehood                 | crypto    | 432   | May 27th, 11:37:10 AM |         |
 | The Most Worthy Distinction of Pain | crypto    | 465   | May 27th, 3:30:15 PM  |         |
@@ -70,3 +87,6 @@ Challenges will be geared towards beginners, with topics such as Web, Crypto, OS
 | Wordle                              | web       | 359   | May 27th, 4:23:38 PM  |         |
 | Black                               | web       | 436   | May 27th, 7:26:12 PM  |         |
 | Grafana                             | web       | 460   | May 27th, 4:38:11 PM  |         |
+
+</details>
+</div>

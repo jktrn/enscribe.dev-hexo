@@ -7,34 +7,43 @@ permalink: ctfs/patriot/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-## 📜 Information
+<style>
+    .box {
+        border: 1px solid rgba(100, 100, 100, .5);
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 
-PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition hosted by GMU's cybersecurity club, MasonCC. All are welcome to participate, including students and security professionals. Challenges will range from beginner to expert, so there should be something for everyone.
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+</style>
 
-**Start Time**: Fri, 29 April 2022, 14:00 PDT
-**End Time**: Sat, 30 April 2022, 14:00 PDT
-**Discord**: [click here!](https://discord.gg/Z8pA43vQcW)
-**CTFTime**: [click here!](https://ctftime.org/event/1616)
+<div class="box">
+    <b>Start Time</b>: Fri, 29 April 2022, 14:00 PDT<br>
+    <b>End Time</b>: Sat, 30 April 2022, 14:00 PDT<br>
+    <b>Discord</b>: <a href="https://discord.gg/Z8pA43vQcW">click here!</a><br>
+    <b>CTFTime</b>: <a href="https://ctftime.org/event/1616">click here!</a>
+</div>
 
-## 🥇 Placement
+<div class="box">
+    <b>Team Name</b>: <code>View Source</code><br>
+    <b>Place</b>: 02 of 436 🥈<br>
+    <b>Points</b>: 21296
+</div>
 
-**Team Name**: `View Source`
-**Place**: 02 of 436 🥈
-**Points**: 21296
-
-## 👥 Team Info
-
-| Username       | Score |
-|----------------|-------|
-| neil (Captain) | 9672  |
-| jason          | 2903  |
-| jayden         | 6503  |
-| real sheep     | 2218  |
-
-## 🏆 Challenges
+<div class="box">
+    <details>
+        <summary><b>View Solves:</b></summary>
+        <br>
 
 | Challenge                   | Category  | Points | Time Solved             | Writeup |
 |-----------------------------|-----------|--------|-------------------------|---------|
+|⠀| | | | |
 | Base64 Times 10             | crypto    | 10     | April 29th, 2:24:56 PM  |         |
 | No Postcode Envy            | crypto    | 10     | April 29th, 2:34:28 PM  |         |
 | TwoFifty                    | crypto    | 10     | April 29th, 2:25:56 PM  |         |
@@ -99,3 +108,6 @@ PatriotCTF is a beginner-friendly, jeopardy-style capture-the-flag competition h
 | Apocalypse Security - 2     | web       | 204    | April 29th, 7:04:12 PM  |         |
 | Excellent Database          | web       | 426    | April 30th, 6:58:54 AM  |         |
 | Chewy or Crunchy            | web       | 466    | April 29th, 2:43:35 PM  |
+
+</details>
+</div>

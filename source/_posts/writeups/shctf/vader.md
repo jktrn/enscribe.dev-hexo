@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-vader.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
     }
     .flex-container {
         display: flex;
@@ -24,11 +26,11 @@ thumbnail: /asset/banner/banner-vader.png
     }
 </style>
 
-<p class="box">
+<div class="box">
 Submit flag from <code>/flag.txt</code> from <code>0.cloud.chals.io:20712</code><br>
 <b>Author</b>: v10l3nt<br>
 <b>Files</b>: <a href="/asset/shctf/vader">vader</a>
-</p>
+</div>
 
 ```text
 [*] '/home/kali/ctfs/shctf/pwn/vader/vader'

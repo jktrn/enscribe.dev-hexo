@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-rahool.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -24,15 +26,15 @@ thumbnail: /asset/banner/banner-rahool.png
     }
 </style>
 
-<p class="box">
+<div class="box">
 <code>nc 0.cloud.chals.io 10294</code><br>
 <b>Author</b>: excaligator
-</p>
+</div>
 
   Let's open that `netcat` link to see what's going on:
 
   ```text
-root@kali:/home/kali/shctf# nc 0.cloud.chals.io 10294
+$ nc 0.cloud.chals.io 10294
                                    ,/(####((((/**.                                                  
                              *#%%%%%%%%%%%%%%########(#####((((/*,                                  
                           ,&&&&&&&&%%%%%%%%%%%%%%%%%%%%%%%%#(##((((///*                              
@@ -195,7 +197,7 @@ p.close()
 
 Sending the string:
 
-```text
+```console
 $ python3 exp.py
 ...
 [+] Excellent work, you'll be a cryptarch yet. Here's your flag: shctf{c0Me_baCk_s0on_w3_n33d_the_chAll3nge}

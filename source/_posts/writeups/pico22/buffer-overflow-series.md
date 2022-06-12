@@ -1,12 +1,12 @@
 ---
-title: "pico22/pwn: Buffer overflow 0/1"
+title: "pico22/pwn: Buffer overflow series"
 date: 2022-06-06 12:16:08
 tags:
 - ctf
 - pico22
 - pwn
-description: "Learn how to exploit vulnerable C functions to break the program, eventually controlling the flow of code execution! This is a writeup for the picoCTF 2022 binary/pwn challenges \"Buffer overflow 0/1\"."
-permalink: ctfs/pico22/pwn/buffer-overflow-0-1/
+description: "Learn how to exploit vulnerable C functions to break the program, eventually controlling the flow of code execution! This is a writeup for the picoCTF 2022 binary/pwn series \"Buffer overflow\"."
+permalink: ctfs/pico22/pwn/buffer-overflow-series/
 thumbnail: /asset/banner/banner-buffer-overflow.png
 ---
 
@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-buffer-overflow.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
     }
     .flex-container {
         display: flex;
@@ -30,8 +32,9 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 
 ## Buffer overflow 0
 
-<p class="box">Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code>
-</p>
+<div class="box">
+  Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code>
+</div>
 
 Let's analyze this `.c` file we have as reference:
 
@@ -109,9 +112,10 @@ picoCTF{ov3rfl0ws_ar3nt_that_bad_********}
 
 ## Buffer overflow 1
 
-<p class="box">Control the return address.<br>
-Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="javascript:;">program</a>. You can view source <a href="javascript:;">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code></a>
-</p>
+<div class="box">
+  Control the return address.<br>
+  Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="javascript:;">program</a>. You can view source <a href="javascript:;">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code></a>
+</div>
 
 Let's check out our source code:
 

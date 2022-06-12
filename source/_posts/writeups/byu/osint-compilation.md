@@ -16,6 +16,8 @@ thumbnail: /asset/banner/banner-osint.png
         padding: 1rem;
         font-size: 90%;
         text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -46,13 +48,13 @@ Thank you, and enjoy.
 
 ## I don't dream about noodles, dad 🐼
 
-<p class="box">
+<div class="box">
     Whose signature is found beneath Po's foot?<br>
     Flag format - <code>byuctf{Firstname_Lastname}</code><br>
     <br>
     <img src="/asset/byu/po1.png" width=200 alt="Po from Kung Fu Panda">
     <sub>po.png</sub>
-</p>
+</div>
 
 I did a quick [Google Lens](https://lens.google/) search with my phone with the keyword "BYU" attached and [this](https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/) article turned up:
 
@@ -67,14 +69,14 @@ Since the tribute is for Jason Turner, we can assume the signature is below his 
 
 ## Oh The Vanity 🌐
 
-<p class="box">
+<div class="box">
 The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>
 Flag format: <code>byuctf{mm-dd-yyyy}</code>
 <br>
 <br>
 <img width=600 src="/asset/byu/sharky1.png" alt="sharky.png">
 <sub>sharky.jpg</sub>
-</p>
+</div>
 
 Reverse Google Search with a "phishing" crib:
 
@@ -87,12 +89,12 @@ The flag is `byuctf{05-11-22}`.
 
 ## B0uld3r1ng 🧗
 
-<p class="box">
+<div class="box">
 I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?
 <br><br>
 <img width=600 src="/asset/byu/bouldering1.png" alt="b0uld3r1ng.png">
 <sub>b0uld3r1ng.png</sub>
-</p>
+</div>
 
 Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the `Lizard's Mouth Rock` in Santa Barbara County, California:
 
@@ -122,12 +124,12 @@ The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 
 ## Squatter's Rights 💦
 
-<p class="box">
+<div class="box">
 Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??
 <br><br>
 <img width=600 src="/asset/byu/squatter1.png">
 <sub><i>geoguesser.png</i></sub>
-</p>
+</div>
 
 Hey, look! Another Google Lens problem! Although there's a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:
 
@@ -176,10 +178,10 @@ Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "Fro
 
 ## Okta? More like OhNah 💾
 
-<p class="box">Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".
+<div class="box">Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".
 <br><br>
 flag: <code>byuctf{answer_Timestamp in format: HH:MM}</code> two word answer seperated by an underscore.
-</p>
+</div>
 
 Looks like a challenge regarding an imfamous hacking group. Seeing that the flag asks for a timestamp and the language is pseudo-colloquial, I'd safely assume that this text mentioned somewhere came from a messaging board. I downloaded *Telegram*, their main method of communication with the real world, joining their [announcements board](https://t.me/minsaudebr), yet upon a <kbd>Ctrl</kbd> + <kbd>F</kbd> I couldn't find this message anywhere. Their board mentions a [group chat](https://t.me/saudechat), but it was recently purged and terminated. When the admin confirmed that this wasn't the intended solution, I moved towards looking for screenshots surrounding the Okta leak. Our team found this [tweet from John Hammond](https://twitter.com/_JohnHammond/status/1506166671664463875) after a while:
 
@@ -196,13 +198,13 @@ Would have been easier. Love you, John Hammond.
 
 ## Murder Mystery 🧢
 
-<p class="box">While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>
+<div class="box">While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>
 <code>0110111001110010011010000111000001101001011001000100110001001011110100001111</code><br>
 June 29, 1902<br><br>
 Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?<br>
 Flag - <code>byuctf{inscription_with_underscores}</code><br>
 Note, the flag will not include the name or dates found in the inscription.
-</p>
+</div>
 
 Instantly, we moved to [Cyberchef](https://gchq.github.io/CyberChef/) for the binary conversion, and it resulted in `nrhpidLKÐ`. We thought it was garbage at first, until a teammate noticed "NRHP ID" within the string, which is related to the [National Register of Historic Places](https://history.idaho.gov/nrhp/). Since there's a historic date also in the description, we can immediately conclude that this is the correct path to take. We isolated the last part and converted it into decimal instead - `80002319`.
 
@@ -218,11 +220,11 @@ Removing the dates and names as the description specifies, the flag is `byuctf{m
 
 ## Buckeye Billy Birthday 💙
 
-<p class="box">
+<div class="box">
 Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>
 <a href="https://mywordle.strivemath.com/?word=sokhc">Hint 1</a>  <a href="https://mywordle.strivemath.com/?word=yocod">Hint 2</a>  <a href="https://mywordle.strivemath.com/?word=lffep">Hint 3</a><br>
 format: <code>byuctf{storename}</code>
-</p>
+</div>
 
 I took a look at the three hints, and they were Wordle games that resulted in `WATER`, `CALLS`, and `PROBE`. Since we were looking for a shop (meaning a location), we immediately turned to [what3words](https://what3words.com/) and stumbled across [this location](https://what3words.com/water.calls.probe) in Charlotte, Ohio:
 
@@ -250,9 +252,9 @@ The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb.
 
 ## Buckeye Billy Blabbin' 💬
 
-<p class="box">Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!<br>
+<div class="box">Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!<br>
 Flag will be completely visible once solved! You will see <code>byuctf{}</code>.
-</p>
+</div>
 
 Step 0 is to find his social media account, which we did by searching "Buckeye Billy" on [Twitter](https://twitter.com/William_buckeye):
 
@@ -320,10 +322,11 @@ The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Scr
 
 ## 43 🎼
 
-<p class="box">
+<div class="box">
 It’s at your fingertips!! Who made this code?<br><br>
 <code>S fsu om yjr aogr 3"45`</code><br><br>
-format: <code>byuctf{blank_blank}</code></p>
+format: <code>byuctf{blank_blank}</code>
+</div>
 
 Looks like something the [DCode Cipher Identifier](https://www.dcode.fr/cipher-identifier) could figure out:
 
