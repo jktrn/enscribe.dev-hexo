@@ -83,10 +83,15 @@ z = [a[int(i) % 37] for i in y]
 print("picoCTF{"+''.join(z)+"}")
 ```
 
-```text
-$ python3 solve.py
-picoCTF{R0UND_N_R0UND_********}
-```
+<figure class="highlight text">
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="line"><span class="line"><span class="meta prompt_">$ </span>python3 solve.py</span><br><span class="line">picoCTF&#123;R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>&#125;</span><br></pre>
+      </td>
+    </tr>
+  </table>
+</figure>
 
 ---
 
@@ -135,8 +140,14 @@ function modInverse(a, b) {
 }
 ```
 
-```text
-picoCTF{1NV3R53LY_H4RD_********}
-```
+<figure class="highlight text">
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="line">picoCTF&#123;1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>&#125;</span><br></pre>
+      </td>
+    </tr>
+  </table>
+</figure>
 
 <a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

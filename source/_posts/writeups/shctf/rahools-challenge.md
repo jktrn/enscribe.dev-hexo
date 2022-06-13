@@ -38,64 +38,16 @@ thumbnail: /asset/banner/banner-rahool.png
 
   Let's open that `netcat` link to see what's going on:
 
-  ```text
-$ nc 0.cloud.chals.io 10294
-                                   ,/(####((((/**.                                                  
-                             *#%%%%%%%%%%%%%%########(#####((((/*,                                  
-                          ,&&&&&&&&%%%%%%%%%%%%%%%%%%%%%%%%#(##((((///*                              
-                       .#&&&&&&&&&&&&&&&&&%%%%%%%%%&&%%%%###((((*,.     ...                          
-                     .%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%%%%%%%,.,               .                       
-                     #&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%%%%,,,, .. ..             .                    
-                    *&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,*,*,,,,..,                .                  
-                   .%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&(*****,//,..., ,.  .  .,..                       
-                   %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&,****,***,*.****... .*//((((/,                    
-                  (&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,***//**,**,*,***,,*((/////(##(*                   
-                 *&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&/,****,**,**,,*,*,,/##/////((/(%#/.,                 
-                 %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&,,*********/,,*/*,/%&########%%#(%/..                 
-                (&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,,,,***,**,**//*,,(&%###%%%%%#((&&%%(.                 
-               .&&&&&&&&&&&&&&&&&&&&&&&&&&&&****,*/,*,**/***,,,%&####%&%%%%#/*#&&&(/,                
-               #&&&&&&&&&&&&&&&&&&&&&&&&&&&,*,,,*/,**///*,**,/&&#(*.,%%%(/(%(#(&&&#(.                
-              .&&&&&&&&&&&&&&&&&&&&&&&&&&(,*,**********/,**/%&&%%%(. .###(/*/(%&&&#*,                
-              #&&&&&&&&&&&&&&&&&&&&&&&&@*,**,**,,/*/*,,,,/&@&#%%%##(,  ,,,,.. /&&&/,,                
-              %&&&&&&&&&&&&&&&&&&&&&&&&,,,**,,,*,*****,/%@@%#####%%#,.    ..  *&&%(.                 
-             ,&&&&&&&&&&&&&&&&&&&&&&&&*,*,**/,*,,***,/#@@%((((%#####(,.      .*&&#(,                 
-             (&&&@&&&&&&@@&&&&&&&&&&&,,**,,*,/****,*(&@&(((##&&&&&&%##(/,. ...(&&#,                  
-             ,&&&&&&&&&&&&&&&&&&&&&,**,***,*,**/#@&###(#((#####((/*,,*,.. ...,&%* .                  
-             ,&&&&&&&&&&&&&&&&&&&@****/**/,,***&@&%######%%&&&&%#######%#,,..#&#, .                  
-              %&&&&&&&&&&&&&&&&&&%,****/*,,,(&@&&%%%#####(############(*../,.%%(, .                  
-              /&&&&&&&&&&&&&&&&&&/,***,***,/&@&%%%%%#########((/*,,,,,,,...,*&#( ,                   
-              ,&&&&&&&&&&&&&&&&&&,***,,,**,%@&&&%%%%#########(/*,.       ...#%(/ .                   
-              %&&&&&&&&&&&&&&@&&#**,**///*/@&&&&&&&%%%%%%%%#####(/**,,...../%#(,.                    
-             (&&&&&&&&&&&&&&&&&@/,*/,/*//**&&&@@@&&&&&&&&%%%%%%%%%%#%#(*,*####(*,                    
-            ,%%&&&&&&&&&&&&&&&&&*,*/***/**,%&%&@@@@@@@@@@&&&&&%%%%%%##(, ./(##(,,                    
-            **,,*(#&&&&&&&&&&&&#*,/***/*/,,(&#(#(((##%&&&&&&&&&%%####/.   ,/(((*.                    
-           ******,,**(%&&&&&&&%/***(******.*%#%%%###(#((((##(*.            ,/((,                     
-          ,******,**,,***#%&&&%*,,,/*/,*/*..&%########((((##(/*,.            //.                     
-          ,***********//*,,**/(****/*//*//, &&&%#%%%%###(((////(**..         ,///*******,.           
-           ((,,****/********/*//***///(/**, %&@&&#(######((((/**, .   .       //#%&&&&&%(***/,       
-       ,#&&&&&&%*,*//*****,***/(/**/////***.%@@@@&%##(/(/((((#((/,..    .    .//(#%&&&&%(********    
- @%%%%%&&@@@@@@@@@@(*****//**/*///**/((*/**.&@@@@@&&%%%##(/*,,/..... .     . *((#/*####(/***/********
- &@@@@&%##%%&&&@@@@@@@&(**/*/*///(/////(///.@@@@@@@&&&%%&%###((**/....   ,, .#((#//((#(/***//******/*
- &&%%&@@@@&%%%%%%%%%&&@@@&/*//***/(///(///*.&&@@@@@@@@@&%#%%####((,*,,.,,,  (#(##/(##(******/*****///
- %%%%%&@@&&&&&@@@&&&&%%%%&&@@/****/#(//(//,,&&@&&@@@@@@@@&&%#(#%%/#/.,... ,#((/*//**(******/*****////
- %%%%&&%&&&%%%%%%###%%&&&&&%%%&#*///((///* /&&@@@@@@@@@@@@@@@&%(/*,,.. *#%#*****///**/****/*****////*
- &&&&&&&&&&&&&&&%%%%%%#%######((//////(*(, (&#,(((##(##((##&&&%%#/****//(((%%**//*///((/(/****//(/***
- %%##########((((//(/(///////////(((((///,*////((((((((/(((((#(((((//***///((%%*///////((/(*//(/****/
- &&&&&&&&&&&&&&&&&&&&&&&&%###((((/////////(((((((#(######(((//////(///((//***//&(*///*////((((/**///*
- &&&&&&&&@&&&&&&&&&&&&&&&%####(((((//////(///////((((((///(((((((((((((/////////(&/*/////**/(((/*///*
- &&&&&&&&&&&&&&&&&&&&&&&&&%#((((((((((//////////////////////((((((((((////////////(%/**//*/*///(/////
- &&&&&&&&&&&&&&&&&&&&&%###(#####(((////////***/*/////*////////////////////////////(#&&(**////***/((#(
- &&&&&&&&%&%%%%%%%%#####%%##((((((((/((////////*/*****////////*/*//////////(((####((/##**/****//,
+  <figure class="highlight text">
+    <table>
+      <tr>
+        <td class="code">
+          <pre><span class="line"><span class="line"><span class="meta prompt_">$ </span>nc 0.cloud.chals.io 10294</span><br><span class="line">                                   ,/(####((((/**.                                                  </span><br><span class="line">                             *#%%%%%%%%%%%%%%########(#####((((/*,                                  </span><br><span class="line">                          ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%%%%%%%%%%%%%%%#(##((((///*                              </span><br><span class="line">                       .#&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%&amp;&amp;%%%%###((((*,.     ...                          </span><br><span class="line">                     .%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%,.,               .                       </span><br><span class="line">                     #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%,,,, .. ..             .                    </span><br><span class="line">                    *&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,*,*,,,,..,                .                  </span><br><span class="line">                   .%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;(*****,//,..., ,.  .  .,..                       </span><br><span class="line">                   %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,****,***,*.****... .*//((((/,                    </span><br><span class="line">                  (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,***//**,**,*,***,,*((/////(##(*                   </span><br><span class="line">                 *&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;/,****,**,**,,*,*,,/##/////((/(%#/.,                 </span><br><span class="line">                 %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,*********/,,*/*,/%&amp;########%%#(%/..                 </span><br><span class="line">                (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,,,,***,**,**//*,,(&amp;%###%%%%%#((&amp;&amp;%%(.                 </span><br><span class="line">               .&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;****,*/,*,**/***,,,%&amp;####%&amp;%%%%#/*#&amp;&amp;&amp;(/,                </span><br><span class="line">               #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,*,,,*/,**///*,**,/&amp;&amp;#(*.,%%%(/(%(#(&amp;&amp;&amp;#(.                </span><br><span class="line">              .&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;(,*,**********/,**/%&amp;&amp;%%%(. .###(/*/(%&amp;&amp;&amp;#*,                </span><br><span class="line">              #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@*,**,**,,/*/*,,,,/&amp;@&amp;#%%%##(,  ,,,,.. /&amp;&amp;&amp;/,,                </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,,**,,,*,*****,/%@@%#####%%#,.    ..  *&amp;&amp;%(.                 </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;*,*,**/,*,,***,/#@@%((((%#####(,.      .*&amp;&amp;#(,                 </span><br><span class="line">             (&amp;&amp;&amp;@&amp;&amp;&amp;&amp;&amp;&amp;@@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,**,,*,/****,*(&amp;@&amp;(((##&amp;&amp;&amp;&amp;&amp;&amp;%##(/,. ...(&amp;&amp;#,                  </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,**,***,*,**/#@&amp;###(#((#####((/*,,*,.. ...,&amp;%* .                  </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@****/**/,,***&amp;@&amp;%######%%&amp;&amp;&amp;&amp;%#######%#,,..#&amp;#, .                  </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%,****/*,,,(&amp;@&amp;&amp;%%%#####(############(*../,.%%(, .                  </span><br><span class="line">              /&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;/,***,***,/&amp;@&amp;%%%%%#########((/*,,,,,,,...,*&amp;#( ,                   </span><br><span class="line">              ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,***,,,**,%@&amp;&amp;&amp;%%%%#########(/*,.       ...#%(/ .                   </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@&amp;&amp;#**,**///*/@&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%#####(/**,,...../%#(,.                    </span><br><span class="line">             (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@/,*/,/*//**&amp;&amp;&amp;@@@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%#%#(*,*####(*,                    </span><br><span class="line">            ,%%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;*,*/***/**,%&amp;%&amp;@@@@@@@@@@&amp;&amp;&amp;&amp;&amp;%%%%%%##(, ./(##(,,                    </span><br><span class="line">            **,,*(#&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#*,/***/*/,,(&amp;#(#(((##%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%####/.   ,/(((*.                    </span><br><span class="line">           ******,,**(%&amp;&amp;&amp;&amp;&amp;&amp;&amp;%/***(******.*%#%%%###(#((((##(*.            ,/((,                     </span><br><span class="line">          ,******,**,,***#%&amp;&amp;&amp;%*,,,/*/,*/*..&amp;%########((((##(/*,.            //.                     </span><br><span class="line">          ,***********//*,,**/(****/*//*//, &amp;&amp;&amp;%#%%%%###(((////(**..         ,///*******,.           </span><br><span class="line">           ((,,****/********/*//***///(/**, %&amp;@&amp;&amp;#(######((((/**, .   .       //#%&amp;&amp;&amp;&amp;&amp;%(***/,       </span><br><span class="line">       ,#&amp;&amp;&amp;&amp;&amp;&amp;%*,*//*****,***/(/**/////***.%@@@@&amp;%##(/(/((((#((/,..    .    .//(#%&amp;&amp;&amp;&amp;%(********    </span><br><span class="line"> @%%%%%&amp;&amp;@@@@@@@@@@(*****//**/*///**/((*/**.&amp;@@@@@&amp;&amp;%%%##(/*,,/..... .     . *((#/*####(/***/********</span><br><span class="line"> &amp;@@@@&amp;%##%%&amp;&amp;&amp;@@@@@@@&amp;(**/*/*///(/////(///.@@@@@@@&amp;&amp;&amp;%%&amp;%###((**/....   ,, .#((#//((#(/***//******/*</span><br><span class="line"> &amp;&amp;%%&amp;@@@@&amp;%%%%%%%%%&amp;&amp;@@@&amp;/*//***/(///(///*.&amp;&amp;@@@@@@@@@&amp;%#%%####((,*,,.,,,  (#(##/(##(******/*****///</span><br><span class="line"> %%%%%&amp;@@&amp;&amp;&amp;&amp;&amp;@@@&amp;&amp;&amp;&amp;%%%%&amp;&amp;@@/****/#(//(//,,&amp;&amp;@&amp;&amp;@@@@@@@@&amp;&amp;%#(#%%/#/.,... ,#((/*//**(******/*****////</span><br><span class="line"> %%%%&amp;&amp;%&amp;&amp;&amp;%%%%%%###%%&amp;&amp;&amp;&amp;&amp;%%%&amp;#*///((///* /&amp;&amp;@@@@@@@@@@@@@@@&amp;%(/*,,.. *#%#*****///**/****/*****////*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%#%######((//////(*(, (&amp;#,(((##(##((##&amp;&amp;&amp;%%#/****//(((%%**//*///((/(/****//(/***</span><br><span class="line"> %%##########((((//(/(///////////(((((///,*////((((((((/(((((#(((((//***///((%%*///////((/(*//(/****/</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%###((((/////////(((((((#(######(((//////(///((//***//&amp;(*///*////((((/**///*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%####(((((//////(///////((((((///(((((((((((((/////////(&amp;/*/////**/(((/*///*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%#((((((((((//////////////////////((((((((((////////////(%/**//*/*///(/////</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%###(#####(((////////***/*/////*////////////////////////////(#&amp;&amp;(**////***/((#(</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%&amp;%%%%%%%%#####%%##((((((((/((////////*/*****////////*/*//////////(((####((/##**/****//,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY </span><br><span class="line">TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">We&#x27;ve found ourselves an encrypted engram - Can you break the (new and improved) indecipherable cipher?</span><br><span class="line">Message:A + Key:B = 0 + B = O</span><br><span class="line">Enter the answer with no spaces and all upper case:</span><br></pre>
+        </td>
+      </tr>
+    </table>
+  </figure>
 
-
-ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY 
-TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB
-
-
-We've found ourselves an encrypted engram - Can you break the (new and improved) indecipherable cipher?
-Message:A + Key:B = 0 + B = O
-Enter the answer with no spaces and all upper case:
-  ```
 
   For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, **Rahool** is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
   
@@ -109,7 +61,7 @@ Enter the answer with no spaces and all upper case:
   
   To encrypt using addition, take the position in the alphabet of the first letter in your plaintext (make sure it starts at 0, i.e. A = 0, B = 1, C = 2) and add it with the position of your key (if the key was "key", the position would be 10 as K = 10). Then, take the **modulo** 26 (divide by 26 to get the remainder, symbol `%`), as some numbers add up to greater than 26.
 
-  ```text
+  {% codeblock line_number:false %}
   Plaintext: hello
   Key: key
   h (07) + k (10) = r (17 % 26 = 17)
@@ -118,13 +70,13 @@ Enter the answer with no spaces and all upper case:
   l (11) + k (10) = v (21 % 26 = 21) <- Note that the key cycles
   o (14) + e (04) = s (18 % 26 = 18)
   Ciphertext: rijvs
-  ```
+  {% endcodeblock %}
 
   In a formula, where A is the plaintext's alphabetic position and B is the key's alphabetic position, in that would be:
 
-  ```text
+  {% codeblock line_number:false %}
   C = (A + B) % 26
-  ```
+  {% endcodeblock %}
   
   It'll be a more manual process (albeit more fun) for encrypting via table/tabula recta. Let's check out what it looks like (Source: [Wikipedia](https://en.wikipedia.org/wiki/Tabula_recta)):
   
@@ -164,14 +116,14 @@ I solved this challenge via **known-plaintext attack**. Yeah, it sounds fancy. B
   
   Let's follow this process for the actual plaintext/ciphertext:
 
-```text
+{% codeblock line_number:false %}
 Ciphertext: ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY 
 TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB
 Plaintext: NICE JOB DECRYPTING INPUT THE ANSWER AS THE KEY WITH THE E AS A THREE THE O AS A ZERO WITH THE WORD
 ENGRAM AFTER WITH THE A AS A FOUR AND AOGNER RIGHT AFTER
-```
+{% endcodeblock %}
 
-```text
+{% codeblock line_number:false %}
 E + N -> E
 S + I -> X
 D + C -> O
@@ -186,7 +138,7 @@ M + R -> I
 N + Y -> C
 G + P -> E
 ...
-```
+{% endcodeblock %}
 
 The key is `EXOTIC`, as in how Master Rahool sells exotic engrams. Very funny.
 We can now follow the instructions in the plaintext and send it to the server with Python and `pwntools`:
@@ -202,11 +154,15 @@ p.close()
 
 Sending the string:
 
-```console
-$ python3 exp.py
-...
-[+] Excellent work, you'll be a cryptarch yet. Here's your flag: shctf{c0Me_baCk_s0on_w3_n33d_the_chAll3nge}
-```
+<figure class="highlight console">
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 exp.py</span></span><br><span class="line">...</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you&#x27;ll be a cryptarch yet. Here&#x27;s your flag: shctf&#123;c0Me_baCk_s0on_w3_n33d_the_chAll3nge&#125;</span><br></pre>
+      </td>
+    </tr>
+  </table>
+</figure>
 
 We just solved `Rahool's Challenge` without needing to write any algorithms!
 

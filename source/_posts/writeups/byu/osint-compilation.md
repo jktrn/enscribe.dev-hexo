@@ -193,7 +193,7 @@ flag: <code>byuctf{answer_Timestamp in format: HH:MM}</code> two word answer sep
 
 Looks like a challenge regarding an infamous hacking group. Seeing that the flag asks for a timestamp and the language is pseudo-colloquial, I'd safely assume that this text mentioned somewhere came from a messaging board. I downloaded *Telegram*, their main method of communication with the real world, joining their [announcements board](https://t.me/minsaudebr), yet upon a <kbd>Ctrl</kbd> + <kbd>F</kbd> I couldn't find this message anywhere. Their board mentions a [group chat](https://t.me/saudechat), but it was recently purged and terminated. When the admin confirmed that this wasn't the intended solution, I moved towards looking for screenshots surrounding the Okta leak. Our team found this [tweet from John Hammond](https://twitter.com/_JohnHammond/status/1506166671664463875) after a while:
 
-<blockquote class="twitter-tweet" align=center width=500 data-lang="en" data-theme="dark"><p lang="en" dir="ltr">even da big ones<br>[shocked pikachu] <a href="https://t.co/YsvMMNQDPG">pic.twitter.com/YsvMMNQDPG</a></p>&mdash; John Hammond (@_JohnHammond) <a href="https://twitter.com/_JohnHammond/status/1506166671664463875?ref_src=twsrc%5Etfw">March 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet tw-align-center" width=500 data-lang="en" data-theme="dark"><p lang="en" dir="ltr">even da big ones<br>[shocked pikachu] <a href="https://t.co/YsvMMNQDPG">pic.twitter.com/YsvMMNQDPG</a></p>&mdash; John Hammond (@_JohnHammond) <a href="https://twitter.com/_JohnHammond/status/1506166671664463875?ref_src=twsrc%5Etfw">March 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 The flag is `byuctf{port_scanning_11:22}`.
 
@@ -218,7 +218,7 @@ Instantly, we moved to [Cyberchef](https://gchq.github.io/CyberChef/) for the bi
 
 Following the trail for `NRHP ID 80002319`, we found this [UpWiki Page](https://en.upwiki.one/wiki/Jesse_James_Home_Museum) About the "Jesse James Home Museum", which is the location registered under this ID.
 
-When I looked up "jesse james famous inscription", I found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James; grave:
+When I looked up "jesse james famous inscription", I found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James' grave:
 
 <img src="/asset/byu/mystery1.png" width=600>
 
@@ -318,7 +318,7 @@ We decided it would be best to create a list of songs, in addition to counting o
 
 Hey, check that out in the Songs list. "3 Words", "One Place", "Greater", "Ice Cream"? That sounds a lot like our previous challenge, `Buckeye Billy Birthday`. Looks like these were meant to be solved in tandem. By extension, "Man in the Mirror" and "Magic Mirror" were also hinted at, and we found a [tweet](https://twitter.com/William_buckeye/status/1515113600750219265) of Billy posing in front of a mirror with a BYU hat. Uncoincidentally, this is the only mention of BYU in his entire profile (I believe):
 
-<blockquote align=center class="twitter-tweet" data-lang="en" data-theme="dark"><p lang="en" dir="ltr">thanks <a href="https://twitter.com/byu_cosmo?ref_src=twsrc%5Etfw">@byu_cosmo</a> for the great hat! <a href="https://t.co/IbPentkUgE">pic.twitter.com/IbPentkUgE</a></p>&mdash; #1 Buckeye Fan billy (@William_buckeye) <a href="https://twitter.com/William_buckeye/status/1515113600750219265?ref_src=twsrc%5Etfw">April 15, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet tw-align-center" data-lang="en" data-theme="dark"><p lang="en" dir="ltr">thanks <a href="https://twitter.com/byu_cosmo?ref_src=twsrc%5Etfw">@byu_cosmo</a> for the great hat! <a href="https://t.co/IbPentkUgE">pic.twitter.com/IbPentkUgE</a></p>&mdash; #1 Buckeye Fan billy (@William_buckeye) <a href="https://twitter.com/William_buckeye/status/1515113600750219265?ref_src=twsrc%5Etfw">April 15, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 My team used steganography tools on this image, and lo and behold:
 
