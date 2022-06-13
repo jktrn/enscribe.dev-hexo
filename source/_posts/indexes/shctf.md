@@ -9,17 +9,20 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 <style>
     .box {
-        border: 1px solid rgba(100, 100, 100, .5);
+        border: 1px solid #212326;
+        border-radius: 5px;
+        background-color: #212326;
         padding: 1rem;
         font-size: 90%;
         text-align: center;
         margin-bottom: 1rem;
     }
-
-    .flex-container {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
+    
+    .no-highlight {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 
     .column {
@@ -64,13 +67,13 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
             <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/vader/">Vader</a></sub>
         </div>
         <div class="column">
-            <a href="/ctfs/shctf/pwn/warmup-to-the-dark-side/"><img src="/asset/banner/banner-dark-side.png" style="width:100%"></a>
+            <a href="/ctfs/shctf/pwn/warmup-to-the-dark-side/"><img src="/asset/banner/banner-darkside.png" style="width:100%"></a>
             <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/warmup-to-the-darkside/">Warmup to the Dark Side</a></sub>
         </div>
     </div>
 </div>
 
-<div class="box">
+<div class="box no-highlight">
     <details>
         <summary><b>View Team Board:</b></summary>
 
