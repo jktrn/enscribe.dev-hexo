@@ -91,7 +91,7 @@ permalink: /profiles/
     }
 </style>
 
-## 👤 personal
+## Personal 👤
 
 <button class="pushable">
     <a href="https://enscribe.dev/profile/discord">
@@ -135,7 +135,7 @@ permalink: /profiles/
 
 ---
 
-## 🎮 gaming
+## Gaming 🎮
 
 <button class="pushable">
     <a href="https://enscribe.dev/profile/osu">

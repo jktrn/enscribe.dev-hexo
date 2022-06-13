@@ -7,16 +7,16 @@ hidden: true
 layout: page
 ---
 
-| Placement    | Name                             | Date       | Team            | Weight | Writeups                    | CTFtime                                       |
-|--------------|----------------------------------|------------|-----------------|--------|-----------------------------|-----------------------------------------------|
-|              |                                  |            |                 |        | ⠀                           | ⠀                                             |
-| 01 of 435 🥇 | 🐱 [BYUCTF 2022](/ctfs/byu/)     | 05/29/2022 | `Project Sekai` | 42.74  | [click here!](/tags/byu/)   | [click here!](https://ctftime.org/event/1588) |
-| 02 of 436 🥈 | 🦅 [PatriotCTF](/ctfs/patriot/)  | 04/29/2022 | `View Source`   | 34.71  | n/a                         | [click here!](https://ctftime.org/event/1616) |
-| 03 of 758 🥉 | 👥 [CrewCTF 2022](/ctfs/crew/)   | 04/15/2022 | `Project Sekai` | 25.13  | n/a                         | [click here!](https://ctftime.org/event/1568) |
-| 06 of 3273   | 🏴 [NahamCon 2022](/ctfs/naham/) | 04/28/2022 | `Project Sekai` | 25.38  | n/a                         | [click here!](https://ctftime.org/event/1630) |
-| 07 of ~55    | 💾 [TSA CTF 2021](/ctfs/tsa21/)  | 06/01/2021 | `VHTPA`         | n/a    | n/a                         | n/a                                 |
-| 36 of 778    | 🌌 [Space Heroes](/ctfs/shctf/)  | 04/01/2022 | `WhileSEC`      | n/a    | [click here!](/tags/shctf)  | [click here!](https://ctftime.org/event/1557) |
-| 86 of 1329 * | 🚩 [picoCTF 2022](/ctfs/pico22/) | 03/15/2022 | `NLE CHAKRA`    | n/a    | [click here!](/tags/pico22) | [click here!](https://ctftime.org/event/1569) |
+| Placement    | Name                             | Date       | Team            | Weight | Writeups                               | CTFtime                                       |
+|--------------|----------------------------------|------------|-----------------|--------|----------------------------------------|-----------------------------------------------|
+|              |                                  |            |                 |        | ⠀                                      | ⠀                                             |
+| 01 of 435 🥇 | 🐱 [BYUCTF 2022](/ctfs/byu/)     | 05/29/2022 | `Project Sekai` | 42.74  | [click here!](/categories/ctfs/byu/)   | [click here!](https://ctftime.org/event/1588) |
+| 02 of 436 🥈 | 🦅 [PatriotCTF](/ctfs/patriot/)  | 04/29/2022 | `View Source`   | 34.71  | n/a                                    | [click here!](https://ctftime.org/event/1616) |
+| 03 of 758 🥉 | 👥 [CrewCTF 2022](/ctfs/crew/)   | 04/15/2022 | `Project Sekai` | 25.13  | n/a                                    | [click here!](https://ctftime.org/event/1568) |
+| 06 of 3273   | 🏴 [NahamCon 2022](/ctfs/naham/) | 04/28/2022 | `Project Sekai` | 25.38  | n/a                                    | [click here!](https://ctftime.org/event/1630) |
+| 07 of ~55    | 💾 [TSA CTF 2021](/ctfs/tsa21/)  | 06/01/2021 | `VHTPA`         | n/a    | n/a                                    | n/a                                           |
+| 36 of 778    | 🌌 [Space Heroes](/ctfs/shctf/)  | 04/01/2022 | `WhileSEC`      | n/a    | [click here!](/categories/ctfs/shctf)  | [click here!](https://ctftime.org/event/1557) |
+| 86 of 1329 * | 🚩 [picoCTF 2022](/ctfs/pico22/) | 03/15/2022 | `NLE CHAKRA`    | n/a    | [click here!](/categories/ctfs/pico22) | [click here!](https://ctftime.org/event/1569) |
 
 ---
 

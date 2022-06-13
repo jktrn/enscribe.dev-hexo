@@ -1,10 +1,13 @@
 ---
 title: "pico22/pwn: Buffer overflow series"
 date: 2022-06-06 12:16:08
-tags:
-- ctf
+categories:
+- ctfs
 - pico22
 - pwn
+tags:
+- pwn
+- buffer-overflow
 description: "Learn how to exploit vulnerable C functions to break the program, eventually controlling the flow of code execution! This is a writeup for the picoCTF 2022 binary/pwn series \"Buffer overflow\"."
 permalink: ctfs/pico22/pwn/buffer-overflow-series/
 thumbnail: /asset/banner/banner-buffer-overflow.png

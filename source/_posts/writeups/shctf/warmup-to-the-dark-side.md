@@ -1,10 +1,13 @@
 ---
 title: "shctf/pwn: Warmup to the Dark Side"
 date: 2022-04-05 15:57:40
-tags:
-- ctf
+categories:
+- ctfs
 - shctf
 - pwn
+tags:
+- pwn
+- buffer-overflow
 description: "Learn how to stack smash an ASLR-enabled program... without the binary! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Warmup to the Dark Side\"."
 permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
 thumbnail: /asset/banner/banner-darkside.png

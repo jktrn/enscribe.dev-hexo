@@ -1,9 +1,11 @@
 ---
 title: "byu/osint: OSINT Compilation"
 date: 2022-05-28 18:02:04
-tags:
-- ctf
+categories:
+- ctfs
 - byu
+- osint
+tags:
 - osint
 description: "Here's my writeup for all BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
 permalink: ctfs/byu/osint/osint-compilation/

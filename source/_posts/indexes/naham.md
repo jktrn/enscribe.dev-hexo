@@ -48,7 +48,7 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 | Challenge            | Category  | Points | Time Solved             | Writeup |
 |----------------------|-----------|--------|-------------------------|---------|
-|⠀| | | | |
+| ⠀                    |           |        |                         |         |
 | Baby RSA Quiz        | crypto    | 50     | April 28th, 12:45:52 PM |         |
 | Unimod               | crypto    | 50     | April 28th, 1:29:11 PM  |         |
 | XORROX               | crypto    | 50     | April 28th, 12:57:16 PM |         |

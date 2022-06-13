@@ -1,10 +1,13 @@
 ---
 title: "pico22/crypto: basic-mod1/2"
 date: 2022-04-05 13:42:32
-tags:
-- ctf
+categories:
+- ctfs
 - pico22
 - crypto
+tags:
+- crypto
+- programming
 description: "Learn how to use JavaScript and Python3 to map numbers to character sets! This is my writeup for the picoCTF 2022 cryptography challenges \"basic-mod1/2\"."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
 thumbnail: /asset/banner/banner-basic-mod.png

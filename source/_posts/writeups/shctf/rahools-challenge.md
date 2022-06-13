@@ -1,10 +1,13 @@
 ---
 title: "shctf/crypto: Rahool's Challenge"
 date: 2022-04-04 21:28:13
-tags:
-- ctf
+categories:
+- ctfs
 - shctf
 - crypto
+tags:
+- crypto
+- vigenere
 description: "Learn how to manually build and apply a modified Vigenère Cipher! This is my writeup for the Space Heroes CTF cryptography challenge \"Rahool's Challenge\"."
 permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: /asset/banner/banner-rahool.png
