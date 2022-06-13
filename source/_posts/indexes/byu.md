@@ -37,6 +37,12 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 </div>
 
 <div class="box">
+    <b>Writeups</b>:<br><br>
+    <a href="/ctfs/byu/osint/osint-compilation/"><img width=400 src="/asset/banner/banner-osint.png"></a>
+    <sub>byu/osint: <a href="/ctfs/byu/osint/osint-compilation/">OSINT Compilation</a>
+</div>
+
+<div class="box">
     <details>
         <summary><b>View Solves:</b></summary>
         <br>

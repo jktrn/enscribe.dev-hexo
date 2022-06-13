@@ -36,11 +36,12 @@ So, we played BYU CTF 2022. There were **9 OSINT challenges**. 9. It was absolut
 
 Oh, also, here is a haiku to express my carnal, passionate, burning hatred for OSINT:
 
-> *"Eternal Resentment"*
+{% blockquote -enscribe %}
+*"Eternal Resentment"*
 Submerged in my tears,
 I yearn for painless release.
 The dreadful OSINT...
-> -- enscribe
+{% endblockquote %}
 
 Thank you, and enjoy.
 
@@ -141,18 +142,21 @@ Going to the [webpage](http://www.eureka4you.com/water-michigan/MI-Flint1.htm), 
 
 This is where the rabbit hole begins. I looked around the reviews section of this place and found the absolute weirdest, most hilarious reviews of all time:
 
-> Robert Skouson
+{% blockquote - Robert Skouson %}
 In all my days, I have never seen such a magnificent water tower.  Being in its presence has given me powers beyond comprehension.  I have mastered flight in the downward direction.  I have 100% recall of events that happened to me in the last 5 minutes.  I have also discovered I am completely invisible when no one is looking.   This water tower has changed my view of who I am, and my ultimate potential.
+{% endblockquote %}
 
 This guy even claims it to be holy water:
 
-> Nicholas Martinez
+{% blockquote - Nicholas Martinez %}
 This water from Wyatt P. Memorial Water tower has changed the way I see water, and drink it. Everytime I see this water tower, it makes me want quality water. Forget Poland Spring or Fiji. This is quality water! You know how in the Book of John Chapter 2, the Savior Jesus Christ turned water into wine? Well he actually turned already good wine to water from Wyatt P. Memorial Water tower.
+{% endblockquote %}
 
 This one might be my favorite:
 
-> McKay Lush
+{% blockquote-  McKay Lush %}
 Professionally speaking as a water tower enthusiast, this has to be one of the best water towers that I've ever visited and I've visited thousands. The divine structure of the 10 legs leading to the plumply, robust water basin is enough to get any man excited. The satisfying twang as you bang the side wall sends shivers down even the most hardened of souls. Never before has such a feat been attempted and accomplished. Truly this should be the EIGHTIETH WONDER OF THE WORLD.
+{% endblockquote %}
 
 I actually stumbled across the person it's named after, `Wyatt Pangerl`, and I was super curious as to what the hell was going on:
 

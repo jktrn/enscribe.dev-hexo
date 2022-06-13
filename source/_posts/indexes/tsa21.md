@@ -35,6 +35,11 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 </div>
 
 <div class="box">
+    <b>Writeups</b>:<br>
+    n/a
+</div>
+
+<div class="box">
     <details>
         <summary><b>View Team Board:</b></summary>
 

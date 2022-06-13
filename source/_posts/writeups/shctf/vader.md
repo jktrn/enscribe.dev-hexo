@@ -218,7 +218,7 @@ p.close()
 
 I don't usually do this, but here's a clip of me initially solving the challenge by running the above script:
 
-<div align="center"><iframe width="600" height="355" src="https://www.youtube.com/embed/rvMORfSC2CU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+{% youtube rvMORfSC2CU %}
 
 This is considered a "simple" challenge for those experienced with the field of return-oriented programming within pwn/binary challenges. However, I had none prior to this competition, so <kbd>Vader</kbd> was one of the most time-consuming and annoying challenges to work with. Yet, it was probably the most satisfying solve throughout the entire competition, and it was my first time utilizing gadgets and building a ROP chain. I hope you enjoyed!
 
