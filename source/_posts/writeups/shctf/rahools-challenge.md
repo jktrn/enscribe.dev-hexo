@@ -15,7 +15,9 @@ thumbnail: /asset/banner/banner-rahool.png
 
 <style>
     .box {
-        border: 1px solid rgba(100, 100, 100, .5);
+        border: 1px solid rgb(23, 25, 27);
+        border-radius: 5px;
+        background-color: rgb(23, 25, 27);
         padding: 1rem;
         font-size: 90%;
         text-align: center;
