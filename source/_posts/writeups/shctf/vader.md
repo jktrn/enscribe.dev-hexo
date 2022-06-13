@@ -102,7 +102,7 @@ void vader(char *param_1,char *param_2,char *param_3,char *param_4,char *param_5
 
 The goal is now clear: call the `vader()` function with five correct arguments to print the flag. Simple, right? Let's start building our chain.
 
-Firstly, we need to calculate our **offset**. Although we can brute this by simply pasing a `cyclic` string and seeing what's overwritten the `$rsp` register, we can see that in the `main()` function, 32 bytes are allocated to `char local_28`. If we add 8 bytes to cover the `$rbp` register, our offset is 40.
+Firstly, we need to calculate our **offset**. Although we can brute this by simply passing a `cyclic` string and seeing what's overwritten the `$rsp` register, we can see that in the `main()` function, 32 bytes are allocated to `char local_28`. If we add 8 bytes to cover the `$rbp` register, our offset is 40.
 
 Next in line is the process of getting our arguments on the stack. Arguments to be passed into functions are held in **registers** -- since this is a 64-bit binary, we need to figure out which ones we need to use to pass the correct arguments (`DARK`, `S1D3`, `OF`, `TH3`, `FORC3`) into `vader()`. Referencing [this x64 cheatsheet](https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf):
 

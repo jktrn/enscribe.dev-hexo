@@ -184,7 +184,7 @@ G + P -> E
 ```
 
 The key is `EXOTIC`, as in how Master Rahool sells exotic engrams. Very funny.
-We can now follow the instructions in the plantext and send it to the server with Python and `pwntools`:
+We can now follow the instructions in the plaintext and send it to the server with Python and `pwntools`:
 
 ```py
 from pwn import *

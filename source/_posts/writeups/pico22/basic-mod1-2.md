@@ -29,7 +29,7 @@ thumbnail: /asset/banner/banner-basic-mod.png
 ## basic-mod1
 
 <div class="box">
-We found this weird message being passed around on the servers, we think we have a working decrpytion scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)
+We found this weird message being passed around on the servers, we think we have a working decryption scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)
 </div>
 
 Let's go over what it's asking:

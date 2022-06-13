@@ -64,7 +64,7 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
             <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/vader/">Vader</a></sub>
         </div>
         <div class="column">
-            <a href="/ctfs/shctf/pwn/warmup-to-the-darkside/"><img src="/asset/banner/banner-darkside.png" style="width:100%"></a>
+            <a href="/ctfs/shctf/pwn/warmup-to-the-dark-side/"><img src="/asset/banner/banner-dark-side.png" style="width:100%"></a>
             <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/warmup-to-the-darkside/">Warmup to the Dark Side</a></sub>
         </div>
     </div>
