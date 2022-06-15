@@ -34,7 +34,7 @@ Ronan the Accuser has the Power Stone. Can Starlord find a successful distractio
 
 <figure class="highlight console">
   <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
-      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
     <table>
         <tr>
             <td class="code">

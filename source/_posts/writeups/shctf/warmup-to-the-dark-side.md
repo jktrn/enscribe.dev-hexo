@@ -51,7 +51,7 @@ In the code snippet below, I got the address provided in the prompt by reading t
 
 <figure class="highlight py">
     <figcaption><span>warmup-to-the-dark-side.py</span><a target="_blank" rel="noopener"
-      href="https://gist.github.com/jktrn/dd861b378b859a0588b48c71ad9fbf45"><span style="color:#82C4E4">github gist link</span></a></figcaption>
+      href="https://gist.github.com/jktrn/dd861b378b859a0588b48c71ad9fbf45"><span style="color:#82C4E4">[github gist link]</span></a></figcaption>
     <table>
         <tr>
             <td class="gutter">

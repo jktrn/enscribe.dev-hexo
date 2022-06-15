@@ -57,7 +57,7 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 
 <figure class="highlight console">
   <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
-      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
   <table>
     <tr>
       <td class="code">
@@ -169,7 +169,7 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 <figure class="highlight console">
   <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
-      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
 <table><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-1/vuln&apos;
     Arch:     i386-32-little
@@ -248,7 +248,7 @@ To start, we first need to figure out our "offset". The offset is the distance, 
 
 <figure class="highlight text">
   <figcaption><span>GEF - "GDB enhanced features"</span><a target="_blank" rel="noopener"
-      href="https://gef.readthedocs.io/en/master/"><span style="color:#82C4E4">documentation</span></a></figcaption>
+      href="https://gef.readthedocs.io/en/master/"><span style="color:#82C4E4">[documentation]</span></a></figcaption>
 <table><tr><td class="code"><pre><span style="color:#EC0101"><b>gef➤  </b></span>b main
 Breakpoint 1 at <span style="color:#367BF0">0x80492d7</span>
 <span style="color:#EC0101"><b>gef➤  </b></span>r
@@ -346,7 +346,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 <figure class="highlight plaintext">
   <figcaption><span>GEF pattern command</span><a target="_blank" rel="noopener"
-      href="https://gef.readthedocs.io/en/master/commands/pattern/"><span style="color:#82C4E4">documentation</span></a></figcaption>
+      href="https://gef.readthedocs.io/en/master/commands/pattern/"><span style="color:#82C4E4">[documentation]</span></a></figcaption>
   <table>
     <tr>
       <td class="code">
@@ -365,7 +365,7 @@ To figure out which offset we need to use, we can use `readelf` to analyze heade
 
 <figure class="highlight console">
   <figcaption><span>readelf command</span><a target="_blank" rel="noopener"
-      href="https://man7.org/linux/man-pages/man1/readelf.1.html"><span style="color:#82C4E4">documentation</span></a></figcaption>
+      href="https://man7.org/linux/man-pages/man1/readelf.1.html"><span style="color:#82C4E4">[documentation]</span></a></figcaption>
   <table>
     <tr>
       <td class="code">
@@ -380,7 +380,7 @@ Our binary is in little endian, we know that 44 `A`s are needed in order to reac
 
 <figure class="highlight text">
   <figcaption><span>GDB x command</span><a target="_blank" rel="noopener"
-      href="https://visualgdb.com/gdbreference/commands/x"><span style="color:#82C4E4">documentation</span></a></figcaption>
+      href="https://visualgdb.com/gdbreference/commands/x"><span style="color:#82C4E4">[documentation]</span></a></figcaption>
   <table>
     <tr>
       <td class="code">
@@ -401,7 +401,7 @@ Let's write our payload and send it to the remote server with Python3/pwntools:
 
 <figure class="highlight py">
   <figcaption><span>buffer-overflow-1.py</span><a target="_blank" rel="noopener"
-      href="https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394"><span style="color:#82C4E4">github gist link</span></a></figcaption>
+      href="https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394"><span style="color:#82C4E4">[github gist link]</span></a></figcaption>
   <table><tr><td class="gutter">
         <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
       </td>

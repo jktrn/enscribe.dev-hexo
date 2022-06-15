@@ -35,7 +35,7 @@ Submit flag from <code>/flag.txt</code> from <code>0.cloud.chals.io:20712</code>
 
 <figure class="highlight console">
   <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
-      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">github link</span></a></figcaption>
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
     <table>
             <td class="code">
                  <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">checksec vader</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/shctf/pwn/vader/vader'</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    <span style="color:#FEA44C">Partial RELRO</span></span><br><span class="line">    Stack:    <span style="color:#D41919">No canary found</span></span><br><span class="line">    NX:       <span style="color:#5EBDAB">NX enabled</span></span><br><span class="line">    PIE:      <span style="color:#D41919">No PIE (0x400000)</span></span><br></pre>
@@ -143,7 +143,7 @@ To find the gadgets we need, we will be utilizing a program called `ropper` and 
 
 <figure class="highlight console">
   <figcaption><span>ropper.py usage</span><a target="_blank" rel="noopener"
-      href="https://www.kali.org/tools/ropper/"><span style="color:#82C4E4">documentation</span></a></figcaption>
+      href="https://www.kali.org/tools/ropper/"><span style="color:#82C4E4">[documentation]</span></a></figcaption>
   <table>
     <tr>
       <td class="code">
@@ -195,7 +195,7 @@ Don't forget the address of `vader()` too!:
 
 <figure class="highlight plaintext">
   <figcaption><span>gdb-gef x command</span><a target="_blank" rel="noopener"
-      href="https://visualgdb.com/gdbreference/commands/x"><span style="color:#82C4E4">documentation</span></a>
+      href="https://visualgdb.com/gdbreference/commands/x"><span style="color:#82C4E4">[documentation]</span></a>
   </figcaption>
   <table>
     <tr>
@@ -213,7 +213,7 @@ Here is my final script, which defines a variable for each section of our gigant
 
 <figure class="highlight py">
   <figcaption><span>vader.py</span><a target="_blank" rel="noopener"
-      href="https://gist.github.com/jktrn/a499cfd248125a9d57924f8f602fda30"><span style="color:#82C4E4">github gist link</span></a></figcaption>
+      href="https://gist.github.com/jktrn/a499cfd248125a9d57924f8f602fda30"><span style="color:#82C4E4">[github gist link]</span></a></figcaption>
   <table>
     <tr>
       <td class="gutter">
