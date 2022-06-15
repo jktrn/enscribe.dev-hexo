@@ -2,7 +2,7 @@
 title: "CTF-NAME/CHAL-TYPE: CHAL-FORMATTED"
 date: DATE
 categories:
-- ctf
+- ctfs
 - CTF-NAME
 - CHAL-TYPE
 tags:

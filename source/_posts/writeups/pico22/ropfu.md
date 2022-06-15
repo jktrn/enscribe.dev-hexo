@@ -2,7 +2,7 @@
 title: "pico22/pwn: ropfu"
 date: 2022-06-14 19:20:05
 categories:
-- ctf
+- ctfs
 - pico22
 - pwn
 tags:
