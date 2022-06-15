@@ -25,11 +25,6 @@ thumbnail: /asset/banner/banner-vader.png
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
-    .flex-container {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-    }
 </style>
 
 <div class="box">

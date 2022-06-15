@@ -13,6 +13,8 @@ permalink: ctfs/pico22/pwn/buffer-overflow-series/
 thumbnail: /asset/banner/banner-buffer-overflow.png
 ---
 
+<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+
 <style>
     .box {
         border: 1px solid rgb(23, 25, 27);
@@ -25,10 +27,20 @@ thumbnail: /asset/banner/banner-buffer-overflow.png
         margin-bottom: 1rem;
     }
 
-    .flex-container {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
+    .warning {
+        border: 1px solid #481219;
+        border-radius: 5px;
+        background-color: #481219;
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+    }
+
+    .no-highlight {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 </style>
 
@@ -38,8 +50,9 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 
 ## Buffer overflow 0
 
-<div class="box">
-  Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code>
+<div class="box no-highlight">
+  Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code><br><br><b>Authors</b>: Alex Fulton, Palash Oswal
+  <details><summary><b>Hints:</b></summary><br>1. How can you trigger the flag to print?<br>2. If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.<br>3. Run <code>man gets</code> and read the BUGS section. How many characters can the program really read?</details>
 </div>
 
 <figure class="highlight console">
@@ -143,9 +156,15 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 ## Buffer overflow 1
 
-<div class="box">
+<div class="box no-highlight">
   Control the return address.<br>
-  Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="javascript:;">program</a>. You can view source <a href="javascript:;">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code></a>
+  Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="/asset/pico/buffer-overflow-0-1/vuln-1">program</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-1.c">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code><br><br>
+  <b>Authors</b>: Sanjay C., Palash Oswal
+  <details><summary><b>Hints:</b></summary><br>1. Make sure you consider big Endian vs small Endian.<br>2. Changing the address of the return pointer can call different functions.</details>
+</div>
+
+<div class="warning">
+<i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
 </div>
 
 <figure class="highlight console">
@@ -288,7 +307,7 @@ Program received signal SIGSEGV, Segmentation fault.
 <span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
 [<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x41414141</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span></pre></td></tr></table></figure>
 
-<div style="margin-top:-2.5%; margin-bottom:2.5%;">Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address <code>0x41414141</code>, which doesn&#39;t exist! This is because our <code>$eip</code> was overwritten by all our <code>A</code>s (<code>0x41</code> in ASCII = <code>A</code> in text).</div>
+<div style="margin-top:-2.5%; margin-bottom:2.5%;">Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address <code>0x41414141</code>, which doesn&#39;t exist! This is because our <code>$eip</code> was overwritten by all our <code>A</code>s (<code>0x41</code> in hex = <code>A</code> in ASCII).</div>
 
 ### Part III: Smashing the Stack (with finesse)
 
