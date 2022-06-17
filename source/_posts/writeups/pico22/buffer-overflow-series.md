@@ -62,7 +62,7 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 ## Buffer overflow 0
 
 <div class="box no-highlight">
-  Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/asset/pico/buffer-overflow-0-1/vuln-0">here</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code><br><br><b>Authors</b>: Alex Fulton, Palash Oswal
+  Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="asset/pico22/buffer-overflow/vuln-0">here</a>. You can view source <a href="asset/pico22/buffer-overflow/vuln-0.c">here</a>, and connect with it using:<br><code>nc saturn.picoctf.net 65535</code><br><br><b>Authors</b>: Alex Fulton, Palash Oswal
   <details><summary><b>Hints:</b></summary><br>1. How can you trigger the flag to print?<br>2. If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.<br>3. Run <code>man gets</code> and read the BUGS section. How many characters can the program really read?</details>
 </div>
 
@@ -88,7 +88,7 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 
 Let's check out our source code:
 
-{% codeblock vuln-0.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-0.c <span style="color:#82C4E4">[download source]</span> %}
+{% codeblock vuln-0.c lang:c https://enscribe.dev/asset/pico22/buffer-overflow/vuln-0.c <span style="color:#82C4E4">[download source]</span> %}
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -169,7 +169,7 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 <div class="box no-highlight">
   Control the return address.<br>
-  Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="/asset/pico/buffer-overflow-0-1/vuln-1">program</a>. You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-1.c">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code><br><br>
+  Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="asset/pico22/buffer-overflow/vuln-1">program</a>. You can view source <a href="asset/pico22/buffer-overflow/vuln-1.c">here</a>. And connect with it using:<br> <code>nc saturn.picoctf.net [PORT]</code><br><br>
   <b>Authors</b>: Sanjay C., Palash Oswal
   <details><summary><b>Hints:</b></summary><br>1. Make sure you consider big Endian vs small Endian.<br>2. Changing the address of the return pointer can call different functions.</details>
 </div>
@@ -193,7 +193,7 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 Let's check out our source code:
 
-{% codeblock vuln-1.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-1.c <span style="color:#82C4E4">[download source]</span> %}
+{% codeblock vuln-1.c lang:c https:/enscribe.dev/asset/pico22/buffer-overflow/vuln-1.c <span style="color:#82C4E4">[download source]</span> %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -243,13 +243,13 @@ In the `vuln()` function, we see that once again, the `gets()` function is being
 
 Before we get into the code, we need to figure out how to write our own addresses to the stack. Let's start with a visual:
 
-![Stack Visualization](/asset/pico/buffer-overflow-0-1/stack-visual.png)
+![Stack Visualization](asset/pico22/buffer-overflow/stack-visual.png)
 
 Whenever we call a function, multiple items will be "pushed" onto the **top** of the stack (in the diagram, that will be on the right-most side). It will include any parameters, a return address back to `main()`, a base pointer, and a buffer. Note that the stack grows **downwards**, towards lower memory addresses, but the buffer is written **upwards**, towards higher memory addresses.
 
 We can "smash the stack" by exploiting the `gets()` function. If we pass in a large enough input, it will overwrite the entire buffer and start overflowing into the base pointer and return address within the stack:
 
-![Overflow Visualization](/asset/pico/buffer-overflow-0-1/overflow-visual.png)
+![Overflow Visualization](asset/pico22/buffer-overflow/overflow-visual.png)
 
 If we are delibrate of the characters we pass into `gets()`, we will be able to insert a new address to overwrite the return address to `win()`. Let's try!
 
@@ -406,7 +406,7 @@ Our binary is in little endian, we know that 44 `A`s are needed in order to reac
 Win is at `0x80491f6`, but we need to convert it to the little endian format. You can do this with the pwntools `p32()` command, which results in `\xf6\x91\x04\x08`.
 Let's make a final visual of our payload:
 
-![Payload Visual](/asset/pico/buffer-overflow-0-1/payload-visual.png)
+![Payload Visual](asset/pico22/buffer-overflow/payload-visual.png)
 
 Let's write our payload and send it to the remote server with Python3/pwntools:
 
@@ -497,7 +497,7 @@ We can now create a corefile object and freely reference registers! To find the 
 </pre></td></tr></table></figure>
 </figure>
 
-Now that we know how ELF objects and core dumps work, let's apply them to our previous script. Another cool helper I would like to implement is [`flat()`](https://docs.pwntools.com/en/stable/util/packing.html), which flattens arguments given in lists, tuples, or dictionaries into a string with `pack()`. This will help us assemble our payload without needing to concatenate seemingly random strings of `A`s and little-endian addresses, increasing readability.
+Now that we know how ELF objects and core dumps work, let's apply them to our previous script. Another cool helper I would like to implement is [`flat()`](https://docs.pwntools.com/en/stable/util/packing.html) (which has a great tutorial [here](https://www.youtube.com/watch?v=AMDbbuLaXfk), referred to by the legacy alias `fit()`), which flattens arguments given in lists, tuples, or dictionaries into a string with `pack()`. This will help us assemble our payload without needing to concatenate seemingly random strings of `A`s and little-endian addresses, increasing readability.
 
 This is my final, completely automated script:
 
@@ -551,7 +551,7 @@ We've successfully automated a solve on a simple x32 buffer overflow!
 ## Buffer overflow 2
 
 <div class="box no-highlight">
-  Control the return address and arguments<br>This time you'll need to control the arguments to the function you return to! Can you get the flag from this  <a href="/asset/pico/buffer-overflow-0-1/vuln-2">program</a>?<br>You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-2.c">here</a>. And connect with it using  <code>nc saturn.picoctf.net [PORT]</code>
+  Control the return address and arguments<br>This time you'll need to control the arguments to the function you return to! Can you get the flag from this  <a href="asset/pico22/buffer-overflow/vuln-2">program</a>?<br>You can view source <a href="asset/pico22/buffer-overflow/vuln-2.c">here</a>. And connect with it using  <code>nc saturn.picoctf.net [PORT]</code>
 <br><br>
   <b>Authors</b>: Sanjay C., Palash Oswal
   <details><summary><b>Hints:</b></summary><br>1. Try using GDB to print out the stack once you write to it.</details>
@@ -563,7 +563,7 @@ We've successfully automated a solve on a simple x32 buffer overflow!
 
 Let's check out our source code:
 
-{% codeblock vuln-2.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-2.c <span style="color:#82C4E4">[download source]</span> %}
+{% codeblock vuln-2.c lang:c https://enscribe.dev/asset/pico22/buffer-overflow/vuln-2.c <span style="color:#82C4E4">[download source]</span> %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -656,7 +656,7 @@ We can apply a lot from what we learned in `Buffer overflow 1`. The first thing 
 
 The next thing we need to know about is the way functions are laid out on the stack. Let's recall the diagram I drew out earlier:
 
-![Stack Diagram](/asset/pico/buffer-overflow-0-1/stack-visual2.png)
+![Stack Diagram](asset/pico22/buffer-overflow/stack-visual2.png)
 
 If we want to call a function with parameters, we'll need to include the base pointer alongside a return address, which can simply be `main()`. With this, we can basically copy our script over from `Buffer overflow 1` with a few tweaks to the payload:
 
