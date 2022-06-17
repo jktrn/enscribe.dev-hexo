@@ -35,9 +35,16 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ropfu.png
         font-size: 90%;
         text-align: center;
     }
+
+    .no-highlight {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
 </style>
 
-<div class="box"> What's ROP?<br>Can you exploit the following <a href="/asset/pico/ropfu/vuln">program</a> to get the flag? Download <a href="/asset/pico/ropfu/vuln.c">source</a>.<br><code>nc saturn.picoctf.net [PORT]</code><br><br><b>Authors</b>: Sanjay C., Lt. "Syreal" Jones<br><details> <summary><b>Hint</b>:</summary><br>This is a classic ROP to get a shell </details></div>
+<div class="box no-highlight"> What's ROP?<br>Can you exploit the following <a href="/asset/pico/ropfu/vuln">program</a> to get the flag? Download <a href="/asset/pico/ropfu/vuln.c">source</a>.<br><code>nc saturn.picoctf.net [PORT]</code><br><br><b>Authors</b>: Sanjay C., Lt. "Syreal" Jones<br><details> <summary><b>Hint</b>:</summary><br>This is a classic ROP to get a shell </details></div>
 
 <div class="warning"> <i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
 
