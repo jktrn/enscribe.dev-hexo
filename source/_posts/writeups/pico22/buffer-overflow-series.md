@@ -89,7 +89,6 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 Let's check out our source code:
 
 {% codeblock vuln-0.c lang:c https://enscribe.dev/asset/pico22/buffer-overflow/vuln-0.c <span style="color:#82C4E4">[download source]</span> %}
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -193,7 +192,7 @@ We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the u
 
 Let's check out our source code:
 
-{% codeblock vuln-1.c lang:c https:/enscribe.dev/asset/pico22/buffer-overflow/vuln-1.c <span style="color:#82C4E4">[download source]</span> %}
+{% codeblock vuln-1.c lang:c https://enscribe.dev/asset/pico22/buffer-overflow/vuln-1.c <span style="color:#82C4E4">[download source]</span> %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
