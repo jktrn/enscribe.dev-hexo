@@ -91,7 +91,7 @@ permalink: /profiles/
     }
 </style>
 
-## Personal 👤
+## personal
 
 <button class="pushable">
     <a href="https://enscribe.dev/profile/discord">
@@ -135,7 +135,7 @@ permalink: /profiles/
 
 ---
 
-## Gaming 🎮
+## gaming
 
 <button class="pushable">
     <a href="https://enscribe.dev/profile/osu">
@@ -166,3 +166,7 @@ permalink: /profiles/
         </span>
     </a>
 </button>
+
+---
+
+<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
