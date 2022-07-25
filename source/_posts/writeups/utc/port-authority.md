@@ -5,16 +5,18 @@ categories:
 - ctfs
 - utc
 - prog
-tags: programming, websocket
+tags: 
+- programming
+- websocket
 description: "Play a JSON-controlled strategy game through a WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
 permalink: ctfs/utc/prog/port-authority/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+{% fontawesome %}
 
 <div class="flex-container">
-    {% box padding-top:25px %}
+    {% box padding-top:20px %}
         The harbour is in total chaos, the ships are no longer on course. The AI has disabled the brakes of all the ships and corrupted our control systems. The ships about to crash into each other, can you build a new AI that will rescue the ships and deliver the cargo?<br><br>
         *Author information: This challenge is developed by [Luuk Hofman](https://www.linkedin.com/in/luuk-hofman-01164259/) and [Diederik Bakker](https://www.linkedin.com/in/diederik-bakker/).*
     {% endbox %}
@@ -24,7 +26,7 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 </div>
 
 {% info %}
-<i class="fa-solid fa-circle-info"></i> Note: This is an **instance-based** challenge. No website URL will be provided!
+Note: This is an **instance-based** challenge. No website URL will be provided!
 {% endinfo %}
 
 We're initially provided with a link that takes us to a nice-looking webgame called the "Port Traffic Control Interface":
@@ -81,7 +83,7 @@ Look what happens when we establish a connection - the game starts running, and 
 
 Let's see what happens when we send the `SHIP_STEER` command to the server after five seconds. We can do that with the [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method in our `socket.onopen` listener:
 
-{% customcodeblock lang:javascript gutter1:9-23 caption:"[JavaScript] Testing steering mechanic" diff_add:8-14 %}
+{% ccb lang:javascript gutter1:9-23 caption:"[JavaScript] Testing steering mechanic" diff_add:8-14 %}
 socket.onopen = function() {
     console.log("[+] Connected!");
     // Converts object to string
@@ -97,7 +99,7 @@ socket.onopen = function() {
         }));
     }, 5000);
 };
-{% endcustomcodeblock %}
+{% endccb %}
 
 ![First Turn](/asset/utc/first-turn.gif)
 
@@ -111,8 +113,8 @@ With this, we have a goal: **get the ship into the port by sending JSON instruct
 
 Firstly, cleaning up the output involves parsing what we receive from the server, which we can do with the `JSON.parse()` method. We'll assign it into a variable named `obj` (and also delete our steer-testing code):
 
-{% customcodeblock lang:javascript gutter1:16,17,18,19,20,21,22,23,24,25,26,27,28,+,+,29 gutter2:⁠—,⁠—,⁠—,⁠—,⁠—,⁠—,⁠—,16,17,18,19,⁠—,⁠—,20,21,22 caption:'[JavaScript] Parsing JSON' diff_del:1-7 diff_add:14-15 %}
-    // Sends steer command after one second
+{% ccb lang:javascript gutter1:16-28,+x2,29 gutter2:⁠—x7,16-19,⁠—x2,20-22 caption:'[JavaScript] Parsing JSON' diff_del:1-7 diff_add:14-15 %}
+    // Sends steer command after one second 
     setTimeout(() => {
         socket.send(JSON.stringify({
             "type": "SHIP_STEER",
@@ -128,7 +130,7 @@ socket.onmessage = function(event) {
     // Converts server output into object
     let obj = JSON.parse(event.data);
 };
-{% endcustomcodeblock %}
+{% endccb %}
 
 Each tick, `obj` will change to an object structured this way:
 
@@ -145,7 +147,7 @@ Each tick, `obj` will change to an object structured this way:
 
 Check out the `obj.type` key - there'll be multiple types of these (including but not limited to `"LOSS"`, `"GAME_START"`). We'll make it so that if `obj.type` is `"TICK"`, it will create a new Class instance for each object in the `obj.ships` array:
 
-{% customcodeblock lang:javascript gutter1:18-28,,,29-47 caption:'[JavaScript] Ship class, instance creation, pretty logging' diff_add:1-15,20-30  %}
+{% ccb lang:javascript gutter1:18-28,,,29-47 caption:'[JavaScript] Ship class, instance creation, pretty logging' diff_add:1-15,21-30  %}
 class Ship {
     // Initializes class object instance
     constructor(id, topLeft, bottomRight, direction) {
@@ -178,7 +180,7 @@ socket.onmessage = function(event) {
         }
     }
 };
-{% endcustomcodeblock %}
+{% endccb %}
 
 With this new Class, we can get both our own `ships` array *and* really clean logging from the server:
 
@@ -196,7 +198,9 @@ Let's finally get to solving the challenge.
 
 ### LEVEL 1
 
-<div class="box">Do you know how websockets work? [25 points]</div>
+{% box %}
+Do you know how websockets work? [25 points]
+{% endbox %}
 
 We can move on to the final quality-of-life feature: a web-based "controller" that can steer the ship on-click and start new levels. I moved all my code from a local `.js` file to [CodePen](https://codepen.io/) for instant page regeneration and accessability by teammates. Here's the HTML:
 
@@ -210,7 +214,7 @@ We can move on to the final quality-of-life feature: a web-based "controller" th
 
 Here's the JS that adds functionality to these buttons. Note that these are made to be scalable/"future-proof", meaning I can freely add more buttons without needing to copy/paste slight alterations of the same code. I also made some changes upon switching to the CodePen, including deleting the `require()` method and preventing level 1 from automatically starting on-open:
 
-{% customcodeblock lang:javascript caption:'[JavaScript] Future-proof DOM listeners & events' %}
+{% ccb lang:javascript gutter1:1-6,+x6,7-16,S,+x31 gutter2:⁠—x2,1-14,⁠—x5,15,S,48-78 caption:'[JavaScript] Future-proof DOM listeners & events' diff_add:7-12,24-54 diff_del:1-2,17-21 %}
 // Make sure you install WebSocket with "npm i ws"!
 const WebSocket = require('ws');
 // Regex so that I can freely paste the URL when the instance is changed
@@ -223,6 +227,7 @@ const passwords = [{
         password: ""
     }
 ];
+
 // Runs on socket open, equivalent to .addEventListener()
 socket.onopen = function() {
     console.log("[+] Connected!");
@@ -233,24 +238,38 @@ socket.onopen = function() {
     }));
 };
 // SKIP_LINE:(16-47)
-{% endcustomcodeblock %}
-
-<figure class="highlight js">
-<figcaption><span>[JavaScript] Future-proof DOM listeners & events</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><div style="margin:1rem 0;"><span class="line"> </span></div><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br></pre>
-            </td>
-            <td class="gutter">
-                <pre><span class="line">-</span><br><span class="line">-</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">-</span><br><span class="line">-</span><br><span class="line">-</span><br><span class="line">-</span><br><span class="line">-</span><br><span class="line">15</span><br><div style="margin:1rem 0;"><span class="line"> </span></div><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><div class="diff-highlight-del" style="width:590px;"><span class="line"><span class="comment">// Make sure you install WebSocket with &quot;npm i ws&quot;!</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">WebSocket</span> = <span class="built_in">require</span>(<span class="string">&#x27;ws&#x27;</span>);</span></div><span class="line"><span class="comment">// Regex so that I can freely paste the URL when the instance is changed</span></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&quot;https://[REDACTED].challenge.hackazon.org/&quot;</span>;</span><br><span class="line"><span class="comment">// Opens WebSocket connection</span></span><br><span class="line"><span class="keyword">const</span> socket = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">`wss://<span class="subst">$&#123;url.replace(/^https?:\/\//, <span class="string">&quot;&quot;</span>)&#125;</span>ws`</span>);</span><br><div class="diff-highlight-add" style="width:590px;"><span class="line"><span class="comment">// Object literal for level lookup</span></span><br><span class="line"><span class="keyword">const</span> passwords = [&#123;</span><br><span class="line">        <span class="attr">level</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">password</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span></div><span class="line"></span><br><span class="line"><span class="comment">// Runs on socket open, equivalent to .addEventListener()</span></span><br><span class="line">socket.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[+] Connected!&quot;</span>);</span><br><div class="diff-highlight-del" style="width:590px"><span class="line">    <span class="comment">// Converts object to string</span></span><br><span class="line">    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;START_GAME&quot;</span>,</span><br><span class="line">        <span class="string">&quot;level&quot;</span>: <span class="number">1</span></span><br><span class="line">    &#125;));</span></div><span class="line">&#125;;</span><br><div class="skip-highlight" style="width:590px"><span class="line">(16 - 47)</span></div><div class="diff-highlight-add" style="width:590px;"><span class="line"><span class="comment">// Assigns onclick listeners for each level button</span></span><br><span class="line"><span class="title function_">findAll</span>(<span class="string">&quot;lvl&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) &#123;</span><br><span class="line">    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;START_GAME&quot;</span>,</span><br><span class="line">            <span class="attr">level</span>: passwords[index].<span class="property">level</span>,</span><br><span class="line">            <span class="attr">password</span>: passwords[index].<span class="property">password</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Assigns onclick listeners for each steer button</span></span><br><span class="line"><span class="title function_">findAll</span>(<span class="string">&quot;steer&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) &#123;</span><br><span class="line">    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</span><br><span class="line">            <span class="attr">shipId</span>: <span class="string">`<span class="subst">$&#123;index&#125;</span>`</span></span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Creates DOM array for each element with name id + int</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">findAll</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> list = [];</span><br><span class="line">    <span class="keyword">while</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i)) &#123;</span><br><span class="line">        list[i] = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span></div></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+// Assigns onclick listeners for each level button
+findAll("lvl").forEach(function(element, index) {
+    element.onclick = function() {
+        socket.send(JSON.stringify({
+            type: "START_GAME",
+            level: passwords[index].level,
+            password: passwords[index].password
+        }));
+    };
+});
+ 
+// Assigns onclick listeners for each steer button
+findAll("steer").forEach(function(element, index) {
+    element.onclick = function() {
+        socket.send(JSON.stringify({
+            type: "SHIP_STEER",
+            shipId: `${index}`
+        }));
+    };
+});
+ 
+// Creates DOM array for each element with name id + int
+function findAll(id) {
+    let i = 0;
+    let list = [];
+    while (document.getElementById(id + i)) {
+        list[i] = document.getElementById(id + i);
+        i++;
+    }
+    return list;
+}
+{% endccb %}
 
 The preview on CodePen will look something like this:
 
@@ -262,54 +281,89 @@ Let's see if it actually works:
 
 We could totally flag the challenge right now, but currently there's no way to see the filtered output we created. I know there's a "Console" button at the bottom-left of CodePen, but I'd like to see the output on the actual webpage, outside of the IDE. To do this, let's create a `log()` function to append strings to a `<textarea>` we'll add in the HTML:
 
-<figure class="highlight js">
-  <figcaption><span>[JavaScript] Converting to log() function</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">+</span><br><div style="margin:1rem 0;"><span class="line"></span> </div><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">+</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><div style="margin:1rem 0;"><span class="line"></span> </div><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br></pre>
-            </td>
-            <td class="gutter">
-                <pre><span class="line">11</span><br><div style="margin:1rem 0;"><span class="line"></span> </div><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">-</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><div style="margin:1rem 0;"><span class="line"></span> </div><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><div class="diff-highlight-add" style="width:590px;"><span class="line"><span class="keyword">const</span> text = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;textarea&quot;</span>);</span></div><div class="skip-highlight" style="width:590px;"><span class="line">(12 - 37)</span></div><span class="line">        <span class="comment">// For each ship in obj.ships, push class object into ships array</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) &#123;</span><br><span class="line">            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Call the string literal getter</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> ships) &#123;</span><br><div class="diff-highlight-del" style="width:590px;"><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="property">printState</span>);</span></div><div class="diff-highlight-add" style="width:590px;"><span class="line">            <span class="title function_">log</span>(i.<span class="property">printState</span>);</span></div><span class="line">        &#125;</span><br><div class="diff-highlight-add" style="width:590px;"><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>)));</span><br><span class="line">    &#125;</span></div><span class="line">&#125;;</span><br><div class="skip-highlight" style="width:590px;"><span class="line">(49 - 82)</span></div><div class="diff-highlight-add" style="width:590px;"><span class="line"><span class="keyword">function</span> <span class="title function_">log</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    text.<span class="property">value</span> += <span class="string">&quot;\n&quot;</span> + str;</span><br><span class="line">    text.<span class="property">value</span> = text.<span class="property">value</span>.<span class="title function_">substring</span>(text.<span class="property">value</span>.<span class="property">length</span> - <span class="number">10000</span>);</span><br><span class="line">    text.<span class="property">scrollTop</span> = text.<span class="property">scrollHeight</span>;</span><br><span class="line">&#125;</span></div></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb lang:javascript gutter1:+,S,38-44,+,45,+x3,46,S,+x5 gutter2:11,S,37-42,—,43-48,S,83-87 caption:'[JavaScript] Converting to log() function' diff_add:1,10,12-14,17-21 diff_del:9 %}
+const text = document.getElementById("textarea");
+//SKIP_LINE:(12-37)
+        // For each ship in obj.ships, push class object into ships array
+        for(const i of obj.ships) {
+            ships.push(new Ship(i.id, i.area[0], i.area[1], i.direction));
+        }
+        // Call the string literal getter
+        for(const i of ships) {
+            console.log(i.printState);
+            log(i.printState);        
+        }
+    } else {
+      log(JSON.stringify(JSON.parse(event.data)));
+    }
+};
+//SKIP_LINE:(49-82)
+function log(str) {
+    text.value += "\n" + str;
+    text.value = text.value.substring(text.value.length - 10000);
+    text.scrollTop = text.scrollHeight;
+}
+{% endccb %}
 
  We'll also spice up the page slightly with flexboxes, a `<fieldset>` and some CSS:
 
-<figure class="highlight html">
-<figcaption><span>[HTML] Adding fieldset and textarea</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><div class="diff-highlight-add"><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flex-container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span></div><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Start Level:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><span class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl0&quot;</span>&gt;</span>Level 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></div><span class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">&quot;textarea&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;80&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;20&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+ {% ccb lang:html gutter1:1-17 caption:'[HTML] Adding &lt;fieldset&gt; and &lt;textarea&gt;' diff_add:1-3,5,7,9,11-17 %}
+<div class="flex-container">
+    <div>
+        <fieldset>
+            <p>Start Level:</p>
+            <div>
+                <button id="lvl0">Level 1</button>
+            </div>
+            <p>Steer Ships:</p>
+            <div>
+                <button id="steer0">Steer 0</button>
+            </div>
+        </fieldset>
+    </div>
+    <div>
+        <textarea id="textarea" cols="80" rows="20"></textarea>
+    </div>
+</div>{% endccb %}
 
-<div style="height:400px; overflow:auto; margin:1rem 0;">
-<figure class="highlight css" style="margin:0">
-<figcaption><span>[CSS] Some beauty treatment</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><span class="line"><span class="selector-class">.flex-container</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">gap</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#1d1f21</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#c9cacc</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">fieldset</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">&quot;Trebuchet MS&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">textarea</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">&quot;Courier New&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">button</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: none;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#222</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">11px</span>;</span><br><span class="line">&#125;</span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
-</div>
+{% ccb lang:css gutter1:1-36 caption:'[CSS] Some beauty treatment' scrollable:true %}
+.flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+body {
+    background-color: #1d1f21;
+    color: #c9cacc;
+    font-size: 12px;
+}
+
+fieldset {
+    text-align: center;
+    font-family: "Trebuchet MS";
+}
+
+textarea {
+    font-family: "Courier New";
+}
+
+p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    padding: 0px 10px;
+    border-radius: 10px;
+    color: #222;
+    font-size: 11px;
+}
+{% endccb %}
 
 Here's the preview now:
 
@@ -337,33 +391,26 @@ We've succesfully completed Level 1!
 
 "Lets script it"? I've already scripted throughout the entirety of Level 1 to accommodate for future levels! Let's add a Level 2 button to our scalable, future-proof code 😉:
 
-<figure class="highlight js">
-<figcaption><span>[HTML] Adding level 1 flag to object literal</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><span class="line"><span class="keyword">const</span> passwords = [&#123;</span><br><span class="line">        <span class="attr">level</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">password</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;<mark style="background-color:rgba(0,255,0,.05); color:white; margin:0; border-radius:5px;">,</mark></span><br><div class="diff-highlight-add"><span class="line">    &#123;</span><br><span class="line">        <span class="attr">level</span>: <span class="number">2</span>,</span><br><span class="line">        <span class="attr">password</span>: <span class="string">&quot;CTF&#123;CapTA1n-cRUCh&#125;&quot;</span></span><br><span class="line">    &#125;</span></div><span class="line">];</span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb lang:javascript gutter1:6-14 caption:'[HTML] Adding level 1 flag to object literal' diff_add:5-8 %}
+const passwords = [{
+        level: 1,
+        password: ""
+    },
+    {
+        level: 2,
+        password: "CTF{CapTA1n-cRUCh}"
+    }
+];
+{% endccb %}
 
-<figure class="highlight html">
-<figcaption><span>[HTML] Adding level 2 button</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><span class="line"><span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Start Level:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl0&quot;</span>&gt;</span>Level 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl1&quot;</span>&gt;</span>Level 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb lang:html gutter1:3-8 caption:'[HTML] Adding level 2 button' diff_add:5 %}
+<fieldset>
+    <p>Start Level:</p>
+        <div>
+            <button id="lvl0">Level 1</button>
+            <button id="lvl1">Level 2</button>  
+        </div>
+{% endccb %}
 
 This is what appears when clicking the button:
 
@@ -371,19 +418,15 @@ This is what appears when clicking the button:
 
 Looks like we'll have to add two more steer buttons:
 
-<figure class="highlight html">
-<figcaption><span>[HTML] Adding steer 1/2 buttons</span></figcaption>
-    <table>
-        <tr>
-            <td class="gutter">
-                <pre><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre>
-            </td>
-            <td class="code">
-                <pre><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><div class="diff-highlight-add"><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer1&quot;</span>&gt;</span>Steer 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer2&quot;</span>&gt;</span>Steer 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></div><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb lang:html gutter1:9-15 caption:'[HTML] Adding steer 1/2 buttons' diff_add:4-5 %}
+    <p>Steer Ships:</p>
+        <div>
+            <button id="steer0">Steer 0</button>
+            <button id="steer1">Steer 1</button>
+            <button id="steer2">Steer 2</button>  
+        </div>
+</fieldset>
+{% endccb %}
 
 It seems as though that you also need the ships to enter in a specific order. It will be difficult to multitask all three, but it's doable! Let's try to solve it (also very sped up):
 

@@ -6,7 +6,6 @@ showdown.extension('only-inline-stuff', function () {
         type: 'output',
         filter: function (text) {
             text = text.replace(/<\/?p[^>]*>/g, '');
-            text = text.replace(/<\/?code[^>]*>/g, '');
             return text;
         }
     }];
@@ -16,65 +15,104 @@ let conv = new showdown.Converter({
     extensions: ['only-inline-stuff']
 });
 
-
 hexo.extend.tag.register('box', function (args, content) {
-    if (!args) return `<div class="box no-highlight">${conv.makeHtml(content)}</div>`;
-    else return `<div class="box no-highlight" style="${args}">${conv.makeHtml(content)}</div>`;
+    const argText = args ? ` style="${args}"` : "";
+    return `<div class="box no-highlight"${argText}>${conv.makeHtml(content)}</div>`;
 }, {
     ends: true
 });
 
 hexo.extend.tag.register('info', function (args, content) {
-    if (!args) return `<div class="text-info no-highlight">${conv.makeHtml(content)}</div>`;
-    else return `<div class="text-info no-highlight" style="${args}">${conv.makeHtml(content)}</div>`;
+    const argText = args ? ` style="${args}"` : "";
+    let appended = `<i class="fa-solid fa-circle-info"></i> ${content}`;
+    return `<div class="text-info no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
 }, {
     ends: true
 });
 
 hexo.extend.tag.register('warning', function (args, content) {
-    if (!args) return `<div class="text-warning no-highlight">${conv.makeHtml(content)}</div>`;
-    else return `<div class="text-warning no-highlight" style="${args}">${conv.makeHtml(content)}</div>`;
+    const argText = args ? ` style="${args}"` : "";
+    let appended = `<i class="fa-solid fa-triangle-exclamation"></i> ${content}`;
+    return `<div class="text-warning no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
 }, {
     ends: true
 });
 
 function parseRange(str) {
-    let range = str.split(',');
+    let arr = str.split(',');
     let result = [];
-    for (let i = 0; i < range.length; i++) {
-        let r = range[i].split('-');
-        if (r.length == 1) {
-            result.push(r[0]);
-        } else {
-            for (let j = parseInt(r[0]); j <= parseInt(r[1]); j++) {
-                result.push(j);
+    for(const i of arr) {
+        if (i.includes('-')) {
+            let [start, end] = i.split('-');
+            for(let j = parseInt(start); j <= parseInt(end); j++) {
+                result.push(j.toString());
             }
+        } else if (i.includes('x')) {
+            let [left, right] = i.split('x');
+            for(let j = 0; j < parseInt(right); j++) {
+                result.push(left);
+            } 
+        } else {
+            result.push(i);
         }
     }
     return result;
 }
 
-hexo.extend.tag.register('customcodeblock', function (args, content) {
+/**
+ * Creates a custom code block. Supports manual diffing.
+ * @param {string} [lang] - language of the code block
+ * @param {string} [gutter1] - first line counter (e.g. 1,2,5-7,10)
+ * @param {string} [gutter2] - second line counter (for diffing)
+ * @param {string} [caption] - caption of the code block
+ * @param {string} [diff_add] - green highlighting for specified lines
+ * @param {string} [diff_del] - red highlighting for specified lines
+ * @returns {string} - html code block
+ * 
+ * You can also create a line skip in the code by commenting 
+ * "SKIP_LINE:(start-end)" in the content. Example:
+ * 
+ * {% ccb %}
+ * hello world
+ * // SKIP_LINE:(1-3)
+ * goodbye world
+ * {% endccb %}
+ * 
+ * To create the same margin in the gutter, put an "S" in the
+ * gutter1-2 parameter (e.g. gutter1:1,2,5-7,S,10).
+ */
+
+hexo.extend.tag.register('ccb', function (args, content) {
+    // parse args
     let obj = {};
     args.forEach(function(item) {
         let key = item.split(':')[0];
         let value = item.split(':')[1];
         obj[key] = value;
     });
-
     let lang = obj.lang ? obj.lang : "text";
-    let gutter1 = obj.gutter1 ? parseRange(obj.gutter1).map(x => `<span class="line">${x}</span><br>`).join("") : undefined;
-    let gutter2 = obj.gutter2 ? parseRange(obj.gutter2).map(x => `<span class="line">${x}</span><br>`).join("") : undefined;
+    let gutter1 = obj.gutter1 ? parseRange(obj.gutter1).map(x => {
+        if(x == "S") return `<div style="margin:1.1em 0"><span class="line"> </span></div>`;
+        else return `<span class="line">${x}</span><br>`;
+    }).join("") : undefined;
+
+    let gutter2 = obj.gutter2 ? parseRange(obj.gutter2).map(x => {
+        if(x == "S") return `<div style="margin:1.1em 0"><span class="line"> </span></div>`;
+        else return `<span class="line">${x}</span><br>`;
+    }).join("") : undefined;
+
     let caption = obj.caption ? obj.caption : undefined;
-    let wrap_text = obj.wrap_text ? obj.wrap_text : undefined;
+    let scrollable = obj.scrollable ? true : false;
+    let wrapped = obj.wrapped ? true : false;
     let diff_add = obj.diff_add ? parseRange(obj.diff_add).map(x => parseInt(x)) : undefined;
     let diff_del = obj.diff_del ? parseRange(obj.diff_del).map(x => parseInt(x)) : undefined;
+    let url = obj.url ? obj.url : undefined;
+    let url_text = obj.url_text ? obj.url_text : undefined;
     let highlighted = hljs.highlight(content, {
         language: lang
     }).value;
     let lines = highlighted.split('\n');
 
-    // if any line in lines contains "SKIP_LINE", replace the entire line with "TEST"
     lines = lines.map(line => {
         if (line.indexOf("SKIP_LINE") != -1) {
             return `<div class="skip-highlight">(${line.match(/\((.*)\)/)[1]})</div>`;
@@ -82,25 +120,14 @@ hexo.extend.tag.register('customcodeblock', function (args, content) {
             return line;
         }
     });
-    console.log(lines);
 
-    // for each number in diffAdd array, wrap the corresponding line in lines with <div class="diff-highlight-add">
-    if (diff_add && gutter2) {
-        diff_add.forEach(function (line) {
-            lines[line - 1] = `<div class="diff-highlight-add-590">${lines[line - 1]}</div>`;
-        });
-    } else if(diff_add) {
+    if(diff_add) {
         diff_add.forEach(function (line) {
             lines[line - 1] = `<div class="diff-highlight-add">${lines[line - 1]}</div>`;
         });
     }
 
-    // for each number in diffDel array, wrap the corresponding line in lines with <div class="diff-highlight-add">
-    if (diff_del && gutter2) {
-        diff_del.forEach(function (line) {
-            lines[line - 1] = `<div class="diff-highlight-del-590">${lines[line - 1]}</div>`;
-        });
-    } else if(diff_del) {
+    if(diff_del) {
         diff_del.forEach(function (line) {
             lines[line - 1] = `<div class="diff-highlight-del">${lines[line - 1]}</div>`;
         });
@@ -108,11 +135,22 @@ hexo.extend.tag.register('customcodeblock', function (args, content) {
 
     highlighted = lines.join('\n');
 
-    const langText = lang ? `<figure class="highlight ${lang}">`: `<figure class="highlight text">`
-    const captionText = caption ? `<figcaption><span>${caption}</span></figcaption>` : "";
+    const scrollableText = scrollable ? `<div style="height:400px; overflow:auto; margin:1rem 0;">` : "";
+    const scrollableStyle = scrollable ? ` style="margin: 0;"` : "";
+    const scrollableEnd = scrollable ? `</div>` : "";
+    const wrappedStyle = wrapped ? ` style="white-space: pre-wrap;"` : "";
+    const urlText = url ? `<a target="_blank" rel="noopener" href="https://${url}"><span style="color:#82C4E4">[${url_text}]</span></a>` : "";
+    const langText = lang ? `<figure class="highlight ${lang}"${scrollableStyle}>`: `<figure class="highlight text"${scrollableStyle}>`
+    const captionText = caption ? `<figcaption><span>${caption}</span>${urlText}</figcaption>` : "";
     const gutter1Text = gutter1 ? `<td class="gutter"><pre>${gutter1}</pre></td>`: "";
     const gutter2Text = gutter2 ? `<td class="gutter"><pre>${gutter2}</pre></td>`: "";
-    return `${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre>${highlighted}</pre></td></tr></table></figure>`;
+    if(obj.html) return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${content}</pre></td></tr></table></figure>${scrollableEnd}`;
+    else return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${highlighted}</pre></td></tr></table></figure>${scrollableEnd}`;
 }, {
     ends: true
+});
+
+//create a hexo tag that returns fontawesome script src
+hexo.extend.tag.register('fontawesome', function () {
+    return `<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>`;
 });

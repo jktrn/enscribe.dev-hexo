@@ -13,26 +13,15 @@ permalink: ctfs/pico22/crypto/basic-mod1-2/
 thumbnail: /asset/banner/banner-basic-mod.png
 ---
 
-<style>
-    .box {
-        border: 1px solid rgb(23, 25, 27);
-        border-radius: 5px;
-        background-color: rgb(23, 25, 27);
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
-
 ## basic-mod1
 
-<div class="box">
-We found this weird message being passed around on the servers, we think we have a working decryption scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)<br><br>
-<b>Author</b>: Will Hong<br>
-<details><summary><b>Hints</b>:</summary>1. Do you know what <code>mod 37</code>means?<br>2. <code>mod</code> 37 means modulo 37. It gives the remainder of a number after being divided by 37.
-</div>
+{% box %}
+We found this weird message being passed around on the servers, we think we have a working decryption scheme. Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. `picoCTF{decrypted_message}`)<br><br>
+**Author**: Will Hong  
+<details><summary>**Hints**:</summary>
+1. Do you know what `mod 37`means?  
+2. `mod` 37 means modulo 37. It gives the remainder of a number after being divided by 37.</details>
+{% endbox %}
 
 Let's go over what it's asking:
 

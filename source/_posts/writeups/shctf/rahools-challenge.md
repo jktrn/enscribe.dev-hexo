@@ -13,69 +13,103 @@ permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: /asset/banner/banner-rahool.png
 ---
 
-<style>
-    .box {
-        border: 1px solid rgb(23, 25, 27);
-        border-radius: 5px;
-        background-color: rgb(23, 25, 27);
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
+{% box %}
+`nc 0.cloud.chals.io 10294`  
+**Author**: excaligator
+{% endbox %}
 
-<div class="box">
-<code>nc 0.cloud.chals.io 10294</code><br>
-<b>Author</b>: excaligator
-</div>
+Let's open that `netcat` link to see what's going on:
 
-  Let's open that `netcat` link to see what's going on:
+{% ccb html:true %}
+<span class="meta prompt_">$</span> nc 0.cloud.chals.io 10294
+                                   ,/(####((((/**.                                                  
+                             *#%%%%%%%%%%%%%%########(#####((((/*,                                  
+                          ,&&&&&&&&%%%%%%%%%%%%%%%%%%%%%%%%#(##((((///*                              
+                       .#&&&&&&&&&&&&&&&&&%%%%%%%%%&&%%%%###((((*,.     ...                          
+                     .%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%%%%%%%,.,               .                       
+                     #&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%%%%,,,, .. ..             .                    
+                    *&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,*,*,,,,..,                .                  
+                   .%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&(*****,//,..., ,.  .  .,..                       
+                   %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&,****,***,*.****... .*//((((/,                    
+                  (&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,***//**,**,*,***,,*((/////(##(*                   
+                 *&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&/,****,**,**,,*,*,,/##/////((/(%#/.,                 
+                 %&&&&&&&&&&&&&&&&&&&&&&&&&&&&&,,*********/,,*/*,/%&########%%#(%/..                 
+                (&&&&&&&&&&&&&&&&&&&&&&&&&&&&#,,,,***,**,**//*,,(&%###%%%%%#((&&%%(.                 
+               .&&&&&&&&&&&&&&&&&&&&&&&&&&&&****,*/,*,**/***,,,%&####%&%%%%#/*#&&&(/,                
+               #&&&&&&&&&&&&&&&&&&&&&&&&&&&,*,,,*/,**///*,**,/&&#(*.,%%%(/(%(#(&&&#(.                
+              .&&&&&&&&&&&&&&&&&&&&&&&&&&(,*,**********/,**/%&&%%%(. .###(/*/(%&&&#*,                
+              #&&&&&&&&&&&&&&&&&&&&&&&&@*,**,**,,/*/*,,,,/&@&#%%%##(,  ,,,,.. /&&&/,,                
+              %&&&&&&&&&&&&&&&&&&&&&&&&,,,**,,,*,*****,/%@@%#####%%#,.    ..  *&&%(.                 
+             ,&&&&&&&&&&&&&&&&&&&&&&&&*,*,**/,*,,***,/#@@%((((%#####(,.      .*&&#(,                 
+             (&&&@&&&&&&@@&&&&&&&&&&&,,**,,*,/****,*(&@&(((##&&&&&&%##(/,. ...(&&#,                  
+             ,&&&&&&&&&&&&&&&&&&&&&,**,***,*,**/#@&###(#((#####((/*,,*,.. ...,&%* .                  
+             ,&&&&&&&&&&&&&&&&&&&@****/**/,,***&@&%######%%&&&&%#######%#,,..#&#, .                  
+              %&&&&&&&&&&&&&&&&&&%,****/*,,,(&@&&%%%#####(############(*../,.%%(, .                  
+              /&&&&&&&&&&&&&&&&&&/,***,***,/&@&%%%%%#########((/*,,,,,,,...,*&#( ,                   
+              ,&&&&&&&&&&&&&&&&&&,***,,,**,%@&&&%%%%#########(/*,.       ...#%(/ .                   
+              %&&&&&&&&&&&&&&@&&#**,**///*/@&&&&&&&%%%%%%%%#####(/**,,...../%#(,.                    
+             (&&&&&&&&&&&&&&&&&@/,*/,/*//**&&&@@@&&&&&&&&%%%%%%%%%%#%#(*,*####(*,                    
+            ,%%&&&&&&&&&&&&&&&&&*,*/***/**,%&%&@@@@@@@@@@&&&&&%%%%%%##(, ./(##(,,                    
+            **,,*(#&&&&&&&&&&&&#*,/***/*/,,(&#(#(((##%&&&&&&&&&%%####/.   ,/(((*.                    
+           ******,,**(%&&&&&&&%/***(******.*%#%%%###(#((((##(*.            ,/((,                     
+          ,******,**,,***#%&&&%*,,,/*/,*/*..&%########((((##(/*,.            //.                     
+          ,***********//*,,**/(****/*//*//, &&&%#%%%%###(((////(**..         ,///*******,.           
+           ((,,****/********/*//***///(/**, %&@&&#(######((((/**, .   .       //#%&&&&&%(***/,       
+       ,#&&&&&&%*,*//*****,***/(/**/////***.%@@@@&%##(/(/((((#((/,..    .    .//(#%&&&&%(********    
+ @%%%%%&&@@@@@@@@@@(*****//**/*///**/((*/**.&@@@@@&&%%%##(/*,,/..... .     . *((#/*####(/***/********
+ &@@@@&%##%%&&&@@@@@@@&(**/*/*///(/////(///.@@@@@@@&&&%%&%###((**/....   ,, .#((#//((#(/***//******/*
+ &&%%&@@@@&%%%%%%%%%&&@@@&/*//***/(///(///*.&&@@@@@@@@@&%#%%####((,*,,.,,,  (#(##/(##(******/*****///
+ %%%%%&@@&&&&&@@@&&&&%%%%&&@@/****/#(//(//,,&&@&&@@@@@@@@&&%#(#%%/#/.,... ,#((/*//**(******/*****////
+ %%%%&&%&&&%%%%%%###%%&&&&&%%%&#*///((///* /&&@@@@@@@@@@@@@@@&%(/*,,.. *#%#*****///**/****/*****////*
+ &&&&&&&&&&&&&&&%%%%%%#%######((//////(*(, (&#,(((##(##((##&&&%%#/****//(((%%**//*///((/(/****//(/***
+ %%##########((((//(/(///////////(((((///,*////((((((((/(((((#(((((//***///((%%*///////((/(*//(/****/
+ &&&&&&&&&&&&&&&&&&&&&&&&%###((((/////////(((((((#(######(((//////(///((//***//&(*///*////((((/**///*
+ &&&&&&&&@&&&&&&&&&&&&&&&%####(((((//////(///////((((((///(((((((((((((/////////(&/*/////**/(((/*///*
+ &&&&&&&&&&&&&&&&&&&&&&&&&%#((((((((((//////////////////////((((((((((////////////(%/**//*/*///(/////
+ &&&&&&&&&&&&&&&&&&&&&%###(#####(((////////***/*/////*////////////////////////////(#&&(**////***/((#(
+ &&&&&&&&%&%%%%%%%%#####%%##((((((((/((////////*/*****////////*/*//////////(((####((/##**/****//,
 
-  <figure class="highlight text">
-    <table>
-      <tr>
-        <td class="code">
-          <pre><span class="line"><span class="line"><span class="meta prompt_">$ </span>nc 0.cloud.chals.io 10294</span><br><span class="line">                                   ,/(####((((/**.                                                  </span><br><span class="line">                             *#%%%%%%%%%%%%%%########(#####((((/*,                                  </span><br><span class="line">                          ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%%%%%%%%%%%%%%%#(##((((///*                              </span><br><span class="line">                       .#&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%&amp;&amp;%%%%###((((*,.     ...                          </span><br><span class="line">                     .%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%,.,               .                       </span><br><span class="line">                     #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%,,,, .. ..             .                    </span><br><span class="line">                    *&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,*,*,,,,..,                .                  </span><br><span class="line">                   .%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;(*****,//,..., ,.  .  .,..                       </span><br><span class="line">                   %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,****,***,*.****... .*//((((/,                    </span><br><span class="line">                  (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,***//**,**,*,***,,*((/////(##(*                   </span><br><span class="line">                 *&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;/,****,**,**,,*,*,,/##/////((/(%#/.,                 </span><br><span class="line">                 %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,*********/,,*/*,/%&amp;########%%#(%/..                 </span><br><span class="line">                (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#,,,,***,**,**//*,,(&amp;%###%%%%%#((&amp;&amp;%%(.                 </span><br><span class="line">               .&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;****,*/,*,**/***,,,%&amp;####%&amp;%%%%#/*#&amp;&amp;&amp;(/,                </span><br><span class="line">               #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,*,,,*/,**///*,**,/&amp;&amp;#(*.,%%%(/(%(#(&amp;&amp;&amp;#(.                </span><br><span class="line">              .&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;(,*,**********/,**/%&amp;&amp;%%%(. .###(/*/(%&amp;&amp;&amp;#*,                </span><br><span class="line">              #&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@*,**,**,,/*/*,,,,/&amp;@&amp;#%%%##(,  ,,,,.. /&amp;&amp;&amp;/,,                </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,,**,,,*,*****,/%@@%#####%%#,.    ..  *&amp;&amp;%(.                 </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;*,*,**/,*,,***,/#@@%((((%#####(,.      .*&amp;&amp;#(,                 </span><br><span class="line">             (&amp;&amp;&amp;@&amp;&amp;&amp;&amp;&amp;&amp;@@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,,**,,*,/****,*(&amp;@&amp;(((##&amp;&amp;&amp;&amp;&amp;&amp;%##(/,. ...(&amp;&amp;#,                  </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,**,***,*,**/#@&amp;###(#((#####((/*,,*,.. ...,&amp;%* .                  </span><br><span class="line">             ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@****/**/,,***&amp;@&amp;%######%%&amp;&amp;&amp;&amp;%#######%#,,..#&amp;#, .                  </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%,****/*,,,(&amp;@&amp;&amp;%%%#####(############(*../,.%%(, .                  </span><br><span class="line">              /&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;/,***,***,/&amp;@&amp;%%%%%#########((/*,,,,,,,...,*&amp;#( ,                   </span><br><span class="line">              ,&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;,***,,,**,%@&amp;&amp;&amp;%%%%#########(/*,.       ...#%(/ .                   </span><br><span class="line">              %&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@&amp;&amp;#**,**///*/@&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%#####(/**,,...../%#(,.                    </span><br><span class="line">             (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@/,*/,/*//**&amp;&amp;&amp;@@@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%%%%%#%#(*,*####(*,                    </span><br><span class="line">            ,%%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;*,*/***/**,%&amp;%&amp;@@@@@@@@@@&amp;&amp;&amp;&amp;&amp;%%%%%%##(, ./(##(,,                    </span><br><span class="line">            **,,*(#&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;#*,/***/*/,,(&amp;#(#(((##%&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%####/.   ,/(((*.                    </span><br><span class="line">           ******,,**(%&amp;&amp;&amp;&amp;&amp;&amp;&amp;%/***(******.*%#%%%###(#((((##(*.            ,/((,                     </span><br><span class="line">          ,******,**,,***#%&amp;&amp;&amp;%*,,,/*/,*/*..&amp;%########((((##(/*,.            //.                     </span><br><span class="line">          ,***********//*,,**/(****/*//*//, &amp;&amp;&amp;%#%%%%###(((////(**..         ,///*******,.           </span><br><span class="line">           ((,,****/********/*//***///(/**, %&amp;@&amp;&amp;#(######((((/**, .   .       //#%&amp;&amp;&amp;&amp;&amp;%(***/,       </span><br><span class="line">       ,#&amp;&amp;&amp;&amp;&amp;&amp;%*,*//*****,***/(/**/////***.%@@@@&amp;%##(/(/((((#((/,..    .    .//(#%&amp;&amp;&amp;&amp;%(********    </span><br><span class="line"> @%%%%%&amp;&amp;@@@@@@@@@@(*****//**/*///**/((*/**.&amp;@@@@@&amp;&amp;%%%##(/*,,/..... .     . *((#/*####(/***/********</span><br><span class="line"> &amp;@@@@&amp;%##%%&amp;&amp;&amp;@@@@@@@&amp;(**/*/*///(/////(///.@@@@@@@&amp;&amp;&amp;%%&amp;%###((**/....   ,, .#((#//((#(/***//******/*</span><br><span class="line"> &amp;&amp;%%&amp;@@@@&amp;%%%%%%%%%&amp;&amp;@@@&amp;/*//***/(///(///*.&amp;&amp;@@@@@@@@@&amp;%#%%####((,*,,.,,,  (#(##/(##(******/*****///</span><br><span class="line"> %%%%%&amp;@@&amp;&amp;&amp;&amp;&amp;@@@&amp;&amp;&amp;&amp;%%%%&amp;&amp;@@/****/#(//(//,,&amp;&amp;@&amp;&amp;@@@@@@@@&amp;&amp;%#(#%%/#/.,... ,#((/*//**(******/*****////</span><br><span class="line"> %%%%&amp;&amp;%&amp;&amp;&amp;%%%%%%###%%&amp;&amp;&amp;&amp;&amp;%%%&amp;#*///((///* /&amp;&amp;@@@@@@@@@@@@@@@&amp;%(/*,,.. *#%#*****///**/****/*****////*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%%%%%%#%######((//////(*(, (&amp;#,(((##(##((##&amp;&amp;&amp;%%#/****//(((%%**//*///((/(/****//(/***</span><br><span class="line"> %%##########((((//(/(///////////(((((///,*////((((((((/(((((#(((((//***///((%%*///////((/(*//(/****/</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%###((((/////////(((((((#(######(((//////(///((//***//&amp;(*///*////((((/**///*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;@&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%####(((((//////(///////((((((///(((((((((((((/////////(&amp;/*/////**/(((/*///*</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%#((((((((((//////////////////////((((((((((////////////(%/**//*/*///(/////</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%###(#####(((////////***/*/////*////////////////////////////(#&amp;&amp;(**////***/((#(</span><br><span class="line"> &amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;%&amp;%%%%%%%%#####%%##((((((((/((////////*/*****////////*/*//////////(((####((/##**/****//,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY </span><br><span class="line">TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">We&#x27;ve found ourselves an encrypted engram - Can you break the (new and improved) indecipherable cipher?</span><br><span class="line">Message:A + Key:B = 0 + B = O</span><br><span class="line">Enter the answer with no spaces and all upper case:</span><br></pre>
-        </td>
-      </tr>
-    </table>
-  </figure>
+
+ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY 
+TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB
 
 
-  For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, **Rahool** is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
+We've found ourselves an encrypted engram - Can you break the (new and improved) indecipherable cipher?
+Message:A + Key:B = 0 + B = O
+Enter the answer with no spaces and all upper case:
+{% endccb %}
+
+For themed CTFs, I find it really fun to figure out the cultural references in the challenge before solving them. In this case, **Rahool** is a vendor in the *Destiny 2* Tower that can decrypt legendary engrams (purple) and sell exotic engrams (gold). Uncoincidentally, that's what we'll be doing here.
   
-  Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII is substitution. This means that the plaintext is simply substituted by a value determined by the algorithm. Throwing it into this [cipher identifier](https://www.boxentriq.com/code-breaking/cipher-identifier), we find that it is a **Vigenère** cipher.
+Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII is substitution. This means that the plaintext is simply substituted by a value determined by the algorithm. Throwing it into this [cipher identifier](https://www.boxentriq.com/code-breaking/cipher-identifier), we find that it is a **Vigenère** cipher.
   
-  Before moving on, we need to figure out what the hell a Vigenère is.
+Before moving on, we need to figure out what the hell a Vigenère is.
 
 ### The Vigenère Cipher 🔐
   
-  A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**.
+A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**.
   
-  To encrypt using addition, take the position in the alphabet of the first letter in your plaintext (make sure it starts at 0, i.e. A = 0, B = 1, C = 2) and add it with the position of your key (if the key was "key", the position would be 10 as K = 10). Then, take the **modulo** 26 (divide by 26 to get the remainder, symbol `%`), as some numbers add up to greater than 26.
+To encrypt using addition, take the position in the alphabet of the first letter in your plaintext (make sure it starts at 0, i.e. A = 0, B = 1, C = 2) and add it with the position of your key (if the key was "key", the position would be 10 as K = 10). Then, take the **modulo** 26 (divide by 26 to get the remainder, symbol `%`), as some numbers add up to greater than 26.
 
-  {% codeblock line_number:false %}
-  Plaintext: hello
-  Key: key
-  h (07) + k (10) = r (17 % 26 = 17)
-  e (04) + e (04) = i (08 % 26 = 08)
-  l (11) + y (24) = j (35 % 26 = 09)
-  l (11) + k (10) = v (21 % 26 = 21) <- Note that the key cycles
-  o (14) + e (04) = s (18 % 26 = 18)
-  Ciphertext: rijvs
-  {% endcodeblock %}
+{% codeblock line_number:false %}
+Plaintext: hello
+Key: key
+h (07) + k (10) = r (17 % 26 = 17)
+e (04) + e (04) = i (08 % 26 = 08)
+l (11) + y (24) = j (35 % 26 = 09)
+l (11) + k (10) = v (21 % 26 = 21) <- Note that the key cycles
+o (14) + e (04) = s (18 % 26 = 18)
+Ciphertext: rijvs
+{% endcodeblock %}
 
-  In a formula, where A is the plaintext's alphabetic position and B is the key's alphabetic position, in that would be:
-
-  {% codeblock line_number:false %}
-  C = (A + B) % 26
-  {% endcodeblock %}
+In a formula, where A is the plaintext's alphabetic position and B is the key's alphabetic position, in that would be:
+{% codeblock line_number:false %}
+C = (A + B) % 26
+{% endcodeblock %}
   
-  It'll be a more manual process (albeit more fun) for encrypting via table/tabula recta. Let's check out what it looks like (Source: [Wikipedia](https://en.wikipedia.org/wiki/Tabula_recta)):
+It'll be a more manual process (albeit more fun) for encrypting via table/tabula recta. Let's check out what it looks like (Source: [Wikipedia](https://en.wikipedia.org/wiki/Tabula_recta)):
   
-  ![Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/1024px-Vigen%C3%A8re_square_shading.svg.png)
+![Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/1024px-Vigen%C3%A8re_square_shading.svg.png)
   
 Each of the 26 rows contains the same alphabet, except shifted to the left by one position. At the top, each **column** is associated with a letter in the alphabet. To the left, each **row** is associated with a letter in the key.
 
@@ -83,7 +117,7 @@ If I wanted to encrypt `HELLO` with `WORLD` as the key, I would find the cell th
 
 ### Cheaters Never Win... 🏴
 
-  But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT" and Google the crap out of it. [DCode](https://www.dcode.fr/vigenere-cipher), which can keylessly decrypt substitution ciphers, is the first option. Click, clack, `Ctrl + Shift + C`, `Ctrl + V` later and we have solved it!!1!1!
+But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT" and Google the crap out of it. [DCode](https://www.dcode.fr/vigenere-cipher), which can keylessly decrypt substitution ciphers, is the first option. Click, clack, `Ctrl + Shift + C`, `Ctrl + V` later and we have solved it!!1!1!
   
 ![Rahool-DCode](https://github.com/WhileSEC/shctf/blob/main/images/rahool-dcode.PNG?raw=true)
 
@@ -103,20 +137,18 @@ I solved this challenge via **known-plaintext attack**. Yeah, it sounds fancy. B
 
 ![Rahool-Vigenere](https://github.com/WhileSEC/shctf/blob/main/images/rahool-vigenere.PNG?raw=true)
   
-  This is a tabula recta with a modified offset. You see how intersecting column A and row B would return O?
+This is a tabula recta with a modified offset. You see how intersecting column A and row B would return O?
   
-  Since we know our plaintext, we can use this table "backwards" to find the key. If you go down the column of your letter and find its equivalent ciphertext letter, it would be on the same row as the key for that letter!
+Since we know our plaintext, we can use this table "backwards" to find the key. If you go down the column of your letter and find its equivalent ciphertext letter, it would be on the same row as the key for that letter!
   
-  For example, if `C` is our plaintext and `Q` is our ciphertext, the key would be `B`.
+For example, if `C` is our plaintext and `Q` is our ciphertext, the key would be `B`.
   
-  Let's follow this process for the actual plaintext/ciphertext:
+Let's follow this process for the actual plaintext/ciphertext:
 
-{% codeblock line_number:false %}
-Ciphertext: ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY 
-TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB
-Plaintext: NICE JOB DECRYPTING INPUT THE ANSWER AS THE KEY WITH THE E AS A THREE THE O AS A ZERO WITH THE WORD
-ENGRAM AFTER WITH THE A AS A FOUR AND AOGNER RIGHT AFTER
-{% endcodeblock %}
+{% ccb wrapped:true %}
+Ciphertext: ESDK EDS NFIMNGDJTB XEZVZ OWV KOYRTI KT ZCT BOZ CDIY DIK Z PJ K UNMTV DIK J PJ K AKMD NSUN OWV GPXY TEQSGH PWDFX RXKR UNZ P RC B LJJI KOJ VDXXFX MXXRU GAIVB
+Plaintext: NICE JOB DECRYPTING INPUT THE ANSWER AS THE KEY WITH THE E AS A THREE THE O AS A ZERO WITH THE WORD ENGRAM AFTER WITH THE A AS A FOUR AND AOGNER RIGHT AFTER
+{% endccb %}
 
 {% codeblock line_number:false %}
 E + N -> E
@@ -136,7 +168,7 @@ G + P -> E
 {% endcodeblock %}
 
 The key is `EXOTIC`, as in how Master Rahool sells exotic engrams. Very funny.
-We can now follow the instructions in the plaintext and send it to the server with Python and `pwntools`:
+We can now follow the instructions in the plaintext and send it to the server with an unnecessary `pwntools` script:
 
 ```py
 from pwn import *
@@ -144,20 +176,13 @@ from pwn import *
 p = remote("0.cloud.chals.io", 10294)
 p.sendline("3X0TICENGR4MAOGNER")
 log.success(p.recvallS())
-p.close()
 ```
 
 Sending the string:
 
-<figure class="highlight console">
-  <table>
-    <tr>
-      <td class="code">
-        <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 exp.py</span></span><br><span class="line">...</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you&#x27;ll be a cryptarch yet. Here&#x27;s your flag: shctf&#123;c0Me_baCk_s0on_w3_n33d_the_chAll3nge&#125;</span><br></pre>
-      </td>
-    </tr>
-  </table>
-</figure>
+{% ccb html:true wrapped:true %}
+<span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 exp.py</span></span><br><span class="line">...</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you&#x27;ll be a cryptarch yet. Here&#x27;s your flag: shctf&#123;c0Me_baCk_s0on_w3_n33d_the_chAll3nge&#125;</span>
+{% endccb %}
 
 We just solved `Rahool's Challenge` without needing to write any algorithms!
 

