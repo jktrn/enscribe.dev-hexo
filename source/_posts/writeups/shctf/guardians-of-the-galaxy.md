@@ -62,7 +62,7 @@ for i in range(0, 100):
 
 As you can see, it will send a UTF-8 encoded format string, with `str(i)` being the looping variable. If its output contains the flag, the loop breaks and the script will stop. Let's run it:
 
-{% ccb html:true %}
+{% ccb html:true highlight:24 %}
 <span class="meta prompt_">$ </span>python3 exp.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
 [<span style="color:#277FFF"><b>*</b></span>] Trying offset 0...
@@ -89,4 +89,4 @@ As you can see, it will send a UTF-8 encoded format string, with `str(i)` being 
     shctf&#123;im_distracting_you&#125;
 {% endccb %}
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

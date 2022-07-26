@@ -106,13 +106,14 @@ hexo.extend.tag.register('ccb', function (args, content) {
     let wrapped = obj.wrapped ? true : false;
     let diff_add = obj.diff_add ? parseRange(obj.diff_add).map(x => parseInt(x)) : undefined;
     let diff_del = obj.diff_del ? parseRange(obj.diff_del).map(x => parseInt(x)) : undefined;
+    let highlight = obj.highlight ? parseRange(obj.highlight).map(x => parseInt(x)) : undefined;
     let url = obj.url ? obj.url : undefined;
     let url_text = obj.url_text ? obj.url_text : undefined;
     let highlighted = hljs.highlight(content, {
         language: lang
     }).value;
-    let lines = highlighted.split('\n');
-
+    let lines = obj.html ? content.split('\n') : highlighted.split('\n');
+    
     lines = lines.map(line => {
         if (line.indexOf("SKIP_LINE") != -1) {
             return `<div class="skip-highlight">(${line.match(/\((.*)\)/)[1]})</div>`;
@@ -133,6 +134,12 @@ hexo.extend.tag.register('ccb', function (args, content) {
         });
     }
 
+    if(highlight) {
+        highlight.forEach(function (line) {
+            lines[line - 1] = `<div class="code-highlight">${lines[line - 1]}</div>`;
+        });
+    }
+
     highlighted = lines.join('\n');
 
     const scrollableText = scrollable ? `<div style="height:400px; overflow:auto; margin:1rem 0;">` : "";
@@ -144,8 +151,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
     const captionText = caption ? `<figcaption><span>${caption}</span>${urlText}</figcaption>` : "";
     const gutter1Text = gutter1 ? `<td class="gutter"><pre>${gutter1}</pre></td>`: "";
     const gutter2Text = gutter2 ? `<td class="gutter"><pre>${gutter2}</pre></td>`: "";
-    if(obj.html) return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${content}</pre></td></tr></table></figure>${scrollableEnd}`;
-    else return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${highlighted}</pre></td></tr></table></figure>${scrollableEnd}`;
+    return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${highlighted}</pre></td></tr></table></figure>${scrollableEnd}`;
 }, {
     ends: true
 });
@@ -153,4 +159,27 @@ hexo.extend.tag.register('ccb', function (args, content) {
 //create a hexo tag that returns fontawesome script src
 hexo.extend.tag.register('fontawesome', function () {
     return `<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>`;
+});
+
+//create a hexo tag that accepts a url, width, alt text and a subtitle and returns an image tag
+hexo.extend.tag.register('cimage', function (args, content) {
+    let obj = {};
+    args.forEach(function(item) {
+        let key = item.split(':')[0];
+        let value = item.split(':')[1];
+        obj[key] = value;
+    });
+    let url = obj.url ? obj.url : undefined;
+    let width = obj.width ? ` width="${obj.width}"` : "";
+    let alt = obj.alt ? ` alt="${obj.alt}"` : "";
+    let sub = obj.sub ? `<div class="subtitle">${obj.sub}</div>` : "";
+    return `<p><img src="${url}"${width}${alt}>${sub}</p>`;
+});
+
+//create a hexo tag that returns a flagcounter
+hexo.extend.tag.register('flagcounter', function (args, content) {
+    return `<img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">`
+}, {
+    ends: false,
+    async: true
 });

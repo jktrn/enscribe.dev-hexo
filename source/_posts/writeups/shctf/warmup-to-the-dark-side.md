@@ -48,7 +48,7 @@ for i in range(32,128):
 {% endccb %}
 
 Let's run this script on the server to see if we can get the flag:
-{% ccb html:true %}
+{% ccb html:true highlight:18 %}
 ...
 [<span style="color:#277FFF"><b>*</b></span>] Trying offset 37 for address 0x55f788f1120c
 [<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (38B)
@@ -69,4 +69,4 @@ Let's run this script on the server to see if we can get the flag:
     shctf&#123;I_will_remov3_th3s3_restraints_and_leave_the_c3ll&#125;</span>
 {% endccb %}
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

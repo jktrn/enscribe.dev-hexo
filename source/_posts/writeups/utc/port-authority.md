@@ -11,6 +11,7 @@ tags:
 description: "Play a JSON-controlled strategy game through a WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
 permalink: ctfs/utc/prog/port-authority/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+hidden: true
 ---
 
 {% fontawesome %}
@@ -373,13 +374,13 @@ Sorry I was being extra. Let's flag the challenge now (sped up):
 
 ![Flag 1](/asset/utc/flag1.gif)
 
-{% codeblock line_number:false %}
+{% ccb highlight:5 %}
 ...
 ID: 0 | (688, 115) (748, 383) | DIR: UP
 ID: 0 | (688, 115) (748, 383) | DIR: UP
 ID: 0 | (688, 111) (748, 379) | DIR: UP
 {"type":"WIN","flag":"CTF{CapTA1n-cRUCh}"}
-{% endcodeblock %}
+{% endccb %}
 
 We've succesfully completed Level 1!
 
@@ -387,7 +388,9 @@ We've succesfully completed Level 1!
 
 ### LEVEL 2
 
-<div class="box">Lets script it - don't forget the order! [25 points]</div>
+{% box %}
+Lets script it - don't forget the order! [25 points]
+{% endbox %}
 
 "Lets script it"? I've already scripted throughout the entirety of Level 1 to accommodate for future levels! Let's add a Level 2 button to our scalable, future-proof code 😉:
 
@@ -432,14 +435,14 @@ It seems as though that you also need the ships to enter in a specific order. It
 
 ![Flag 2](/asset/utc/flag2.gif)
 
-```text
+{% ccb highlight:5 %}
 ...
 ID: 0 | (789, 105) (849, 294) | DIR: UP
 ID: 1 | (796, 105) (856, 373) | DIR: UP
 ID: 2 | (691, 108) (751, 389) | DIR: UP
 {"type":"WIN","flag":"CTF{capt41n-h00k!}"}
-```
+{% endccb %}
 
 Although we've solved level 2 manually, I have a gut feeling the next few ones won't be as trivial...
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

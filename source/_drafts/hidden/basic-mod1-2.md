@@ -11,6 +11,7 @@ tags:
 description: "Learn how to use JavaScript and Python3 to map numbers to character sets! This is my writeup for the picoCTF 2022 cryptography challenges \"basic-mod1/2\"."
 permalink: ctfs/pico22/crypto/basic-mod1-2/
 thumbnail: /asset/banner/banner-basic-mod.png
+hidden: true
 ---
 
 ## basic-mod1
@@ -54,6 +55,12 @@ z = z.join("");
 console.log(`picoCTF{${z}}`);
 ```
 
+{% ccb html:true %}
+<span class="meta prompt_">$ </span>node solve.js
+picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
+{% endccb %}
+
+
 Looking back at the problem after I learned Python, here's a solution that's significantly cleaner:
 
 ```py
@@ -69,25 +76,20 @@ z = [a[int(i) % 37] for i in y]
 print("picoCTF{"+''.join(z)+"}")
 ```
 
-<figure class="highlight text">
-  <table>
-    <tr>
-      <td class="code">
-        <pre><span class="line"><span class="line"><span class="meta prompt_">$ </span>python3 solve.py</span><br><span class="line">picoCTF&#123;R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>&#125;</span><br></pre>
-      </td>
-    </tr>
-  </table>
-</figure>
+{% ccb html:true %}
+<span class="meta prompt_">$ </span>python3 solve.py
+picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
+{% endccb %}
 
 ---
 
 ## basic-mod2
 
-<div class="box">
+{% box %}
 A new modular challenge!
 Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore.
-Wrap your decrypted message in the picoCTF flag format (<code>picoCTF{decrypted_message}</code>).
-</div>
+Wrap your decrypted message in the picoCTF flag format (`picoCTF{decrypted_message}`).
+{% endbox %}
 
 Let's go over what it's asking once again:
 
@@ -100,40 +102,35 @@ Let's go over what it's asking once again:
 Here's a stupidly long Javascript snippet I made to solve this:
 
 ```js
-//Splitting into array
+// Splitting into array
 x = "54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]".split();
-//Mapping to % 41 with modular inverse of 41
+// Mapping to % 41 with modular inverse of 41
 y = x.map(x => x % 41).map(x => modInverse(x, 41));
 z = [];
 
-//Mapping to charset
-for(let i = 0; i < y.length; i++) {
-    if(y[i] >= 1 && y[i] <= 26) z.push(String.fromCharCode(y[i] + 64));
-    else if(y[i] >= 27 && y[i] <= 36) z.push(y[i] - 27);
-    else if(y[i] == 37) z.push("_");
+// Mapping to charset
+for (let i = 0; i < y.length; i++) {
+    if (y[i] >= 1 && y[i] <= 26) z.push(String.fromCharCode(y[i] + 64));
+    else if (y[i] >= 27 && y[i] <= 36) z.push(y[i] - 27);
+    else if (y[i] == 37) z.push("_");
 }
 
 console.log(`picoCTF{${z.join("")}}`);
 
-//credit to: https://rosettacode.org/wiki/Modular_inverse
+// credit to: https://rosettacode.org/wiki/Modular_inverse
 function modInverse(a, b) {
-  a %= b;
-  for (var x = 1; x < b; x++) {
-      if ((a * x) % b == 1) {
-          return x;
-      }
-  }
+    a %= b;
+    for (var x = 1; x < b; x++) {
+        if ((a * x) % b == 1) {
+            return x;
+        }
+    }
 }
 ```
 
-<figure class="highlight text">
-  <table>
-    <tr>
-      <td class="code">
-        <pre><span class="line">picoCTF&#123;1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>&#125;</span><br></pre>
-      </td>
-    </tr>
-  </table>
-</figure>
+{% ccb html:true %}
+<span class="meta prompt_">$ </span>node solve.js
+picoCTF{1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>}
+{% endccb %}
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

@@ -180,10 +180,13 @@ log.success(p.recvallS())
 
 Sending the string:
 
-{% ccb html:true wrapped:true %}
-<span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 exp.py</span></span><br><span class="line">...</span><br><span class="line">[<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you&#x27;ll be a cryptarch yet. Here&#x27;s your flag: shctf&#123;c0Me_baCk_s0on_w3_n33d_the_chAll3nge&#125;</span>
+{% ccb html:true wrapped:true highlight:4 %}
+<span class="meta prompt_">$ </span>python3 exp.py
+...
+[<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you'll be a cryptarch yet. Here's your flag:
+shctf{c0Me_baCk_s0on_w3_n33d_the_chAll3nge}
 {% endccb %}
 
 We just solved `Rahool's Challenge` without needing to write any algorithms!
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

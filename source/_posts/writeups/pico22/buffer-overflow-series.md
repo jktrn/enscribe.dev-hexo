@@ -106,8 +106,10 @@ Researching online, a "SIGSEGV" stands for a **segmentation fault**, which is an
 
 We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the user input) onto the stack. This function sucks, as it will write the user's input to the stack without regard to its allocated length. The user can simply overflow this length, and the program will pass their input into the `vuln()` function to trigger a segmentation fault:
 
-{% ccb html:true %}
-<span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nc saturn.picoctf.net 65535</span></span><br><span class="line">Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa</span><br><span class="line">picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></span>}</span>
+{% ccb html:true highlight:3 %}
+<span class="meta prompt_">$</span> nc saturn.picoctf.net 65535
+Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa
+picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></span>}
 {% endccb %}
 
 ---
@@ -938,4 +940,4 @@ auaaa6^H
 
 We've successfully performed a brute force on a vulnerable static canary!
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}

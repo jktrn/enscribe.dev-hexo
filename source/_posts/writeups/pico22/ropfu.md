@@ -208,4 +208,4 @@ picoCTF{5n47ch_7h3_5h311_<span style="color:#696969"><b>[REDACTED]</b></span>}<s
 
 I know the way of ROP-fu, old man. Your shell has been snatched.
 
-<a href="https://info.flagcounter.com/8Xkk"><img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/" alt="Free counters!" border="0"></a>
+{% flagcounter %}
