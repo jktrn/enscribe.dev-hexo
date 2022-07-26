@@ -62,6 +62,33 @@ function parseRange(str) {
     return result;
 }
 
+/**
+ * Creates a custom codeblock, with manual line numbers and diffing.
+ * Usage example:
+ * {% ccb lang:javascript gutter1:1-3,6 caption:'hello world' url:example.com url_text:'hello world' diff_add:2 %}
+ * function helloWorld() {
+ *    console.log('hello world');
+ * }
+ * //SKIP_LINE:(4-5)
+ * helloWorld();
+ * {% endccb %}
+ * 
+ * @param {string} lang - The language of the codeblock.
+ * @param {string} gutter1 - First line numbers. Accepts comma-separated (no-space) numbers, ranges, and multiplications (i.e. 1,2,3-5,6x2).
+ * @param {string} gutter2 - Second line numbers. Same accepts as gutter1.
+ * @param {string} caption - The caption of the codeblock. Must be surrounded with quotes if it contains spaces.
+ * @param {string} url - The url of the codeblock. Omit https://.
+ * @param {string} url_text - The text of the url. Must be surrounded with quotes if it contains spaces.
+ * @param {string} diff_add - Highlights specified lines with green. Same accepts as gutter1.
+ * @param {string} diff_del - Highlights specified lines with red. Same accepts as gutter1.
+ * @param {string} highlight - Highlights specified lines with yellow. Same accepts as gutter1.
+ * @param {Boolean} html - Whether or not to use custom HTML in the codeblock. Default is false.
+ * @param {Boolean} scrollable - Whether or not to make the codeblock scrollable. Default is false. Window is 400px.
+ * @param {Boolean} wrapped - Whether or not to wrap text to next line. Default is false.
+ * 
+ * If you want a box to indicate skipped lines, comment SKIP_LINE:([start]-[end])
+ */
+
 hexo.extend.tag.register('ccb', function (args, content) {
     // parse args
     let obj = {};
@@ -82,8 +109,8 @@ hexo.extend.tag.register('ccb', function (args, content) {
     }).join("") : undefined;
 
     let caption = obj.caption ? obj.caption : undefined;
-    let scrollable = obj.scrollable ? true : false;
-    let wrapped = obj.wrapped ? true : false;
+    let scrollable = obj.scrollable == 'true' ? true : false;
+    let wrapped = obj.wrapped == 'true' ? true : false;
     let diff_add = obj.diff_add ? parseRange(obj.diff_add).map(x => parseInt(x)) : undefined;
     let diff_del = obj.diff_del ? parseRange(obj.diff_del).map(x => parseInt(x)) : undefined;
     let highlight = obj.highlight ? parseRange(obj.highlight).map(x => parseInt(x)) : undefined;
@@ -92,7 +119,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
     let highlighted = hljs.highlight(content, {
         language: lang
     }).value;
-    let lines = obj.html ? content.split('\n') : highlighted.split('\n');
+    let lines = obj.html == 'true' ? content.split('\n') : highlighted.split('\n');
     
     lines = lines.map(line => {
         if (line.indexOf("SKIP_LINE") != -1) {
