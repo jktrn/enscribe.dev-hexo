@@ -10,7 +10,7 @@ tags:
 - websocket
 description: "Play a JSON-controlled strategy game through a WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
 permalink: ctfs/utc/prog/port-authority/
-thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+thumbnail: /asset/banner/banner-port-authority.png
 hidden: true
 ---
 

@@ -10,7 +10,7 @@ tags:
 - pwn
 description: "Learn how to capture the flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges!"
 permalink: ctfs/pico/beginners-compilation/
-thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+thumbnail: /asset/banner/banner-beginners.png
 ---
 
 {% fontawesome %}

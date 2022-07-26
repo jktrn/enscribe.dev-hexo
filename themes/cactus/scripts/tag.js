@@ -19,7 +19,8 @@ hexo.extend.tag.register('box', function (args, content) {
     const argText = args ? ` style="${args}"` : "";
     return `<div class="box no-highlight"${argText}>${conv.makeHtml(content)}</div>`;
 }, {
-    ends: true
+    ends: true,
+    async: true
 });
 
 hexo.extend.tag.register('info', function (args, content) {
@@ -27,7 +28,8 @@ hexo.extend.tag.register('info', function (args, content) {
     let appended = `<i class="fa-solid fa-circle-info"></i> ${content}`;
     return `<div class="text-info no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
 }, {
-    ends: true
+    ends: true,
+    async: true
 });
 
 hexo.extend.tag.register('warning', function (args, content) {
@@ -35,7 +37,8 @@ hexo.extend.tag.register('warning', function (args, content) {
     let appended = `<i class="fa-solid fa-triangle-exclamation"></i> ${content}`;
     return `<div class="text-warning no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
 }, {
-    ends: true
+    ends: true,
+    async: true
 });
 
 function parseRange(str) {
@@ -58,29 +61,6 @@ function parseRange(str) {
     }
     return result;
 }
-
-/**
- * Creates a custom code block. Supports manual diffing.
- * @param {string} [lang] - language of the code block
- * @param {string} [gutter1] - first line counter (e.g. 1,2,5-7,10)
- * @param {string} [gutter2] - second line counter (for diffing)
- * @param {string} [caption] - caption of the code block
- * @param {string} [diff_add] - green highlighting for specified lines
- * @param {string} [diff_del] - red highlighting for specified lines
- * @returns {string} - html code block
- * 
- * You can also create a line skip in the code by commenting 
- * "SKIP_LINE:(start-end)" in the content. Example:
- * 
- * {% ccb %}
- * hello world
- * // SKIP_LINE:(1-3)
- * goodbye world
- * {% endccb %}
- * 
- * To create the same margin in the gutter, put an "S" in the
- * gutter1-2 parameter (e.g. gutter1:1,2,5-7,S,10).
- */
 
 hexo.extend.tag.register('ccb', function (args, content) {
     // parse args
@@ -153,12 +133,15 @@ hexo.extend.tag.register('ccb', function (args, content) {
     const gutter2Text = gutter2 ? `<td class="gutter"><pre>${gutter2}</pre></td>`: "";
     return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${highlighted}</pre></td></tr></table></figure>${scrollableEnd}`;
 }, {
-    ends: true
+    ends: true,
+    async: true
 });
 
 //create a hexo tag that returns fontawesome script src
 hexo.extend.tag.register('fontawesome', function () {
     return `<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>`;
+}, {
+    async: true
 });
 
 //create a hexo tag that accepts a url, width, alt text and a subtitle and returns an image tag
