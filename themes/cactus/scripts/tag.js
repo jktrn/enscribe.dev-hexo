@@ -193,3 +193,20 @@ hexo.extend.tag.register('flagcounter', function (args, content) {
     ends: false,
     async: true
 });
+
+hexo.extend.tag.register('twitter', function(args, content) {
+    let obj = {};
+    args.forEach(function(item) {
+        let key = item.split(':')[0];
+        let value = item.split(':')[1];
+        obj[key] = value;
+    });
+    
+    let url = obj.url ? obj.url : undefined;
+    let width = obj.width ? `width=${obj.width}` : '';
+
+  	return `<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" ${width}><a href="https://${url}"></a></blockquote></div><script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`;
+},{
+  async: true,
+  ends: false
+});
