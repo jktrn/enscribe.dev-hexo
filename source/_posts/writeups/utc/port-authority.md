@@ -1,6 +1,6 @@
 ---
 title: "utc/prog: Port Authority"
-date: 2022-07-16 23:07:37
+date: 2022-07-27 23:07:37
 categories:
 - ctfs
 - utc
@@ -11,7 +11,6 @@ tags:
 description: "Play a JSON-controlled strategy game through a WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
 permalink: ctfs/utc/prog/port-authority/
 thumbnail: /asset/banner/banner-port-authority.png
-hidden: true
 ---
 
 {% fontawesome %}
@@ -34,7 +33,11 @@ Note: This is an **instance-based** challenge. No website URL will be provided!
 
 This challenge was part of the Deloitte Hackazon Hacky Holidays "Unlock the City" 2022 CTF (yeah, what a name!). Labeled under the `#ppc` category, which apparently stands for "professional programming challenge", it was the final challenge under the "District 1" segment of the CTF and categorized under the Hard difficulty.
 
-This was the first CTF problem which didn't just challenge my ability to critically think and problem solve - it also challenged my **motor control** and **hand-eye coordination**.
+This was the first CTF problem which didn't just challenge my ability to critically think and problem solve - it also challenged my **motor control** and **hand-eye coordination**. Why? *Because I solved it by hand!* I believe this challenge was meant to be solved using 100% programming, but I wanted to challenge myself. This was the process.
+
+---
+
+## Foundations
 
 We're initially provided with a link that takes us to a nice-looking webgame called the "Port Traffic Control Interface":
 
@@ -203,13 +206,15 @@ ID: 0 | (211, 248) (271, 516) | DIR: UP
 
 Let's finally get to solving the challenge.
 
-### LEVEL 1
+---
+
+## Level 1
 
 {% box %}
 Do you know how websockets work? [25 points]
 {% endbox %}
 
-We can move on to the final quality-of-life feature: a web-based "controller" that can steer the ship on-click and start new levels. I moved all my code from a local `.js` file to [CodePen](https://codepen.io/) for instant page regeneration and accessability by teammates. Here's the HTML:
+The last thing I want to add was a web-based "controller", which can steer the ship on-click and start new levels. I moved all my code from a local `.js` file to [CodePen](https://codepen.io/) for instant page regeneration and accessability by teammates. Here's the HTML:
 
 {% codeblock lang:html [HTML] First start & steer buttons %}
 <p>Start Level:</p>
@@ -392,7 +397,7 @@ We've succesfully completed Level 1!
 
 ---
 
-### LEVEL 2
+## Level 2
 
 {% box %}
 Lets script it - don't forget the order! [25 points]
@@ -453,7 +458,7 @@ Although we've solved level 2 manually, I have a gut feeling the next few ones w
 
 ---
 
-### LEVEL 3
+## Level 3
 
 {% box %}
 Can you deal with the rocks that appeared in our once so peaceful harbor? [50 points]
@@ -540,7 +545,9 @@ ID: 2 | (742, 113) (802, 393) | DIR: UP
 {"type":"WIN","flag":"CTF{c4pt41N-m0rG4N}"}
 {% endccb %}
 
-### LEVEL 4
+---
+
+## Level 4
 
 {% box %}
 The algorithm disturbed our radar system - boats that veer too far off track are lost and never seen again. Can you give them directions in time? [50 points]
@@ -568,7 +575,7 @@ ID: 3 | (731, 114) (791, 395) | DIR: UP
 
 ---
 
-### LEVEL 5
+## Level 5
 
 {% box %}
 A huge influx of ships is coming our way - can you lead them safely to the port?  
@@ -839,6 +846,240 @@ But, finally, I got the solve run clipped here, with a small reaction 🤣:
 Your browser does not support the video tag.
 </video>
 
-The flag is `CTF{CaPT41n-j4Ck-sp4rR0w}`. Jesus, that took too long.
+The flag is `CTF{CaPT41n-j4Ck-sp4rR0w}`. We're finally done.
+
+Here is the final script:
+
+{% ccb lang:js gutter1:1-44,,,45-219 caption:'[JavaScript] Final script' scrollable:true wrapped:true %}
+// Regex so that I can freely paste the URL when the instance is changed
+const url = "https://[REDACTED].challenge.hackazon.org/";
+// Opens WebSocket connection
+const socket = new WebSocket(`wss://${url.replace(/^https?:\/\//, "")}ws`);
+// Object literal for level lookup
+const passwords = [{
+        level: 1,
+        password: ""
+    },
+    {
+        level: 2,
+        password: "CTF{CapTA1n-cRUCh}"
+    },
+    {
+        level: 3,
+        password: "CTF{capt41n-h00k!}"
+    },
+    {
+        level: 4,
+        password: "CTF{c4pt41N-m0rG4N}"
+    },
+    {
+        level: 5,
+        password: "CTF{C4pt41N-4MErIc4}"
+    }
+];
+const text = document.getElementById("textarea");
+
+// Runs on socket open, equivalent to .addEventListener()
+socket.onopen = function() {
+    log("[+] Connected!");
+};
+
+class Ship {
+    // Initializes class object instance
+    constructor(id, topLeft, bottomRight, direction) {
+        this.id = id;
+        this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
+        this.direction = direction;
+    }
+    // Getter + abusing template literals
+    get printState() {
+        return `ID: ${this.id} | (${Math.floor(this.topLeft.x)}, ${Math.floor(this.topLeft.y)}) (${Math.floor(this.bottomRight.x)}, ${Math.floor(this.bottomRight.y)}) | DIR: ${this.direction}`;
+    }
+}
+
+class Obstacle {
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+    }
+}
+
+let obstacles = [
+    new Obstacle(450, 1060), //1
+    new Obstacle(750, 1060), //2
+    new Obstacle(1200, 1060), //3
+    new Obstacle(1600, 1060), //4
+    new Obstacle(604, 700), //5
+    new Obstacle(1070, 600), //6
+    new Obstacle(1730, 650), //7
+    new Obstacle(604, 70), //8
+    new Obstacle(674, 200), //9
+    new Obstacle(1070, 350), //10
+    new Obstacle(1530, 200), //11
+    new Obstacle(1730, 300), //12
+    new Obstacle(232, 575) //13
+]
+
+let hasRotated = {
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false
+}
+
+window.lastRot = 0;
+let checkList = findAll("toggle");
+
+// Runs when output from server is received
+socket.onmessage = function (event) {
+    // Converts server output into object
+    let obj = JSON.parse(event.data);
+    if (obj.type == "TICK") {
+        let ships = [];
+        // For each ship in obj.ships, push class object into ships array
+        for (const i of obj.ships) {
+            ships.push(new Ship(i.id, i.area[0], i.area[1], i.direction));
+        }
+        // Call the string literal getter
+        for (const i of ships) {
+            log(i.printState);
+            // Infinite checks!
+            if (!checkList[0].checked) {
+                check(i, obstacles[0], "LEFT");
+                check(i, obstacles[1], "RIGHT");
+            }
+            if (!checkList[1].checked) {
+                check(i, obstacles[2], "LEFT");
+                check(i, obstacles[3], "RIGHT");
+            }
+            if (!checkList[2].checked) {
+                check(i, obstacles[4], "DOWN");
+                check(i, obstacles[7], "UP");
+            }
+            if (!checkList[3].checked) {
+                check(i, obstacles[5], "DOWN");
+                check(i, obstacles[9], "UP");
+            }
+            if (!checkList[4].checked) {
+                check(i, obstacles[6], "DOWN");
+                check(i, obstacles[11], "UP");
+            }
+            if (!checkList[5].checked) {
+                check(i, obstacles[8], "LEFT");
+                check(i, obstacles[10], "RIGHT");
+            }
+            // Auto-docking obstacle
+            check90(i, obstacles[12], "LEFT");
+        }
+    } else {
+        log(JSON.stringify(JSON.parse(event.data)));
+    }
+    // Guard clause for looping ships!
+    if (performance.now() - window.lastRot < 500) return;
+    window.lastRot = performance.now();
+    // If statement for each element that begins with "loop"
+    findAll("loop").forEach(function (element, index) {
+        if (element.checked) {
+            socket.send(JSON.stringify({
+                type: "SHIP_STEER",
+                shipId: `${index}`
+            }));
+        }
+    });
+};
+
+// Assigns onclick listeners for each level button
+findAll("lvl").forEach(function(element, index) {
+    element.onclick = function() {
+        socket.send(JSON.stringify({
+            type: "START_GAME",
+            level: passwords[index].level,
+            password: passwords[index].password
+        }));
+    };
+});
+
+// Assigns onclick listeners for each steer button
+findAll("steer").forEach(function(element, index) {
+    element.onclick = function() {
+        socket.send(JSON.stringify({
+            type: "SHIP_STEER",
+            shipId: `${index}`
+        }));
+    };
+});
+
+// Creates DOM array for each element with name id + int
+function findAll(id) {
+    let i = 0;
+    let list = [];
+    while (document.getElementById(id + i)) {
+        list[i] = document.getElementById(id + i);
+        i++;
+    }
+    return list;
+}
+
+function log(str) {
+    text.value += "\n" + str;
+    text.value = text.value.substring(text.value.length - 10000);
+    text.scrollTop = text.scrollHeight;
+}
+
+function turn180(id) {
+    socket.send(JSON.stringify({
+        type: "SHIP_STEER",
+        shipId: id
+    }));
+    socket.send(JSON.stringify({
+        type: "SHIP_STEER",
+        shipId: id
+    }));
+}
+
+function check(s, o, d) {
+    if (!hasRotated[s.id] &&
+        Math.abs(s.topLeft.y - o.y) < 75 &&
+        Math.abs(s.topLeft.x - o.x) < 75 &&
+        s.direction == d) {
+        hasRotated[s.id] = true;
+        turn180(s.id);
+        setTimeout(() => {
+            hasRotated[s.id] = false
+        }, "1000");
+    }
+}
+
+function check90(s, o, d) {
+    // Calculates middle of ship in coordinates
+    let mid = Math.abs(Math.floor(s.topLeft.x + s.bottomRight.x) / 2);
+    if (!hasRotated[s.id] &&
+        Math.abs(s.topLeft.y - o.y) < 400 && // Large y for legroom
+        Math.abs(mid - o.x) < 20 && // Small x for accuracy
+        s.direction == d) {
+        hasRotated[s.id] = true;
+        socket.send(JSON.stringify({
+            type: "SHIP_STEER",
+            shipId: s.id
+        }));
+        setTimeout(() => {
+            hasRotated[s.id] = false
+        }, "1000");
+    }
+}
+{% endccb %}
+
+---
+
+### Afterword
+
+If you made it to this point of the writeup, I want to sincerely thank you for reading. This writeup genuinely took longer to create than it took to solve the challenge (about 30 hours across two weeks), as I had to recreate, record, crop, and optimize every aspect of the solve. I had to create my own multi-hundred-line plugins to implement custom code blocks specifically for this writeup. Everything from the line numbers in highlighted diffs of code to the diagrams were hand-done, as this is my passion: to create for people to learn in a concise, aesthetically pleasing manner. This is also an entry for the Hacky Holidays writeup competition, so wish me luck! 🤞
+
+\- enscribe
+
+---
 
 {% flagcounter %}
