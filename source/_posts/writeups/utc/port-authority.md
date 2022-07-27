@@ -445,4 +445,109 @@ ID: 2 | (691, 108) (751, 389) | DIR: UP
 
 Although we've solved level 2 manually, I have a gut feeling the next few ones won't be as trivial...
 
+---
+
+### LEVEL 3
+
+{% box %}
+Can you deal with the rocks that appeared in our once so peaceful harbor? [50 points]
+{% endbox %}
+
+After adding another button to start Level 3, this is the field we start with:
+
+![Level 3](/asset/utc/level3.gif)
+
+They added some rocks to the board, and the ships are now moving at a faster speed. This is unfeasable to complete via multitasking, so we'll have to come up with a method to keep the ships in place.
+
+Here's the plan: let's make it so that these ships will constantly rotate at a certain interval - in doing so, they'll complete a 360° loop within a small area, and we can commandeer them one-at-a-time by disabling the loop for certain ships. Let's start by adding checkboxes to enable the loop:
+
+{% ccb lang:html gutter1:10-22 caption:'[HTML] Adding checkboxes for loop toggle' diff_add:7-12 %}
+    <p>Steer Ships:</p>
+    <div>
+        <button id="steer0">Steer 0</button>
+        <button id="steer1">Steer 1</button>
+        <button id="steer2">Steer 2</button>
+    </div>
+    <p>Loop Ships:</p>
+    <div>
+        <input type="checkbox" id="loop0" checked>Loop 0</input>
+        <input type="checkbox" id="loop1" checked>Loop 1</input>
+        <input type="checkbox" id="loop2" checked>Loop 2</input>
+    </div>
+</fieldset>
+
+{% endccb %}
+
+Regarding the JavaScript, I'll be using `performance.now()` and checking if the difference between it and `window.lastRot` is greater than 500ms. This check will happen every tick, and in theory will create a consistently steering ship that doesn't produce `"ILLEGAL_MOVE"`s for inputting too quickly:
+
+{% ccb lang:js gutter1:40-71 caption:'[JavaScript] Implementing looped rotations' diff_add:1,20-31 %}
+window.lastRot = 0;
+
+// Runs when output from server is received
+socket.onmessage = function (event) {
+    // Converts server output into object
+    let obj = JSON.parse(event.data);
+    if (obj.type == "TICK") {
+        let ships = [];
+        // For each ship in obj.ships, push class object into ships array
+        for (const i of obj.ships) {
+            ships.push(new Ship(i.id, i.area[0], i.area[1], i.direction));
+        }
+        // Call the string literal getter
+        for (const i of ships) {
+            log(i.printState);
+        }
+    } else {
+        log(JSON.stringify(JSON.parse(event.data)));
+    }
+    // Guard clause for looping ships!
+    if (performance.now() - window.lastRot < 500) return;
+    window.lastRot = performance.now();
+    // Sends steer if checkbox is checked
+    findAll("loop").forEach(function (element, index) {
+        if (element.checked) {
+            socket.send(JSON.stringify({
+                type: "SHIP_STEER",
+                shipId: `${index}`
+            }));
+        }
+    });
+};
+{% endccb %}
+
+Let's see if it works:
+
+![Looping](/asset/utc/looping.gif)
+
+We've managed to stabilize the playing field for a manual solve! Let's flag the level:
+
+<video style="margin:1rem 0" controls>
+  <source src="/asset/utc/flag3.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+{% ccb highlight:5 %}
+...
+ID: 0 | (760, 105) (820, 343) | DIR: UP
+ID: 1 | (736, 101) (796, 371) | DIR: UP
+ID: 2 | (742, 113) (802, 393) | DIR: UP
+{"type":"WIN","flag":"CTF{c4pt41N-m0rG4N}"}
+{% endccb %}
+
+We've solved level 3!
+
+### LEVEL 4
+
+{% box %}
+The algorithm disturbed our radar system - boats that veer too far off track are lost and never seen again. Can you give them directions in time? [50 points]
+{% endbox %}
+
+After I added the level 4 button alongside steer/loop buttons for the extra ship that popped up, I discovered that my solution for level 3 actually worked for level 4 as well:
+
+![Level 4](/asset/utc/level4.gif)
+
+This means I can flag this level without needing to code at all!:
+
+
+
 {% flagcounter %}
