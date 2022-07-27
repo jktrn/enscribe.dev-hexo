@@ -99,7 +99,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
     });
     let lang = obj.lang ? obj.lang : "text";
     let gutter1 = obj.gutter1 ? parseRange(obj.gutter1).map(x => {
-        if(x == "S") return `<div style="margin:1.1em 0"><span class="line"> </span></div>`;
+        if(x == "S") return `<div style="margin:1.2em 0"><span class="line"> </span></div>`;
         else return `<span class="line">${x}</span><br>`;
     }).join("") : undefined;
 
