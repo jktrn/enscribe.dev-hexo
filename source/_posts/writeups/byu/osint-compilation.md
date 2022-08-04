@@ -12,6 +12,17 @@ permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png
 ---
 
+<style>
+    body h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        text-decoration: none;
+    }
+</style>
+
+{% fontawesome %}
+
 ![Banner](/asset/byu/banner.png)
 
 ### Intro
@@ -33,13 +44,14 @@ Thank you, and enjoy.
 
 ---
 
-## I don't dream about noodles, dad 🐼
-
-{% box %}
-Whose signature is found beneath Po's foot?  
-Flag format - `byuctf{Firstname_Lastname}`<br><br>
-{% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
-{% endbox %}
+{% challenge %}
+title: I don't dream about noodles, dad 🐼
+description: Whose signature is found beneath Po's foot?<br>Flag format - `byuctf{Firstname_Lastname}`<br><br>{% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
+solvers: enscribe
+genre: osint
+points: 100
+files: [po.png](/asset/byu/po1.png)
+{% endchallenge %}
 
 I did a quick [Google Lens](https://lens.google/) search with my phone with the keyword "BYU" attached and [this](https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/) article turned up:
 
@@ -51,13 +63,14 @@ Since the tribute is for Jason Turner, we can assume the signature is below his 
 
 ---
 
-## Oh The Vanity 🌐
-
-{% box %}
-The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.  
-Flag format: `byuctf{mm-dd-yyyy}`<br><br>
-{% cimage url:/asset/byu/sharky1.png width:500 alt:sharky.png sub:sharky.png %}
-{% endbox %}
+{% challenge %}
+title: Oh The Vanity 🌐
+description: The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>Flag format - `byuctf{mm-dd-yyyy}`<br><br>{% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
+genre: osint
+solvers: sahuang
+points: 100
+files: [sharky.png](/asset/byu/sharky1.png)
+{% endchallenge %}
 
 Reverse Google Search with a "phishing" crib:
 
@@ -68,13 +81,14 @@ The flag is `byuctf{05-11-22}`.
 
 ---
 
-## B0uld3r1ng 🧗
-
-{% box %}
-I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?
-<br><br>
-{% cimage url:/asset/byu/bouldering1.png width:600 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
-{% endbox %}
+{% challenge %}
+title: B0uld3r1ng 🧗
+description: I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?<br><br>{% cimage url:/asset/byu/bouldering1.png width:400 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
+genre: osint
+solvers: sahuang --flag, enscribe, Battlemonger
+points: 416
+files: [b0uld3r1ng.png](/asset/byu/b0uld3r1ng1.png)
+{% endchallenge %}
 
 Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the `Lizard's Mouth Rock` in Santa Barbara County, California:
 
@@ -100,13 +114,14 @@ The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 
 ---
 
-## Squatter's Rights 💦
-
-{% box %}
-Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??
-<br><br>
-{% cimage url:/asset/byu/squatter1.png width:600 sub:geoguesser.png %}
-{% endbox %}
+{% challenge %}
+title: Squatter's Rights 💦
+description: Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??<br><br>{% cimage url:/asset/byu/squatter1.png width:400 sub:geoguesser.png %}
+genre: osint
+solvers: enscribe --flag, sahuang
+points: 489
+files: [geoguesser.png](/asset/byu/squatter1.png)
+{% endchallenge %}
 
 Hey, look! Another Google Lens problem! Although there's a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:
 
@@ -156,13 +171,13 @@ Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "Fro
 
 ---
 
-## Okta? More like OhNah 💾
-
-{% box %}
-Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".
-<br><br>
-flag: `byuctf{answer_Timestamp in format: HH:MM}` two word answer seperated by an underscore.
-{% endbox %}
+{% challenge %}
+title: Okta? More like OhNah 💾
+description: Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".<br>Flag format - `byuctf{answer:timestamp in format HH:MM}`, two word answer seperated by an underscore.
+genre: osint
+solvers: Battlemonger --flag, enscribe
+points: 490
+{% endchallenge %}
 
 Looks like a challenge regarding an infamous hacking group. Seeing that the flag asks for a timestamp and the language is pseudo-colloquial, I'd safely assume that this text mentioned somewhere came from a messaging board. I downloaded *Telegram*, their main method of communication with the real world, joining their [announcements board](https://t.me/minsaudebr), yet upon a <kbd>Ctrl</kbd> + <kbd>F</kbd> I couldn't find this message anywhere. Their board mentions a [group chat](https://t.me/saudechat), but it was recently purged and terminated. When the admin confirmed that this wasn't the intended solution, I moved towards looking for screenshots surrounding the Okta leak. Our team found this [tweet from John Hammond](https://twitter.com/_JohnHammond/status/1506166671664463875) after a while:
 
@@ -177,24 +192,19 @@ Would have been easier. Love you, John Hammond.
 
 ---
 
-## Murder Mystery 🧢
-
-{% box %}
-While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>
-
-`0110111001110010011010000111000001101001011001000100110001001011110100001111`  
-June 29, 1902<br><br>
-
-Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?  
-Flag - `byuctf{inscription_with_underscores}`  
-Note, the flag will not include the name or dates found in the inscription.
-{% endbox %}
+{% challenge %}
+title: Murder Mystery 🧢
+description: While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>`0110111001110010011010000111000001101001011001000100110001001011110100001111`<br>June 29, 1902<br><br>Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?<br>Flag - `byuctf{inscription_with_underscores}`<br>Note, the flag will not include the name or dates found in the inscription.
+genre: osint
+solvers: Battlemonger
+points: 499
+{% endchallenge %}
 
 Instantly, we moved to [Cyberchef](https://gchq.github.io/CyberChef/) for the binary conversion, and it resulted in `nrhpidLKÐ`. We thought it was garbage at first, until a teammate noticed "NRHP ID" within the string, which is related to the [National Register of Historic Places](https://history.idaho.gov/nrhp/). Since there's a historic date also in the description, we can immediately conclude that this is the correct path to take. We isolated the last part and converted it into decimal instead - `80002319`.
 
 Following the trail for `NRHP ID 80002319`, we found this [UpWiki Page](https://en.upwiki.one/wiki/Jesse_James_Home_Museum) About the "Jesse James Home Museum", which is the location registered under this ID.
 
-When I looked up "jesse james famous inscription", I found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James' grave:
+When we looked up "jesse james famous inscription", we found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James' grave:
 
 {% cimage url:/asset/byu/mystery1.png width:600 %}
 
@@ -202,13 +212,13 @@ Removing the dates and names as the description specifies, the flag is `byuctf{m
 
 ---
 
-## Buckeye Billy Birthday 💙
-
-{% box %}
-Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?  
-[Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)  
-format: `byuctf{storename}`
-{% endbox %}
+{% challenge %}
+title: Buckeye Billy Birthday 🎂
+description: Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>[Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)<br>format - `byuctf{storename}`
+genre: osint
+solvers: Battlemonger --flag, sahuang, enscribe
+points: 500
+{% endchallenge %}
 
 I took a look at the three hints, and they were Wordle games that resulted in `WATER`, `CALLS`, and `PROBE`. Since we were looking for a shop (meaning a location), we immediately turned to [what3words](https://what3words.com/) and stumbled across [this location](https://what3words.com/water.calls.probe) in Charlotte, Ohio:
 
@@ -233,12 +243,15 @@ The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb.
 
 ---
 
-## Buckeye Billy Blabbin' 💬
-
-{% box %}
-Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!  
+{% challenge %}
+title: Buckeye Billy Blabbin' 💬
+description: Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!  
 Flag will be completely visible once solved! You will see `byuctf{}`.
-{% endbox %}
+size: 110%
+genre: osint
+solvers: Battlemonger --flag, enscribe
+points: 500
+{% endchallenge %}
 
 Step 0 is to find his social media account, which we did by searching "Buckeye Billy" on [Twitter](https://twitter.com/William_buckeye):
 
@@ -280,13 +293,14 @@ The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Scr
 
 ---
 
-## 43 🎼
-
-{% box %}
-It’s at your fingertips!! Who made this code?<br>
-`` S fsu om yjr aogr 3"45` ``<br>
-format: `byuctf{blank_blank}`
-{% endbox %}
+{% challenge %}
+title: 43 🎼
+description: It’s at your fingertips!! Who made this code?<br>`` S fsu om yjr aogr 3"45` ``<br>format - `byuctf{blank_blank}`
+genre: osint
+solvers: Battlemonger --flag, enscribe, neil
+points: 500
+size: 110%
+{% endchallenge %}
 
 Looks like something the [DCode Cipher Identifier](https://www.dcode.fr/cipher-identifier) could figure out:
 

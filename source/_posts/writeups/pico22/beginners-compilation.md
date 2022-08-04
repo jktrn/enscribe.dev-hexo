@@ -15,62 +15,17 @@ thumbnail: /asset/banner/banner-beginners.png
 
 {% fontawesome %}
 
-<style>
-    .challenge {
-        border-radius: 5px;
-        overflow: hidden;
-        margin: 1rem 0;
-    }
-
-    .challenge-title {
-        border: 1px solid hsl(210, 8%, 6.5%);
-        background-color: hsl(210, 8%, 6.5%);
-        padding: 0.8rem 1.5rem;
-    }
-
-    .challenge-info {
-        border: 1px solid hsl(210, 8%, 8%);
-        background-color: hsl(210, 8%, 8%);
-        padding: 1rem 1.5rem;
-        font-size: 80%;
-    }
-
-    .challenge-description {
-        border: 1px solid: hsl(210, 8%, 9.5%);
-        background-color: hsl(210, 8%, 9.5%);
-        padding: 1rem;
-        font-size: 85%;
-        text-align: center;
-        flex: 1;
-    }
-
-    .center-align {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    body h3 {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0;
-        text-decoration: none;
-    }
-</style>
-
 ## Binary Exploitation
 
 {% challenge %}
 title: basic-file-exploit
 description: The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it! Connect to the program with netcat:<br>`$ nc saturn.picoctf.net 50366`
 hints: 1. Try passing in things the program doesn't expect. Like a string instead of a number.
-solver_image: https://avatars.githubusercontent.com/u/71956291
-solver_url: https://github.com/jktrn
-author: Will Hong
+authors: Will Hong
 genre: pwn/binary
-solver: enscribe
+solvers: enscribe
 points: 100
-files: <a href="/asset/pico22/beginners-compilation/program-redacted.c">program-redacted.c</a>
+files: [program-redacted.c](/asset/pico22/beginners-compilation/program-redacted.c)
 {% endchallenge %}
 
 Let's connect to the server using `netcat` to see what's going on:
@@ -339,11 +294,9 @@ picoCTF{M4K3_5UR3_70_CH3CK_Y0UR_1NPU75_<span style="color:#696969"><b>[REDACTED]
 title: CVE-XXXX-XXXX
 description: Enter the CVE of the vulnerability as the flag with the correct flag format - `picoCTF{CVE-XXXX-XXXXX}` - replacing `XXXX-XXXXX` with the numbers for the matching vulnerability. The CVE we're looking for is the first recorded remote code execution (RCE) vulnerability in 2021 in the Windows Print Spooler Service, which is available across desktop and server versions of Windows operating systems. The service is used to manage printers and print servers.
 hints: We're not looking for the Local Spooler vulnerability in 2021...
-solver_image: https://avatars.githubusercontent.com/u/71956291
-solver_url: https://github.com/jktrn
-author: Mubarak Mikail
+authors: Mubarak Mikail
 genre: osint, pwn (?)
-solver: enscribe
+solvers: enscribe
 points: 100
 {% endchallenge %}
 
@@ -361,11 +314,9 @@ The flag is `picoCTF{CVE-2021-34527}`.
 title: basic-mod1
 description: We found this weird message being passed around on the servers, we think we have a working decryption scheme.<br>Take each number mod 37 and map it to the following character set - 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. `picoCTF{decrypted_message}`)
 hints: 1\. Do you know what `mod 37` means?<br>2\. `mod` 37 means modulo 37. It gives the remainder of a number after being divided by 37.
-solver_image: https://avatars.githubusercontent.com/u/71956291
-solver_url: https://github.com/jktrn
-author: Will Hong
+authors: Will Hong
 genre: crypto, prog
-solver: enscribe
+solvers: enscribe
 points: 100
 {% endchallenge %}
 
@@ -432,11 +383,9 @@ picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
 title: basic-mod2
 description: A new modular challenge! Take each number mod 41 and find the modular inverse for the result. Then map to the following character set - 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore. Wrap your decrypted message in the picoCTF flag format (`picoCTF{decrypted_message}`).
 hints: 1\. Do you know what the modular inverse is?<br>2\. The inverse modulo `z` of `x` is the number, `y` that when multiplied by `x` is 1 modulo `z`<br>3\. It's recommended to use a tool to find the modular inverses
-solver_image: https://avatars.githubusercontent.com/u/71956291
-solver_url: https://github.com/jktrn
-author: Will Hong
+authors: Will Hong
 genre: crypto, prog
-solver: enscribe
+solvers: enscribe
 points: 100
 {% endchallenge %}
 
@@ -486,15 +435,14 @@ picoCTF{1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>}
 
 {% challenge %}
 title: credstuff
-description: We found a leak of a blackmarket website's login credentials. Can you find the password of the user  `cultiris`  and successfully decrypt it?<br>The first user in  `usernames.txt`  corresponds to the first password in  `passwords.txt`. The second user corresponds to the second password, and so on.
+description: We found a leak of a blackmarket website's login credentials. Can you find the password of the user  `cultiris`  and successfully decrypt it?<br>The first user in `usernames.txt` corresponds to the first password in `passwords.txt`. The second user corresponds to the second password, and so on.
+size: 110%
 hints: Maybe other passwords will have hints about the leak?
-solver_image: https://avatars.githubusercontent.com/u/71956135
-solver_url: https://github.com/MrTeaa
-author: <br>⠀- Will Hong<br>⠀- Lt. 'Syreal' Jones
-genre: forensics
-solver: MrTeaa
+authors: Will Hong, Lt. 'Syreal' Jones
+genre: crypto
+solvers: MrTea --flag, enscribe
 points: 100
-files: <a href="/asset/pico22/beginners-compilation/leak.tar">leak.tar</a>
+files: [leak.tar](/asset/pico22/beginners-compilation/leak.tar)
 {% endchallenge %}
 
 We're initially provided a `leak.tar` archive. On extraction, we're presented with two files: `usernames.txt` and `passwords.txt`:
@@ -561,15 +509,16 @@ The flag is `picoCTF{C7r1F_54V35_71M3}`!
 
 ### morse-code
 
-{% box %}
-Morse code is well known. Can you decrypt this?  
-Download the file [here](/asset/pico22/beginners-compilation/morse_chal.wav).  
-Wrap your answer with `picoCTF{}`, put underscores in place of pauses, and use all lowercase.<br><br>
-
-**Author**: Will Hong
-<details><summary>**Hint**:</summary>
-Audacity is a really good program to analyze morse code audio.</details>
-{% endbox %}
+{% challenge %}
+title: morse-code
+description: Morse code is well known. Can you decrypt this?<br>Wrap your answer with `picoCTF{}`, put underscores in place of pauses, and use all lowercase.
+size: 110%
+authors: Will Hong
+genre: crypto
+solvers: enscribe
+points: 100
+files: [morse_chal.wav](/asset/pico22/beginners-compilation/morse_chal.wav)
+{% endchallenge %}
 
 We're presented with a `morse_chal.wav` file:
 
@@ -578,7 +527,7 @@ We're presented with a `morse_chal.wav` file:
 Your browser does not support the audio element.
 </audio></div>
 
-We could totally decode this by hand using [Audacity's](https://www.audacityteam.org/) visualizer, but that's super time consuming. Instead, I opted for an automatic audio-based [Morse decoder](https://morsecode.world/international/decoder/audio-decoder-adaptive.html) online:
+We could totally decode this by hand using [Audacity's](https://www.audacityteam.org/) visualizer, but that's super time-consuming. Instead, I opted for an automatic audio-based [Morse decoder](https://morsecode.world/international/decoder/audio-decoder-adaptive.html) online:
 
 ![Automatic Morse Decoding](/asset/pico22/beginners-compilation/morse-code.gif)
 
@@ -592,16 +541,16 @@ Fun fact: this string is a leetspoken version of "What hath God wrought", which 
 
 ## Forensics
 
-### Enhance!
-
-{% box %}
-Download this image file and find the flag.  
-**Author**: Lt. 'Syreal' Jones
-{% endbox %}
-
-We're initially given a `drawing.flag.svg` file:
-
-{% cimage url:/asset/pico22/beginners-compilation/svg.png width:400 %}
+{% challenge %}
+title: Enhance!
+description: Download this image file and find the flag.<br><br>{% cimage url:/asset/pico22/beginners-compilation/svg.png width:200 sub:'svg.png' %}
+size: 110%
+authors: Lt. 'Syreal' Jones
+genre: forensics
+solvers: enscribe
+points: 100
+files: [REDACTED]
+{% endchallenge %}
 
 This is an SVG file, which stands for Scalable Vector Graphics. They consist of vectors, not pixels, and can be thought of as a collection of shapes on a Cartesian (x/y) plane. The code that creates such graphics can also be viewed on Google Chrome with <kbd>F12</kbd>:
 

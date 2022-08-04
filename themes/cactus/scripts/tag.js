@@ -212,6 +212,34 @@ hexo.extend.tag.register('twitter', function(args, content) {
 });
 
 hexo.extend.tag.register('challenge', function(args, content) {
+    let members = {
+        'enscribe': {
+            'name': 'enscribe',
+            'url': 'https://github.com/jktrn',
+            'img': 'https://avatars.githubusercontent.com/u/71956291'
+        },
+        'MrTea': {
+            'name': 'MrTea',
+            'url': 'https://github.com/MrTeaa',
+            'img': 'https://avatars.githubusercontent.com/u/71956135'
+        },
+        'sahuang': {
+            'name': 'sahuang',
+            'url': 'https://github.com/sahuang',
+            'img': 'https://cdn.discordapp.com/avatars/111834400383070208/4eb453ae0e3cda1b9c783e85e0a65692.png'
+        },
+        'Battlemonger': {
+            'name': 'Battlemonger',
+            'url': 'javascript:;',
+            'img': 'https://cdn.discordapp.com/avatars/632614070867984420/a90072cdeafe74ef8ec59fcf3c086fc1.png'
+        },
+        'neil': {
+            'name': 'neil',
+            'url': 'javascript:;',
+            'img': 'https://support.discord.com/hc/user_images/l12c7vKVRCd-XLIdDkLUDg.png'
+        }
+    };
+
     let lines = content.split('\n');
     let obj = {};
     lines.forEach(function(item) {
@@ -221,29 +249,58 @@ hexo.extend.tag.register('challenge', function(args, content) {
     });
     let title = obj.title ? `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>` : "";
     let description = obj.description ? `${conv.makeHtml(obj.description)}` : "";
+    let size = obj.size ? `style="font-size: ${obj.size}"` : "";
     let hints = obj.hints ? `<br><details><summary><b>Hints</b>:</summary><br>${conv.makeHtml(obj.hints)}</details>` : "";
-    let solver_image = obj.solver_image ? `<img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${obj.solver_image}">` : "";
-    let solver_url = obj.solver_url ? obj.solver_url : "";
-    let solver = obj.solver ? `<i class="fa-solid fa-user"></i> <b>solvers</b>: ${solver_image} <a href="${solver_url}">${obj.solver}</a><br>` : "";
-    let author = obj.author ? `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${obj.author}<br>` : "";
+    let solvers, authors;
+    let solverText = `<i class="fa-solid fa-user"></i> <b>solvers</b>:<br>`;
+    // if solvers exists, split it into an array
+    if(obj.solvers) {
+        solvers = obj.solvers.split(', ').length > 1 ? obj.solvers.split(', ') : obj.solvers;
+    }
+
+    //if obj.solvers is an array
+    if(Array.isArray(solvers)) {
+        for(const solver of solvers) {
+            if(solver.includes(' --flag')) {
+                const flagger = solver.replace(' --flag', ''); 
+                solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[flagger].img}"> <a href="${members[flagger].url}">${members[flagger].name}</a> <i class="fa-solid fa-flag"></i><br>`;
+            } else {
+                solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solver].img}"> <a href="${members[solver].url}">${members[solver].name}</a><br>`;
+            }
+        }
+    } else {
+        solverText = `<i class="fa-solid fa-user"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solvers].img}"> <a href="${members[solvers].url}">${members[solvers].name}</a><br>`
+    }
+
+    if (obj.authors) {
+        if(obj.authors.split(', ').length > 1) {
+            let arr = obj.authors.split(',').map(x => `<br> - ${x}`).join("");
+            authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+        } else {
+            authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: ${obj.authors}<br>`;
+        }
+    } else {
+        authors = "";
+    }
+
     let genre = obj.genre ? `<i class="fa-solid fa-tag"></i> <b>genre</b>: ${obj.genre}<br>` : "";
     let points = obj.points ? `<i class="fa-solid fa-circle-plus"></i> <b>points</b>: ${obj.points}<br>` : "";
-    let files = obj.files ? `<i class="fa-solid fa-file"></i> <b>files</b>: ${obj.files}<br>` : "";
+    let files = obj.files ? `<i class="fa-solid fa-file"></i> <b>files</b>: ${conv.makeHtml(obj.files)}<br>` : "";
 
     return `<div class="challenge">
     ${title}
     <div style="display:flex;" class="no-highlight">
         <div class="challenge-info">
             <div class="center-align">
-                ${solver}
-                ${author}
+                ${solverText}
+                ${authors}
                 ${genre}
                 ${points}
                 ${files}
             </div>
         </div>
         <div class="challenge-description">
-            <div class="center-align">
+            <div class="center-align" ${size}>
                 ${description}
                 ${hints}
             </div>
