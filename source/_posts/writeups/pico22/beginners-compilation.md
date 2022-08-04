@@ -15,19 +15,63 @@ thumbnail: /asset/banner/banner-beginners.png
 
 {% fontawesome %}
 
+<style>
+    .challenge {
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+
+    .challenge-title {
+        border: 1px solid hsl(210, 8%, 6.5%);
+        background-color: hsl(210, 8%, 6.5%);
+        padding: 0.8rem 1.5rem;
+    }
+
+    .challenge-info {
+        border: 1px solid hsl(210, 8%, 8%);
+        background-color: hsl(210, 8%, 8%);
+        padding: 1rem 1.5rem;
+        font-size: 80%;
+    }
+
+    .challenge-description {
+        border: 1px solid: hsl(210, 8%, 9.5%);
+        background-color: hsl(210, 8%, 9.5%);
+        padding: 1rem;
+        font-size: 85%;
+        text-align: center;
+        flex: 1;
+    }
+
+    .center-align {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    body h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        text-decoration: none;
+    }
+</style>
+
 ## Binary Exploitation
 
-### basic-file-exploit
-
-{% box %}
-The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it!  
-Connect to the program with netcat: `$ nc saturn.picoctf.net 50366`  
-The program's source code with the flag redacted can be downloaded [here](/asset/pico22/beginners-compilation/program-redacted.c).<br><br>
-**Author**: Will Hong  
-<details><summary>**Hint**:</summary>  
-1. Try passing in things the program doesn't expect. Like a string instead of a number</details.
->
-{% endbox %}
+{% challenge %}
+title: basic-file-exploit
+description: The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it! Connect to the program with netcat:<br>`$ nc saturn.picoctf.net 50366`
+hints: 1. Try passing in things the program doesn't expect. Like a string instead of a number.
+solver_image: https://avatars.githubusercontent.com/u/71956291
+solver_url: https://github.com/jktrn
+author: Will Hong
+genre: pwn/binary
+solver: enscribe
+points: 100
+files: <a href="/asset/pico22/beginners-compilation/program-redacted.c">program-redacted.c</a>
+{% endchallenge %}
 
 Let's connect to the server using `netcat` to see what's going on:
 
@@ -291,13 +335,17 @@ picoCTF{M4K3_5UR3_70_CH3CK_Y0UR_1NPU75_<span style="color:#696969"><b>[REDACTED]
 
 ---
 
-### CVE-XXXX-XXXX
-{% box %}
-Enter the CVE of the vulnerability as the flag with the correct flag format: `picoCTF{CVE-XXXX-XXXXX}` replacing XXXX-XXXXX with the numbers for the matching vulnerability. The CVE we're looking for is the first recorded remote code execution (RCE) vulnerability in 2021 in the Windows Print Spooler Service, which is available across desktop and server versions of Windows operating systems. The service is used to manage printers and print servers.<br><br>
-**Author:** Mubarak Mikail
-<details><summary>**Hint**:</summary><br>
-We're not looking for the Local Spooler vulnerability in 2021...</details>
-{% endbox %}
+{% challenge %}
+title: CVE-XXXX-XXXX
+description: Enter the CVE of the vulnerability as the flag with the correct flag format - `picoCTF{CVE-XXXX-XXXXX}` - replacing `XXXX-XXXXX` with the numbers for the matching vulnerability. The CVE we're looking for is the first recorded remote code execution (RCE) vulnerability in 2021 in the Windows Print Spooler Service, which is available across desktop and server versions of Windows operating systems. The service is used to manage printers and print servers.
+hints: We're not looking for the Local Spooler vulnerability in 2021...
+solver_image: https://avatars.githubusercontent.com/u/71956291
+solver_url: https://github.com/jktrn
+author: Mubarak Mikail
+genre: osint, pwn (?)
+solver: enscribe
+points: 100
+{% endchallenge %}
 
 This is a really trivial challenge. You can actually google "first recorded remote code execution (RCE) vulnerability in 2021" and it will be the first result:
 
@@ -309,16 +357,17 @@ The flag is `picoCTF{CVE-2021-34527}`.
 
 ## Cryptography
 
-### basic-mod1
-
-{% box %}
-We found this weird message being passed around on the servers, we think we have a working decryption scheme.  
-Take each number mod 37 and map it to the following character set: 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. `picoCTF{decrypted_message}`)<br><br>
-**Author**: Will Hong  
-<details><summary>**Hints**:</summary><br>
-1\. Do you know what `mod 37`means?<br>
-2\. `mod` 37 means modulo 37. It gives the remainder of a number after being divided by 37.</details>
-{% endbox %}
+{% challenge %}
+title: basic-mod1
+description: We found this weird message being passed around on the servers, we think we have a working decryption scheme.<br>Take each number mod 37 and map it to the following character set - 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. `picoCTF{decrypted_message}`)
+hints: 1\. Do you know what `mod 37` means?<br>2\. `mod` 37 means modulo 37. It gives the remainder of a number after being divided by 37.
+solver_image: https://avatars.githubusercontent.com/u/71956291
+solver_url: https://github.com/jktrn
+author: Will Hong
+genre: crypto, prog
+solver: enscribe
+points: 100
+{% endchallenge %}
 
 Let's go over what it's asking:
 
@@ -379,19 +428,17 @@ picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
 
 ---
 
-### basic-mod2
-
-{% box %}
-A new modular challenge!  
-Take each number mod 41 and find the modular inverse for the result. Then map to the following character set: 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore.
-Wrap your decrypted message in the picoCTF flag format (`picoCTF{decrypted_message}`).<br><br>
-
-**Author**: Will Hong
-<details><summary>**Hints**:</summary><br>
-1\. Do you know what the modular inverse is?<br>
-2\. The inverse modulo `z` of `x` is the number, `y` that when multiplied by `x` is 1 modulo `z`<br>
-3\. It's recommended to use a tool to find the modular inverses</details>
-{% endbox %}
+{% challenge %}
+title: basic-mod2
+description: A new modular challenge! Take each number mod 41 and find the modular inverse for the result. Then map to the following character set - 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore. Wrap your decrypted message in the picoCTF flag format (`picoCTF{decrypted_message}`).
+hints: 1\. Do you know what the modular inverse is?<br>2\. The inverse modulo `z` of `x` is the number, `y` that when multiplied by `x` is 1 modulo `z`<br>3\. It's recommended to use a tool to find the modular inverses
+solver_image: https://avatars.githubusercontent.com/u/71956291
+solver_url: https://github.com/jktrn
+author: Will Hong
+genre: crypto, prog
+solver: enscribe
+points: 100
+{% endchallenge %}
 
 Let's go over what it's asking once again:
 
@@ -437,16 +484,18 @@ picoCTF{1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>}
 
 ---
 
-### credstuff
-
-{% box %}
-We found a leak of a blackmarket website's login credentials. Can you find the password of the user  `cultiris`  and successfully decrypt it?  
-Download the leak [here](/asset/pico22/beginners-compilation/leak.tar).  
-The first user in  `usernames.txt`  corresponds to the first password in  `passwords.txt`. The second user corresponds to the second password, and so on.<br><br>
-**Authors**: Will Hong, Lt. 'Syreal' Jones
-<details><summary>**Hint**:</summary><br>
-Maybe other passwords will have hints about the leak?</details>
-{% endbox %}
+{% challenge %}
+title: credstuff
+description: We found a leak of a blackmarket website's login credentials. Can you find the password of the user  `cultiris`  and successfully decrypt it?<br>The first user in  `usernames.txt`  corresponds to the first password in  `passwords.txt`. The second user corresponds to the second password, and so on.
+hints: Maybe other passwords will have hints about the leak?
+solver_image: https://avatars.githubusercontent.com/u/71956135
+solver_url: https://github.com/MrTeaa
+author: <br>⠀- Will Hong<br>⠀- Lt. 'Syreal' Jones
+genre: forensics
+solver: MrTeaa
+points: 100
+files: <a href="/asset/pico22/beginners-compilation/leak.tar">leak.tar</a>
+{% endchallenge %}
 
 We're initially provided a `leak.tar` archive. On extraction, we're presented with two files: `usernames.txt` and `passwords.txt`:
 

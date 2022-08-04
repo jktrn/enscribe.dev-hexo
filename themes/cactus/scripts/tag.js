@@ -210,3 +210,47 @@ hexo.extend.tag.register('twitter', function(args, content) {
   async: true,
   ends: false
 });
+
+hexo.extend.tag.register('challenge', function(args, content) {
+    let lines = content.split('\n');
+    let obj = {};
+    lines.forEach(function(item) {
+        let key = item.split(': ')[0];
+        let value = item.split(': ')[1];
+        obj[key] = value;
+    });
+    let title = obj.title ? `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>` : "";
+    let description = obj.description ? `${conv.makeHtml(obj.description)}` : "";
+    let hints = obj.hints ? `<br><details><summary><b>Hints</b>:</summary><br>${conv.makeHtml(obj.hints)}</details>` : "";
+    let solver_image = obj.solver_image ? `<img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${obj.solver_image}">` : "";
+    let solver_url = obj.solver_url ? obj.solver_url : "";
+    let solver = obj.solver ? `<i class="fa-solid fa-user"></i> <b>solvers</b>: ${solver_image} <a href="${solver_url}">${obj.solver}</a><br>` : "";
+    let author = obj.author ? `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${obj.author}<br>` : "";
+    let genre = obj.genre ? `<i class="fa-solid fa-tag"></i> <b>genre</b>: ${obj.genre}<br>` : "";
+    let points = obj.points ? `<i class="fa-solid fa-circle-plus"></i> <b>points</b>: ${obj.points}<br>` : "";
+    let files = obj.files ? `<i class="fa-solid fa-file"></i> <b>files</b>: ${obj.files}<br>` : "";
+
+    return `<div class="challenge">
+    ${title}
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                ${solver}
+                ${author}
+                ${genre}
+                ${points}
+                ${files}
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align">
+                ${description}
+                ${hints}
+            </div>
+        </div>
+    </div>
+</div>`;
+}, {
+    async: true,
+    ends: true
+});
