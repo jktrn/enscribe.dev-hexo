@@ -247,7 +247,14 @@ hexo.extend.tag.register('challenge', function(args, content) {
         let value = item.split(': ')[1];
         obj[key] = value;
     });
-    let title = obj.title ? `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>` : "";
+    let title;
+    if (obj.title) {
+        if(obj.level && obj.level == 'h2') {
+            title = `<div class="challenge-title"><h2 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h2></div>`;
+        } else {
+            title = `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>`;
+        }
+    }
     let description = obj.description ? `${conv.makeHtml(obj.description)}` : "";
     let size = obj.size ? `style="font-size: ${obj.size}"` : "";
     let hints = obj.hints ? `<br><details><summary><b>Hints</b>:</summary><br>${conv.makeHtml(obj.hints)}</details>` : "";

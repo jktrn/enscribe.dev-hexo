@@ -12,15 +12,6 @@ permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png
 ---
 
-<style>
-    body h3 {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0;
-        text-decoration: none;
-    }
-</style>
-
 {% fontawesome %}
 
 ![Banner](/asset/byu/banner.png)
@@ -46,7 +37,7 @@ Thank you, and enjoy.
 
 {% challenge %}
 title: I don't dream about noodles, dad 🐼
-description: Whose signature is found beneath Po's foot?<br>Flag format - `byuctf{Firstname_Lastname}`<br><br>{% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
+description: Whose signature is found beneath Po's foot?<br>Flag format&#58; `byuctf{Firstname_Lastname}`<br><br>{% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
 solvers: enscribe
 genre: osint
 points: 100
@@ -65,7 +56,7 @@ Since the tribute is for Jason Turner, we can assume the signature is below his 
 
 {% challenge %}
 title: Oh The Vanity 🌐
-description: The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>Flag format - `byuctf{mm-dd-yyyy}`<br><br>{% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
+description: The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>Flag format&#58; `byuctf{mm-dd-yyyy}`<br><br>{% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
 genre: osint
 solvers: sahuang
 points: 100
@@ -173,7 +164,7 @@ Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "Fro
 
 {% challenge %}
 title: Okta? More like OhNah 💾
-description: Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".<br>Flag format - `byuctf{answer:timestamp in format HH:MM}`, two word answer seperated by an underscore.
+description: Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".<br>Flag format&#58; `byuctf{answer:timestamp in format HH:MM}`, two word answer seperated by an underscore.
 genre: osint
 solvers: Battlemonger --flag, enscribe
 points: 490
@@ -194,7 +185,7 @@ Would have been easier. Love you, John Hammond.
 
 {% challenge %}
 title: Murder Mystery 🧢
-description: While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>`0110111001110010011010000111000001101001011001000100110001001011110100001111`<br>June 29, 1902<br><br>Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?<br>Flag - `byuctf{inscription_with_underscores}`<br>Note, the flag will not include the name or dates found in the inscription.
+description: While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br>`0110111001110010011010000111000001101001011001000100110001001011110100001111`<br>June 29, 1902<br><br>Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?<br>Flag&#58; `byuctf{inscription_with_underscores}`<br>Note&#58; the flag will not include the name or dates found in the inscription.
 genre: osint
 solvers: Battlemonger
 points: 499
@@ -214,7 +205,7 @@ Removing the dates and names as the description specifies, the flag is `byuctf{m
 
 {% challenge %}
 title: Buckeye Billy Birthday 🎂
-description: Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>[Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)<br>format - `byuctf{storename}`
+description: Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>[Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)<br>format&#58; `byuctf{storename}`
 genre: osint
 solvers: Battlemonger --flag, sahuang, enscribe
 points: 500
@@ -295,7 +286,7 @@ The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Scr
 
 {% challenge %}
 title: 43 🎼
-description: It’s at your fingertips!! Who made this code?<br>`` S fsu om yjr aogr 3"45` ``<br>format - `byuctf{blank_blank}`
+description: It’s at your fingertips!! Who made this code?<br>`` S fsu om yjr aogr 3"45` ``<br>format&#58; `byuctf{blank_blank}`
 genre: osint
 solvers: Battlemonger --flag, enscribe, neil
 points: 500
@@ -347,19 +338,5 @@ This is where you guess all the names of the Monkees. Not sure of the logical th
 Damn you, Micky.
 
 ---
-
-### Solvers
-
-- 🐼 I don’t dream about noodles, dad: **enscribe**
-- 🌐 Oh The Vanity: **sahuang**
-- 🧗‍♀️ B0uld3r1ng: **sahuang**, enscribe, Battlemonger
-- 💧 Squatter’s Rights: **enscribe**, sahuang
-- 💾 Okta? More like OhNah: **Battlemonger**, enscribe
-- 🔪 Murder Mystery : **Battlemonger**
-- 🎂 Buckeye Billy Birthday: **Battlemonger**, sahuang, enscribe
-- 💬 Buckeye Billy Blabbin’: **Battlemonger**, enscribe
-- 🎶 43: **Battlemonger**, neil, enscribe
-
-<sub>Thanks Battlemonger for carry!</sub>
 
 {% flagcounter %}

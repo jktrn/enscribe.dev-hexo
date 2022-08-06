@@ -507,8 +507,6 @@ The flag is `picoCTF{C7r1F_54V35_71M3}`!
 
 ---
 
-### morse-code
-
 {% challenge %}
 title: morse-code
 description: Morse code is well known. Can you decrypt this?<br>Wrap your answer with `picoCTF{}`, put underscores in place of pauses, and use all lowercase.

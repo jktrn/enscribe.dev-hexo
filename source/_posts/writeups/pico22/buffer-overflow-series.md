@@ -19,17 +19,20 @@ thumbnail: /asset/banner/banner-buffer-overflow.png
 
 This is a writeup for the buffer overflow series during the **picoCTF 2022** competition. This was arguably my favorite set of challenges, as beforehand I'd never stepped into the realm of binary exploitation/pwn. I learned a lot from this, so I highly recommend solving it by yourself before referencing this document. Cheers!
 
-## Buffer overflow 0
+---
 
-{% box %}
-Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available [here](asset/pico22/buffer-overflow/vuln-0). You can view source [here](asset/pico22/buffer-overflow/vuln-0.c), and connect with it using:  
-`nc saturn.picoctf.net 65535`<br><br>
-**Authors**: Alex Fulton, Palash Oswal
-<details><summary>**Hints**:</summary>
-1. How can you trigger the flag to print?
-2. If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.
-3. Run `man gets` and read the BUGS section. How many characters can the program really read?</details>
-{% endbox %}
+{% challenge %}
+title: Buffer overflow 0
+level: h2
+description: Smash the stack! Let's start off simple&#58; can you overflow the correct buffer? The program is available [here](asset/pico22/buffer-overflow/vuln-0). You can view source [here](asset/pico22/buffer-overflow/vuln-0.c), and connect with it using&#58; <br>`nc saturn.picoctf.net 65535`
+hints: 1\. How can you trigger the flag to print?<br>2\. If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.<br>3\. Run `man gets` and read the BUGS section. How many characters can the program really read?
+size: 110%
+authors: Alex Fulton, Palash Oswal
+genre: pwn/binary
+solvers: enscribe
+points: 100
+files: [vuln](asset/pico22/buffer-overflow/vuln-0), [vuln.c](asset/pico22/buffer-overflow/vuln-0.c)
+{% endchallenge %}
 
 {% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true %}
 <span class="meta prompt_">$ </span> checksec vuln
@@ -114,18 +117,18 @@ picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></
 
 ---
 
-## Buffer overflow 1
-
-{% box %}
-Control the return address.  
-Now we're cooking! You can overflow the buffer and return to the flag function in the [program](asset/pico22/buffer-overflow/vuln-1). You can view source [here](asset/pico22/buffer-overflow/vuln-1.c). And connect with it using:  
-`nc saturn.picoctf.net [PORT]`<br><br>
-  
-**Authors**: Sanjay C., Palash Oswal
-<details><summary>**Hints:**</summary>  
-1. Make sure you consider big Endian vs small Endian.  
-2. Changing the address of the return pointer can call different functions.</details>
-{% endbox %}
+{% challenge %}
+title: Buffer overflow 1
+level: h2
+description: Control the return address.<br>Now we're cooking! You can overflow the buffer and return to the flag function in the [program](asset/pico22/buffer-overflow/vuln-1). You can view source [here](asset/pico22/buffer-overflow/vuln-1.c). And connect with it using:<br>`nc saturn.picoctf.net [PORT]`
+hints: 1\. Make sure you consider big Endian vs small Endian.<br>2\. Changing the address of the return pointer can call different functions.
+size: 110%
+authors: Sanjay C., Palash Oswal
+genre: pwn/binary
+solvers: enscribe
+points: 200
+files: [vuln](asset/pico22/buffer-overflow/vuln-1), [vuln.c](asset/pico22/buffer-overflow/vuln-1.c)
+{% endchallenge %}
 
 {% warning %}
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
@@ -478,16 +481,18 @@ We've successfully automated a solve on a simple x32 buffer overflow!
 
 ---
 
-## Buffer overflow 2
-
-{% box %}
-Control the return address and arguments  
-This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](asset/pico22/buffer-overflow/vuln-2)?  
-You can view source [here](asset/pico22/buffer-overflow/vuln-2.c). And connect with it using `nc saturn.picoctf.net [PORT]`<br><br>
-**Authors**: Sanjay C., Palash Oswal  
-<details><summary>**Hints**:</summary>
-1. Try using GDB to print out the stack once you write to it.</details>
-{% endbox %}
+{% challenge %}
+title: Buffer overflow 2
+level: h2
+description: Control the return address and arguments.<br>This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](asset/pico22/buffer-overflow/vuln-2)?<br>You can view source [here](asset/pico22/buffer-overflow/vuln-2.c). And connect with it using&#58;<br> `nc saturn.picoctf.net [PORT]`
+hints: 1\. Try using GDB to print out the stack once you write to it.
+size: 105%
+authors: Sanjay C., Palash Oswal
+genre: pwn/binary
+solvers: enscribe
+points: 300
+files: [vuln](asset/pico22/buffer-overflow/vuln-2), [vuln.c](asset/pico22/buffer-overflow/vuln-2.c)
+{% endchallenge %}
 
 {% warning %}
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
@@ -708,16 +713,18 @@ We've successfully called a function with arguments through buffer overflow!
 
 ---
 
-## Buffer overflow 3
-
-{% box %}
-Do you think you can bypass the protection and get the flag?  
-It looks like Dr. Oswal added a stack canary to this [program](/asset/pico22/buffer-overflow/vuln-3) to protect against buffer overflows. You can view source [here](/asset/pico22/buffer-overflow/vuln-3.c). And connect with it using:  
-`nc saturn.picoctf.net [PORT]`<br><br>
-**Authors**: Sanjay C., Palash Oswal  
-<details><summary>**Hint**:</summary> 
-1. Maybe there's a smart way to brute-force the canary?</details>
-{% endbox %}
+{% challenge %}
+title: Buffer overflow 3
+level: h2
+description: Do you think you can bypass the protection and get the flag?  It looks like Dr. Oswal added a stack canary to this [program](/asset/pico22/buffer-overflow/vuln-3) to protect against buffer overflows. You can view source [here](/asset/pico22/buffer-overflow/vuln-3.c). And connect with it using&#58;<br>`nc saturn.picoctf.net [PORT]`
+hints: 1\. Maybe there's a smart way to brute-force the canary?
+size: 110%
+authors: Sanjay C., Palash Oswal
+genre: pwn/binary
+solvers: enscribe
+points: 300
+files: [vuln](asset/pico22/buffer-overflow/vuln-3), [vuln.c](asset/pico22/buffer-overflow/vuln-3.c)
+{% endchallenge %}
 
 {% warning %}
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
