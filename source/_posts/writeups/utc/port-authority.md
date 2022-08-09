@@ -208,11 +208,14 @@ Let's finally get to solving the challenge.
 
 ---
 
-## Level 1
-
-{% box %}
-Do you know how websockets work? [25 points]
-{% endbox %}
+{% challenge %}
+title: Level 1
+level: h2
+description: Do you know how websockets work?
+solvers: sahuang --flag, blueset
+size: 110%
+points: 25
+{% endchallenge %}
 
 The last thing I want to add was a web-based "controller", which can steer the ship on-click and start new levels. I moved all my code from a local `.js` file to [CodePen](https://codepen.io/) for instant page regeneration and accessability by teammates. Here's the HTML:
 
@@ -397,11 +400,14 @@ We've succesfully completed Level 1!
 
 ---
 
-## Level 2
-
-{% box %}
-Lets script it - don't forget the order! [25 points]
-{% endbox %}
+{% challenge %}
+title: Level 2
+level: h2
+description: Lets script it - don't forget the order!
+solvers: sahuang --flag, blueset
+size: 110%
+points: 25
+{% endchallenge %}
 
 "Lets script it"? I've already scripted throughout the entirety of Level 1 to accommodate for future levels! Let's add a Level 2 button to our scalable, future-proof code 😉:
 
@@ -458,11 +464,14 @@ Although we've solved level 2 manually, I have a gut feeling the next few ones w
 
 ---
 
-## Level 3
-
-{% box %}
-Can you deal with the rocks that appeared in our once so peaceful harbor? [50 points]
-{% endbox %}
+{% challenge %}
+title: Level 3
+level: h2
+description: Can you deal with the rocks that appeared in our once so peaceful harbor?
+solvers: sahuang
+size: 110%
+points: 50
+{% endchallenge %}
 
 After adding another button to start Level 3, this is the field we start with:
 
@@ -547,11 +556,14 @@ ID: 2 | (742, 113) (802, 393) | DIR: UP
 
 ---
 
-## Level 4
-
-{% box %}
-The algorithm disturbed our radar system - boats that veer too far off track are lost and never seen again. Can you give them directions in time? [50 points]
-{% endbox %}
+{% challenge %}
+title: Level 4
+level: h2
+description: The algorithm disturbed our radar system - boats that veer too far off track are lost and never seen again. Can you give them directions in time?
+solvers: sahuang
+size: 110%
+points: 50
+{% endchallenge %}
 
 After I added the level 4 button alongside steer/loop buttons for the extra ship that popped up, I discovered that my solution for level 3 actually worked for level 4 as well:
 
@@ -575,12 +587,14 @@ ID: 3 | (731, 114) (791, 395) | DIR: UP
 
 ---
 
-## Level 5
-
-{% box %}
-A huge influx of ships is coming our way - can you lead them safely to the port?  
-[200 points]
-{% endbox %}
+{% challenge %}
+title: Level 5
+level: h2
+description: A huge influx of ships is coming our way - can you lead them safely to the port? 
+solvers: enscribe --flag, sahuang
+size: 110%
+points: 200
+{% endchallenge %}
 
 Oh boy...
 

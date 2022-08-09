@@ -237,6 +237,11 @@ hexo.extend.tag.register('challenge', function(args, content) {
             'name': 'neil',
             'url': 'javascript:;',
             'img': 'https://support.discord.com/hc/user_images/l12c7vKVRCd-XLIdDkLUDg.png'
+        },
+        'blueset': {
+            'name': 'blueset',
+            'url': 'https://github.com/blueset',
+            'img': 'https://avatars.githubusercontent.com/u/553831'
         }
     };
 
@@ -253,7 +258,9 @@ hexo.extend.tag.register('challenge', function(args, content) {
             title = `<div class="challenge-title"><h2 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h2></div>`;
         } else {
             title = `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>`;
-        }
+        } 
+    } else {
+        title = ""
     }
     let description = obj.description ? `${conv.makeHtml(obj.description)}` : "";
     let size = obj.size ? `style="font-size: ${obj.size}"` : "";

@@ -268,9 +268,17 @@ code
 
 .flex-container
   display flex
-  flex-wrap nowrap
   justify-content center
+  align-items center
+  flex-direction column
   gap 1rem
+
+@media (min-width: 700px)
+  .flex-container
+    display flex
+    justify-content center
+    align-items center
+    flex-direction row
 
 .diff-highlight-add
   background-color rgba(0,255,0,.05)
@@ -341,6 +349,12 @@ tbody
   transform translateY(-50%)
 
 body h2.chal-title
+  font-size 18px
+  font-weight bold
+  margin 0
+  text-decoration none
+
+body h3.chal-title
   font-size 18px
   font-weight bold
   margin 0
