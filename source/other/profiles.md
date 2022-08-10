@@ -93,7 +93,7 @@ permalink: /profiles/
 
 ## personal
 
-<button class="pushable">
+<button class="pushable" style="margin-top:1.5rem">
     <a href="https://enscribe.dev/profile/discord">
         <span class="shadow"></span>
         <span class="edge"></span>
@@ -137,7 +137,7 @@ permalink: /profiles/
 
 ## gaming
 
-<button class="pushable">
+<button class="pushable" style="margin-top:1.5rem">
     <a href="https://enscribe.dev/profile/osu">
         <span class="shadow"></span>
         <span class="edge"></span>

@@ -7,6 +7,7 @@ categories:
 - osint
 tags:
 - osint
+- compilation
 description: "Here's my writeup for all BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
 permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png

@@ -13,11 +13,14 @@ permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
 thumbnail: /asset/banner/banner-guardians.png
 ---
 
-{% box %}
-Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? `nc 0.cloud.chals.io 12690`  
-**Author**: GlitchArchetype  
-**Files**: [guardians](/asset/shctf/guardians)
-{% endbox %}
+{% fontawesome %}
+
+{% challenge %}
+authors: GlitchArchetype
+solvers: enscribe
+file: [guardians](/asset/shctf/guardians)
+description: Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? `nc 0.cloud.chals.io 12690`
+{% endchallenge %}
 
 {% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
 <span class="meta prompt_">$ </span>checksec guardians

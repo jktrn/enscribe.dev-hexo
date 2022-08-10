@@ -5,9 +5,7 @@ categories:
 - ctfs
 - pico22
 tags:
-- crypto
-- programming
-- pwn
+- compilation
 description: "Learn how to capture the flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges!"
 permalink: ctfs/pico/beginners-compilation/
 thumbnail: /asset/banner/banner-beginners.png

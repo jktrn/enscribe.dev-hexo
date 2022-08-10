@@ -13,14 +13,19 @@ permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: /asset/banner/banner-rahool.png
 ---
 
-{% box %}
-`nc 0.cloud.chals.io 10294`  
-**Author**: excaligator
-{% endbox %}
+{% fontawesome %}
+
+{% challenge %}
+authors: excaligator
+solvers: enscribe
+points: 331
+description: `nc 0.cloud.chals.io 10294`
+size: 120%
+{% endchallenge %}
 
 Let's open that `netcat` link to see what's going on:
 
-{% ccb html:true %}
+{% ccb html:true scrollable:true %}
 <span class="meta prompt_">$</span> nc 0.cloud.chals.io 10294
                                    ,/(####((((/**.                                                  
                              *#%%%%%%%%%%%%%%########(#####((((/*,                                  

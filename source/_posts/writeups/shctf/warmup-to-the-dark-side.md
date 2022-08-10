@@ -13,12 +13,13 @@ permalink: ctfs/shctf/pwn/warmup-to-the-dark-side/
 thumbnail: /asset/banner/banner-darkside.png
 ---
 
-{% box %}
-Once you start down the dark path, forever will it dominate your destiny.  
-(And yes, the binary isn't included)  
-`nc 0.cloud.chals.io 30096`  
-**Author**: v10l3nt
-{% endbox %}
+{% fontawesome %}
+
+{% challenge %}
+solvers: enscribe
+authors: v10l3nt
+description: Once you start down the dark path, forever will it dominate your destiny.  (And yes, the binary isn't included)<br>`nc 0.cloud.chals.io 30096`
+{% endchallenge %}
 
 Let's run that `netcat` link to see what's going on:
 

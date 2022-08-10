@@ -14,11 +14,15 @@ permalink: ctfs/shctf/pwn/vader/
 thumbnail: /asset/banner/banner-vader.png
 ---
 
-{% box %}
-Submit flag from `/flag.txt` from `0.cloud.chals.io:20712`  
-**Author**: v10l3nt  
-**Files**: [vader](/asset/shctf/vader)
-{% endbox %}
+{% fontawesome %}
+
+{% challenge %}
+authors: v10l3nt
+solvers: enscribe
+files: [vader](/asset/shctf/vader)
+description: Submit flag from `/flag.txt` from `0.cloud.chals.io:20712`
+size:110%
+{% endchallenge %}
 
 {% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
 <span class="meta prompt_">$ </span>checksec vader
