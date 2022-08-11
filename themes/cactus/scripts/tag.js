@@ -1,5 +1,6 @@
 let showdown = require('showdown');
 let hljs = require('highlight.js');
+const yaml = require('js-yaml');
 
 showdown.extension('only-inline-stuff', function () {
     return [{
@@ -212,7 +213,7 @@ hexo.extend.tag.register('twitter', function(args, content) {
 });
 
 hexo.extend.tag.register('challenge', function(args, content) {
-    let members = {
+    const members = {
         'enscribe': {
             'name': 'enscribe',
             'url': 'https://github.com/jktrn',
@@ -325,3 +326,16 @@ hexo.extend.tag.register('challenge', function(args, content) {
     async: true,
     ends: true
 });
+
+hexo.extend.tag.register('testing', function(args, content) {
+    console.log(yaml.load(content));
+
+}, {
+    async: true,
+    ends: true
+});
+
+
+function parseYaml(content) {
+    return yaml.safeLoad(content);
+}

@@ -15,6 +15,19 @@ thumbnail: /asset/banner/banner-beginners.png
 
 ## Binary Exploitation
 
+{% testing %}
+title: basic-file-exploit
+description: |
+    The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it! Connect to the program with netcat:
+    `$ nc saturn.picoctf.net 50366`
+hints:
+  - Try passing in things the program doesn't expect. Like a string instead of a number.
+authors: Will Hong
+genre: pwn/binary
+solvers: enscribe
+files: "[program-redacted.c](/asset/pico22/beginners-compilation/program-redacted.c)"
+{% endtesting %}
+
 {% challenge %}
 title: basic-file-exploit
 description: The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it! Connect to the program with netcat:<br>`$ nc saturn.picoctf.net 50366`
