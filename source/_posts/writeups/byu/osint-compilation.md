@@ -38,11 +38,14 @@ Thank you, and enjoy.
 
 {% challenge %}
 title: I don't dream about noodles, dad 🐼
-description: Whose signature is found beneath Po's foot?<br>Flag format&#58; `byuctf{Firstname_Lastname}`<br><br>{% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
+description: |
+    Whose signature is found beneath Po's foot?  
+    Flag format&#58; `byuctf{Firstname_Lastname}`<br><br>
+    {% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
 solvers: enscribe
 genre: osint
 points: 100
-files: [po.png](/asset/byu/po1.png)
+files: '[po.png](/asset/byu/po1.png)'
 {% endchallenge %}
 
 I did a quick [Google Lens](https://lens.google/) search with my phone with the keyword "BYU" attached and [this](https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/) article turned up:
@@ -57,11 +60,14 @@ Since the tribute is for Jason Turner, we can assume the signature is below his 
 
 {% challenge %}
 title: Oh The Vanity 🌐
-description: The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br>Flag format&#58; `byuctf{mm-dd-yyyy}`<br><br>{% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
+description: |
+    The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.  
+    Flag format&#58; `byuctf{mm-dd-yyyy}`<br><br>
+    {% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
 genre: osint
 solvers: sahuang
 points: 100
-files: [sharky.png](/asset/byu/sharky1.png)
+files: '[sharky.png](/asset/byu/sharky1.png)'
 {% endchallenge %}
 
 Reverse Google Search with a "phishing" crib:
@@ -75,11 +81,16 @@ The flag is `byuctf{05-11-22}`.
 
 {% challenge %}
 title: B0uld3r1ng 🧗
-description: I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?<br><br>{% cimage url:/asset/byu/bouldering1.png width:400 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
+description: |
+    I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?<br><br>
+    {% cimage url:/asset/byu/bouldering1.png width:400 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
 genre: osint
-solvers: sahuang --flag, enscribe, Battlemonger
+solvers:
+    - sahuang --flag
+    - enscribe
+    - Battlemonger
 points: 416
-files: [b0uld3r1ng.png](/asset/byu/b0uld3r1ng1.png)
+files: '[b0uld3r1ng.png](/asset/byu/b0uld3r1ng1.png)'
 {% endchallenge %}
 
 Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the `Lizard's Mouth Rock` in Santa Barbara County, California:
@@ -108,11 +119,15 @@ The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
 
 {% challenge %}
 title: Squatter's Rights 💦
-description: Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??<br><br>{% cimage url:/asset/byu/squatter1.png width:400 sub:geoguesser.png %}
+description: |
+    Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??<br><br>
+    {% cimage url:/asset/byu/squatter1.png width:400 sub:geoguesser.png %}
 genre: osint
-solvers: enscribe --flag, sahuang
+solvers:
+    - enscribe --flag
+    - sahuang
 points: 489
-files: [geoguesser.png](/asset/byu/squatter1.png)
+files: '[geoguesser.png](/asset/byu/squatter1.png)'
 {% endchallenge %}
 
 Hey, look! Another Google Lens problem! Although there's a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:
@@ -165,9 +180,11 @@ Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "Fro
 
 {% challenge %}
 title: Okta? More like OhNah 💾
+solvers: 
+    - Battlemonger --flag
+    - enscribe
 description: Recently, the group known as LAPSUS$ released indications they breached Microsoft & one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like __________, you won't be detected".<br>Flag format&#58; `byuctf{answer:timestamp in format HH:MM}`, two word answer seperated by an underscore.
 genre: osint
-solvers: Battlemonger --flag, enscribe
 points: 490
 {% endchallenge %}
 
@@ -206,9 +223,15 @@ Removing the dates and names as the description specifies, the flag is `byuctf{m
 
 {% challenge %}
 title: Buckeye Billy Birthday 🎂
-description: Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br>[Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)<br>format&#58; `byuctf{storename}`
+description: |
+    Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?  
+    [Hint 1](https://mywordle.strivemath.com/?word=sokhc) [Hint 2](https://mywordle.strivemath.com/?word=yocod) [Hint 3](https://mywordle.strivemath.com/?word=lffep)  
+    format&#58; `byuctf{storename}`
 genre: osint
-solvers: Battlemonger --flag, sahuang, enscribe
+solvers:
+    - Battlemonger --flag
+    - sahuang
+    - enscribe
 points: 500
 {% endchallenge %}
 
@@ -237,11 +260,14 @@ The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb.
 
 {% challenge %}
 title: Buckeye Billy Blabbin' 💬
-description: Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!  
-Flag will be completely visible once solved! You will see `byuctf{}`.
+description: |
+    Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!  
+    Flag will be completely visible once solved! You will see `byuctf{}`.
 size: 110%
 genre: osint
-solvers: Battlemonger --flag, enscribe
+solvers:
+    - Battlemonger --flag
+    - enscribe
 points: 500
 {% endchallenge %}
 
@@ -287,9 +313,15 @@ The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Scr
 
 {% challenge %}
 title: 43 🎼
-description: It’s at your fingertips!! Who made this code?<br>`` S fsu om yjr aogr 3"45` ``<br>format&#58; `byuctf{blank_blank}`
+description: |
+    It’s at your fingertips!! Who made this code?  
+    `` S fsu om yjr aogr 3"45` ``  
+    format&#58; `byuctf{blank_blank}`
 genre: osint
-solvers: Battlemonger --flag, enscribe, neil
+solvers:
+    - Battlemonger --flag
+    - enscribe
+    - neil
 points: 500
 size: 110%
 {% endchallenge %}

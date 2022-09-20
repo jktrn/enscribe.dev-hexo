@@ -19,9 +19,10 @@ thumbnail: /asset/banner/banner-vader.png
 {% challenge %}
 authors: v10l3nt
 solvers: enscribe
-files: [vader](/asset/shctf/vader)
-description: Submit flag from `/flag.txt` from `0.cloud.chals.io:20712`
-size:110%
+files: '[vader](/asset/shctf/vader)'
+description: 
+  Submit flag from `/flag.txt` from `0.cloud.chals.io:20712`
+size: 110%
 {% endchallenge %}
 
 {% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}

@@ -18,10 +18,13 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ropfu.png
 {% challenge %}
 authors: Sanjay C., Lt. "Syreal" Jones
 solvers: enscribe
-files: [vuln](/asset/pico22/ropfu/vuln), [vuln.c](/asset/pico22/ropfu/vuln.c)
-description: What's ROP?<br>Can you exploit the following [program](/asset/pico22/ropfu/vuln) to get the flag? Download [source](/asset/pico22/ropfu/vuln.c).<br>`nc saturn.picoctf.net [PORT]`
-size: 110%
-hint: This is a classic ROP to get a shell
+files: '[vuln](/asset/pico22/ropfu/vuln), [vuln.c](/asset/pico22/ropfu/vuln.c)'
+description: |
+    What's ROP?  
+    Can you exploit the following [program](/asset/pico22/ropfu/vuln) to get the flag? Download [source](/asset/pico22/ropfu/vuln.c).  
+    `nc saturn.picoctf.net [PORT]`
+hint:
+    - This is a classic ROP to get a shell
 {% endchallenge %}
 
 {% warning %}

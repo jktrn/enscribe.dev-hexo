@@ -18,8 +18,10 @@ thumbnail: /asset/banner/banner-guardians.png
 {% challenge %}
 authors: GlitchArchetype
 solvers: enscribe
-file: [guardians](/asset/shctf/guardians)
-description: Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format? `nc 0.cloud.chals.io 12690`
+files: '[guardians](/asset/shctf/guardians)'
+description: |
+    Ronan the Accuser has the Power Stone. Can Starlord find a successful distraction format?  
+    `nc 0.cloud.chals.io 12690`
 {% endchallenge %}
 
 {% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
