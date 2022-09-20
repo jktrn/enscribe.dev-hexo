@@ -25,8 +25,8 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 title: Buffer overflow 0
 level: h2
 description: |
-  'Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available [here](asset/pico22/buffer-overflow/vuln-0). You can view source [here](asset/pico22/buffer-overflow/vuln-0.c), and connect with it using:  
-  `nc saturn.picoctf.net 65535`'
+    Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available [here](asset/pico22/buffer-overflow/vuln-0). You can view source [here](asset/pico22/buffer-overflow/vuln-0.c), and connect with it using:  
+    `nc saturn.picoctf.net 65535`
 hints:
   - 1. How can you trigger the flag to print?
   - 2. If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.

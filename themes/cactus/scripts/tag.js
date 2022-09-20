@@ -329,7 +329,6 @@ const members = {
 
 hexo.extend.tag.register('challenge', function(args, content) {
     let obj = yaml.load(content);
-    console.log(obj);
 
     obj.description &&= `${conv.makeHtml(obj.description)}`;
     obj.size &&= `style="font-size: ${obj.size}"`
@@ -384,7 +383,6 @@ hexo.extend.tag.register('challenge', function(args, content) {
         obj[element] ??= "";
     });
 
-    console.log(obj);
     return `<div class="challenge">
     ${obj.title}
     <div style="display:flex;" class="no-highlight">

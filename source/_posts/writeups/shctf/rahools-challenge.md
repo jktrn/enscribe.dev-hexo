@@ -19,7 +19,8 @@ thumbnail: /asset/banner/banner-rahool.png
 authors: excaligator
 solvers: enscribe
 points: 331
-description: `nc 0.cloud.chals.io 10294`
+description: |
+    `nc 0.cloud.chals.io 10294`
 size: 120%
 {% endchallenge %}
 
