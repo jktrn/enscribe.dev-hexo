@@ -404,7 +404,9 @@ We've succesfully completed Level 1!
 title: Level 2
 level: h2
 description: Lets script it - don't forget the order!
-solvers: sahuang --flag, blueset
+solvers: 
+    - sahuang --flag
+    - blueset
 size: 110%
 points: 25
 {% endchallenge %}
@@ -591,7 +593,9 @@ ID: 3 | (731, 114) (791, 395) | DIR: UP
 title: Level 5
 level: h2
 description: A huge influx of ships is coming our way - can you lead them safely to the port? 
-solvers: enscribe --flag, sahuang
+solvers:
+    - enscribe --flag
+    - sahuang
 size: 110%
 points: 200
 {% endchallenge %}
