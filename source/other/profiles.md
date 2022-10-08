@@ -51,7 +51,7 @@ permalink: /profiles/
         padding: 20px 42px;
         border-radius: 12px;
         font-size: 1.25rem;
-        font-family: "Meslo LG";
+        font-family: "JetBrains Mono", monospace;
         color: white;
         background: #2a2a2c;
         will-change: transform;

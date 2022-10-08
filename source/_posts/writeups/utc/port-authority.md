@@ -212,7 +212,9 @@ Let's finally get to solving the challenge.
 title: Level 1
 level: h2
 description: Do you know how websockets work?
-solvers: sahuang --flag, blueset
+solvers:
+  - sahuang --flag
+  - blueset
 size: 110%
 points: 25
 {% endchallenge %}
