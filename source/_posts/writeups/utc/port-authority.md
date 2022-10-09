@@ -21,7 +21,7 @@ thumbnail: /asset/banner/banner-port-authority.png
         *Author information: This challenge is developed by [Luuk Hofman](https://www.linkedin.com/in/luuk-hofman-01164259/) and [Diederik Bakker](https://www.linkedin.com/in/diederik-bakker/).*
     {% endbox %}
     <div>
-        <img src="/asset/utc/ship.png" style="width:950px; margin: 1rem 0;">
+        <img src="/asset/utc/ship.png" style="width:950px; margin: 1rem 0; filter: grayscale(100%);">
     </div>
 </div>
 
@@ -80,8 +80,8 @@ Look what happens when we establish a connection - the game starts running, and 
 
 ![Start Website](/asset/utc/start-website.gif)
 
-{% codeblock lang:console line_number:false %}
-> node test.js
+{% ccb terminal:true lang:console html:true %}
+<span class="meta prompt_">&#36;</span> node test.js
 [+] Connected!
 [-] {"type":"GAME_START","level":{"id":1,"board":{"width":1886,"height":1188,"obstructions":[{"type":"HARBOUR_BORDER","area":[{"x":577,"y":0},{"x":627,"y":215.7142857142857}]},{"type":"HARBOUR_BORDER","area":[{"x":875,"y":0},{"x":925,"y":215.7142857142857}]},{"type":"BORDER_ROCK","area":[{"x":0,"y":0},{"x":577,"y":51}]},{"type":"BORDER_ROCK","area":[{"x":925,"y":0},{"x":1886,"y":51}]}],"harbour":[{"x":700,"y":0},{"x":850,"y":107.85714285714285}]},"mechanics":{"borderCollision":false,"sequentialDocking":true},"ships":[null]}}
 [-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":795},{"x":532,"y":1063.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
@@ -89,7 +89,7 @@ Look what happens when we establish a connection - the game starts running, and 
 [-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":792},{"x":532,"y":1060.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
 [-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":789},{"x":532,"y":1057.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
 ...
-{% endcodeblock %}
+{% endccb %}
 
 Let's see what happens when we send the `SHIP_STEER` command to the server after five seconds. We can do that with the [`setTimeout()`](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout) method in our `socket.onopen` listener:
 
@@ -194,15 +194,15 @@ socket.onmessage = function(event) {
 
 With this new Class, we can get both our own `ships` array *and* really clean logging from the server:
 
-{% codeblock lang:console line_number:false %}
-> node test.js
+{% ccb lang:console terminal:true html:true %}
+<span class="meta prompt_">&#36;</span> node test.js
 [+] Connected!
 ID: 0 | (211, 256) (271, 524) | DIR: UP
 ID: 0 | (211, 256) (271, 524) | DIR: UP
 ID: 0 | (211, 252) (271, 520) | DIR: UP
 ID: 0 | (211, 248) (271, 516) | DIR: UP
 ...
-{% endcodeblock %}
+{% endccb %}
 
 Let's finally get to solving the challenge.
 
@@ -390,7 +390,7 @@ Sorry I was being extra. Let's flag the challenge now (sped up):
 
 ![Flag 1](/asset/utc/flag1.gif)
 
-{% ccb highlight:5 %}
+{% ccb highlight:5 terminal:true %}
 ...
 ID: 0 | (688, 115) (748, 383) | DIR: UP
 ID: 0 | (688, 115) (748, 383) | DIR: UP
@@ -550,7 +550,7 @@ We've managed to stabilize the playing field for a manual solve! Let's flag the 
 Your browser does not support the video tag.
 </video>
 
-{% ccb highlight:5 %}
+{% ccb highlight:5 terminal:true %}
 ...
 ID: 0 | (760, 105) (820, 343) | DIR: UP
 ID: 1 | (736, 101) (796, 371) | DIR: UP
@@ -580,7 +580,7 @@ This means I can flag this level without needing to code at all!:
 Your browser does not support the video tag.
 </video>
 
-{% ccb highlight:6 %}
+{% ccb highlight:6 terminal:true %}
 ...
 ID: 0 | (742, 107) (802, 345) | DIR: UP
 ID: 1 | (731, 105) (791, 385) | DIR: UP
@@ -641,7 +641,7 @@ Now, how are these checks going to work? After a lot of experimenting I found th
 
 Here's a visual I drew in case you're lost. The red/green squares on the left indicate the status of each check during different stages of the turn:
 
-![Check Visual](/asset/utc/checkvisual.png)
+![Check Visual](/asset/utc/checkvisual.svg)
 
 We can now begin programming by creating an Obstacle class and manually placing them down throughout the map. This was just a lot of trial and error, so don't worry about these coordinates feeling random:
 
@@ -799,7 +799,7 @@ socket.onmessage = function (event) {
 
 Now, we can strategize on how to solve the challenge manually. Our team deduced that the most ideal order for ships would look something like this:
 
-![Strategy](/asset/utc/obstacles2.png)
+![Strategy](/asset/utc/obstacles2.svg)
 
 This order allows for the first ship to enter the port within two turns, and provides plenty of space for the second and third ships to work with. Although it would require a lot of restarting (as the order is always random), it's worth it to ease the difficulty of the challenge.
 
@@ -812,7 +812,7 @@ Moving on, we began work on the manual solve process. It was super tedious and i
 
 We decided it'd be best if we added another obstacle to perfectly turn us into the dock every time. This time around, it would have to be a 90° turn utlizing the middle of the ship instead of the top-left, as each ship is a different length and would therefore turn at different points when within the obstacles's hitbox:
 
-![90 Turn](/asset/utc/90turn.png)
+![90 Turn](/asset/utc/90turn.svg)
 
 Here is its implementation:
 

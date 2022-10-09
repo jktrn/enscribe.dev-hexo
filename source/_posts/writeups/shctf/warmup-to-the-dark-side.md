@@ -25,7 +25,7 @@ description: |
 
 Let's run that `netcat` link to see what's going on:
 
-{% ccb html:true wrapped:true %}
+{% ccb terminal:true html:true wrapped:true %}
 <span class="meta prompt_">$ </span>nc 0.cloud.chals.io 30096  
 The Dark Side Of The Force, Are They. Easily They Flow, Quick To Join You In A Fight. The Dark Side resides at: 0x55a6b42f020c  
 Jedi Mind tricks dont work on me >>>
@@ -51,7 +51,7 @@ for i in range(32,128):
 {% endccb %}
 
 Let's run this script on the server to see if we can get the flag:
-{% ccb html:true highlight:18 %}
+{% ccb terminal:true html:true highlight:18 %}
 ...
 [<span style="color:#277FFF"><b>*</b></span>] Trying offset 37 for address 0x55f788f1120c
 [<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (38B)

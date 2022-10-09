@@ -37,7 +37,6 @@ html
   margin: 0
   padding: 0
   height: 100%
-  border-top: 2px solid $color-text
   -webkit-text-size-adjust: 100%
   -ms-text-size-adjust: 100%
 
@@ -72,7 +71,7 @@ body
     hyphens(manual)
 
   a
-    color: #C3DBE8
+    color: $color-link
     text-decoration: none
 
     underline(5px, $color-text)
@@ -236,9 +235,9 @@ code
     height: 22px
 
 .box
-  border: 1px solid rgb(23, 25, 27)
+  border: 1px solid lighten($color-background, 2.5%)
   border-radius: 5px
-  background-color: rgb(23, 25, 27)
+  background-color: lighten($color-background, 2.5%)
   padding: 1rem
   font-size: 90%
   text-align: center
@@ -253,9 +252,9 @@ code
   text-align: center
 
 .text-info
-  border: 1px solid #35678C
+  border: 1px solid lighten($color-background, 10%)
   border-radius: 5px
-  background-color: #35678C
+  background-color: lighten($color-background, 10%)
   padding: 1rem
   font-size: 90%
   text-align: center
@@ -282,7 +281,7 @@ code
     flex-direction row
 
 .diff-highlight-add
-  background-color rgba(0,255,0,.05)
+  background-color rgba(233, 211, 182, .05)
   margin 0
   width 100%
   display inline-block
@@ -300,7 +299,7 @@ code
   display inline-block
 
 .skip-highlight
-  background-color rgba(255,255,255,.05)
+  background-color lighten($color-background, 10%)
   margin 0
   width 100%
   border-radius 5px
@@ -326,19 +325,19 @@ tbody
   margin 1rem 0
 
 .challenge-title
-  border 1px solid hsl(210, 8%, 6.5%)
-  background-color hsl(210, 8%, 6.5%)
+  border 1px solid darken($color-background, 30%)
+  background-color darken($color-background, 30%)
   padding 0.8rem 1.5rem
 
 .challenge-info
-  border 1px solid hsl(210, 8%, 8%)
-  background-color hsl(210, 8%, 8%)
+  border 1px solid lighten($color-background, 2.5%)
+  background-color lighten($color-background, 2.5%)
   padding 1rem 1.5rem
   font-size 80%
 
 .challenge-description
-  border 1px solid hsl(210, 8%, 9.5%)
-  background-color hsl(210, 8%, 9.5%)
+  border 1px solid lighten($color-background, 5%)
+  background-color lighten($color-background, 5%)
   padding 1rem
   font-size 85%
   text-align center

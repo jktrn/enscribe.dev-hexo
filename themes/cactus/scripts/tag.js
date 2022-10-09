@@ -117,6 +117,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
     let highlight = obj.highlight ? parseRange(obj.highlight).map(x => parseInt(x)) : undefined;
     let url = obj.url ? obj.url : undefined;
     let url_text = obj.url_text ? obj.url_text : undefined;
+    let terminal = obj.terminal == 'true' ? true : false;
     let highlighted = hljs.highlight(content, {
         language: lang
     }).value;
@@ -151,11 +152,18 @@ hexo.extend.tag.register('ccb', function (args, content) {
     highlighted = lines.join('\n');
 
     const scrollableText = scrollable ? `<div style="height:400px; overflow:auto; margin:1rem 0;">` : "";
-    const scrollableStyle = scrollable ? ` style="margin: 0;"` : "";
+    const scrollableStyle = scrollable ? `margin:0` : "";
     const scrollableEnd = scrollable ? `</div>` : "";
     const wrappedStyle = wrapped ? ` style="white-space: pre-wrap;"` : "";
-    const urlText = url ? `<a target="_blank" rel="noopener" href="https://${url}"><span style="color:#82C4E4">[${url_text}]</span></a>` : "";
-    const langText = lang ? `<figure class="highlight ${lang}"${scrollableStyle}>`: `<figure class="highlight text"${scrollableStyle}>`
+    const urlText = url ? `<a target="_blank" rel="noopener" href="https://${url}"><span style="color:#e9d3b6">[${url_text}]</span></a>` : "";
+    let langText;
+    if(terminal) {
+        langText = `<figure style="background-color:#010101;${scrollableStyle}" class="highlight text">`;
+    } else if(lang) {
+        langText = `<figure class="highlight ${lang}" style="${scrollableStyle}">`;
+    } else {
+        langText = `<figure class="highlight text" style="${scrollableStyle}">`;
+    }
     const captionText = caption ? `<figcaption><span>${caption}</span>${urlText}</figcaption>` : "";
     const gutter1Text = gutter1 ? `<td class="gutter"><pre>${gutter1}</pre></td>`: "";
     const gutter2Text = gutter2 ? `<td class="gutter"><pre>${gutter2}</pre></td>`: "";
@@ -189,7 +197,7 @@ hexo.extend.tag.register('cimage', function (args, content) {
 
 //create a hexo tag that returns a flagcounter
 hexo.extend.tag.register('flagcounter', function (args, content) {
-    return `<img src="https://s01.flagcounter.com/count2/8Xkk/bg_212326/txt_C9CACC/border_C9CACC/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">`
+    return `<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">`
 }, {
     ends: false,
     async: true

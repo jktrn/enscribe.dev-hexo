@@ -31,7 +31,7 @@ hints:
 
 Let's connect to the server using `netcat` to see what's going on:
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <span class="meta prompt_">$</span> nc saturn.picoctf.net 50366
 Hi, welcome to my echo chamber!
 Type '1' to enter a phrase into our database
@@ -265,7 +265,7 @@ This if statement is located within a function called `data_read()`. Let's see w
 
 After we write some data with the command `1`, We should be pressing the command `2` to read from the stored data. Once it prompts us to "enter the entry number of your data", we'll send a string instead to break it. Let's head back to the `netcat` and test it out:
 
-{% ccb html:true gutter1:,SERVER,,,,USER,SERVER,,USER,SERVER,,USER,SERVER,,,USER,SERVER,,USER,SERVER, highlight:21 %}
+{% ccb html:true gutter1:,SERVER,,,,USER,SERVER,,USER,SERVER,,USER,SERVER,,,USER,SERVER,,USER,SERVER, highlight:21 terminal:true %}
 <span class="meta prompt_">$</span> nc saturn.picoctf.net 50366
 Hi, welcome to my echo chamber!
 Type '1' to enter a phrase into our database
@@ -358,7 +358,7 @@ z = z.join("");
 console.log(`picoCTF{${z}}`);
 ```
 
-{% ccb html:true highlight:2 %}
+{% ccb html:true highlight:2 terminal:true %}
 <span class="meta prompt_">$ </span>node solve.js
 picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
 {% endccb %}
@@ -379,7 +379,7 @@ z = [a[int(i) % 37] for i in y]
 print("picoCTF{"+''.join(z)+"}")
 ```
 
-{% ccb html:true highlight:2 %}
+{% ccb html:true highlight:2 terminal:true %}
 <span class="meta prompt_">$ </span>python3 solve.py
 picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}
 {% endccb %}
@@ -437,7 +437,7 @@ function modInverse(a, b) {
 }
 ```
 
-{% ccb html:true highlight:2 %}
+{% ccb html:true highlight:2 terminal:true %}
 <span class="meta prompt_">$ </span>node solve.js
 picoCTF{1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>}
 {% endccb %}
@@ -494,7 +494,7 @@ We're initially provided a `leak.tar` archive. On extraction, we're presented wi
 
 Let's go to the username `cultiris`. The `-n` tag in `grep` will enable line numbers:
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <span class="meta prompt_">$</span> grep -n cultiris usernames.txt
 378:cultiris
 {% endccb %}

@@ -26,7 +26,7 @@ size: 120%
 
 Let's open that `netcat` link to see what's going on:
 
-{% ccb html:true scrollable:true %}
+{% ccb html:true scrollable:true terminal:true %}
 <span class="meta prompt_">$</span> nc 0.cloud.chals.io 10294
                                    ,/(####((((/**.                                                  
                              *#%%%%%%%%%%%%%%########(#####((((/*,                                  
@@ -91,7 +91,7 @@ Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII i
   
 Before moving on, we need to figure out what the hell a Vigenère is.
 
-### The Vigenère Cipher 🔐
+### The Vigenère Cipher
   
 A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**.
   
@@ -121,7 +121,7 @@ Each of the 26 rows contains the same alphabet, except shifted to the left by on
 
 If I wanted to encrypt `HELLO` with `WORLD` as the key, I would find the cell that intersects with column `H` and row `W`. In that case, it would be `D`. Then, I would find the cell that intersects with column `E` and row `O`. In that case, it would be `S`. Rinse and repeat for the entire phrase.
 
-### Cheaters Never Win... 🏴
+### Cheaters Never Win...
 
 But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT" and Google the crap out of it. [DCode](https://www.dcode.fr/vigenere-cipher), which can keylessly decrypt substitution ciphers, is the first option. Click, clack, `Ctrl + Shift + C`, `Ctrl + V` later and we have solved it!!1!1!
   
@@ -129,7 +129,7 @@ But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT"
 
 Or not. Wait... the plaintext is telling me to replace my `E` with a `3` and my `O` with an `0`. Those aren't in `RKBGVP`. What's going on? Is the website wrong?
 
-### ...Or Do They? 🚩
+### ...Or Do They?
 
 Let's go back to the drawing board and look at the problem again.
 > We've found ourselves an encrypted engram - Can you break the **(new and improved)** indecipherable cipher?
@@ -186,7 +186,7 @@ log.success(p.recvallS())
 
 Sending the string:
 
-{% ccb html:true wrapped:true highlight:4 %}
+{% ccb html:true wrapped:true highlight:4 terminal:true %}
 <span class="meta prompt_">$ </span>python3 exp.py
 ...
 [<span style="color:#47D4B9"><b>+</b></span>] Excellent work, you'll be a cryptarch yet. Here's your flag:

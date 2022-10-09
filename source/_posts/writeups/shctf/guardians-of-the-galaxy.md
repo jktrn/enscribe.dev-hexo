@@ -24,7 +24,7 @@ description: |
     `nc 0.cloud.chals.io 12690`
 {% endchallenge %}
 
-{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' terminal:true %}
 <span class="meta prompt_">$ </span>checksec guardians
 [<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/shctf/pwn/guardians-of-the-galaxy/guardians&apos;
     Arch:     amd64-64-little
@@ -36,14 +36,14 @@ description: |
 
 Let's look at what happens when you run that binary given to us.
 
-{% ccb html:true %}
+{% ccb html:true terminal:true %}
 <span class="meta prompt_">$ </span>./guardians 
 Error, please message admins with 'infinity_error'.
 {% endccb %}
 
 This error is because the binary is probably trying to reference a `flag.txt` within its directory that doesn't exist. Let's create one and run it again:
 
-{% ccb lang:console %}
+{% ccb lang:console terminal:true %}
 $ touch flag.txt && echo "FLAGHERE" > flag.txt
 $ ./guardians
 Does Quill manage to win the dance battle?
@@ -67,7 +67,7 @@ for i in range(0, 100):
 
 As you can see, it will send a UTF-8 encoded format string, with `str(i)` being the looping variable. If its output contains the flag, the loop breaks and the script will stop. Let's run it:
 
-{% ccb html:true highlight:24 %}
+{% ccb html:true highlight:24 terminal:true %}
 <span class="meta prompt_">$ </span>python3 exp.py
 [<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 12690: Done
 [<span style="color:#277FFF"><b>*</b></span>] Trying offset 0...

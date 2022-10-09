@@ -25,7 +25,7 @@ description:
 size: 110%
 {% endchallenge %}
 
-{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' %}
+{% ccb html:true caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' terminal:true %}
 <span class="meta prompt_">$ </span>checksec vader
 [<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/shctf/pwn/vader/vader'
     Arch:     amd64-64-little</span>
@@ -128,7 +128,7 @@ Although you can use these, it's not really in the nature of a ROP challenge, so
 
 To find the gadgets we need, we will be utilizing a program called `ropper` and `grep`-ing the output:
 
-{% ccb html:true caption:'ropper.py usage' url:'www.kali.org/tools.ropper' url_text:'documentation' %}
+{% ccb terminal:true html:true caption:'ropper.py usage' url:'www.kali.org/tools.ropper' url_text:'documentation' %}
 <span class="meta prompt_">$ </span>ropper -f vader | grep &quot;rdi&quot;
 <span style="color:#5EBDAB">[INFO]</span> Load gadgets from cache
 <span style="color:#5EBDAB">[LOAD]</span> loading... <span style="color:#E6E6E6">100%</span>
@@ -148,7 +148,7 @@ To find the gadgets we need, we will be utilizing a program called `ropper` and 
 
 Check it out -- at the bottom of the code block (`0x40165b`) there's a perfect gadget for us to use! Let's find ones for the rest of them:
 
-{% ccb html:true %}
+{% ccb terminal:true html:true %}
 <span style="color:#D41919">0x0000000000401659</span>: <span style="color:#FF8A18"><b>pop</b></span> <span style="color:#EC0101"><b>rsi</b></span><span style="color:#277FFF"><b>; </b></span><span style="color:#FF8A18"><b>pop</b></span> <span style="color:#E6E6E6">r15</span><span style="color:#277FFF"><b>; </b></span><span style="color:#FF8A18"><b>ret</b></span><span style="color:#277FFF"><b>; </b></span><br><span class="line"><span style="color:#D41919">0x00000000004011ce</span>: <span style="color:#FF8A18"><b>pop</b></span> <span style="color:#EC0101"><b>rdx</b></span><span style="color:#277FFF"><b>; </b></span><span style="color:#FF8A18"><b>ret</b></span><span style="color:#277FFF"><b>; </b></span></span><br><span class="line"><span style="color:#D41919">0x00000000004011d8</span>: <span style="color:#FF8A18"><b>pop</b></span> <span style="color:#EC0101"><b>rcx</b></span><span style="color:#277FFF"><b>; </b></span><span style="color:#FF8A18"><b>pop</b></span> <span style="color:#E6E6E6">r8</span><span style="color:#277FFF"><b>; </b></span><span style="color:#FF8A18"><b>ret</b></span><span style="color:#277FFF"><b>; </b></span></span>
 {% endccb %}
 
@@ -156,7 +156,7 @@ The first `pop rsi; pop r15;` isn't ideal, as it's popping a redundant register 
 
 With that, we can draw up a visual of what our final payload will look like:
 
-![Payload Visual](/asset/shctf/payload-visual.png)
+![Payload Visual](/asset/shctf/payload-visual.svg)
 
 The last thing we need to do is to find the hex addresses of our argument strings:
 
@@ -164,7 +164,7 @@ The last thing we need to do is to find the hex addresses of our argument string
 
 Don't forget the address of `vader()` too!:
 
-{% ccb html:true caption:'gdb-gef x command' url:'visualgdb.com/gdbreference/commands/x' url_text:documentation %}
+{% ccb terminal:true html:true caption:'gdb-gef x command' url:'visualgdb.com/gdbreference/commands/x' url_text:documentation %}
 <span style="color:#EC0101"><b>gef➤  </b></span>x vader
 <span style="color:#367BF0">0x40146b</span> &lt;<span style="color:#FEA44C">vader</span>&gt;:	0xe5894855
 {% endccb %}
