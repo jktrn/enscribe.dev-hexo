@@ -16,12 +16,21 @@ thumbnail: /asset/banner/banner-port-authority.png
 {% fontawesome %}
 
 <div class="flex-container">
-    {% box padding-top:20px %}
-        The harbour is in total chaos, the ships are no longer on course. The AI has disabled the brakes of all the ships and corrupted our control systems. The ships about to crash into each other, can you build a new AI that will rescue the ships and deliver the cargo?<br><br>
-        *Author information: This challenge is developed by [Luuk Hofman](https://www.linkedin.com/in/luuk-hofman-01164259/) and [Diederik Bakker](https://www.linkedin.com/in/diederik-bakker/).*
-    {% endbox %}
+{% challenge %}
+description: |
+  The harbour is in total chaos, the ships are no longer on course. The AI has disabled the brakes of all the ships and corrupted our control systems. The ships about to crash into each other, can you build a new AI that will rescue the ships and deliver the cargo?
+authors:
+    - Luuk Hofman
+    - Diederik Bakker
+genre: ppc, prog
+solvers:
+    - blueset
+    - enscribe
+    - sahuang
+points: 5/5 = 350
+{% endchallenge %}
     <div>
-        <img src="/asset/utc/ship.png" style="width:950px; margin: 1rem 0; filter: grayscale(100%);">
+        <img src="/asset/utc/ship.png" style="width:860px; margin: 1rem 0; filter: grayscale(100%);">
     </div>
 </div>
 

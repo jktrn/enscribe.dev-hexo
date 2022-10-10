@@ -7,18 +7,107 @@ hidden: true
 layout: page
 ---
 
-| Placement    | Name                             | Date       | Team            | Weight | Writeups                               | CTFtime                                       |
-|--------------|----------------------------------|------------|-----------------|--------|----------------------------------------|-----------------------------------------------|
-|              |                                  |            |                 |        | ⠀                                      | ⠀                                             |
-| 01 of 435 🥇 | 🐱 [BYUCTF 2022](/ctfs/byu/)     | 05/29/2022 | `Project Sekai` | 42.74  | [click here!](/categories/ctfs/byu/)   | [click here!](https://ctftime.org/event/1588) |
-| 02 of 436 🥈 | 🦅 [PatriotCTF](/ctfs/patriot/)  | 04/29/2022 | `View Source`   | 34.71  | n/a                                    | [click here!](https://ctftime.org/event/1616) |
-| 03 of 758 🥉 | 👥 [CrewCTF 2022](/ctfs/crew/)   | 04/15/2022 | `Project Sekai` | 25.13  | n/a                                    | [click here!](https://ctftime.org/event/1568) |
-| 06 of 3273   | 🏴 [NahamCon 2022](/ctfs/naham/) | 04/28/2022 | `Project Sekai` | 25.38  | n/a                                    | [click here!](https://ctftime.org/event/1630) |
-| 07 of ~55    | 💾 [TSA CTF 2021](/ctfs/tsa21/)  | 06/01/2021 | `VHTPA`         | n/a    | n/a                                    | n/a                                           |
-| 36 of 778    | 🌌 [Space Heroes](/ctfs/shctf/)  | 04/01/2022 | `WhileSEC`      | n/a    | [click here!](/categories/ctfs/shctf)  | [click here!](https://ctftime.org/event/1557) |
-| 86 of 1329 | 🚩 [picoCTF 2022](/ctfs/pico22/) | 03/15/2022 | `NLE CHAKRA`    | n/a    | [click here!](/categories/ctfs/pico22) | [click here!](https://ctftime.org/event/1569) |
+{% fontawesome %}
 
----
+{% grid columns:2 %}
+<i class="fa-solid fa-music"></i> SekaiCTF 2022:
+    description: |
+        <b>Date</b>: Sep 30 - Oct 02, 2022<br>
+        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+    button:
+        text: VIEW
+        link: https://github.com/project-sekai-ctf/sekaictf-2022
+    badge:
+        type: red
+        text: <i class="fa-solid fa-pen-nib"></i> author
+    badge2:
+        type: green
+        text: <i class="fa-solid fa-flag"></i> 24.82
+    border: 339186
+<i class="fa-solid fa-shield-cat"></i> BYUCTF 2022:
+    description: |
+        <b>Date</b>: May 27 — May 28, 2022<br>
+        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+    button:
+        text: VIEW
+        link: /ctfs/byu/
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/435
+    badge2:
+        type: green
+        text: <i class="fa-solid fa-flag"></i> 42.74
+<i class="fa-solid fa-flag-usa"></i> PatriotCTF 2022:
+    description: |
+        <b>Date</b>: Apr 29 - Apr 30, 2022<br>
+        <b>Team</b>: <a href="https://ctftime.org/team/175828"><i class="fa-solid fa-file-code"></i> View Source</a>
+    button:
+        text: VIEW
+        link: /ctfs/patriot/
+    badge:
+        type: silver
+        text: <i class="fa-solid fa-ranking-star"></i> 02/436
+    badge2:
+        type: green
+        text: <i class="fa-solid fa-flag"></i> 34.71
+<i class="fa-solid fa-people-group"></i> CrewCTF 2022:
+    description: |
+        <b>Date</b>: Apr 15 — Apr 17, 2022<br>
+        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+    button:
+        text: VIEW
+        link: /ctfs/crew/
+    badge:
+        type: bronze
+        text: <i class="fa-solid fa-ranking-star"></i> 03/758
+    badge2:
+        type: green
+        text: <i class="fa-solid fa-flag"></i> 25.13
+<i class="fa-solid fa-shield-halved"></i> NahamCon 2022:
+    description: |
+        <b>Date</b>: Apr 28 — Apr 30, 2022<br>
+        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+    button:
+        text: VIEW
+        link: /ctfs/naham/
+    badge:
+        type: blue
+        text: <i class="fa-solid fa-ranking-star"></i> 06/3273
+    badge2:
+        type: green
+        text: <i class="fa-solid fa-flag"></i> 25.38
+<i class="fa-solid fa-school"></i> TSA CTF 2021:
+    description: |
+        <b>Date</b>: Jun 01 — Jun 02, 2021<br>
+        <b>Team</b>: VHTPA
+    button:
+        text: VIEW
+        link: /ctfs/tsa21/
+    badge:
+        type: blue
+        text: <i class="fa-solid fa-ranking-star"></i> 07/~55
+<i class="fa-solid fa-user-astronaut"></i> Space Heroes CTF:
+    description: |
+        <b>Date</b>: Apr 01 — Apr 02, 2022<br>
+        <b>Team</b>: WhileSEC
+    button:
+        text: VIEW
+        link: /ctfs/shctf/
+    badge:
+        type: lightblue
+        text: <i class="fa-solid fa-ranking-star"></i> 36/778
+<i class="fa-solid fa-graduation-cap"></i> picoCTF 2022:
+    description: |
+        <b>Date</b>: Mar 15 — Mar 21, 2022<br>
+        <b>Team</b>: NLE CHAKRA
+    button:
+        text: VIEW
+        link: /ctfs/pico22/
+    badge:
+        type: lightblue
+        text: <i class="fa-solid fa-ranking-star"></i> 86/1329
+{% endgrid %}
+
 
 ## What is a CTF?
 

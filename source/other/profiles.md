@@ -53,15 +53,11 @@ permalink: /profiles/
         font-size: 1.25rem;
         font-family: "JetBrains Mono", monospace;
         color: white;
-        background: #2a2a2c;
+        background: #171717;
         will-change: transform;
         transform: translateY(-4px);
         transition:
             transform 600ms cubic-bezier(.3, .7, .4, 1);
-    }
-
-    .pushable:hover {
-        filter: brightness(110%);
     }
 
     .pushable:hover .front {
@@ -90,8 +86,6 @@ permalink: /profiles/
         outline: none;
     }
 </style>
-
-## personal
 
 <button class="pushable" style="margin-top:1.5rem">
     <a href="https://enscribe.dev/profile/discord">
@@ -133,11 +127,9 @@ permalink: /profiles/
     </a>
 </button>
 
----
+## <i class="fa-solid fa-gamepad"></i>
 
-## gaming
-
-<button class="pushable" style="margin-top:1.5rem">
+<button class="pushable">
     <a href="https://enscribe.dev/profile/osu">
         <span class="shadow"></span>
         <span class="edge"></span>
@@ -162,11 +154,7 @@ permalink: /profiles/
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
-            <i class="fa-solid fa-gamepad"></i> tetr.io
+            <i class="fa-solid fa-grip-vertical"></i> tetr.io
         </span>
     </a>
 </button>
-
----
-
-<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
