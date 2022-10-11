@@ -12,11 +12,17 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 {% fontawesome %}
 
+![Banner](/asset/blog/wtf-is-a-ctf/banner.jpg)
+
+<div class="subtitle">Courtesy <a href="https://thedailytexan.com/staff_name/joshua-guenther/">Joshua Guenther</a></div>
+
 0-day vulnerabilities. Privilege escalation. Real-time application exploiting and hacking. These are just a few of the countless facets of a **capture-the-flag**, a form of cybersecurity competition in which teams combat each other to accrue points under time pressure. Solve challenges, exploit weaknesses, and climb the leaderboard to earn prizes.
  
 ## Types of CTFs
 
 There are two signature types of CTFs:
+
+![Jeopardy](/asset/blog/wtf-is-a-ctf/jeopardy.jpg)
 
 - **Jeopardy**: Competition organizers design challenges in several distinct categories: web exploitation, forensics, reverse engineering, binary exploitation, cryptography, etc. Challenges - typically in the format of a file or website - are solved by discovering a text-based "flag" planted within them, in the format `flag{th15_i5_a_f1ag}`. *(This is the type I participate in!)*
 - **Attack-Defense**: Teams are given a remote service, device, or host to protect whilst an enemy team attempts to exploit its processes to gain access.

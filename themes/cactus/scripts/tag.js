@@ -191,7 +191,7 @@ hexo.extend.tag.register('cimage', function (args, content) {
     let url = obj.url ? obj.url : undefined;
     let width = obj.width ? ` width="${obj.width}"` : "";
     let alt = obj.alt ? ` alt="${obj.alt}"` : "";
-    let sub = obj.sub ? `<div class="subtitle">${obj.sub}</div>` : "";
+    let sub = obj.sub ? `<div class="subtitle">${conv.makeHtml(obj.sub)}</div>` : "";
     return `<p><img src="${url}"${width}${alt}>${sub}</p>`;
 });
 
