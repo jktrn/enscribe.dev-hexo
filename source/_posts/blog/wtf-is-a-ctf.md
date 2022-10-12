@@ -22,34 +22,54 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 There are two signature types of CTFs:
 
-![Jeopardy](/asset/blog/wtf-is-a-ctf/jeopardy.jpg)
-
-- **Jeopardy**: Competition organizers design challenges in several distinct categories: web exploitation, forensics, reverse engineering, binary exploitation, cryptography, etc. Challenges - typically in the format of a file or website - are solved by discovering a text-based "flag" planted within them, in the format `flag{th15_i5_a_f1ag}`. *(This is the type I participate in!)*
-- **Attack-Defense**: Teams are given a remote service, device, or host to protect whilst an enemy team attempts to exploit its processes to gain access.
+{% grid columns:2 %}
+<i class="fa-solid fa-flag"></i> Jeopardy:
+    description: |
+        Competition organizers design challenges in several distinct categories: web, crypto, pwn, reverse, forensics, etc. Challenges — typically in the format of a file or website — are solved by discovering a text-based "flag" planted within them, in the format `flag{th15_i5_a_f1ag}`. This is by far the most common form of capture-the-flag, with multiple online-based competitions being hosted internationally on a weekly basis.
+        <br><br>
+        ![Jeopardy](/asset/blog/wtf-is-a-ctf/jeopardy.svg)
+<i class="fa-solid fa-arrow-down-up-across-line"></i> Attack-Defense:
+    description: |
+        Teams are given a remote service, host, or network to protect whilst an enemy team attempts to exploit its processes to gain access. Teams need to both attack and defend simultaneously, making these competitions rare and difficult. DEFCON, widely considered to be the World Cup/Olympics of cybersecurity, hosts an annual Attack-Defense CTF with the greatest collegiate/professional teams in the world.
+        <br><br>
+        ![Attack-Defense](/asset/blog/wtf-is-a-ctf/attack-defense.jpg)
+{% endgrid %}
 
 ## What do these categories entail?
 
-<div class="no-highlight" style="margin-top:1rem">
-<details><summary><b>pwn</b> (Binary exploitation)</summary><br>These challenges involve exploiting Linux executables hosted on servers to obtain flags, often through deprecated/vulnerable C-language functions that the program uses. Requires an understanding of assembly code, the stack data structure, and exploit-writing (via Python and <a href="https://docs.pwntools.com/en/stable/">pwntools</a>).<br><br></details>
-<details><summary><b>crypto</b> (Cryptography)</summary><br>These challenges consist of identifying and decoding provided ciphertexts, often in both old/obscure encryption methods (i.e. Vigenere, Pigpen, Caesar) and more contemporary ones (<a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem">RSA</a>), <a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman</a>, and <a href="https://en.wikipedia.org/wiki/XOR_cipher">XOR</a> cryptosystems).<br><br></details>
-<details><summary><b>forensics</b></summary><br>These challenges involve analysis of files — often <a href="https://www.solarwinds.com/resources/it-glossary/pcap">packet captures</a>, steganography, OS captures/images/memory dumps, or audio snippets. Files can occasionally be partially/fully corrupt, or obfuscated in an seemingly unrecoverable manner.<br><br></details>
-<details><summary><b>rev</b> (Reverse engineering)</summary><br>These challenges involve attempting to reverse engineer a compiled program to identify and exploit its vulnerabilities. Similar to &quot;pwn&quot;, this category requires knowledge of the C programming language, assembly code, and various open-source software to analyze/decompile the provided executables (i.e. <a href="https://ghidra-sre.org/">Ghidra</a>, <a href="https://binary.ninja/">Binary Ninja</a>, <a href="https://hex-rays.com/ida-free/">IDA</a>)<br><br></details>
-<details><summary><b>web</b> (Web exploitation)</summary><br>These challenges involve finding secrets and/or exploiting vulnerabilities in a website/web application. This can range from basic SQL/command injection to crazy Chrome 0-days.<br><br></details>
-<details><summary><b>osint</b> (Open-source intelligence)</summary><br>These challenges often utilizing the internet's resources against small snippets of information (i.e. pictures, social media, screenshots, email) to gain sensitive information about the topic. There is a small subset of this category dubbed "GEOSINT", where geographic coordinates must be acquired from metadata-stripped images.<br></details>
-</div>
+{% grid columns:2 %}
+<i class="fa-solid fa-hammer"></i> pwn:
+    description: |
+        Also known as **binary exploitation**, these challenges involve exploiting Linux executables hosted on servers to obtain flags, often through deprecated/vulnerable C-language functions that the program uses. It requires an understanding of assembly code, the stack data structure, and exploit-writing (via Python and [pwntools](https://docs.pwntools.com/en/stable/)).
+<i class="fa-solid fa-lock"></i> crypto: 
+    description: |
+        Short for **cryptography** ([NOT CRYPTOCURRENCY](https://www.cryptoisnotcryptocurrency.com/) ಠ_ಠ), these challenges are encryption-based. It often involves both the old/obscure (i.e. Vigenere, Pigpen, Caesar) and the contemporary ([RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem), [Diffie-Helman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange), and [XOR](https://en.wikipedia.org/wiki/XOR_cipher) cryptosystems). Lots of programming, math, and paper-reading involved!
+<i class="fa-solid fa-magnifying-glass"></i> forensics:
+    description: |
+        These challenges involve analysis of files — often `.pcap` [packet captures](https://www.solarwinds.com/resources/it-glossary/pcap), steganography, OS captures/images/memory dumps, or audio snippets. Files can occasionally be partially/fully corrupt, or obfuscated in an seemingly unrecoverable manner. Requires an understanding of software like [FTK Imager](https://www.exterro.com/ftk-imager), [Volatility](https://www.volatilityfoundation.org/), and [Wireshark](https://www.wireshark.org/).
+<i class="fa-solid fa-recycle"></i> reverse: 
+    description: |
+        Short for **reverse engineering**, these challenges involve disassembling/analyzing a compiled program (of various different languages) to identify and exploit its vulnerabilities. Similar to `pwn`, this category requires knowledge of C, assembly code, and various open-source softwares (i.e. [Ghidra](https://ghidra-sre.org/), [Binary Ninja](https://binary.ninja/), [IDA](https://hex-rays.com/ida-free/)).
+<i class="fa-solid fa-window-maximize"></i> web:
+    description: |
+        These challenges involve finding secrets and/or exploiting vulnerabilities in a web application. As a very popular category, types of attacks vectors and execution can significantly vary. Some examples include [path traversal](https://owasp.org/www-community/attacks/Path_Traversal), [insecure deserialization](https://portswigger.net/web-security/deserialization), DOM-based [cookie manipulation](https://portswigger.net/web-security/dom-based/cookie-manipulation), [SQL injection](https://www.w3schools.com/sql/sql_injection.asp), and more!
+<i class="fa-solid fa-magnifying-glass-location"></i> osint:
+    description: |
+        Short for **open-source intelligence**, these challenges utilize the internet's resources against small snippets of information (i.e. pictures, social media, screenshots, email) to gain sensitive/personally identifying information. [GEOINT](https://en.wikipedia.org/wiki/Geospatial_intelligence) involves geographic coordinates, which must be acquired from metadata-stripped images.
+{% endgrid %}
 
-## What team do play with?
+## Why should I play?
 
-I mainly play with **[Project Sekai](https://sekai.team/)**, but I (think) I'm free to join teams in competitions they're not playing in. Feel free to DM to confirm!
+Capture-the-flag is one of the best (and only) ways to gain a hands-on experience within the cybersecurity field. They're a way to expose yourself to bleeding-edge technologies, exploits, and even people. Assembling a team allows you to learn from each other, as often people have strengths and weaknesses in the various categories. The competition itself might offer opportunities, cash prizes or other benefits, and it is a fantastic way build your resume and network. 
 
 ## I want to start, but I don't know where?
 
-Although the field may seem extremely overwhelming and difficult to get into, there are a seemingly endless amount of resources available on the internet to get you up to spec with prerequisite knowledge:
+Although the field may seem extremely overwhelming and difficult to get into, there's infinite resources on the internet to get you up to spec with prerequisite knowledge:
 
+- **[CTFTime](https://ctftime.org/)**: Serves as a "hub" for the global CTF community, with information regarding upcoming competitions, leaderboards, writeups (how-to-solve walkthroughs), and more!
 - **[picoCTF](https://picoctf.org/resources)**: A CTF run by Carnegie Mellon University, providing handy learning guides for each CTF category, "Primer" documentation, and the "picoGym", which contains every challenge from its previous annual competitions.
 - **[CTF101](https://ctf101.org/)**: Extremely handy documentation/wiki for common CTF practices and challenges per-category.
 - **[OverTheWire](https://overthewire.org/wargames/)**: A "wargame" year-round CTF with hundreds of level-based challenges to help practice security concepts.
-- **[CTFTime](https://ctftime.org/)**: Serves as a "hub" for the global CTF community, with information regarding upcoming competitions, leaderboards, writeups (how-to-solve walkthroughs), and more!
 
 ---
 

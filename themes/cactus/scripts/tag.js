@@ -422,12 +422,12 @@ hexo.extend.tag.register('grid', function (args, content) {
     let gridItems = [];
     for (const [key, value] of Object.entries(grid)) {
         let actions = [];
-        let badge, badge2, badge3, image, border, background;
-        if (Array.isArray(value.button.text)) {
+        let badge, badge2, badge3, image, border, background, actionsBox;
+        if (value.button && Array.isArray(value.button.text)) {
             for (let i = 0; i < value.button.text.length; i++) {
                 actions.push(`<a href="${value.button.link[i]}" class="action-button-primary">${value.button.text[i]}</a>`);
             }
-        } else {
+        } else if(value.button) {
             actions.push(`<a href="${value.button.link}" class="action-button-primary">${value.button.text}</a>`);
         }
         actions = actions.join("");
@@ -437,14 +437,8 @@ hexo.extend.tag.register('grid', function (args, content) {
         image = value.image ? `<div class="cover-img"><img src="${value.image}" alt="${key}"></div>` : "";
         border = value.border ? `border: 2px solid #${value.border};` : "";
         background = value.background ? `background: ${value.background};` : "";
-
-        gridItems.push(`<div class="card" style="${border}${background}">
-        ${image}
-        <div class="contents">
-            <p class="title">${key}</p>
-            <p class="description">${value.description}</p>
-        </div>
-        <div class="actions">
+        if(badge || badge2 || badge3 || actions) {
+            actionsBox = `<div class="actions">
             <div class="left">
                 ${badge}
                 ${badge2}
@@ -453,7 +447,17 @@ hexo.extend.tag.register('grid', function (args, content) {
             <div class="right">
                 ${actions}
             </div>
+            </div>`;
+        } else {
+            actionsBox = "";
+        }
+        gridItems.push(`<div class="card" style="${border}${background}">
+        ${image}
+        <div class="contents">
+            <p class="title">${key}</p>
+            <p class="description">${conv.makeHtml(value.description)}</p>
         </div>
+        ${actionsBox}
         </div>`);
     } if(args == "columns:2") {
         return `<div class="container"><div class="card-grid-2">${gridItems.join("")}</div></div>`;

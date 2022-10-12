@@ -1,30 +1,11 @@
 ---
-title: 👥 CrewCTF 2022
+title: CrewCTF 2022
 date: 2022-04-18 17:54:56
 hidden: true
 description: "Information regarding placement, solves, and writeups for CrewCTF 2022."
 permalink: ctfs/crew/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
-
-<style>
-    .box {
-        border: 1px solid #212326;
-        border-radius: 5px;
-        background-color: #212326;
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .no-highlight {
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-</style>
 
 <div class="box">
     <b>Start Time</b>: Fri, 15 April 2022, 10:00 PDT<br>

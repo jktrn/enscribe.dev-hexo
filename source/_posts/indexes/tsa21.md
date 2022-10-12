@@ -1,30 +1,11 @@
 ---
-title: 💾 TSA CTF 2021
+title: TSA CTF 2021
 date: 2022-04-10 17:07:16
 hidden: true
 description: "Information regarding placement, solves, and writeups for TSA CTF 2021."
 permalink: ctfs/tsa21/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
-
-<style>
-    .box {
-        border: 1px solid #212326;
-        border-radius: 5px;
-        background-color: #212326;
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .no-highlight {
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-</style>
 
 <div class="box">
     <b>Start Time</b>: Tue, 01 June 2021, 7:00 PDT<br>

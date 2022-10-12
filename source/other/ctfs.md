@@ -10,10 +10,10 @@ layout: page
 {% fontawesome %}
 
 {% grid columns:2 %}
-<i class="fa-solid fa-music" style="color:#E9D3B6"></i> SekaiCTF 2022:
+<i class="fa-solid fa-music"></i> SekaiCTF 2022:
     description: |
-        <b>Date</b>: Sep 30 - Oct 02, 2022<br>
-        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+        **Date**: Sep 30 - Oct 02, 2022  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: VIEW
         link: https://github.com/project-sekai-ctf/sekaictf-2022
@@ -24,10 +24,10 @@ layout: page
         type: blue
         text: <i class="fa-solid fa-flag"></i> 24.82
     border: 5BAEAE
-<i class="fa-solid fa-shield-cat" style="color:#E9D3B6"></i> BYUCTF 2022:
+<i class="fa-solid fa-shield-cat"></i> BYUCTF 2022:
     description: |
-        <b>Date</b>: May 27 — May 28, 2022<br>
-        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+        **Date**: May 27 — May 28, 2022  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: VIEW
         link: /ctfs/byu/
@@ -37,10 +37,10 @@ layout: page
     badge2:
         type: blue
         text: <i class="fa-solid fa-flag"></i> 42.74
-<i class="fa-solid fa-flag-usa" style="color:#E9D3B6"></i> PatriotCTF 2022:
+<i class="fa-solid fa-flag-usa"></i> PatriotCTF 2022:
     description: |
-        <b>Date</b>: Apr 29 - Apr 30, 2022<br>
-        <b>Team</b>: <a href="https://ctftime.org/team/175828"><i class="fa-solid fa-file-code"></i> View Source</a>
+        **Date**: Apr 29 - Apr 30, 2022  
+        **Team**: [<i class="fa-solid fa-file-code"></i> View Source](https://ctftime.org/team/175828)
     button:
         text: VIEW
         link: /ctfs/patriot/
@@ -50,10 +50,10 @@ layout: page
     badge2:
         type: blue
         text: <i class="fa-solid fa-flag"></i> 34.71
-<i class="fa-solid fa-people-group" style="color:#E9D3B6"></i> CrewCTF 2022:
+<i class="fa-solid fa-people-group"></i> CrewCTF 2022:
     description: |
-        <b>Date</b>: Apr 15 — Apr 17, 2022<br>
-        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+        **Date**: Apr 15 — Apr 17, 2022  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: VIEW
         link: /ctfs/crew/
@@ -63,10 +63,10 @@ layout: page
     badge2:
         type: blue
         text: <i class="fa-solid fa-flag"></i> 25.13
-<i class="fa-solid fa-shield-halved" style="color:#E9D3B6"></i> NahamCon 2022:
+<i class="fa-solid fa-shield-halved"></i> NahamCon 2022:
     description: |
-        <b>Date</b>: Apr 28 — Apr 30, 2022<br>
-        <b>Team</b>: <a href="https://sekai.team/"><i class="fa-solid fa-music"></i> Project Sekai</a>
+        **Date**: Apr 28 — Apr 30, 2022  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: VIEW
         link: /ctfs/naham/
@@ -76,7 +76,7 @@ layout: page
     badge2:
         type: blue
         text: <i class="fa-solid fa-flag"></i> 25.38
-<i class="fa-solid fa-school" style="color:#E9D3B6"></i> TSA CTF 2021:
+<i class="fa-solid fa-school"></i> TSA CTF 2021:
     description: |
         <b>Date</b>: Jun 01 — Jun 02, 2021<br>
         <b>Team</b>: VHTPA
@@ -86,7 +86,7 @@ layout: page
     badge:
         type: brown
         text: <i class="fa-solid fa-ranking-star"></i> 07/~55
-<i class="fa-solid fa-user-astronaut" style="color:#E9D3B6"></i> Space Heroes CTF:
+<i class="fa-solid fa-user-astronaut"></i> Space Heroes CTF:
     description: |
         <b>Date</b>: Apr 01 — Apr 02, 2022<br>
         <b>Team</b>: WhileSEC
@@ -96,7 +96,7 @@ layout: page
     badge:
         type: darkbrown
         text: <i class="fa-solid fa-ranking-star"></i> 36/778
-<i class="fa-solid fa-graduation-cap" style="color:#E9D3B6"></i> picoCTF 2022:
+<i class="fa-solid fa-graduation-cap"></i> picoCTF 2022:
     description: |
         <b>Date</b>: Mar 15 — Mar 21, 2022<br>
         <b>Team</b>: NLE CHAKRA
@@ -108,4 +108,6 @@ layout: page
         text: <i class="fa-solid fa-ranking-star"></i> 86/1329
 {% endgrid %}
 
-
+{% box %}
+Don't know WTF a CTF is? [**Read this article**](/blog/wtf-is-a-ctf/)!
+{% endbox %}

@@ -1,5 +1,5 @@
 ---
-title: 🚩 picoCTF 2022
+title: picoCTF 2022
 date: 2022-04-10 17:07:16
 hidden: true
 description: "Information regarding placement, solves, and writeups for picoCTF 2022."
@@ -8,23 +8,6 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 <style>
-    .box {
-        border: 1px solid #212326;
-        border-radius: 5px;
-        background-color: #212326;
-        padding: 1rem;
-        font-size: 90%;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .no-highlight {
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-
     .column {
         float: left;
         width: 50%;
@@ -58,12 +41,8 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
             <sub>pico22/pwn: <a href="/ctfs/pico22/pwn/buffer-overflow-series/">Buffer overflow series</a></sub>
         </div>
         <div class="column">
-            <a href="/ctfs/pico22/crypto/basic-mod1-2/"><img width=400 src="/asset/banner/banner-basic-mod.png" style="width:100%"></a>
-            <sub>pico22/crypto: <a href="/ctfs/pico22/crypto/basic-mod1-2/">basic-mod1/2</a></sub>
-        </div>
-        <div class="column">
-            <a href="/ctfs/pico22/pwn/basic-file-exploit/"><img width=400 src="/asset/banner/banner-basic-file-exploit.png" style="width:100%"></a>
-            <sub>pico22/pwn: <a href="/ctfs/pico22/pwn/basic-file-exploit/">basic-file-exploit</a></sub>
+            <a href="/ctfs/pico22/beginners-compilation/"><img width=400 src="/asset/banner/banner-beginners.png" style="width:100%"></a>
+            <sub>pico22/: <a href="/ctfs/pico22/beginners-compilation">Beginner's Compilation</a></sub>
         </div>
         <div class="column">
             <a href="/ctfs/pico22/pwn/ropfu/"><img width=400 src="/asset/banner/banner-ropfu.png" style="width:100%"></a>

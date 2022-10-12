@@ -269,6 +269,14 @@ code
   flex-direction column
   gap 1rem
 
+.flex-container-even
+  display flex
+  gap: 1rem
+
+.flex-container-even > * {
+  flex-basis: 100%
+}
+
 @media (min-width: 700px)
   .flex-container
     display flex
@@ -491,3 +499,6 @@ article .content h2.chal-title:before
         margin-left auto!important
         justify-content flex-end!important
         margin-top 0!important
+
+.title .fa-solid
+    color: #E9D3B6
