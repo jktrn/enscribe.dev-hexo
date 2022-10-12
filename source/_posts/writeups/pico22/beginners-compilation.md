@@ -293,7 +293,7 @@ picoCTF{M4K3_5UR3_70_CH3CK_Y0UR_1NPU75_<span style="color:#696969"><b>[REDACTED]
 
 {% challenge %}
 title: CVE-XXXX-XXXX
-description: 
+description: |
   Enter the CVE of the vulnerability as the flag with the correct flag format - `picoCTF{CVE-XXXX-XXXXX}` - replacing `XXXX-XXXXX` with the numbers for the matching vulnerability. The CVE we're looking for is the first recorded remote code execution (RCE) vulnerability in 2021 in the Windows Print Spooler Service, which is available across desktop and server versions of Windows operating systems. The service is used to manage printers and print servers.
 hints: 
   - We're not looking for the Local Spooler vulnerability in 2021...

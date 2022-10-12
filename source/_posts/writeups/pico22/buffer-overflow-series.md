@@ -128,9 +128,9 @@ picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></
 title: Buffer overflow 1
 level: h2
 description: |
-  'Control the return address.  
+  Control the return address.  
   Now we're cooking! You can overflow the buffer and return to the flag function in the [program](asset/pico22/buffer-overflow/vuln-1). You can view source [here](asset/pico22/buffer-overflow/vuln-1.c). And connect with it using:  
-  `nc saturn.picoctf.net [PORT]`'
+  `nc saturn.picoctf.net [PORT]`
 hints:
   - 1. Make sure you consider big Endian vs small Endian.
   - 2. Changing the address of the return pointer can call different functions.
@@ -499,10 +499,10 @@ We've successfully automated a solve on a simple x32 buffer overflow!
 title: Buffer overflow 2
 level: h2
 description: |
-  'Control the return address and arguments.  
+  Control the return address and arguments.  
   This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](asset/pico22/buffer-overflow/vuln-2)?  
   You can view source [here](asset/pico22/buffer-overflow/vuln-2.c). And connect with it using:  
-  `nc saturn.picoctf.net [PORT]`'
+  `nc saturn.picoctf.net [PORT]`
 hints:
   - 1. Try using GDB to print out the stack once you write to it.
 size: 105%
