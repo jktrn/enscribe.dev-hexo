@@ -39,30 +39,24 @@ There are two signature types of CTFs:
 ## What do these categories entail?
 
 {% grid columns:2 %}
-<i class="fa-solid fa-hammer"></i> pwn:
+<i class="fa-solid fa-bomb" style="color:#f44336"></i> pwn:
     description: |
-        Also known as **binary exploitation**, these challenges involve exploiting Linux executables hosted on servers to obtain flags, often through deprecated/vulnerable C-language functions that the program uses. It requires an understanding of assembly code, the stack data structure, and exploit-writing (via Python and [pwntools](https://docs.pwntools.com/en/stable/)).
-    border: f44336
-<i class="fa-solid fa-lock"></i> crypto: 
+        Also known as **binary exploitation**, these challenges involve exploiting compiled Linux executables hosted on servers to obtain flags, often through deprecated C functions that the program uses. It requires knowledge of assembly code, the stack structure, exploit-writing (via Python and [pwntools](https://docs.pwntools.com/en/stable/)), and attack vectors (i.e. [format string](https://owasp.org/www-community/attacks/Format_string_attack), [buffer overflow](https://en.wikipedia.org/wiki/Buffer_overflow)).
+<i class="fa-solid fa-lock" style="color:#2196f3"></i> crypto: 
     description: |
         Short for **cryptography** ([NOT CRYPTOCURRENCY](https://www.cryptoisnotcryptocurrency.com/) ಠ_ಠ), these challenges are ciphertext and/or encryption-based. They often involve both contemporary ([RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem), [Diffie-Helman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange), and [XOR](https://en.wikipedia.org/wiki/XOR_cipher)) and old/obscure (i.e. Vigenere, Pigpen, Caesar) cryptosystems. Lots of math and paper-reading involved, and recommended if you do competitive programming!
-    border: 2196f3
-<i class="fa-solid fa-magnifying-glass"></i> forensics:
+<i class="fa-solid fa-magnifying-glass" style="color:#4caf50"></i> forensics:
     description: |
         These challenges involve analysis of files — often `.pcap` [packet captures](https://www.solarwinds.com/resources/it-glossary/pcap), steganography, OS captures/images/memory dumps, or audio snippets. Files can occasionally be partially/fully corrupt, or obfuscated in an seemingly unrecoverable manner. Requires an understanding of software like [FTK Imager](https://www.exterro.com/ftk-imager), [Volatility](https://www.volatilityfoundation.org/), and [Wireshark](https://www.wireshark.org/).
-    border: 4caf50
-<i class="fa-solid fa-recycle"></i> reverse: 
+<i class="fa-solid fa-recycle" style="color:#9c27b0"></i> reverse: 
     description: |
         Short for **reverse engineering**, these challenges involve disassembling/analyzing a compiled program (of various different languages) to identify and exploit its vulnerabilities. Similar to `pwn`, this category requires knowledge of C, assembly code, and various open-source softwares (i.e. [Ghidra](https://ghidra-sre.org/), [Binary Ninja](https://binary.ninja/), [IDA](https://hex-rays.com/ida-free/)).
-    border: 9c27b0
-<i class="fa-solid fa-globe"></i> web:
+<i class="fa-solid fa-globe" style="color:#00bcd4"></i> web:
     description: |
         These challenges involve finding secrets and/or exploiting vulnerabilities in a web application. As a very popular category, types of attacks vectors and execution can significantly vary. Some examples include [path traversal](https://owasp.org/www-community/attacks/Path_Traversal), [insecure deserialization](https://portswigger.net/web-security/deserialization), DOM-based [cookie manipulation](https://portswigger.net/web-security/dom-based/cookie-manipulation), [SQL injection](https://www.w3schools.com/sql/sql_injection.asp), and more!
-    border: 00bcd4
 <i class="fa-solid fa-eye"></i> osint:
     description: |
         Short for **open-source intelligence**, these challenges utilize the internet's resources against small snippets of information (i.e. pictures, social media, screenshots, email) to gain sensitive/personally identifying information. [GEOINT](https://en.wikipedia.org/wiki/Geospatial_intelligence) involves geographic coordinates, which must be acquired from metadata-stripped images.
-    border: 8bc34a
 {% endgrid %}
 
 ## Why should I play?

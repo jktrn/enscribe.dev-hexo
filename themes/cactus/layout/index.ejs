@@ -47,8 +47,7 @@
             <% if(item.name == 'ctfs') { %>
                 <li class="post-item">
                     <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-                    <span><%- partial('_partial/post/title', { post: post, index: true, class_name: '' }) %></span>
-                </li>
+                    <%- partial('_partial/post/split', {post: post}) %>
             <% } %>
         <% }); %>
     <% }); %>

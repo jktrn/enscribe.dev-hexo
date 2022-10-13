@@ -1,6 +1,6 @@
 ---
-title: Anime Watchlist · Jason's Space
-description: My complete anime watchlist (imported from MyAnimeList), updated as of 5/16/22.
+title: Anime Watchlist · enscribe.dev
+description: Secret closet weeb
 thumbnail: https://enscribe.dev/asset/banner/banner.png
 permalink: /anime/
 hidden: true

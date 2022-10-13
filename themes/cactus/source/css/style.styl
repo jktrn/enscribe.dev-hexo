@@ -161,11 +161,14 @@ pre
     border: none
 
 code
+  font-family: inherit
   padding: 0 5px
-  border: 1px dotted $color-border
-  font-family: $font-family-mono
   border-radius: 2px
   -webkit-border-radius: 2px
+  border-radius: 3px
+  color: #E9D3B6
+  background-color: rgba(40, 40, 40, 0.5)
+  font-family: "Iosevka Web", "JetBrains Mono", "Menlo", "Meslo LG", monospaced
 
 .highlight
   overflow-x: auto
@@ -502,3 +505,16 @@ article .content h2.chal-title:before
 
 .title .fa-solid
     color: #E9D3B6
+
+.category-column
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-right: 16px
+    min-width: 100px
+    color: $color-meta
+    font-size: 12px
+    border-radius: 3px
+    color: #E9D3B6
+    background-color: lighten($color-background, 5%)
+    padding: 0px 5px

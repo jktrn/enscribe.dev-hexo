@@ -1,13 +1,14 @@
 ---
-title: Contact · Jason's Space
+title: Profiles · enscribe.dev
 date: 2022-04-05 16:20:02
-description: "Check out my social media profiles and methods of contact."
+description: "My social media/gaming profiles alongside methods of contact."
 thumbnail: https://enscribe.dev/asset/banner/banner-contact.png
 hidden: true
 layout: page
 permalink: /profiles/
 ---
-<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+
+{% fontawesome %}
 
 <style>
     .pushable {
@@ -42,7 +43,7 @@ permalink: /profiles/
         width: 100%;
         height: 100%;
         border-radius: 12px;
-        background: #111111
+        background: #171717
     }
 
     .front {
@@ -53,7 +54,7 @@ permalink: /profiles/
         font-size: 1.25rem;
         font-family: "JetBrains Mono", monospace;
         color: white;
-        background: #171717;
+        background: #1D1D1D;
         will-change: transform;
         transform: translateY(-4px);
         transition:
