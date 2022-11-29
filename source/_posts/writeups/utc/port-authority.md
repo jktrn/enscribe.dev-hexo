@@ -1,5 +1,5 @@
 ---
-title: "utc/prog: Port Authority"
+title: "Hacky Holidays 2022: Port Authority"
 date: 2022-07-27 23:07:37
 categories:
 - ctfs
@@ -8,7 +8,8 @@ categories:
 tags: 
 - programming
 - websocket
-description: "Play a JSON-controlled strategy game through a WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
+description: "Play a JSON-controlled strategy game through WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
+category_column: "utc/prog"
 permalink: ctfs/utc/prog/port-authority/
 thumbnail: /asset/banner/banner-port-authority.png
 ---
@@ -738,7 +739,7 @@ In theory, these checks should cause the ships to bounce back and forth in their
 
 ![Lanes](/asset/utc/lanes.gif)
 
-Although we've managed to stabilize level 5, we need to be able to toggle the lanes off to manually solve the challenge. Let's add more checkboxes to the HTML and adjust the JS accordingly:
+Yes! We've managed to stabilize level 5 completely! Now, we need to be able to toggle the lanes off to manually solve the challenge. Let's add more checkboxes to the HTML and adjust the JS accordingly:
 
 {% ccb lang:html gutter1:21-39 caption:'[HTML] Adding lane checkboxes' diff_add:10-18 %}
             <p>Loop Ships:</p>
@@ -1108,6 +1109,12 @@ function check90(s, o, d) {
 If you made it to this point of the writeup, I want to sincerely thank you for reading. This writeup genuinely took longer to create than it took to solve the challenge (about 30 hours across two weeks), as I had to recreate, record, crop, and optimize every aspect of the solve. I had to create my own multi-hundred-line plugins to implement custom code blocks specifically for this writeup. Everything from the line numbers in highlighted diffs of code to the diagrams were hand-done, as this is my passion: to create for people to learn in a concise, aesthetically pleasing manner. This is also an entry for the Hacky Holidays writeup competition, so wish me luck! 🤞
 
 \- enscribe
+
+---
+
+Update: There I am! 🎉 Thanks for the support, everybody.
+
+![Leaderboard](/asset/utc/leaderboard.png)
 
 ---
 

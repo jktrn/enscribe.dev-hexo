@@ -11,6 +11,7 @@ tags:
 description: "Learn how to manually build and apply a modified Vigenère Cipher! This is my writeup for the Space Heroes CTF cryptography challenge \"Rahool's Challenge\"."
 permalink: ctfs/shctf/crypto/rahools-challenge/
 thumbnail: /asset/banner/banner-rahool.png
+hidden: true
 ---
 
 {% fontawesome %}

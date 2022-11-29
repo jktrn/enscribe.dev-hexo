@@ -4,19 +4,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="theme-color" content="#171718">
+    <meta name="theme-color" content="#171717">
     <% if (is_home()) { %> 
-      <meta name="og:description" content="enscribe's capture-the-flag shenanigans and high-quality writeups!" />
+      <meta name="og:description" content="Jason/enscribe's personal blog, hosting cybersecurity capture-the-flag shenanigans and high-quality writeups! 🍵" />
+      <meta property="og:description" content="Jason/enscribe's personal blog, hosting cybersecurity capture-the-flag shenanigans and high-quality writeups! 🍵" />
       <meta name="og:image" content="https://enscribe.dev/asset/banner/banner.png">
     <% } %>
     <% if (is_archive()) { %> 
-      <meta name="og:description" content="Archive page of previous writeups and blog posts." />
+      <meta name="og:description" content="Archive page of enscribe's previous writeups and blog posts." />
+      <meta property="og:description" content="Archive page of enscribe's previous writeups and blog posts." />
       <meta name="og:image" content="https://enscribe.dev/asset/banner/banner-articles.png">
     <% } %>
 
     <%- open_graph({
         image:          thumbnail(page),
-        site_name:      "enscribe.dev",
+        site_name:      "Jason's Personal Blog - enscribe.dev",
         twitter_card:   "summary_large_image",
 
         fb_app_id:      theme.open_graph.fb_app_id,

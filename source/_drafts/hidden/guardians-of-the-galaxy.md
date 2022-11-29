@@ -11,6 +11,7 @@ tags:
 description: "Learn how to brute force a format string attack on ELF binaries! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Guardians of the Galaxy\"."
 permalink: ctfs/shctf/pwn/guardians-of-the-galaxy/
 thumbnail: /asset/banner/banner-guardians.png
+hidden: true
 ---
 
 {% fontawesome %}

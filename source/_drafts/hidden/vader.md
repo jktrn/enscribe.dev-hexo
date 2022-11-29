@@ -12,6 +12,7 @@ tags:
 description: "Learn how to exploit ELF binaries using ROP, building a chain of \"gadgets\" on the stack to pass arguments to a function! This is my writeup for the Space Heroes CTF binary/pwn challenge \"Vader\"."
 permalink: ctfs/shctf/pwn/vader/
 thumbnail: /asset/banner/banner-vader.png
+hidden: true
 ---
 
 {% fontawesome %}

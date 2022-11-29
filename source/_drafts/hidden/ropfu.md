@@ -1,5 +1,5 @@
 ---
-title: "pico22/pwn: ropfu"
+title: "PicoCTF 2022: ropfu"
 date: 2022-06-14 19:20:05
 categories:
 - ctfs
@@ -9,8 +9,10 @@ tags:
 - pwn
 - rop-chain
 description: "Utilize the ROPgadget tool to carry your classic return-oriented programming challenges! This is my writeup for the picoCTF 2022 pwn/binary challenge \"ropfu\"."
+category_column: "pico22/pwn"
 permalink: ctfs/pico22/pwn/ropfu/
 thumbnail: https://enscribe.dev/asset/banner/banner-ropfu.png
+hidden: true
 ---
 
 {% fontawesome %}
@@ -43,7 +45,7 @@ Warning: This is an **instance-based** challenge. Port info will be redacted alo
 
 Hey, look: a classic "ROP" (return-oriented programming) challenge with the source code provided! Let's take a look:
 
-{% ccb lang:c caption:vuln.c gutter1:1-10,,11-23 url:'enscribe.dev/asset/pico22/ropfu/vuln.c' url_text:'download source' wrapped:true %}
+{% ccb lang:py caption:vuln.c gutter1:1-10,,11-23 url:'enscribe.dev/asset/pico22/ropfu/vuln.c' url_text:'download source' wrapped:true %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -141,7 +143,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 The offset is 28, as we've successfully loaded 4 hex `B`s into the `$eip`. Our last step is to set up the remote connection with [pwntools](https://docs.pwntools.com/en/stable/). Here is my final script:
 
-{% ccb lang:py gutter1:1-48 caption:ropfu.py url:gist.github.com/jktrn/17d531a5738b4592f6d718fc0eb1b508 url_text:'github gist link' %}
+{% ccb lang:py gutter1:1-48 caption:ropfu.py url:gist.github.com/jktrn/17d531a5738b4592f6d718fc0eb1b508 url_text:'github gist link' scrollable:true %}
 #!/usr/bin/env python2
 from pwn import *
 from struct import pack

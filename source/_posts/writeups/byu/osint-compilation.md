@@ -1,5 +1,5 @@
 ---
-title: "byu/osint: OSINT Compilation"
+title: "BYUCTF 2022: OSINT Compilation"
 date: 2022-05-28 18:02:04
 categories:
 - ctfs
@@ -8,7 +8,8 @@ categories:
 tags:
 - osint
 - compilation
-description: "Here's my writeup for all BYUCTF 2022 OSINT challenges. I'm sorry you guys had to go through this."
+description: "Discover various salient aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition!"
+category_column: "byu/osint"
 permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png
 ---
@@ -19,9 +20,9 @@ thumbnail: /asset/banner/banner-osint.png
 
 ### Intro
 
-So, we played BYU CTF 2022. There were **9 OSINT challenges**. 9. It was absolutely party-time for a CTF player w/ OSINT-emphasis like me, and a tragedy for people who dislike the inherently guessy nature behind the genre. Our team managed to solve them all, so here was our (albeit flawed) thought process behind it.
+So, we played BYUCTF 2022. There were **9 OSINT challenges**. 9. It was absolutely party-time for a CTF player w/ OSINT-emphasis like me, and a tragedy for people who dislike the inherently guessy nature behind the genre. Our team managed to solve them all, so here was our (albeit flawed) thought process behind it.
 
-**Important note**: Some of our lines of reasoning don't make sense at all. That's normal for this category, and it comes from a shit ton of brainstorming and guesswork. I'll try my best to include wrong paths that we took, but for the sake of brevity some of it will be omitted.
+**Important note**: Some of our lines of reasoning don't make sense at all. That's normal for this category, and it comes from a crap ton of brainstorming, guesswork, and admin communication. I'll try my best to include wrong paths that we took, but for the sake of brevity some of it will be omitted.
 
 Oh, also, here is a haiku to express my carnal, passionate, burning hatred for OSINT:
 

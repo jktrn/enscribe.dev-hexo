@@ -368,22 +368,33 @@ hexo.extend.tag.register('challenge', function(args, content) {
             for(const solver of obj.solvers) {
                 if(solver.includes(' --flag')) {
                     const flagger = solver.replace(' --flag', ''); 
-                    solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[flagger]?.img}"> <a href="${members[flagger]?.url}">${members[flagger]?.name}</a> <i class="fa-solid fa-flag"></i><br>`;
+                    solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[flagger]?.img}"> <a target="_blank" rel="noopener" href="${members[flagger]?.url}">${members[flagger]?.name}</a> <i class="fa-solid fa-flag"></i><br>`;
                 } else {
-                    solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solver]?.img}"> <a href="${members[solver]?.url}">${members[solver]?.name}</a><br>`;
+                    solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solver]?.img}"> <a target="_blank" rel="noopener" href="${members[solver]?.url}">${members[solver]?.name}</a><br>`;
                 }
             }
         } else {
-            solverText = `<i class="fa-solid fa-user"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.solvers]?.img}"> <a href="${members[obj.solvers]?.url}">${members[obj.solvers]?.name}</a><br>`
+            solverText = `<i class="fa-solid fa-user"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.solvers]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.solvers]?.url}">${members[obj.solvers]?.name}</a><br>`
         }
+    } else {
+        solverText = "";
     }
 
     if (obj.authors) {
-        if(Array.isArray(obj.authors)) {
-            let arr = obj.authors.map(x => `<br> - ${x}`).join("");
-            obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+        if(members[obj.authors]) {
+            if(Array.isArray(obj.authors)) {
+                let arr = obj.authors.map(x => `<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[x]?.img}"> <a target="_blank" rel="noopener" href="${members[x]?.url}">${members[x]?.name}</a>`).join("");
+                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+            } else {
+                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.authors]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.authors]?.url}">${members[obj.authors]?.name}</a><br>`;
+            }
         } else {
-            obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: ${obj.authors}<br>`;
+            if(Array.isArray(obj.authors)) {
+                let arr = obj.authors.map(x => `<br> - ${x}`).join("");
+                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+            } else {
+                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: ${obj.authors}<br>`;
+            }
         }
     }
 

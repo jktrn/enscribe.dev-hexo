@@ -1,9 +1,6 @@
-<% if(post.title) { %>
-    <% let [categories, title] = post.title.split(":"); %>
-    <% let ctfName, ctfCategory; %>
-    <% if (categories.includes("/")) { %>
-        <% [ctfName, ctfCategory] = categories.split("/"); %>
-    <% } %>
-    <div class="category-column"><%= categories %></div>
-    <span><a href="<%- url_for(post.path) %>"><%= title %></a></span>
+<% if(post.category_column) { %>
+    <div class="category-column"><%= post.category_column %></div>
+    <span><a href="<%- url_for(post.path) %>"><%= post.title %></a></span>
+<% } else { %>
+    <span><a href="<%- url_for(post.path) %>"><%= post.title %></a></span>
 <% } %>
