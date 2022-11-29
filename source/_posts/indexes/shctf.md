@@ -36,24 +36,8 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 <div class="box">
     <b>Writeups</b>:<br><br>
-    <div class="row">
-        <div class="column">
-            <a href="/ctfs/shctf/pwn/guardians-of-the-galaxy/"><img src="/asset/banner/banner-guardians.png" style="width:100%"></a>
-            <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/guardians-of-the-galaxy/">Guardians of the Galaxy</a></sub>
-        </div>
-        <div class="column">
-            <a href="/ctfs/shctf/crypto/rahools-challenge/"><img src="/asset/banner/banner-rahool.png" style="width:100%"></a>
-            <sub>shctf/crypto: <a href="/ctfs/shctf/crypto/rahools-challenge/">Rahool's Challenge</a></sub>
-        </div>
-        <div class="column">
-            <a href="/ctfs/shctf/pwn/vader/"><img src="/asset/banner/banner-vader.png" style="width:100%"></a>
-            <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/vader/">Vader</a></sub>
-        </div>
-        <div class="column">
-            <a href="/ctfs/shctf/pwn/warmup-to-the-dark-side/"><img src="/asset/banner/banner-darkside.png" style="width:100%"></a>
-            <sub>shctf/pwn: <a href="/ctfs/shctf/pwn/warmup-to-the-dark-side/">Warmup to the Dark Side</a></sub>
-        </div>
-    </div>
+    <a href="/ctfs/shctf/compilation/"><img width=400 src="/asset/banner/banner-ctfs.png"></a>
+    <sub>shctf: <a href="/ctfs/shctf/compilation/">Writeup Compilation</a></sub>
 </div>
 
 <div class="box no-highlight">

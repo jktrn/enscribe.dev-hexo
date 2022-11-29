@@ -44,10 +44,6 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
             <a href="/ctfs/pico22/beginners-compilation/"><img width=400 src="/asset/banner/banner-beginners.png" style="width:100%"></a>
             <sub>pico22/: <a href="/ctfs/pico22/beginners-compilation">Beginner's Compilation</a></sub>
         </div>
-        <div class="column">
-            <a href="/ctfs/pico22/pwn/ropfu/"><img width=400 src="/asset/banner/banner-ropfu.png" style="width:100%"></a>
-            <sub>pico22/pwn: <a href="/ctfs/pico22/pwn/ropfu/">ropfu</a></sub>
-        </div>
     </div>
 </div>
 
@@ -71,7 +67,7 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 | Name                 | Points | Category  | Status   | Writeup                                                                     |
 |----------------------|--------|-----------|----------|-----------------------------------------------------------------------------|
 | ⠀                    |        |           |          |                                                                             |
-| basic-file-exploit   | 100    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/basic-file-exploit/)     |
+| basic-file-exploit   | 100    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/beginners-compilation/)     |
 | buffer overflow 0    | 100    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/buffer-overflow-series/) |
 | CVE-XXXX-XXXX        | 100    | pwn       | Solved   |                                                                             |
 | buffer overflow 1    | 200    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/buffer-overflow-series/) |
@@ -80,13 +76,13 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 | buffer overflow 2    | 300    | pwn       | Solved   |                                                                             |
 | buffer overflow 3    | 300    | pwn       | Solved   |                                                                             |
 | flag leak            | 300    | pwn       | Solved   |                                                                             |
-| ropfu                | 300    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/ropfu/)                  |
+| ropfu                | 300    | pwn       | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/pwn/beginners-compilation/)                  |
 | wine                 | 300    | pwn       | Unsolved |                                                                             |
 | function overwrite   | 400    | pwn       | Unsolved |                                                                             |
 | stack cache          | 400    | pwn       | Unsolved |                                                                             |
 | solfire              | 500    | pwn       | Unsolved |                                                                             |
-| basic-mod1           | 100    | crypto    | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/crypto/basic-mod1-2/)        |
-| basic-mod2           | 100    | crypto    | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/crypto/basic-mod1-2/)        |
+| basic-mod1           | 100    | crypto    | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/beginners-compilation/)        |
+| basic-mod2           | 100    | crypto    | Solved   | [click here!](https://enscribe.dev/ctfs/pico22/beginners-compilation/)        |
 | credstuff            | 100    | crypto    | Solved   |                                                                             |
 | morse-code           | 100    | crypto    | Solved   |                                                                             |
 | substitution0        | 100    | crypto    | Solved   |                                                                             |
