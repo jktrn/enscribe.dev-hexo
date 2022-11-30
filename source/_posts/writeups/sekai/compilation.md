@@ -24,6 +24,7 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 
 {% challenge %}
 title: Blind Infection 1
+level: h2
 authors: Battlemonger
 genre: forensics
 points: 470
@@ -183,6 +184,7 @@ SEKAI{R3m3b3r_k1Dz_@lway5_84cKUp}
 
 {% challenge %}
 title: Blind Infection 2
+level: h2
 authors: Battlemonger
 genre: forensics
 points: 488
@@ -309,6 +311,7 @@ Flag: `SEKAI{D4R3_4CC3PT38_4N8_4U5T38}`
 
 {% challenge %}
 title: Broken Converter
+level: h2
 authors: blueset
 genre: forensics
 points: 100
@@ -359,6 +362,7 @@ The flag is underlined: <code>f\\@g:<u>SEKAI{sCR4MBLeD_a5ci1-FONT+GlYPHZ,W3|!.d0
 
 {% challenge %}
 title: flag Mono
+level: h2
 authors: blueset
 genre: forensics
 points: 368
@@ -399,6 +403,7 @@ Combining everything together, the flag is `SEKAI{OpenTypeMagicGSUBIsTuringCompl
 
 {% challenge %}
 title: Symbolic Needs 1
+level: h2
 authors: Battlemonger
 genre: forensics
 points: 467
@@ -473,6 +478,7 @@ Those are easily identifiable as ASCII codes. Convert `72 48 117 53 84 48 110 95
 
 {% challenge %}
 title: Symbolic Needs 2
+level: h2
 authors: Battlemonger
 genre: forensics
 points: 482
