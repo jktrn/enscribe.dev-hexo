@@ -118,3 +118,10 @@ hide_posts:
   public_generators: []
   noindex: true
   
+sitemap:
+  path: 
+    - sitemap.xml
+    - sitemap.txt
+  rel: false
+  tags: false
+  categories: false
