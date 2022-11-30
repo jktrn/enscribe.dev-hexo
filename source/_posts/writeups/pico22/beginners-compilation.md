@@ -7,13 +7,13 @@ categories:
 tags:
 - compilation
 description: "Learn how to capture-the-flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges in all categories!"
-category_column: pico22
-permalink: ctfs/pico/beginners-compilation/
+category_column: "pico22"
+permalink: ctfs/pico22/beginners-compilation/
 thumbnail: /asset/banner/banner-beginners.png
 alias:
  - ctfs/pico22/crypto/basic-mod1/
  - ctfs/pico22/crypto/basic-mod1-2/
- - ctfs/pico22/crypto/basic-file-exploit/
+ - ctfs/pico22/pwn/basic-file-exploit/
  - ctfs/pico22/crypto/pwn/cve-xxxx-xxxx/
  - ctfs/pico22/pwn/ropfu/
 ---

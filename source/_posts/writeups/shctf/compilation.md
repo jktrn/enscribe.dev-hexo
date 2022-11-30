@@ -17,16 +17,17 @@ alias:
  - ctfs/shctf/crypto/rahools-challenge/
 ---
 
+{% fontawesome %}
+
 ### Intro
 
 So me and a couple of LFGs (looking-for-group) played [Space Heroes CTF](https://ctftime.org/event/1567/), organized by Florida Tech's [FITSEC](https://ctftime.org/team/65296) cybersecurity team. As one of the first CTFs I've played in over a year, it was an amazing learning experience for me being thrown into the mystical world of binary exploitation/pwn. I've made a couple of writeups for the cooler challenges I've solved; enjoy!
 
-{% fontawesome %}
-
-## Binary Exploitation
+---
 
 {% challenge %}
 title: Guardians of the Galaxy
+level: h2
 authors: GlitchArchetype
 solvers: enscribe
 files: '[guardians](/asset/shctf/guardians) (ELF)'
@@ -112,6 +113,7 @@ As you can see, it will send a UTF-8 encoded format string, with `str(i)` being 
 
 {% challenge %}
 title: Vader
+level: h2
 authors: v10l3nt
 solvers: enscribe
 files: '[vader](/asset/shctf/vader) (ELF)'
@@ -314,6 +316,7 @@ This is considered a "simple" challenge for those experienced with the field of 
 
 {% challenge %}
 title: Warmup to the Dark Side
+level: h2
 solvers: enscribe
 authors: v10l3nt
 description: |
@@ -374,11 +377,11 @@ Let's run this script on the server to see if we can get the flag:
 
 ---
 
-## Cryptography
-
 {% challenge %}
 title: Rahool's Challenge
+level: h2
 authors: excaligator
+genre: crypto
 solvers: enscribe
 points: 331
 description: |
@@ -453,7 +456,7 @@ Immediately, we can tell that the ciphertext underneath the giant Rahool ASCII i
   
 Before moving on, we need to figure out what the hell a Vigenère is.
 
-#### The Vigenère Cipher
+### The Vigenère Cipher
   
 A Vigenère cipher is a type of encryption that uses both plaintext and a **key**. There are many ways to use this encryption method, but the most common is via **addition** and **table/tabula recta**.
   
@@ -483,7 +486,7 @@ Each of the 26 rows contains the same alphabet, except shifted to the left by on
 
 If I wanted to encrypt `HELLO` with `WORLD` as the key, I would find the cell that intersects with column `H` and row `W`. In that case, it would be `D`. Then, I would find the cell that intersects with column `E` and row `O`. In that case, it would be `S`. Rinse and repeat for the entire phrase.
 
-#### Cheaters Never Win...
+### Cheaters Never Win...
 
 But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT" and Google the crap out of it. [DCode](https://www.dcode.fr/vigenere-cipher), which can keylessly decrypt substitution ciphers, is the first option. Click, clack, `Ctrl + Shift + C`, `Ctrl + V` later and we have solved it!!1!1!
   
@@ -491,7 +494,7 @@ But how are we supposed to decrypt vigenere without a key? Let's do some "OSINT"
 
 Or not. Wait... the plaintext is telling me to replace my `E` with a `3` and my `O` with an `0`. Those aren't in `RKBGVP`. What's going on? Is the website wrong?
 
-#### ...Or Do They?
+### ...Or Do They?
 
 Let's go back to the drawing board and look at the problem again.
 > We've found ourselves an encrypted engram - Can you break the **(new and improved)** indecipherable cipher?
