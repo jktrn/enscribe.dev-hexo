@@ -347,8 +347,10 @@ hexo.extend.tag.register('challenge', function(args, content) {
 
 hexo.extend.tag.register('grid', function (args, content) {
     const yaml = require('js-yaml');
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
     let grid = yaml.load(content);
     let gridItems = [];
+    parsedArgs.container = parsedArgs.container ? "container" : "";
     for (const [key, value] of Object.entries(grid)) {
         let actions = [];
         let badge, badge2, badge3, image, border, background, actionsBox;
@@ -366,6 +368,7 @@ hexo.extend.tag.register('grid', function (args, content) {
         image = value.image ? `<div class="cover-img"><img src="${value.image}" alt="${key}"></div>` : "";
         border = value.border ? `border: 2px solid #${value.border};` : "";
         background = value.background ? `background: ${value.background};` : "";
+        
         if(badge || badge2 || badge3 || actions) {
             actionsBox = `<div class="actions">
             <div class="left">
@@ -388,10 +391,10 @@ hexo.extend.tag.register('grid', function (args, content) {
         </div>
         ${actionsBox}
         </div>`);
-    } if(args == "columns:2") {
-        return `<div class="container"><div class="card-grid-2">${gridItems.join("")}</div></div>`;
+    } if(parsedArgs.columns == "2") {
+        return `<div class="${parsedArgs.container}"><div class="card-grid-2">${gridItems.join("")}</div></div>`;
     } else {
-        return `<div class="container"><div class="card-grid">${gridItems.join("")}</div></div>`;
+        return `<div class="${parsedArgs.container}"><div class="card-grid">${gridItems.join("")}</div></div>`;
     }
 }, {
     ends: true,
