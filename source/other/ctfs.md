@@ -24,6 +24,19 @@ layout: page
         type: blue
         text: <i class="fa-solid fa-flag"></i> 24.82
     border: 5BAEAE
+<i class="fa-solid fa-face-meh"></i> idekCTF 2022:
+    description: |
+        **Date**: Jan 13 — Jan 15, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    button:
+        text: VIEW
+        link: /ctfs/idek/
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/846
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> pend.
 <i class="fa-solid fa-shield-cat"></i> BYUCTF 2022:
     description: |
         **Date**: May 27 — May 28, 2022  

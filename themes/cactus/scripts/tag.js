@@ -1,6 +1,7 @@
 let showdown = require('showdown');
 let hljs = require('highlight.js');
 const yaml = require('js-yaml');
+const { htmlTag } = require('hexo-util');
 
 showdown.extension('only-inline-stuff', function () {
     return [{
@@ -17,26 +18,26 @@ let conv = new showdown.Converter({
 });
 
 hexo.extend.tag.register('box', function (args, content) {
-    const argText = args ? ` style="${args}"` : "";
-    return `<div class="box no-highlight"${argText}>${conv.makeHtml(content)}</div>`;
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    return htmlTag("div", {class: "box", ...parsedArgs}, conv.makeHtml(content), false);
 }, {
     ends: true,
     async: true
 });
 
 hexo.extend.tag.register('info', function (args, content) {
-    const argText = args ? ` style="${args}"` : "";
-    let appended = `<i class="fa-solid fa-circle-info"></i> ${content}`;
-    return `<div class="text-info no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-circle-info"}, "")} ${conv.makeHtml(content)}`
+    return htmlTag("div", {class: "text-info no-highlight", ...parsedArgs}, parsedContent, false);
 }, {
     ends: true,
     async: true
 });
 
 hexo.extend.tag.register('warning', function (args, content) {
-    const argText = args ? ` style="${args}"` : "";
-    let appended = `<i class="fa-solid fa-triangle-exclamation"></i> ${content}`;
-    return `<div class="text-warning no-highlight"${argText}>${conv.makeHtml(appended)}</div>`;
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-triangle-exclamation"}, "")} ${conv.makeHtml(content)}`
+    return htmlTag("div", {class: "text-warning no-highlight", ...parsedArgs}, parsedContent, false);
 }, {
     ends: true,
     async: true
@@ -91,130 +92,109 @@ function parseRange(str) {
  */
 
 hexo.extend.tag.register('ccb', function (args, content) {
-    // parse args
-    let obj = {};
-    args.forEach(function(item) {
-        let key = item.split(':')[0];
-        let value = item.split(':')[1];
-        obj[key] = value;
-    });
-    let lang = obj.lang ? obj.lang : "text";
-    let gutter1 = obj.gutter1 ? parseRange(obj.gutter1).map(x => {
-        if(x == "S") return `<div style="margin:1.2em 0"><span class="line"> </span></div>`;
-        else return `<span class="line">${x}</span><br>`;
-    }).join("") : undefined;
-
-    let gutter2 = obj.gutter2 ? parseRange(obj.gutter2).map(x => {
-        if(x == "S") return `<div style="margin:1.1em 0"><span class="line"> </span></div>`;
-        else return `<span class="line">${x}</span><br>`;
-    }).join("") : undefined;
-
-    let caption = obj.caption ? obj.caption : undefined;
-    let scrollable = obj.scrollable == 'true' ? true : false;
-    let wrapped = obj.wrapped == 'true' ? true : false;
-    let diff_add = obj.diff_add ? parseRange(obj.diff_add).map(x => parseInt(x)) : undefined;
-    let diff_del = obj.diff_del ? parseRange(obj.diff_del).map(x => parseInt(x)) : undefined;
-    let highlight = obj.highlight ? parseRange(obj.highlight).map(x => parseInt(x)) : undefined;
-    let url = obj.url ? obj.url : undefined;
-    let url_text = obj.url_text ? obj.url_text : undefined;
-    let terminal = obj.terminal == 'true' ? true : false;
-    let highlighted = hljs.highlight(content, {
-        language: lang
-    }).value;
-    let lines = obj.html == 'true' ? content.split('\n') : highlighted.split('\n');
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
     
+    parsedArgs.lang ??= "text";
+    parsedArgs.gutter1 &&= parseRange(parsedArgs.gutter1).map(x => {
+        if(x == "S") return htmlTag("div", {style: "margin:1.2em 0"}, htmlTag("span", {class: "line"}, " ", false), false);
+        else return htmlTag("span", {class: "line"}, x, false) + htmlTag("br");
+
+    }).join("");
+
+    parsedArgs.gutter2 &&= parseRange(parsedArgs.gutter2).map(x => {
+        if(x == "S") return htmlTag("div", {style: "margin:1.2em 0"}, htmlTag("span", {class: "line"}, " ", false), false);
+        else return htmlTag("span", {class: "line"}, x, false) + htmlTag("br");
+    }).join("");
+
+    parsedArgs.scrollable &&= true;
+    parsedArgs.wrapped &&= true;
+    parsedArgs.terminal &&= true;
+    parsedArgs.html &&= true;
+
+    parsedArgs.diff_add &&= parseRange(parsedArgs.diff_add).map(x => parseInt(x));
+    parsedArgs.diff_del &&= parseRange(parsedArgs.diff_del).map(x => parseInt(x));
+    parsedArgs.highlight &&= parseRange(parsedArgs.highlight).map(x => parseInt(x));
+    
+    let highlightedContent = hljs.highlight(content, {
+        language: parsedArgs.lang
+    }).value;
+
+    let lines = parsedArgs.html ? content.split('\n') : highlightedContent.split('\n');
+
     lines = lines.map(line => {
-        if (line.indexOf("SKIP_LINE") != -1) {
-            return `<div class="skip-highlight">(${line.match(/\((.*)\)/)[1]})</div>`;
-        } else {
-            return line;
-        }
+        if (line.includes("SKIP_LINE")) return htmlTag("div", {class: "skip-highlight"}, line.match(/\((.*)\)/)[1], false);
+        else return line;
     });
 
-    if(diff_add) {
-        diff_add.forEach(function (line) {
-            lines[line - 1] = `<div class="diff-highlight-add">${lines[line - 1]}</div>`;
+    if(parsedArgs.diff_add) {
+        parsedArgs.diff_add.forEach(function(line) {
+            lines[line - 1] = htmlTag("div", {class: "diff-highlight-add"}, lines[line - 1], false);
         });
     }
 
-    if(diff_del) {
-        diff_del.forEach(function (line) {
-            lines[line - 1] = `<div class="diff-highlight-del">${lines[line - 1]}</div>`;
+    if(parsedArgs.diff_del) {
+        parsedArgs.diff_del.forEach(function(line) {
+            lines[line - 1] = htmlTag("div", {class: "diff-highlight-del"}, lines[line - 1], false);
         });
     }
 
-    if(highlight) {
-        highlight.forEach(function (line) {
-            lines[line - 1] = `<div class="code-highlight">${lines[line - 1]}</div>`;
+    if(parsedArgs.highlight) {
+        parsedArgs.highlight.forEach(function(line) {
+            lines[line - 1] = htmlTag("div", {class: "code-highlight"}, lines[line - 1], false);
         });
     }
 
     highlighted = lines.join('\n');
 
-    const scrollableText = scrollable ? `<div style="height:400px; overflow:auto; margin:1rem 0;">` : "";
-    const scrollableStyle = scrollable ? `margin:0` : "";
-    const scrollableEnd = scrollable ? `</div>` : "";
-    const wrappedStyle = wrapped ? ` style="white-space: pre-wrap;"` : "";
-    const urlText = url ? `<a target="_blank" rel="noopener" href="https://${url}"><span style="color:#e9d3b6">[${url_text}]</span></a>` : "";
-    let langText;
-    if(terminal) {
-        langText = `<figure style="background-color:#1D1D1D;${scrollableStyle}" class="highlight text">`;
-    } else if(lang) {
-        langText = `<figure class="highlight ${lang}" style="${scrollableStyle}">`;
-    } else {
-        langText = `<figure class="highlight text" style="${scrollableStyle}">`;
-    }
-    const captionText = caption ? `<figcaption><span>${caption}</span>${urlText}</figcaption>` : "";
-    const gutter1Text = gutter1 ? `<td class="gutter"><pre>${gutter1}</pre></td>`: "";
-    const gutter2Text = gutter2 ? `<td class="gutter"><pre>${gutter2}</pre></td>`: "";
-    return `${scrollableText}${langText}<table>${captionText}<tr>${gutter1Text}${gutter2Text}<td class="code"><pre${wrappedStyle}>${highlighted}</pre></td></tr></table></figure>${scrollableEnd}`;
+    const scrollableText = parsedArgs.scrollable ? {style: "height:400px; overflow:auto; margin:1rem 0;"} : {};
+    const scrollableStyle = parsedArgs.scrollable ? {style: "margin: 0;"} : {};
+    const wrappedStyle = parsedArgs.wrapped ? {style: "whitespace: pre-wrap;"} : {};
+    const urlText = parsedArgs.url ? htmlTag("a", {target: "_blank", rel: "noopener", href: `https://${parsedArgs.url}`}, htmlTag("span", {style: "color:#e9d3b6"}, `[${parsedArgs.url_text}]`, false), false) : "";
+    
+    let langText = htmlTag("figure", {class: "highlight text", ...scrollableStyle});
+    if(parsedArgs.terminal) {
+        langText = htmlTag("figure", {style: "background-color: #1D1D1D;", class: "highlight text", ...scrollableStyle});
+    } else if(parsedArgs.lang) {
+        langText = htmlTag("figure", {class: `highlight ${parsedArgs.lang}`, ...scrollableStyle})
+    } 
+
+    const captionText = parsedArgs.caption ? htmlTag("figcaption", {}, htmlTag("span", {}, parsedArgs.caption, false) + urlText, false) : "";
+    const gutter1Text = parsedArgs.gutter1 ? htmlTag("td", {class: "gutter"}, htmlTag("pre", {}, parsedArgs.gutter1, false), false) : "";
+    const gutter2Text = parsedArgs.gutter2 ? htmlTag("td", {class: "gutter"}, htmlTag("pre", {}, parsedArgs.gutter2, false), false) : "";
+    
+    return htmlTag("div", {...scrollableText}, langText + htmlTag("table", {}, captionText + htmlTag("tr", {}, gutter1Text + gutter2Text + htmlTag("td", {class: "code"}, htmlTag("pre", {...wrappedStyle}, highlighted, false), false), false), false), false);
 }, {
     ends: true,
     async: true
 });
 
-//create a hexo tag that returns fontawesome script src
 hexo.extend.tag.register('fontawesome', function () {
-    return `<script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>`;
+    return htmlTag('script', {src: "https://kit.fontawesome.com/129342a70b.js", crossorigin: "anonymous"}, "", false);
 }, {
     async: true
 });
 
-//create a hexo tag that accepts a url, width, alt text and a subtitle and returns an image tag
 hexo.extend.tag.register('cimage', function (args, content) {
-    let obj = {};
-    args.forEach(function(item) {
-        let key = item.split(':')[0];
-        let value = item.split(':')[1];
-        obj[key] = value;
-    });
-    let url = obj.url ? obj.url : undefined;
-    let width = obj.width ? ` width="${obj.width}"` : "";
-    let alt = obj.alt ? ` alt="${obj.alt}"` : "";
-    let sub = obj.sub ? `<div class="subtitle">${conv.makeHtml(obj.sub)}</div>` : "";
-    return `<p><img src="${url}"${width}${alt}>${sub}</p>`;
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    let sub = parsedArgs.sub ? htmlTag('div', {class: "subtitle"}, conv.makeHtml(parsedArgs.sub), false) : "";
+    return htmlTag('p', {}, htmlTag('img', parsedArgs, "", false) + sub, false);
 });
 
 //create a hexo tag that returns a flagcounter
 hexo.extend.tag.register('flagcounter', function (args, content) {
-    return `<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">`
+    return htmlTag("img", {src: "https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/"});
 }, {
     ends: false,
     async: true
 });
 
 hexo.extend.tag.register('twitter', function(args, content) {
-    let obj = {};
-    args.forEach(function(item) {
-        let key = item.split(':')[0];
-        let value = item.split(':')[1];
-        obj[key] = value;
-    });
-    
-    let url = obj.url ? obj.url : undefined;
-    let width = obj.width ? `width=${obj.width}` : '';
+    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
 
-  	return `<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" ${width}><a href="https://${url}"></a></blockquote></div><script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`;
+    parsedArgs.url ??= "https://example.com";
+    parsedArgs.width ??= "auto";
+
+    return htmlTag("div", {class: "twitter-wrapper"}, htmlTag("blockquote", {class: "twitter-tweet tw-align-center", "data-theme": "dark", style: `width: ${parsedArgs.width}`}, htmlTag("a", {href: `https://${parsedArgs.url}`}, "", false), false), false) + htmlTag("script", {async: "", defer: "", src: "https://platform.twitter.com/widgets.js", charset: "utf-8"}, "", false);
 },{
   async: true,
   ends: false
@@ -253,87 +233,25 @@ const members = {
     }
 };
 
-// hexo.extend.tag.register('challenge', function(args, content) {
-//     let lines = content.split('\n');
-//     let obj = {};
-//     lines.forEach(function(item) {
-//         let key = item.split(': ')[0];
-//         let value = item.split(': ')[1];
-//         obj[key] = value;
-//     });
-//     let title;
-//     if (obj.title) {
-//         if(obj.level && obj.level == 'h2') {
-//             title = `<div class="challenge-title"><h2 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h2></div>`;
-//         } else {
-//             title = `<div class="challenge-title"><h3 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h3></div>`;
-//         } 
-//     } else {
-//         title = ""
-//     }
-//     let description = obj.description ? `${conv.makeHtml(obj.description)}` : "";
-//     let size = obj.size ? `style="font-size: ${obj.size}"` : "";
-//     let hints = obj.hints ? `<br><details><summary><b>Hints</b>:</summary><br>${conv.makeHtml(obj.hints)}</details>` : "";
-//     let solvers, authors;
-//     let solverText = `<i class="fa-solid fa-user"></i> <b>solvers</b>:<br>`;
-//     // if solvers exists, split it into an array
-//     if(obj.solvers) {
-//         solvers = obj.solvers.split(', ').length > 1 ? obj.solvers.split(', ') : obj.solvers;
-//     }
+hexo.extend.tag.register('newchallenge', function(args, content) {
+    let parsedArgs = yaml.load(content);
+    parsedArgs.description &&= `${conv.makeHtml(parsedArgs.description)}`;
 
-//     //if obj.solvers is an array
-//     if(Array.isArray(solvers)) {
-//         for(const solver of solvers) {
-//             if(solver.includes(' --flag')) {
-//                 const flagger = solver.replace(' --flag', ''); 
-//                 solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[flagger].img}"> <a href="${members[flagger].url}">${members[flagger].name}</a> <i class="fa-solid fa-flag"></i><br>`;
-//             } else {
-//                 solverText += ` - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solver].img}"> <a href="${members[solver].url}">${members[solver].name}</a><br>`;
-//             }
-//         }
-//     } else {
-//         solverText = `<i class="fa-solid fa-user"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[solvers].img}"> <a href="${members[solvers].url}">${members[solvers].name}</a><br>`
-//     }
+    parsedArgs.size &&= {style: `font-size: ${parsedArgs.size}`};
+    parsedArgs.genre &&= `${htmlTag("i", {class: "fa-solid fa-tag"}, "", false)} ${htmlTag("b", {}, "genre", false)}: ${parsedArgs.genre + htmlTag("br")}`;
+    parsedArgs.points &&= `${htmlTag("i", {class: "fa-solid fa-circle-plus"}, "", false)} ${htmlTag("b", {}, "points", false)}: ${parsedArgs.points + htmlTag("br")}`;
+    parsedArgs.files &&= `${htmlTag("i", {class: "fa-solid fa-file"}, "", false)} ${htmlTag("b", {}, "files", false)}: ${conv.makeHtml(parsedArgs.files) + htmlTag("br")}`;
+    let solverText = `${htmlTag("i", {class: "fa-solid fa-user"}, "", false)} ${htmlTag("b", {}, "solvers", false)}: `;
 
-//     if (obj.authors) {
-//         if(obj.authors.split(', ').length > 1) {
-//             let arr = obj.authors.split(',').map(x => `<br> - ${x}`).join("");
-//             authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
-//         } else {
-//             authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: ${obj.authors}<br>`;
-//         }
-//     } else {
-//         authors = "";
-//     }
+    if(parsedArgs.title) {
+        parsedArgs.level ??= "h2"
+        parsedArgs.title = htmlTag("div", {class: "challenge-title"}, htmlTag(parsedArgs.level, {id: `${parsedArgs.title.replace(/\s/g, '-')}`, class: "chall-title"}, htmlTag("a", {href: `#${parsedArgs.title.replace(/\s/g, '-')}`, class: "headerlink", title: `${parsedArgs.title}`}, "", false) + parsedArgs.title, false), false);
+    }
 
-//     let genre = obj.genre ? `<i class="fa-solid fa-tag"></i> <b>genre</b>: ${obj.genre}<br>` : "";
-//     let points = obj.points ? `<i class="fa-solid fa-circle-plus"></i> <b>points</b>: ${obj.points}<br>` : "";
-//     let files = obj.files ? `<i class="fa-solid fa-file"></i> <b>files</b>: ${conv.makeHtml(obj.files)}<br>` : "";
-
-//     return `<div class="challenge">
-//     ${title}
-//     <div style="display:flex;" class="no-highlight">
-//         <div class="challenge-info">
-//             <div class="center-align">
-//                 ${solverText}
-//                 ${authors}
-//                 ${genre}
-//                 ${points}
-//                 ${files}
-//             </div>
-//         </div>
-//         <div class="challenge-description">
-//             <div class="center-align" ${size}>
-//                 ${description}
-//                 ${hints}
-//             </div>
-//         </div>
-//     </div>
-// </div>`;
-// }, {
-//     async: true,
-//     ends: true
-// });
+    if(parsedArgs.hints) {
+        //TO-DO
+    }
+});
 
 hexo.extend.tag.register('challenge', function(args, content) {
     let obj = yaml.load(content);
