@@ -568,7 +568,7 @@ I initially scoured the internet for countries which use this specific chevron a
 
 ![16-map.webp](/asset/idek/16-map.webp)
 
-According to this map, the only countries which use white-on-black turn chevrons are the {% countryflag "United Kingdom" %} [United Kingdom](https://en.wikipedia.org/wiki/United_Kingdom), the {% countryflag Netherlands %} [Netherlands](https://en.wikipedia.org/wiki/Netherlands), {% countryflag Italy %} [Italy](https://en.wikipedia.org/wiki/Italy), {% countryflag Greece %} [Greece](https://en.wikipedia.org/wiki/Greece), {% countryflag Albania %} [Albania](https://en.wikipedia.org/wiki/Albania), and occasionally {% countryflag Spain %} [Spain](https://en.wikipedia.org/wiki/Spain).
+According to this map, the only countries which use white-on-black turn chevrons are the {% countryflag "United Kingdom" %} [United Kingdom](https://en.wikipedia.org/wiki/United_Kingdom), {% countryflag Switzerland %} [Switzerland](https://en.wikipedia.org/wiki/Switzerland), {% countryflag Italy %} [Italy](https://en.wikipedia.org/wiki/Italy), {% countryflag Greece %} [Greece](https://en.wikipedia.org/wiki/Greece), {% countryflag Albania %} [Albania](https://en.wikipedia.org/wiki/Albania), and occasionally {% countryflag Spain %} [Spain](https://en.wikipedia.org/wiki/Spain).
 
 Since this part of the flag says "spacebar", the only choice which starts with "A" is Albania, so we will be using `a` for this character.
 
@@ -620,7 +620,7 @@ This plant is called [butterbur](https://en.wikipedia.org/wiki/Petasites_japonic
 
 With this, the entire flag is revealed, and was successfully submitted with a lowercase `e` for the eighth character (the country was actually {% countryflag Eswatini %} [Eswatini](https://en.wikipedia.org/wiki/Eswatini)); the flag is `idek{BReAK_me_sPaCEbaR}`.
 
-This challenge would have not been possible if the flag wasn't made up of recognizable English words. When we were approaching the end, we simply inferred that the last bit spelled "spacebar" - although we could have brute forced all 9 different capitalizations of "bar" by the time we finished "sPaCE", we felt like doing so would have detracted from the fun of the challenge.
+This challenge would have not been possible if the flag wasn't made up of recognizable English words. When we were approaching the end, we simply inferred that the last bit spelled "spacebar" - although we could have brute forced all 8 different capitalizations of "bar" (2^3) by the time we finished "sPaCE", we felt like doing so would have detracted from the fun of the challenge.
 
 Overall, I didn't just learn more about GEOSINT-style challenges - I came to a greater understanding of how absolutely massive Earth is. I guess that's part of the fun in playing GeoGuessr!
 
