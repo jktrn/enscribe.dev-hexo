@@ -662,3 +662,7 @@ Here are some of the websites I used throughout the challenge-solving process:
 - [The Digital Labyrinth - GeoGuessr](https://somerandomstuff1.wordpress.com/2019/02/08/geoguessr-the-top-tips-tricks-and-techniques/) - An absolutely massive blog post with everything you need to know about the game and its tricks
 - [World License Plates](http://www.worldlicenseplates.com/) - Scanned license plates of the majority of countries, including old and new designs
 - [Google Lens](https://lens.google/) - A powerful image recognition tool which can identify objects, text, landmarks, foliage, you name it and provide similar images
+
+---
+
+{% flagcounter %}
