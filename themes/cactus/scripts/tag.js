@@ -400,3 +400,20 @@ hexo.extend.tag.register('grid', function (args, content) {
     ends: true,
     async: true
 });
+
+//<img class="inline-image" src="https://flagcdn.com/24x18/tr.png">
+// hexo tag for returning a small flag icon of country
+hexo.extend.tag.register('countryflag', function (args) {
+    const countryCode = getCountryCode(args[0]);
+    return htmlTag('img', { src: `https://flagcdn.com/24x18/${countryCode}.png`, class: "inline-image" });
+}, {
+    async: true
+});
+
+//function that returns ISO 3166-1 alpha-2 country code from country name
+function getCountryCode(countryName) {
+    if(countryName.length == 2) return countryName.toLowerCase();
+    const countryCodes = require("i18n-iso-countries");
+    const countryCode = countryCodes.getAlpha2Code(countryName, "en")?.toLowerCase();
+    return countryCode;
+}
