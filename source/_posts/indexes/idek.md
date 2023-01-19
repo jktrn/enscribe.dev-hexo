@@ -1,28 +1,27 @@
 ---
-title: BYUCTF 2022
-date: 2022-05-29 09:12:14
+title: idekCTF 2022
+date: 2023-01-15 09:12:14
 hidden: true
-description: "Information regarding placement, solves, and writeups for BYUCTF 2022."
-permalink: ctfs/byu/
+description: "Information regarding placement, solves, and writeups for idekCTF 2022."
+permalink: ctfs/idek/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
 {% box %}
-**Start Time**: Fri, 27 May 2022, 09:00 PDT  
-**End Time**: Sat, 28 May 2022, 21:00 PDT  
-**CTFTime**: [click here!](https://ctftime.org/event/1660/)  
-**Discord**: [click here!](https://discord.gg/dDtxzwX5Qc)
+**Start Time**: Fri, 13 Jan. 2023, 22:00 UTC  
+**End Time**: Sun, 15 Jan. 2023, 22:00 UTC  
+**CTFTime**: [click here!](https://ctftime.org/event/1839/)
 {% endbox %}
 
 {% box %}
 **Team Name**: `Project Sekai`   
-**Place**: 01 of 435 🥇  
-**Points**: 13980
+**Place**: 01 of 846 🥇  
+**Points**: 21895
 {% endbox %}
 
 {% box %}
 **Writeups**:<br><br>
-{% cimage src:/asset/banner/banner-osint.png width:400px sub:"byu/osint: [OSINT Compilation](/ctfs/byu/osint/osint-compilation/)" %}
+{% cimage src:/asset/banner/banner-nmpz.png width:400px sub:"idek/osint: [NMPZ](/ctfs/idek/osint/nmpz/)" %}
 {% endbox %}
 
 <div class="box no-highlight">

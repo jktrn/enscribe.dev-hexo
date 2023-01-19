@@ -7,23 +7,23 @@ permalink: ctfs/crew/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-<div class="box">
-    <b>Start Time</b>: Fri, 15 April 2022, 10:00 PDT<br>
-    <b>End Time</b>: Sun, 17 April 2022, 10:00 PDT<br>
-    <b>CTFTime</b>: <a href="https://ctftime.org/event/1568">click here!</a><br>
-    <b>Discord</b>: <a href="https://discord.com/invite/jk84AmJkHP">click here!</a>
-</div>
+{% box %}
+**Start Time**: Fri, 15 April 2022, 10:00 PDT  
+**End Time**: Sun, 17 April 2022, 10:00 PDT  
+**CTFTime**: [click here!](https://ctftime.org/event/1568)  
+**Discord**: [click here!](https://discord.com/invite/jk84AmJkHP)
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>Project Sekai</code><br>
-    <b>Place</b>: 03 of 758 🥉<br>
-    <b>Points</b>: 21000
-</div>
+{% box %}
+**Team Name**: `Project Sekai`  
+**Place**: 03 of 758 🥉  
+**Points**: 21000
+{% endbox %}
 
-<div class="box">
-    <b>Writeups</b>:<br>
-    n/a
-</div>
+{% box %}
+**Writeups**:  
+n/a
+{% endbox %}
 
 <div class="box no-highlight">
     <details>

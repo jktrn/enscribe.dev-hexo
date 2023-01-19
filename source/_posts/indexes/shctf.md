@@ -21,24 +21,23 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
     }
 </style>
 
-<div class="box">
-    <b>Start Time</b>: Fri, 01 April 2022, 09:00 PDT<br>
-    <b>End Time</b>: Sun, 03 April 2022, 14:00 PDT<br>
-    <b>CTFTime</b>: <a href="https://ctftime.org/event/1578">click here!</a><br>
-    <b>Discord</b>: <a href="https://discord.gg/wvuvDUjAeg">click here!</a>
-</div>
+{% box %}
+**Start Time**: Fri, 01 April 2022, 09:00 PDT  
+**End Time**: Sun, 03 April 2022, 14:00 PDT  
+**CTFTime**: [click here!](https://ctftime.org/event/1578)  
+**Discord**: [click here!](https://discord.gg/wvuvDUjAeg)
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>wh1l3s3c</code><br>
-    <b>Place</b>: 36 of 778<br>
-    <b>Points</b>: 3483
-</div>
+{% box %}
+**Team Name**: `wh1l3s3c`  
+**Place**: 36 of 778  
+**Points**: 3483
+{% endbox %}
 
-<div class="box">
-    <b>Writeups</b>:<br><br>
-    <a href="/ctfs/shctf/compilation/"><img width=400 src="/asset/banner/banner-ctfs.png"></a>
-    <sub>shctf: <a href="/ctfs/shctf/compilation/">Writeup Compilation</a></sub>
-</div>
+{% box %}
+**Writeups**:<br><br>
+{% cimage src:/asset/banner/banner-ctfs.png width:400px sub:"shctf: [Writeup Compilation](/ctfs/shctf/compilation/)" %}
+{% endbox %}
 
 <div class="box no-highlight">
     <details>

@@ -21,17 +21,17 @@ thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
     }
 </style>
 
-<div class="box">
-    <b>Start Time</b>: Tue, 15 March 2022, 10:00 PDT<br>
-    <b>End Time</b>: Tue, 29 March 2022, 13:00 PDT<br>
-    <b>CTFTime</b>: <a href="https://ctftime.org/event/1578">click here!</a>
-</div>
+{% box %}
+**Start Time**: Tue, 15 March 2022, 10:00 PDT  
+**End Time**: Tue, 29 March 2022, 13:00 PDT  
+**CTFTime**: [click here!](https://ctftime.org/event/1578)
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>NLE CHAKRA</code><br>
-    <b>Place</b>: 86 of 1329 (US Middle/High School)<br>
-    <b>Points</b>: 8900
-</div>
+{% box %}
+**Team Name**: `NLE CHAKRA`  
+**Place**: 86 of 1329 (US Middle/High School)  
+**Points**: 8900
+{% endbox %}
 
 <div class="box">
     <b>Writeups</b>:<br><br>

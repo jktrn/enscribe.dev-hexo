@@ -7,23 +7,23 @@ permalink: ctfs/naham/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-<div class="box">
-    <b>Start Time</b>: Thu, 28 April 2022, 12:00 PDT<br>
-    <b>End Time</b>: Sat, 30 April 2022, 12:00 PDT<br>
-    <b>Discord</b>: <a href="https://discord.com/invite/ucCz7uh">click here!</a><br>
-    <b>CTFTime</b>: <a href="https://ctftime.org/event/1630">click here!</a>
-</div>
+{% box %}
+**Start Time**: Thu, 28 April 2022, 12:00 PDT  
+**End Time**: Sat, 30 April 2022, 12:00 PDT  
+**Discord**: [click here!](https://discord.com/invite/ucCz7uh)  
+**CTFTime**: [click here!](https://ctftime.org/event/1630)
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>Project Sekai</code><br>
-    <b>Place</b>: 06 of 3273<br>
-    <b>Points</b>: 22001
-</div>
+{% box %}
+**Team Name**: `Project Sekai`  
+**Place**: 06 of 3273  
+**Points**: 22001
+{% endbox %}
 
-<div class="box">
-    <b>Writeups</b>:<br>
-    n/a
-</div>
+{% box %}
+**Writeups**:  
+n/a
+{% endbox %}
 
 <div class="box no-highlight">
     <details>

@@ -7,23 +7,23 @@ permalink: ctfs/patriot/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-<div class="box">
-    <b>Start Time</b>: Fri, 29 April 2022, 14:00 PDT<br>
-    <b>End Time</b>: Sat, 30 April 2022, 14:00 PDT<br>
-    <b>Discord</b>: <a href="https://discord.gg/Z8pA43vQcW">click here!</a><br>
-    <b>CTFTime</b>: <a href="https://ctftime.org/event/1616">click here!</a>
-</div>
+{% box %}
+**Start Time**: Fri, 29 April 2022, 14:00 PDT  
+**End Time**: Sat, 30 April 2022, 14:00 PDT  
+**Discord**: [click here!](https://discord.gg/Z8pA43vQcW)  
+**CTFTime**: [click here!](https://ctftime.org/event/1616)
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>View Source</code><br>
-    <b>Place</b>: 02 of 436 🥈<br>
-    <b>Points</b>: 21296
-</div>
+{% box %}
+**Team Name**: `View Source`  
+**Place**: 02 of 436 🥈  
+**Points**: 21296
+{% endbox %}
 
-<div class="box">
-    <b>Writeups</b>:<br>
-    n/a
-</div>
+{% box %}
+**Writeups**:  
+n/a
+{% endbox %}
 
 <div class="box no-highlight">
     <details>

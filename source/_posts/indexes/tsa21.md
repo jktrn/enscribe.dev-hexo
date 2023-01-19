@@ -7,21 +7,21 @@ permalink: ctfs/tsa21/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-<div class="box">
-    <b>Start Time</b>: Tue, 01 June 2021, 7:00 PDT<br>
-    <b>End Time</b>:  Thu, 03 June 2021, ?:00 PDT<br>
-</div>
+{% box %}
+**Start Time**: Tue, 01 June 2021, 7:00 PDT  
+**End Time**: Thu, 03 June 2021, ?:00 PDT
+{% endbox %}
 
-<div class="box">
-    <b>Team Name</b>: <code>VHTPA</code><br>
-    <b>Place</b>: 8 of ~55<br>
-    <b>Points</b>: n/a
-</div>
+{% box %}
+**Team Name**: `VHTPA`  
+**Place**: 8 of ~55  
+**Points**: n/a
+{% endbox %}
 
-<div class="box">
-    <b>Writeups</b>:<br>
-    n/a
-</div>
+{% box %}
+**Writeups**:  
+n/a
+{% endbox %}
 
 <div class="box no-highlight">
     <details>
