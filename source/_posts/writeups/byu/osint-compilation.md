@@ -43,7 +43,7 @@ level: h2
 description: |
     Whose signature is found beneath Po's foot?  
     Flag format&#58; `byuctf{Firstname_Lastname}`<br><br>
-    {% cimage url:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
+    {% cimage src:/asset/byu/po1.png width:200 alt:'Po from Kung Fu Panda' sub:po.png %}
 solvers: enscribe
 genre: osint
 points: 100
@@ -52,7 +52,7 @@ files: '[po.png](/asset/byu/po1.png)'
 
 I did a quick [Google Lens](https://lens.google/) search with my phone with the keyword "BYU" attached and [this](https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/) article turned up:
 
-{% cimage url:/asset/byu/po2.png width:500 alt:'The Daily Universe' sub:'Credit to <i>The Daily Universe</i>' %}
+{% cimage src:/asset/byu/po2.png width:500 alt:'The Daily Universe' sub:'Credit to <i>The Daily Universe</i>' %}
 
 > Jason Turner is a BYU computer science program graduate who works at DreamWorks and created all the data for Po’s character. The statue is a tribute to his success, as well as the University’s program and alumni.
 
@@ -66,7 +66,7 @@ level: h2
 description: |
     The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.  
     Flag format&#58; `byuctf{mm-dd-yyyy}`<br><br>
-    {% cimage url:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
+    {% cimage src:/asset/byu/sharky1.png width:400 alt:sharky.png sub:sharky.png %}
 genre: osint
 solvers: sahuang
 points: 100
@@ -75,7 +75,7 @@ files: '[sharky.png](/asset/byu/sharky1.png)'
 
 Reverse Google Search with a "phishing" crib:
 
-{% cimage url:/asset/byu/sharky2.png width:500 alt:'Sharky Google Search' %}
+{% cimage src:/asset/byu/sharky2.png width:500 alt:'Sharky Google Search' %}
 
 The [Vanity URL on darkreading.com](https://www.darkreading.com/cloud/vanity-urls-could-be-spoofed-for-social-engineering-attacks)  was published on May 11th, 2022.
 The flag is `byuctf{05-11-22}`.
@@ -87,7 +87,7 @@ title: B0uld3r1ng
 level: h2
 description: |
     I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?<br><br>
-    {% cimage url:/asset/byu/bouldering1.png width:400 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
+    {% cimage src:/asset/byu/bouldering1.png width:400 alt:b0uld3r1ng.png sub:b0uld3r1ng.png %}
 genre: osint
 solvers:
     - sahuang --flag
@@ -107,7 +107,7 @@ Moving on, although we have the location of the image taken the flag is in *expl
 
 We checked through the following platforms: Yelp, Google Reviews, TripAdvisor, AllTrails⁠—yet, we couldn't find a recent reviewer by the name of Sam. Luckily, one of my team members searched up "Bouldering Lizard's Mouth" (based on the challenge name) and happened to stumble across [this website](https://www.mountainproject.com/area/105885134/the-lizards-mouth):
 
-{% cimage url:/asset/byu/bouldering3.png alt:'Bouldering Website' sub:'The Lizard\'s Mouth on Mountain Project' %}
+{% cimage src:/asset/byu/bouldering3.png alt:'Bouldering Website' sub:'The Lizard\'s Mouth on Mountain Project' %}
 
 We scrolled down to the "Reviews" section and found this:
 
@@ -126,7 +126,7 @@ title: Squatter's Rights
 level: h2
 description: |
     Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??<br><br>
-    {% cimage url:/asset/byu/squatter1.png width:400 sub:geoguesser.png %}
+    {% cimage src:/asset/byu/squatter1.png width:400 sub:geoguesser.png %}
 genre: osint
 solvers:
     - enscribe --flag
@@ -137,11 +137,11 @@ files: '[geoguesser.png](/asset/byu/squatter1.png)'
 
 Hey, look! Another Google Lens problem! Although there's a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:
 
-{% cimage url:/asset/byu/squatter2.png width:300 %}
+{% cimage src:/asset/byu/squatter2.png width:300 %}
 
 Going to the [webpage](http://www.eureka4you.com/water-michigan/MI-Flint1.htm), it mentions that this water tower is in "Genesee County. Mid Michigan.", so with a quick Maps search I stumble across the "Wyatt P. Memorial Water Tower":
 
-{% cimage url:/asset/byu/squatter3.png width:600 %}
+{% cimage src:/asset/byu/squatter3.png width:600 %}
 
 This is where the rabbit hole begins. I looked around the reviews section of this place and found the absolute weirdest, most hilarious reviews of all time:
 
@@ -175,7 +175,7 @@ I continued to look around and managed to fall deeper into the rabbit hole, OSIN
 
 Then, while on the go, I checked the location on my phone... And look what we've got:
 
-{% cimage url:/asset/byu/squatter6.png width:400 %}
+{% cimage src:/asset/byu/squatter6.png width:400 %}
 
 Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "From the owner" section isn't on Google Chrome. Screw you Wyatt, and your majestic, plump, baby-blue water  tower. The flag is `byuctf{h0w_d1d_1_st34l_4_w4t3r_t0w3r}`. Once again, screw you Wyatt. I hope your taxes are messed up forevermore.
 
@@ -222,7 +222,7 @@ Following the trail for `NRHP ID 80002319`, we found this [UpWiki Page](https://
 
 When we looked up "jesse james famous inscription", we found a [Smithsonian Magazine](https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/) page that photographs Mr. James' grave:
 
-{% cimage url:/asset/byu/mystery1.png width:600 %}
+{% cimage src:/asset/byu/mystery1.png width:600 %}
 
 Removing the dates and names as the description specifies, the flag is `byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}`.
 

@@ -1,5 +1,5 @@
-let showdown = require('showdown');
-let hljs = require('highlight.js');
+const showdown = require('showdown');
+const hljs = require('highlight.js');
 const yaml = require('js-yaml');
 const { htmlTag } = require('hexo-util');
 
@@ -15,32 +15,6 @@ showdown.extension('only-inline-stuff', function () {
 
 let conv = new showdown.Converter({
     extensions: ['only-inline-stuff']
-});
-
-hexo.extend.tag.register('box', function (args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
-    return htmlTag("div", {class: "box", ...parsedArgs}, conv.makeHtml(content), false);
-}, {
-    ends: true,
-    async: true
-});
-
-hexo.extend.tag.register('info', function (args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
-    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-circle-info"}, "")} ${conv.makeHtml(content)}`
-    return htmlTag("div", {class: "text-info no-highlight", ...parsedArgs}, parsedContent, false);
-}, {
-    ends: true,
-    async: true
-});
-
-hexo.extend.tag.register('warning', function (args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
-    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-triangle-exclamation"}, "")} ${conv.makeHtml(content)}`
-    return htmlTag("div", {class: "text-warning no-highlight", ...parsedArgs}, parsedContent, false);
-}, {
-    ends: true,
-    async: true
 });
 
 function parseRange(str) {
@@ -60,6 +34,15 @@ function parseRange(str) {
         } else {
             result.push(i);
         }
+    }
+    return result;
+}
+
+function parseArgs(arr) {
+    let result = {};
+    for(const i of arr) {
+        let [key, ...value] = i.split(":");
+        result[key] = value.join(":");
     }
     return result;
 }
@@ -92,13 +75,12 @@ function parseRange(str) {
  */
 
 hexo.extend.tag.register('ccb', function (args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    let parsedArgs = parseArgs(args);
     
     parsedArgs.lang ??= "text";
     parsedArgs.gutter1 &&= parseRange(parsedArgs.gutter1).map(x => {
         if(x == "S") return htmlTag("div", {style: "margin:1.2em 0"}, htmlTag("span", {class: "line"}, " ", false), false);
         else return htmlTag("span", {class: "line"}, x, false) + htmlTag("br");
-
     }).join("");
 
     parsedArgs.gutter2 &&= parseRange(parsedArgs.gutter2).map(x => {
@@ -175,7 +157,7 @@ hexo.extend.tag.register('fontawesome', function () {
 });
 
 hexo.extend.tag.register('cimage', function (args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    const parsedArgs = parseArgs(args);
     let sub = parsedArgs.sub ? htmlTag('div', {class: "subtitle"}, conv.makeHtml(parsedArgs.sub), false) : "";
     return htmlTag('p', {}, htmlTag('img', parsedArgs, "", false) + sub, false);
 });
@@ -189,9 +171,9 @@ hexo.extend.tag.register('flagcounter', function (args, content) {
 });
 
 hexo.extend.tag.register('twitter', function(args, content) {
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    const parsedArgs = parseArgs(args);
 
-    parsedArgs.url ??= "https://example.com";
+    parsedArgs.url ??= "javascript;";
     parsedArgs.width ??= "auto";
 
     return htmlTag("div", {class: "twitter-wrapper"}, htmlTag("blockquote", {class: "twitter-tweet tw-align-center", "data-theme": "dark", style: `width: ${parsedArgs.width}`}, htmlTag("a", {href: `https://${parsedArgs.url}`}, "", false), false), false) + htmlTag("script", {async: "", defer: "", src: "https://platform.twitter.com/widgets.js", charset: "utf-8"}, "", false);
@@ -347,7 +329,7 @@ hexo.extend.tag.register('challenge', function(args, content) {
 
 hexo.extend.tag.register('grid', function (args, content) {
     const yaml = require('js-yaml');
-    const parsedArgs = Object.fromEntries(args.map(x => x.split(":")));
+    const parsedArgs = parseArgs(args);
     let grid = yaml.load(content);
     let gridItems = [];
     parsedArgs.container = parsedArgs.container ? "container" : "";
@@ -405,7 +387,10 @@ hexo.extend.tag.register('grid', function (args, content) {
 // hexo tag for returning a small flag icon of country
 hexo.extend.tag.register('countryflag', function (args) {
     const countryCode = getCountryCode(args[0]);
-    return htmlTag('img', { src: `https://flagcdn.com/24x18/${countryCode}.png`, class: "inline-image" });
+    return htmlTag('img', {
+        src: `https://flagcdn.com/24x18/${countryCode}.png`,
+        class: "inline-image" 
+    });
 }, {
     async: true
 });

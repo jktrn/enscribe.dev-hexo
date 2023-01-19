@@ -171,7 +171,7 @@ Looks like we're on a waterfront walkway with a beautiful view of a harbor. A qu
 
 Oh, yeah, there's totally a World Wonder in the background by the way... [Christ the Redeemer](https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)):
 
-![1-christ.png](/asset/idek/1-christ.png)
+{% cimage src:/asset/idek/1-christ.png width:500px %}
 
 Since Brazil had a population of ~215 million in [2022](https://en.wikipedia.org/wiki/Demographics_of_Brazil), it'll be capitalized in the flag. For brevity's sake, I'll be omitting the populations from here on out - however, I'll still include them (alongside sources) in the upcoming progress tables.
 
@@ -203,7 +203,7 @@ Wow... this is the most {% countryflag Russia %} [**Russia**](https://en.wikiped
 
 Finally, no more trivial landmarks in the background! Looks like we're now on the roadside of some European business-y area. I quickly noticed a name on the brown sign attached to the streetlight:
 
-![3-zoom.png](/asset/idek/3-zoom.png)
+{% cimage src:/asset/idek/3-zoom.png width:500px %}
 
 It reads "Kalamaja", which upon a quick Google results in a small city district in [Tallinn](https://en.wikipedia.org/wiki/Tallinn), {% countryflag Estonia %} [**Estonia**](https://en.wikipedia.org/wiki/Estonia): 
 
@@ -226,8 +226,8 @@ The middle of nowhere... a classic. Let's see what the Google Lens yields:
 The first result identifies a [Stuart Highway](https://en.wikipedia.org/wiki/Stuart_Highway), which runs straight through central {% countryflag Australia %} [**Australia**](https://en.wikipedia.org/wiki/Australia) (a.k.a. the middle of nowhere). Also, if you look closely, there's a reflector sign in the center of the photo which looks exactly like the Australian bollard on [geohints.com](https://geohints.com/Bollards), a resource for GeoGuessr players: 
 
 <div class="flex-container">
-<div>{% cimage src:"/asset/idek/4-bollard.png" sub:"Zoomed in bollard" %}</div>
-<div>{% cimage src:"/asset/idek/4-comparison.png" sub:"GeoHints Australian bollard" %}</div>
+<div>{% cimage src:/asset/idek/4-bollard.png sub:"Zoomed in bollard" %}</div>
+<div>{% cimage src:/asset/idek/4-comparison.png sub:"GeoHints Australian bollard" %}</div>
 </div>
 
 Additionally, a key "Australian" identifier would be the orangey dirt on the roadsides, which is common around the country.
@@ -276,7 +276,7 @@ i implore you to google "geoguessr snorkel" haha
 
 I had no idea what they were talking about, so I zoomed in on the car and lo and behold, snorkel:
 
-{% cimage src:"/asset/idek/5-snorkel.png" width:400px %}
+{% cimage src:/asset/idek/5-snorkel.png width:400px %}
 
 I did a quick Google search, and found a tweet from the official GeoGuessr [Twitter](https://twitter.com/geoguessr/) account:
 
@@ -308,8 +308,8 @@ Yep, that's definitely {% countryflag Iceland %} [**Iceland**](https://en.wikipe
 - Bollards! These ones are bright yellow with a diagonally pointed top, and a white reflector:
 
 <div class="flex-container">
-<div>{% cimage src:"/asset/idek/6-bollard.png" sub:"Zoomed in bollard" %}</div>
-<div>{% cimage src:"/asset/idek/6-comparison.png" sub:"GeoHints Icelandic bollard" %}</div>
+<div>{% cimage src:/asset/idek/6-bollard.png sub:"Zoomed in bollard" %}</div>
+<div>{% cimage src:/asset/idek/6-comparison.png sub:"GeoHints Icelandic bollard" %}</div>
 </div>
 
 This character will be an underscore (`_`), since the population of Iceland is 376,000 ([2022](https://en.wikipedia.org/wiki/Demographics_of_Iceland)).
@@ -331,8 +331,8 @@ Wow... I've never seen a neighborhood this massive with not a single piece of fo
 Definitely [Ulaanbaatar](https://en.wikipedia.org/wiki/Ulaanbaatar), {% countryflag Mongolia %} [**Mongolia**](https://https://en.wikipedia.org/wiki/Mongolia)! We confirmed it with the license plate of the car on the left:
 
 <div class="flex-container">
-<div>{% cimage src:"/asset/idek/7-plate.png" width:400 sub:"Zoomed in plate" %}</div>
-<div>{% cimage src:"/asset/idek/7-comparison.png" width:400 sub:"Generic Mongolian plate" %}</div>
+<div>{% cimage src:/asset/idek/7-plate.png width:400 sub:"Zoomed in plate" %}</div>
+<div>{% cimage src:/asset/idek/7-comparison.png width:400 sub:"Generic Mongolian plate" %}</div>
 </div>
 
 {% info %}
@@ -410,8 +410,8 @@ Splat in the middle of an inconspicuous-looking suburb! Here's the Google Lens o
 Scrolling through the outputs results in distinctly {% countryflag Poland %} [**Polish**](https://en.wikipedia.org/wiki/Poland) bollards:
 
 <div class="flex-container">
-<div>{% cimage src:"/asset/idek/11-bollard.png" sub:"Zoomed in bollard" %}</div>
-<div>{% cimage src:"/asset/idek/11-comparison.png" sub:"GeoHints Polish bollard" %}</div>
+<div>{% cimage src:/asset/idek/11-bollard.png sub:"Zoomed in bollard" %}</div>
+<div>{% cimage src:/asset/idek/11-comparison.png sub:"GeoHints Polish bollard" %}</div>
 </div>
 
 {% info %}
@@ -508,8 +508,8 @@ Is that an acute accent mark on top of the letter I (`í`)? Inferring from the s
 Let's keep inferring from the flag. It currently says `BReAK_m(E/e)_sPaC`, so we can safely guess that the next country should start with `e` or `E` to continue the next likely word, "space." {% countryflag Ecuador %} [Ecuador](https://en.wikipedia.org/wiki/Ecuador) and {% countryflag "El Salvador" %} [El Salvador](https://en.wikipedia.org/wiki/El_Salvador) are the only Spanish-speaking countries that start with `e` or `E`, and I was able to narrow it down to Ecuador solely from the license plate of the car on the right, which looks like a taxi:
 
 <div class="flex-container">
-<div>{% cimage src:"/asset/idek/14-plate.png" sub:"Zoomed in plate" width:400px %}</div>
-<div>{% cimage src:"/asset/idek/14-comparison.jpg" sub:"Ecuadorian plate for commercial vehicles (taxis, buses)" width:400px %}</div>
+<div>{% cimage src:/asset/idek/14-plate.png sub:"Zoomed in plate" width:400px %}</div>
+<div>{% cimage src:/asset/idek/14-comparison.jpg sub:"Ecuadorian plate for commercial vehicles (taxis, buses)" width:400px %}</div>
 </div>
 
 {% info %}
@@ -604,11 +604,11 @@ To be honest, we didn't solve this one at all - we just completed the sentence "
 
 The author of the challenge revealed that the last location was {% countryflag Russia %} [**Russia**](https://en.wikipedia.org/wiki/Russia), on the large island of [Sakhalin](https://en.wikipedia.org/wiki/Sakhalin) north of {% countryflag Japan %} [Japan](https://en.wikipedia.org/wiki/Japan):
 
-{% cimage src:"/asset/idek/17-map.png" width:500px %}
+{% cimage src:/asset/idek/17-map.png width:500px %}
 
 The intended method of identifying the location was to analyze this patch of particular foliage in the image:
 
-{% cimage src:"/asset/idek/17-plant.png" width:400px %}
+{% cimage src:/asset/idek/17-plant.png width:400px %}
 
 This plant is called [butterbur](https://en.wikipedia.org/wiki/Petasites_japonicus) (*Petasites japonicus*, or simply "The Sakhalin Plant"), and it's native to Sakhalin, Japan, {% countryflag China %} [China](https://en.wikipedia.org/wiki/China), and {% countryflag "North Korea" %}/{% countryflag "South Korea" %} [Korea](https://en.wikipedia.org/wiki/Korea). Apparently, GeoGuessr pros can instantly identify this particular area of Russia from this plant alone!
 
