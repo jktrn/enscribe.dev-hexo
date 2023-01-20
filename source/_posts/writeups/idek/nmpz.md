@@ -285,7 +285,7 @@ I did a quick Google search, and found a tweet from the official GeoGuessr [Twit
 Apparently, this was one of the strategies that GeoGuessr pros use to quickly identify countries: using the car the Photo Sphere was taken from to their advantage, considered to be part of the "meta" game. The "{% countryflag Kenya %} [**Kenyan**](https://en.wikipedia.org/wiki/Kenya) Snorkel" was one of the more infamous ones, and I had no idea it existed. I was absolutely blown away.
 
 {% info %}
-**Flag Progress**: `idek{BReAK`\_\_\_\_\_\_\_\_\_\_\_`}`
+**Flag Progress**: `idek{BReAK`\_\_\_\_\_\_\_\_\_\_\_\_`}`
 {% endinfo %}
 
 ---
@@ -315,7 +315,7 @@ Yep, that's definitely {% countryflag Iceland %} [**Iceland**](https://en.wikipe
 This character will be an underscore (`_`), since the population of Iceland is 376,000 ([2022](https://en.wikipedia.org/wiki/Demographics_of_Iceland)).
 
 {% info %}
-**Flag Progress**: `idek{BReAK_`\_\_\_\_\_\_\_\_\_\_`}`
+**Flag Progress**: `idek{BReAK_`\_\_\_\_\_\_\_\_\_\_\_`}`
 {% endinfo %}
 
 ---
@@ -336,7 +336,7 @@ Definitely [Ulaanbaatar](https://en.wikipedia.org/wiki/Ulaanbaatar), {% countryf
 </div>
 
 {% info %}
-**Flag Progress**: `idek{BReAK_m`\_\_\_\_\_\_\_\_\_`}`
+**Flag Progress**: `idek{BReAK_m`\_\_\_\_\_\_\_\_\_\_`}`
 {% endinfo %}
 
 ---
@@ -349,7 +349,7 @@ This was arguably one of the hardest to solve (and one that we got incorrect). H
 
 ![8-lens.png](/asset/idek/8-lens.png)
 
-No idea! Our original guess was the {% countryflag Philippines %} [Philippines](https://en.wikipedia.org/wiki/Philippines) or {% countryflag Indonesia %} [Indonesia](https://en.wikipedia.org/wiki/Indonesia), but `BReAK_m(P/I)_` didn't make any sense. We moved on to the next image and discovered it was an underscore (`_`), and eventually came to the conclusion that the country had to either start with `E` or `Y` to make any sense (to make either `BReAK_m(Y/y)` or `BReAK_m(E/e)`). The only recognized country which starts with Y is {% countryflag Yemen %} [Yemen](https://en.wikipedia.org/wiki/Yemen), which was an unlikely guess because of the consistent greenery, foliage, and hills (in the Arabian Peninsula, practically all desert). 
+No idea! Our original guess was the {% countryflag Philippines %} [Philippines](https://en.wikipedia.org/wiki/Philippines) or {% countryflag Indonesia %} [Indonesia](https://en.wikipedia.org/wiki/Indonesia), but `BReAK_m(P/I)_` didn't make any sense. We moved on to the next image and discovered it was an underscore (`_`), and eventually came to the conclusion that the country had to either start with `E` or `Y` to make any sense (to make either `BReAK_m`(`Y`/`y`) or `BReAK_m`(`E`/`e`)). The only recognized country which starts with Y is {% countryflag Yemen %} [Yemen](https://en.wikipedia.org/wiki/Yemen), which was an unlikely guess because of the consistent greenery, foliage, and hills (in the Arabian Peninsula, practically all desert). 
 
 In accordance with `E`/`e` as the only likely character, we eventually settled on either {% countryflag "El Salvador" %} [**El Salvador**](https://en.wikipedia.org/wiki/El_Salvador) or {% countryflag Ecuador %} [**Ecuador**](https://en.wikipedia.org/wiki/Ecuador), so this character would be either uppercase or lowercase.
 
@@ -375,7 +375,7 @@ Let's add an underscore to the flag, since Monaco's population is 37,308 ([2016]
 
 {% info %}
 
-**Flag Progress**: `idek{BReAK_m(E/e)_`\_\_\_\_\_\_\_`}`
+**Flag Progress**: `idek{BReAK_m(E/e)_`\_\_\_\_\_\_\_\_`}`
 
 {% endinfo %}
 
