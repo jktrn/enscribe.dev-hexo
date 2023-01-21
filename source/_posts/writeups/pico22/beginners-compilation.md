@@ -312,7 +312,7 @@ points: 100
 
 This is a really trivial challenge. You can actually google "first recorded remote code execution (RCE) vulnerability in 2021" and it will be the first result:
 
-{% cimage url:/asset/pico22/beginners-compilation/cve-google.png width:600 %}
+{% cimage src:/asset/pico22/beginners-compilation/cve-google.png width:600 %}
 
 The flag is `picoCTF{CVE-2021-34527}`.
 
@@ -769,7 +769,7 @@ Fun fact: this string is a leetspoken version of "What hath God wrought", which 
 {% challenge %}
 title: Enhance!
 description: |
-  Download this image file and find the flag.<br><br>{% cimage url:/asset/pico22/beginners-compilation/svg.png width:200 sub:'svg.png' %}
+  Download this image file and find the flag.<br><br>{% cimage src:/asset/pico22/beginners-compilation/svg.png width:200 sub:'svg.png' %}
 size: 110%
 authors: Lt. 'Syreal' Jones
 genre: forensics

@@ -636,7 +636,7 @@ Luckily, during some experimenation on level 1 I found out that you can actually
         {% endccb %}
     </div>
     <div style="margin:1rem 0">
-        {% cimage url:/asset/utc/180.gif width:275 %}
+        {% cimage src:/asset/utc/180.gif width:275 %}
     </div>
 </div>
 

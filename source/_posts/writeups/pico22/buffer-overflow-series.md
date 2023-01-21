@@ -688,7 +688,7 @@ picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}
 
 But... what if you wanted to be an even **more** lazy pwner? Well, you're in luck, because I present to you: the **[pwntools ROP object](https://docs.pwntools.com/en/stable/rop/rop.html)**! By throwing our elf object into `ROP()` it transforms, and we can use it to automatically call functions and build chains! Here it is in action:
 
-{% codeblock buffer-overflow-2-automated.py lang:py https://gist.github.com/jktrn/a5bfe03bdf5b2d766ef5fa402e9e35d6 <span style="color:#82C4E4">[github gist link]</span> %}
+{% codeblock buffer-overflow-2-automated.py lang:py https://gist.github.com/jktrn/a5bfe03bdf5b2d766ef5fa402e9e35d6 [github gist link] %}
 #!/usr/bin/env python3
 from pwn import *
 
@@ -755,7 +755,7 @@ authors:
 genre: pwn/binary
 solvers: enscribe
 points: 300
-files: '[vuln](asset/pico22/buffer-overflow/vuln-3), [vuln.c](asset/pico22/buffer-overflow/vuln-3.c)'
+files: '[vuln](/asset/pico22/buffer-overflow/vuln-3), [vuln.c](/asset/pico22/buffer-overflow/vuln-3.c)'
 {% endchallenge %}
 
 {% warning %}

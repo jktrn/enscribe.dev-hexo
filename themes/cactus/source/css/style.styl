@@ -33,6 +33,9 @@ global-reset()
 *::-webkit-scrollbar-thumb:active
   background-color: darken($color-scrollbar, 30%)
 
+*::-webkit-scrollbar-corner
+  background: rgba(0,0,0,0)
+
 html
   margin: 0
   padding: 0
@@ -188,8 +191,7 @@ code
 
     a
       float: right
-      color: $color-meta-code
-      font-style: italic
+      color: $color-accent-1
       font-size: .8em
 
       underline(10px, $color-link)
@@ -534,3 +536,21 @@ img.inline-image
 
 ol.upper-alpha
     list-style-type: upper-alpha
+
+.cbb-scrollable-wrapper
+    height: 400px!important
+    overflow: auto!important
+    margin: 1rem 0!important
+
+.cbb-scrollable-style
+    margin: 0
+
+.cbb-wrapped-text
+    white-space: pre-wrap
+
+.cbb-url-text
+    color: $color-accent-1
+
+.cbb-terminal-style
+    background-color: #1D1D1D
+

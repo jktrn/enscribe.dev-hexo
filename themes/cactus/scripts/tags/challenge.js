@@ -55,10 +55,10 @@ hexo.extend.tag.register('newchallenge', function(args, content) {
     let parsedArgs = yaml.load(content);
     parsedArgs.description &&= `${conv.makeHtml(parsedArgs.description)}`;
 
-    parsedArgs.size &&= {style: `font-size: ${parsedArgs.size}`};
-    parsedArgs.genre &&= `${htmlTag("i", {class: "fa-solid fa-tag"}, "", false)} ${htmlTag("b", {}, "genre", false)}: ${parsedArgs.genre + htmlTag("br")}`;
-    parsedArgs.points &&= `${htmlTag("i", {class: "fa-solid fa-circle-plus"}, "", false)} ${htmlTag("b", {}, "points", false)}: ${parsedArgs.points + htmlTag("br")}`;
-    parsedArgs.files &&= `${htmlTag("i", {class: "fa-solid fa-file"}, "", false)} ${htmlTag("b", {}, "files", false)}: ${conv.makeHtml(parsedArgs.files) + htmlTag("br")}`;
+    parsedArgs.size     &&= {style: `font-size: ${parsedArgs.size}`};
+    parsedArgs.genre    &&= `${htmlTag("i", {class: "fa-solid fa-tag"}, "", false)} ${htmlTag("b", {}, "genre", false)}: ${parsedArgs.genre + htmlTag("br")}`;
+    parsedArgs.points   &&= `${htmlTag("i", {class: "fa-solid fa-circle-plus"}, "", false)} ${htmlTag("b", {}, "points", false)}: ${parsedArgs.points + htmlTag("br")}`;
+    parsedArgs.files    &&= `${htmlTag("i", {class: "fa-solid fa-file"}, "", false)} ${htmlTag("b", {}, "files", false)}: ${conv.makeHtml(parsedArgs.files) + htmlTag("br")}`;
     let solverText = `${htmlTag("i", {class: "fa-solid fa-user"}, "", false)} ${htmlTag("b", {}, "solvers", false)}: `;
 
     if(parsedArgs.title) {
