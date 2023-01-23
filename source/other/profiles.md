@@ -8,8 +8,6 @@ layout: page
 permalink: /profiles/
 ---
 
-{% fontawesome %}
-
 <style>
     .pushable {
         position: relative;

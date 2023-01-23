@@ -10,8 +10,6 @@ permalink: blog/wtf-is-a-ctf/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-{% fontawesome %}
-
 ![Banner](/asset/blog/wtf-is-a-ctf/banner.jpg)
 
 <div class="subtitle">Courtesy <a href="https://thedailytexan.com/staff_name/joshua-guenther/">Joshua Guenther</a></div>

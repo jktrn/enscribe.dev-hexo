@@ -14,8 +14,6 @@ permalink: ctfs/utc/prog/port-authority/
 thumbnail: /asset/banner/banner-port-authority.png
 ---
 
-{% fontawesome %}
-
 <div class="flex-container">
 {% challenge %}
 description: |

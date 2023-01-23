@@ -12,8 +12,6 @@ permalink: ctfs/sekai/compilation/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-{% fontawesome %}
-
 ![Banner](/asset/sekai/banner.svg)
 
 ### Intro

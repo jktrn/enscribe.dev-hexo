@@ -12,8 +12,6 @@ permalink: ctfs/CTF-NAME/CHAL-TYPE/CHAL-NAME/
 thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
 ---
 
-{% fontawesome %}
-
 {% box %}
 
 {% endbox %}

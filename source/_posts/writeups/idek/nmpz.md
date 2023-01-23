@@ -13,8 +13,6 @@ permalink: ctfs/idek/osint/nmpz/
 thumbnail: /asset/banner/banner-nmpz.png
 ---
 
-{% fontawesome %}
-
 ![Banner](/asset/idek/banner.svg)
 
 ### Intro

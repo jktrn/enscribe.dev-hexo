@@ -18,8 +18,6 @@ alias:
  - ctfs/pico22/pwn/ropfu/
 ---
 
-{% fontawesome %}
-
 ## Binary Exploitation
 
 {% challenge %}

@@ -17,8 +17,6 @@ alias:
  - ctfs/shctf/crypto/rahools-challenge/
 ---
 
-{% fontawesome %}
-
 ### Intro
 
 So me and a couple of LFGs (looking-for-group) played [Space Heroes CTF](https://ctftime.org/event/1567/), organized by Florida Tech's [FITSEC](https://ctftime.org/team/65296) cybersecurity team. As one of the first CTFs I've played in over a year, it was an amazing learning experience for me being thrown into the mystical world of binary exploitation/pwn. I've made a couple of writeups for the cooler challenges I've solved; enjoy!

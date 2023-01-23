@@ -14,8 +14,6 @@ permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png
 ---
 
-{% fontawesome %}
-
 ![Banner](/asset/byu/banner.png)
 
 ### Intro

@@ -7,8 +7,6 @@ hidden: true
 layout: page
 ---
 
-{% fontawesome %}
-
 {% grid columns:2 %}
 <i class="fa-solid fa-music"></i> SekaiCTF 2022:
     description: |
