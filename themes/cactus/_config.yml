@@ -124,7 +124,7 @@ open_graph:
 
 # Enable MathJax support for Latex
 mathjax:
-  enabled: false
+  enabled: true
   
 # Fill in your Disqus Comments Shortname to enable Disqus comments.
 disqus:

@@ -48,6 +48,16 @@ const members = {
         'name': 'blueset',
         'url': 'https://github.com/blueset',
         'img': 'https://avatars.githubusercontent.com/u/553831'
+    },
+    'flocto': {
+        'name': 'flocto',
+        'url': 'javascript:;',
+        'img': undefined
+    },
+    'SuperBeetleGamer': {
+        'name': 'SuperBeetleGamer',
+        'url': 'javascript:;',
+        'img': undefined
     }
 };
 
