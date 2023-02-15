@@ -14,12 +14,12 @@ thumbnail: /asset/banner/banner-ctfs.png
 
 ### Intro
 
-I was recently invited by the academic team "DN" (the name, surprisingly, has no inappropriate connotation) to compete in Mentor High School's second CTF iteration, MHSCTF 2023. Although the competition ran for 15 days, we maxed out their 11 challenges in just under 16 hours (ignoring solve resets). These four writeups are part of the verification process which comes with prize-receiving — enjoy!
+I was recently invited by the academic team "DN" (the name, surprisingly, has no inappropriate connotation) to compete in Mentor High School's second CTF iteration, [MHSCTF 2023](https://ctftime.org/event/1861). Although the competition ran for 15 days, we maxed out their 11 challenges in **just under 16 hours** (ignoring solve resets) and managed to take first place. These four writeups were part of the verification process, which came with prize-receiving — enjoy!
 
 ---
 
 {% challenge %}
-title: Matchmaker
+title: Matchmaker 🩸
 level: h2
 solvers:
 - flocto --flag
@@ -35,16 +35,11 @@ description: |
 
 Here are the notes the author provided alongside the challenge description, abridged for brevity:
 
-- The connection times out after 60 seconds, and there will be 3 iterations
-- The input will be given in $N$ lines where $N$ is the number of students. The first line represents the zeroth student, the second line represents the first student, and so on ($50 < N < 100$, $N \pmod 2 = 0$)
-- Each line of input consists of $N - 1$ integers $R$ (ranged $0 < R < 100$, inclusive) that represent that student's rating of everybody but themselves
-- Determine the pairings that maximize the students' ratings for each other
-    - **Example**: If Student 1 -> Student 7 = 98 and Student 7 -> Student 1 = 87, and Students 1 and 7 are paired, the "score" of this pairing would be $98 + 87 = 185$
-- The output should list all maximized pairs (including duplicates; order of the pairs does not matter)
-    - **Example**: If Student 0 -> Student 3, Student 1 -> Student 2, and Student 4 -> Student 5, the desired output is: `0,3;1,2;2,1;3,0;4,5;5,4`
-- The connection will close if the output is incorrect, and reiterate if correct
+- The connection times out after 60 seconds, and there will be 3 iterations.
+- The input will be given in $N$ lines, where $N$ represents the number of students. The first line represents the zeroth student, the second line represents the first student, and so on ($50 < N < 100$, $N \bmod 2 = 0$).
+- Each line of input contains $N - 1$ integers $R$ (ranged $0 < R < 100$, inclusive); $R$ represents a student's rating of another student at that index, repeated for everybody but themselves.
 
-Let's see some sample input from the server:
+I've cut the notes provided in half to make it a bit more digestable. Before we continue, let's see some sample input from the server for context:
 
 {% ccb lang:py gutter1:1-4 caption:matchmaker.py %}
 from pwn import *
@@ -63,21 +58,68 @@ SKIP_LINE(...)
 
 We can do a bit of analysis on what we've received so far.
 
-The line `86 60 67...` can be translated into something along the lines of:
-- Student 0 -> Student 1 = 86
-- Student 0 -> Student 2 = 60
-- Student 0 -> Student 3 = 67
+<div style="display: flex;">
+  <div style="flex: 1;">
+    <p>The first line, <code>86 60 67...</code>, can be translated into:
+    <ul>
+      <li>Student 0 -&gt; Student 1 = 86</li>
+      <li>Student 0 -&gt; Student 2 = 60</li>
+      <li>Student 0 -&gt; Student 3 = 67</li>
+    </ol>
+  </div>
+  <div style="flex: 1;">
+    <p>Let's do the same thing for the second line, <code>76 0 74...</code>:</p>
+    <ul>
+      <li>Student 1 -&gt; Student 0 = 76</li>
+      <li>Student 1 -&gt; Student 2 = 0</li>
+      <li>Student 1 -&gt; Student 3 = 74</li>
+    </ol>
+  </div>
+</div>
 
-Let's do the same thing for the second line, `76 0 74...`:
-- Student 1 -> Student 0 = 76
-- Student 1 -> Student 2 = 0
-- Student 1 -> Student 3 = 74
+Notice how the student will always skip their own index, which aligns with the author's notes detailing how the integers "represent the students ratings of everybody but themselves." Let's continue with the rest of the notes:
 
-Notice how the student will always skip their own index, which aligns with the author's notes detailing how the integers "represent the students ratings of everybody but themselves." Let's crack on with the actual algorithm which will be used for solving this!
+- Determine the pairings that maximize the students' ratings for each other
+    - **Example**: If Student 1 -> Student 7 = 98 and Student 7 -> Student 1 = 87, and Students 1 and 7 are paired, the "score" of this pairing would be $98 + 87 = 185$
+- The output should list all maximized pairs (including duplicates; order of the pairs does not matter)
+    - **Example**: If Student 0 -> Student 3, Student 1 -> Student 2, and Student 4 -> Student 5, the desired output is: `0,3;1,2;2,1;3,0;4,5;5,4`
+- The connection will close if the output is incorrect, and reiterate if correct
+
+Let's crack on with the actual algorithm which will be used for solving this!
+
+### Graph Theory Fundamentals
+
+This challenge is a classic example of a concept called "maximum weight matching", which is fundamental in **graph theory** and **discrete mathematics**. Although there is a relatively high prerequisite knowledge floor for understanding these concepts, I'll explain them as best as I can.
+
+Firstly, let's define a **graph**. A graph is a set of **vertices** (or nodes), which are connected by **edges**. Not to be confused with the [Cartesian coordinate system](https://en.wikipedia.org/wiki/Cartesian_coordinate_system), graphs are represented by the [ordered pair](https://en.wikipedia.org/wiki/Ordered_pair) $G = (V, E)$ in which $V$ is a [set](https://en.wikipedia.org/wiki/Set_(mathematics)) of vertices and $E$ is a set of edges:
+
+![Graph](/asset/mhs/graph.svg)
+
+{% info %}
+**Note**: The set of edges $E$ is formally defined as $E \subset \\{(x, y) | (x, y) \in V^2 \textrm{ and } x \neq y\\}$. By this definition, $x$ and $y$ are the vertices that are connected to the edge $e$, called the **endpoints**. It can also be said that $e$ is **incident** to $x$ and $y$.
+{% endinfo %}
+
+We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex of $V$ is incident to at **most** one edge of $M$ (meaning no two edges can share the same vertex). When the highest possible cardinality (number of matches) of $G$ is reached, the matching is considered **maximum**, and any unmatched vertices are considered **exposed**. For example, the following is a maximum matching performed on the graph above:
+
+![Matching](/asset/mhs/matching.svg)
+
+{% info %}
+**Note**: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered **perfect**. A **perfect maximum matching** occurs when the size of $V$ is even  and there are no exposed vertices.
+{% endinfo %}
+
+Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$, natural numbers). The total weight of a matching $M$, written as $w(M)$, can be defined as:
+
+$$
+w(M) = \sum_{e \in M}w(e)
+$$
+
+Our goal is to maximize $w(M)$. We will be tackling it with a weighted implementation of [Edmonds' Blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the Blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(n^3)$ time).
+
+Firstly, let's get started with the algorithm itself.
 
 ### The Blossom Algorithm
 
-This challenge is a classic example of a concept called "maximum weight matching", which is extraordinarily fundamental in the graph theory subdiscipline in discrete mathematics.
+TODO
 
 ---
 
@@ -123,5 +165,11 @@ description: |
     `nc 0.cloud.chals.io 15684`
 files: '[rescue_mission.c](/asset/mhs/rescue_mission.c)'
 {% endchallenge %}
+
+- Every round, enter a number between 1 and the ATK (attack) of the entity whose turn it is (your's or the enemy's). Your opponent will also select a number from this range and if these numbers match, the attack is blocked (unless the attacker is the boss, whose attacks are not blockable). If they do not match, the attacking entity scores a hit and some damage is dealt based on the attacker's ATK.
+- At the beginning of a match, the entity with the smaller PRI (priority) attacks first.
+- You will face 3 enemies before the final boss. Make sure to keep upgrading your stats in the Shop! You earn money by winning battles.
+- The game is over once you have faced all 4 enemies, regardless of how well you do.
+- The Valentine will be displayed once you defeat the boss.
 
 ---
