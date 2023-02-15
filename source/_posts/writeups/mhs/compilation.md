@@ -132,10 +132,11 @@ Firstly, let's get started with how it works.
 
 The core idea behind the blossom algorithm itself involves two concepts: **augmenting paths** and **blossom contraction**.
 
-Given a graph $G = (V, E)$, a path in $G$ can be considered an **alternating path** if edges in the path are alternatively in $M$ and not in $M$. **Augmenting paths** are a type of alternating path that start and end with two different exposed vertices:
+Given a graph $G = (V, E)$, a path in $G$ can be considered an **alternating path** if edges in the path are alternatively in $M$ and not in $M$. **Augmenting paths** are a type of alternating path that start and end with two exposed vertices:
 
+![Augmenting Paths](/asset/mhs/augmenting-paths.svg)
 
-
+The reason why augmenting paths are so special is because they can be optimized to become a maximum matching.
 ---
 
 {% challenge %}
