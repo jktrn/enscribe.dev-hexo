@@ -99,7 +99,7 @@ Firstly, let's define a **graph**. A graph is a set of **vertices** (or nodes), 
 **Note**: The set of edges $E$ is formally defined as $E \subset \\{(x, y) | (x, y) \in V^2 \textrm{ and } x \neq y\\}$. By this definition, $x$ and $y$ are the vertices that are connected to the edge $e$, called the **endpoints**. It can also be said that $e$ is **incident** to $x$ and $y$.
 {% endinfo %}
 
-We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex of $V$ is incident to at **most** one edge of $M$ (meaning no two edges can share the same vertex). When the highest possible cardinality (number of matches) of $G$ is reached, the matching is considered **maximum**, and any unmatched vertices are considered **exposed**. For example, the following is a maximum matching performed on the graph above:
+We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex $v$ of $V$ is incident to at **most** one edge of $M$ (meaning two edges cannot share the same vertex). When the highest possible cardinality (number of matches) of $G$ is reached, the matching is considered **maximum**, and any vertex $v$ not incident to any edge in $M$ is considered **exposed**. For example, the following is a maximum matching performed on the graph above:
 
 ![Matching](/asset/mhs/matching.svg)
 
@@ -107,19 +107,34 @@ We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ 
 **Note**: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered **perfect**. A **perfect maximum matching** occurs when the size of $V$ is even  and there are no exposed vertices.
 {% endinfo %}
 
-Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$, natural numbers). The total weight of a matching $M$, written as $w(M)$, can be defined as:
+Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$, natural numbers):
+
+![Weights](/asset/mhs/weights.svg)
+
+ The total weight of a matching $M$, written as $w(M)$, can be defined as:
 
 $$
-w(M) = \sum_{e \in M}w(e)
+w(M) = \sum_{e \in M}w(e) \\\\
 $$
 
-Our goal is to maximize $w(M)$. We will be tackling it with a weighted implementation of [Edmonds' Blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the Blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(n^3)$ time).
+Solving for $w(M)$ in the example graph above:
 
-Firstly, let's get started with the algorithm itself.
+$$
+w(M) = w((1, 2)) + w((3, 4)) + w((5, 6)) + w((8, 9)) \\\\
+w(M) = 5 + 2 + 9 + 6 = 22
+$$
+
+Our goal is to maximize $w(M)$ — it is *definitely* not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a weighted implementation of [Edmonds' blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(n^3)$ time).
+
+Firstly, let's get started with how it works.
 
 ### The Blossom Algorithm
 
-TODO
+The core idea behind the blossom algorithm itself involves two concepts: **augmenting paths** and **blossom contraction**.
+
+Given a graph $G = (V, E)$, a path in $G$ can be considered an **alternating path** if edges in the path are alternatively in $M$ and not in $M$. **Augmenting paths** are a type of alternating path that start and end with two different exposed vertices:
+
+
 
 ---
 
