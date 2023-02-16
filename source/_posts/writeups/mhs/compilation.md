@@ -33,20 +33,51 @@ description: |
     `nc 0.cloud.chals.io 22304`
 {% endchallenge %}
 
+{% warning %}
+**Warning**: Discrete math, graph theory, and combinatorial optimization ahead! If you're unfamiliar with the mathematical symbols used in this writeup, reference this dropdown:
+
+<details>
+  <summary><b>Complicated Math Symbols</b>:</summary>
+    <ul>
+        <li>$\sum$ - Summation</li>
+        <li>$\in$ - Element of</li>
+        <li>$\notin$ - Not an element of</li>
+        <li>$\subset$ - Proper subset of</li>
+        <li>$\subseteq$ - Subset of</li>
+        <li>$\emptyset$ - Empty set</li>
+        <li>$\forall$ - For all</li>
+        <li>$\exists$ - There exists</li>
+        <li>$\nexists$ - There does not exist</li>
+        <li>$\in$ - Element of</li>
+        <li>$\notin$ - Not an element of</li>
+        <li>$\ni$ - Contains as member</li>
+        <li>$\not\ni$ - Does not contain as member</li>
+        <li>$\setminus$ - Set minus (drop)</li>
+        <li>$\oplus$ - Direct sum</li>
+        <li>$\cup$ - Union</li>
+        <li>$\cap$ - Intersection</li>
+        <li>$x'$ - Prime</li>
+    </ul>
+</details>
+
+{% endwarning %}
+
 Here are the notes the author provided alongside the challenge description, abridged for brevity:
 
+{% box style:"text-align: left;" %}
 - The connection times out after 60 seconds, and there will be 3 iterations.
 - The input will be given in $N$ lines, where $N$ represents the number of students. The first line represents the zeroth student, the second line represents the first student, and so on ($50 < N < 100$, $N \bmod 2 = 0$).
 - Each line of input contains $N - 1$ integers $R$ (ranged $0 < R < 100$, inclusive); $R$ represents a student's rating of another student at that index, repeated for everybody but themselves.
+{% endbox %}
 
 I've cut the notes provided in half to make it a bit more digestable. Before we continue, let's see some sample input from the server for context:
 
-{% ccb lang:py gutter1:1-4 caption:matchmaker.py %}
+{% codeblock lang:py matchmaker.py %}
 from pwn import *
 
 p = remote('0.cloud.chals.io', 22304)
 print(r.recvuntilS(b'> '))
-{% endccb %}
+{% endcodeblock %}
 
 {% ccb html:true terminal:true wrapped:true %}
 <span style="color:#F99157">$ </span> python3 matchmaker.py
@@ -79,11 +110,13 @@ We can do a bit of analysis on what we've received so far.
 
 Notice how the student will always skip their own index, which aligns with the author's notes detailing how the integers "represent the students ratings of everybody but themselves." Let's continue with the rest of the notes:
 
+{% box style:"text-align: left;" %}
 - Determine the pairings that maximize the students' ratings for each other
     - **Example**: If Student 1 -> Student 7 = 98 and Student 7 -> Student 1 = 87, and Students 1 and 7 are paired, the "score" of this pairing would be $98 + 87 = 185$
 - The output should list all maximized pairs (including duplicates; order of the pairs does not matter)
     - **Example**: If Student 0 -> Student 3, Student 1 -> Student 2, and Student 4 -> Student 5, the desired output is: `0,3;1,2;2,1;3,0;4,5;5,4`
 - The connection will close if the output is incorrect, and reiterate if correct
+{% endbox %}
 
 Let's crack on with the actual algorithm which will be used for solving this!
 
@@ -95,23 +128,29 @@ Firstly, let's define a **graph**. A graph is a set of **vertices** (or nodes), 
 
 ![Graph](/asset/mhs/graph.svg)
 
-{% info %}
-**Note**: The set of edges $E$ is formally defined as $E \subset \\{(x, y) | (x, y) \in V^2 \textrm{ and } x \neq y\\}$. By this definition, $x$ and $y$ are the vertices that are connected to the edge $e$, called the **endpoints**. It can also be said that $e$ is **incident** to $x$ and $y$.
-{% endinfo %}
+{% definition %}
+**Definition**: A set of edges $E$ is defined as $E \subset \\{(x, y)\ |\ (x, y) \in V^2 \textrm{ and } x \neq y\\}$. By this definition, $x$ and $y$ are the vertices that are connected to the edge $e$, called the **endpoints**. It can also be said that $e$ is **incident** to $x$ and $y$.
+{% enddefinition %}
 
-We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex $v$ of $V$ is incident to at **most** one edge of $M$ (meaning two edges cannot share the same vertex). When the highest possible cardinality (number of matches) of $G$ is reached, the matching is considered **maximum**, and any vertex $v$ not incident to any edge in $M$ is considered **exposed**. For example, the following is a maximum matching performed on the graph above:
+We can create a **matching** $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex $v$ of $V$ is incident to at <u>most</u> one edge of $M$ (meaning two edges cannot share the same vertex). When the highest possible **cardinality** (number of matches) of $G$ is reached, the matching is considered **maximum**, and any vertex $v$ not incident to any edge in $M$ is considered **exposed**. 
+
+{% definition %}
+**Definition**: Formally, a matching $M$ is said to be **maximum** if for any other matching $M'$, $|M| \geq |M'|$. In other words, $M$ is the largest matching possible.
+{% enddefinition %}
+
+For example, the following is a maximum matching performed on the graph above:
 
 ![Matching](/asset/mhs/matching.svg)
 
-{% info %}
-**Note**: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered **perfect**. A **perfect maximum matching** occurs when the size of $V$ is even  and there are no exposed vertices.
-{% endinfo %}
+{% definition %}
+**Definition**: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered **perfect**. A **perfect maximum matching** occurs when the size of $V$ is even (or $|V|/2 = |E|$) and there are no exposed vertices.
+{% enddefinition %}
 
-Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$, natural numbers):
+Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$):
 
 ![Weights](/asset/mhs/weights.svg)
 
- The total weight of a matching $M$, written as $w(M)$, can be defined as:
+The total weight of a matching $M$, written as $w(M)$, can be defined as:
 
 $$
 w(M) = \sum_{e \in M}w(e) \\\\
@@ -124,68 +163,90 @@ w(M) = w((1, 2)) + w((3, 4)) + w((5, 6)) + w((8, 9)) \\\\
 w(M) = 5 + 2 + 9 + 6 = 22
 $$
 
-Our goal is to maximize $w(M)$ — it is *definitely* not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a weighted implementation of [Edmonds' blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(n^3)$ time).
+Our goal is to maximize $w(M)$ — it is *definitely* not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a weighted implementation of [Edmonds' blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(|V|^3)$ time).
 
 Firstly, let's get started with how it works.
 
 ### The Blossom Algorithm
 
-The core idea behind the blossom algorithm itself involves two concepts: **augmenting paths** and **blossom contraction**.
+The core idea behind the blossom algorithm itself involves two concepts: **augmenting paths** and **blossoms** (alongside **blossom contraction**).
 
-Given a graph $G = (V, E)$, a path in $G$ can be considered an **alternating path** if edges in the path are alternatively in $M$ and not in $M$. **Augmenting paths** are a type of alternating path that start and end with two exposed vertices:
+#### Augmenting Paths
+
+Given a graph $G = (V, E)$, a path $P$ in $G$ can be considered an **alternating path** if edges in the path are alternatively in $M$ and not in $M$. **Augmenting paths** are a type of alternating, odd-length path that starts and ends with two exposed vertices:
 
 ![Augmenting Paths](/asset/mhs/augmenting-paths.svg)
 
-The reason why augmenting paths are so special is because they can be optimized to become a maximum matching.
----
+As we can see, $P$ is considered an augmenting path because it ends with two exposed vertices. Augmenting paths are so special in that they can **augment** ("to improve", as per the name) the size of $M$ by one edge. To do so, simply swap the edges in $P$ that are <u>in</u> $M$ with the edges that are <u>not in</u> $M$:
 
-{% challenge %}
-title: Chocolates
-level: h2
-solvers: flocto
-authors: 0xmmalik
-genre: web
-points: 3
-description: |
-    The first thing I want to give everyone is chocolate, of course. I found this wonderful company that sells the most exquisite chocolates, but I heard that they sell a super special secret valentine chocolate that's hidden somewhere on their website. Here's the website, do you think you can find it for me?  
-    [https://chocolates-mhsctf.0xmmalik.repl.co](https://chocolates-mhsctf.0xmmalik.repl.co)
-{% endchallenge %}
+![Augmented Path](/asset/mhs/augmented-path.svg)
 
----
+{% definition %}
+**Definition**: A **matching augmentation** along an augmenting path $P$ is a process by which $M$ is replaced by $M'$, defined as such:
 
-{% challenge %}
-title: Passing Notes
-level: h2
-solvers: SuperBeetleGamer
-authors: 0xmmalik
-genre: crypto
-points: 7
-description: |
-    Passing secret notes? That practically *screams* Valentine's Day to me! So, I've devised a super-secure way to encrypt a message so you can send it to that special someone! I used my program to encrypt a Valentine just for you! The only thing is... I don't remember the key. Ah, whatever! Here you go: `V4m\GDMHaDM3WKy6tACXaEuXumQgtJufGEyXTAtIuDm5GEHS`  
-    The `valentine{...}` wrapper is included in the encrypted text.
-files: '[passing_notes.py](/asset/mhs/passing_notes.py)'
-{% endchallenge %}
+$$
+M' = M \oplus P = (M \setminus P) \cup (P \setminus M)
+$$
 
----
+This implies that $|M \oplus P| = |M| + 1$.
+{% enddefinition %}
 
-{% challenge %}
-title: Rescue Mission
-level: h2
-solvers: flocto
-authors: 0xmmalik
-genre: pwn
-points: 6
-description: |
-    My Valentine, Alex, has been kidnapped and is being held hostage! Help me save Alex by defeating the boss in this game.  
-    Notes: **[SEE BELOW]**  
-    `nc 0.cloud.chals.io 15684`
-files: '[rescue_mission.c](/asset/mhs/rescue_mission.c)'
-{% endchallenge %}
+The reason why augmenting paths are so fundamental to the blossom algorithm is that it directly computes a maximum matching — we can reiterate the process of finding augmenting paths until no more are available in $G$. This is described well with [Berge's Theorem](https://en.wikipedia.org/wiki/Berge%27s_theorem):
 
-- Every round, enter a number between 1 and the ATK (attack) of the entity whose turn it is (your's or the enemy's). Your opponent will also select a number from this range and if these numbers match, the attack is blocked (unless the attacker is the boss, whose attacks are not blockable). If they do not match, the attacking entity scores a hit and some damage is dealt based on the attacker's ATK.
-- At the beginning of a match, the entity with the smaller PRI (priority) attacks first.
-- You will face 3 enemies before the final boss. Make sure to keep upgrading your stats in the Shop! You earn money by winning battles.
-- The game is over once you have faced all 4 enemies, regardless of how well you do.
-- The Valentine will be displayed once you defeat the boss.
+{% theorem %}
+**Theorem**: A matching $M$ in a graph $G$ is maximum <u>if and only if</u> there is no $M$-augmenting path in $G$.
+{% endtheorem %}
 
----
+Here is high-level pseudocode which describes this recursive iteration:
+
+{% ccb html:true gutter1:1-9 caption:'Blossom: Finding Maximum Matching' %}
+<span style="color:#e9d3b6"><b>procedure</b></span> <span style="color:#f06431">find_maximum_matching</span>(<span style="color:#f79a32">G</span>, <span style="color:#f79a32">M</span>)
+    <span style="color:#dc3958">P</span> = <span style="color:#f06431">find_augmenting_path</span>(<span style="color:#f79a32">G</span>, <span style="color:#f79a32">M</span>)
+    <span style="color:#e9d3b6"><b>if</b></span>  <span style="color:#dc3958">P</span> == [] <span style="color:#e9d3b6"><b>then</b></span>
+        <span style="color:#e9d3b6"><b>return</b></span> M
+    <span style="color:#e9d3b6"><b>else</b></span>
+        <span style="color:#dc3958">MP</span> = <span style="color:#f06431">augment_matching</span>(<span style="color:#f79a32">M</span>, <span style="color:#dc3958">P</span>)
+        <span style="color:#e9d3b6"><b>return</b></span> <span style="color:#f06431">find_maximum_matching</span>(<span style="color:#f79a32">G</span>, <span style="color:#dc3958">MP</span>)
+    <span style="color:#e9d3b6"><b>end if</b></span>
+<span style="color:#e9d3b6"><b>end procedure</b></span>
+{% endccb %}
+
+{% info %}
+**Note**: Under the context of the above pseudocode, `find_augmenting_path()` will always start at an exposed vertex, running a [breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search) to find an augmenting path.
+{% endinfo %}
+
+Therefore, the blossom algorithm will always terminate with a maximum matching.
+
+#### Blossoms (and Blossom Contraction)
+
+The second concept that we need to understand are **blossoms**. Given a graph $G$ and a matching $M$, a blossom $B$ is a "cycle" within $G$ which consists of $2k + 1$ edges, of which exactly $k$ belong to $M$ (a blossom with two matches would have $2(2) + 1 = 5$ edges).
+
+Let's say the algorithm created matchings in a graph with a blossom — although it isn't the maximum matching possible, we cannot augment it any further because the technically available augmenting path is longer than the shortest available path, therefore terminating subotimally:
+
+![Blossom](/asset/mhs/blossom.svg)
+
+This is where **blossom contraction** comes in. The idea is to contract the blossom $B$ into a single vertex $v_B$, and to treat it as a single vertex in the graph:
+
+![Blossom Contraction](/asset/mhs/blossom-contraction.svg)
+
+From there, we can find valid augmenting paths to augment $M$:
+
+![Augmented Blossom](/asset/mhs/augmented-blossom.svg)
+
+Finally, we can expand the blossom $B$ back into its original form, to reveal the maximum matching:
+
+![Expanded Blossom](/asset/mhs/expanded-blossom.svg)
+
+{% theorem %}
+**Theorem**: If $G'$ a the graph formed after contraction of a blossom $B$ in $G$, then $G$ has an augmenting path <u>if and only if</u> $G'$ has an augmenting path.
+{% endtheorem %}
+
+With the fundamental concepts of this beautiful algorithm covered, the only thing we need to wrap our heads around is how to adopt this with weighted graphs. I'll be referencing Galil's [Efficient Algorithms for Finding Maximum Matching in Graphs](http://www.cs.kent.edu/~dragan/GraphAn/p23-galil.pdf) for this section.
+
+### Weighted Graphs
+
+
+
+### "Borrowing" an Implementation
+
+Yes, the blossom algorithm is the most elegant thing I've ever seen. No, I am absolutely never going to implement the blossom algorithm from scratch. I'm not even going to try. Yes, it's super fun to visualize and understand the concepts, but could you even imagine trying to implement this in code, and deal with "neighbors" and "forests" and "visited nodes?" I can't.

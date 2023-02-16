@@ -43,6 +43,24 @@ hexo.extend.tag.register('warning', (args, content) => {
     async: true
 });
 
+hexo.extend.tag.register('definition', (args, content) => {
+    const parsedArgs = parseArgs(args);
+    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-book"}, "")} ${conv.makeHtml(content)}`
+    return htmlTag("div", {class: "text-definition no-highlight", ...parsedArgs}, parsedContent, false);
+}, {
+    ends: true,
+    async: true
+});
+
+hexo.extend.tag.register('theorem', (args, content) => {
+    const parsedArgs = parseArgs(args);
+    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-square-check"}, "")} ${conv.makeHtml(content)}`
+    return htmlTag("div", {class: "text-theorem no-highlight", ...parsedArgs}, parsedContent, false);
+}, {
+    ends: true,
+    async: true
+});
+
 function parseArgs(arr) {
     let result = {};
     for(const i of arr) {
