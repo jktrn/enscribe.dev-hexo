@@ -146,7 +146,7 @@ For example, the following is a maximum matching performed on the graph above:
 **Definition**: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered **perfect**. A **perfect maximum matching** occurs when the size of $V$ is even (or $|V|/2 = |E|$) and there are no exposed vertices.
 {% enddefinition %}
 
-Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$):
+Now, let's put **weights** into consideration (i.e. the students' ratings). With a **weighted graph** $G = (V, E, w)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$):
 
 ![Weights](/asset/mhs/weights.svg)
 
@@ -163,7 +163,7 @@ w(M) = w((1, 2)) + w((3, 4)) + w((5, 6)) + w((8, 9)) \\\\
 w(M) = 5 + 2 + 9 + 6 = 22
 $$
 
-Our goal is to maximize $w(M)$ — it is *definitely* not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a weighted implementation of [Edmonds' blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Although the blossom algorithm was typically meant for an $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself), various implementations exist online which match with respect to a weighted graph, considered [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(|V|^3)$ time).
+Our goal is to maximize $w(M)$ — it is *definitely* not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a combination of two different concepts: [Edmonds' blossom algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm), and the [primal-dual method](https://en.wikipedia.org/wiki/Duality_(optimization)). Although the blossom algorithm is typically meant for [maximum cardinality matching](https://en.wikipedia.org/wiki/Maximum_cardinality_matching) (maximizing the size of $M$ itself, and running in $\href{https\://en.wikipedia.org/wiki/Big_O_notation}{\mathcal{O}}(|E||V|^2)$ time), utilizing it as a subroutine alongside the primal-dual method of linear programming creates a [maximum weight matching](https://en.wikipedia.org/wiki/Maximum_weight_matching) (and running in $\mathcal{O}(|V|^3)$ time).
 
 Firstly, let's get started with how it works.
 
@@ -225,7 +225,7 @@ Let's say the algorithm created matchings in a graph with a blossom — although
 
 ![Blossom](/asset/mhs/blossom.svg)
 
-This is where **blossom contraction** comes in. The idea is to contract the blossom $B$ into a single vertex $v_B$, and to treat it as a single vertex in the graph:
+This is where **blossom contraction** comes in. The idea is to contract the blossom $B$ into a single "super-vertex" $v_B$, and to treat it as a single vertex in the graph:
 
 ![Blossom Contraction](/asset/mhs/blossom-contraction.svg)
 
@@ -238,14 +238,70 @@ Finally, we can expand the blossom $B$ back into its original form, to reveal th
 ![Expanded Blossom](/asset/mhs/expanded-blossom.svg)
 
 {% theorem %}
-**Theorem**: If $G'$ a the graph formed after contraction of a blossom $B$ in $G$, then $G$ has an augmenting path <u>if and only if</u> $G'$ has an augmenting path.
+**Theorem**: If $G'$ a the graph formed after contraction of a blossom $B$ in $G$, then $G$ has an augmenting path <u>if and only if</u> $G'$ has an augmenting path.  
+(This is called the **Blossoms Theorem**, or the **Main Theorem of Botany**)
 {% endtheorem %}
 
 With the fundamental concepts of this beautiful algorithm covered, the only thing we need to wrap our heads around is how to adopt this with weighted graphs. I'll be referencing Galil's [Efficient Algorithms for Finding Maximum Matching in Graphs](http://www.cs.kent.edu/~dragan/GraphAn/p23-galil.pdf) for this section.
 
-### Weighted Graphs
+### Primal-Dual Method
 
+So... the primal-dual method. I've been personally studying this topic (alongside linear programming in general, from which this method is derived from) for the past couple days, and let's just say that I absolutely have no clue what is going on:
 
+![Scary Math](/asset/mhs/scary-math.png)
+
+So I asked ChatGPT-3 for a bit of help. Hopefully this will help you too:
+
+<div class="flex-container">
+  <div style="width: 70px">
+    <img style="border-radius: 16px;" src="https://www.gravatar.com/avatar/bac00b54948ebf5ea072824aeafa890f?d=identicon&s=70">
+  </div>
+  <div>
+    <div class="box" style="text-align: left;">
+      Explain the primal-dual method to someone completely new to algorithms and graph theory.
+    </div>
+  </div>
+</div>
+
+<div class="flex-container">
+  <div style="width: 70px">
+    <img src="/asset/mhs/chatgpt-icon.png">
+  </div>
+  <div>
+    <div class="box" style="background-color: #064133; text-align: left;">
+"The primal problem is the original problem that we want to solve, and the dual problem is a related problem that helps us solve the primal problem. In graph theory, the primal problem might be to find the shortest path between two nodes in a graph, while the dual problem might be to find the minimum cost to connect all the nodes in the graph.
+
+The method works by starting with a feasible solution to the dual problem and iteratively improving it until it becomes the optimal solution. At each step, the method adjusts the primal and dual variables to satisfy a set of complementary slackness conditions, which ensure that the solution is both feasible and optimal."
+    </div>
+  </div>
+</div>
+
+<div class="flex-container">
+  <div style="width: 70px">
+    <img style="border-radius: 16px;" src="https://www.gravatar.com/avatar/bac00b54948ebf5ea072824aeafa890f?d=identicon&s=70">
+  </div>
+  <div>
+    <div class="box" style="text-align: left;">
+      Can you explain what slack is in linear programming (under the context of maximum weighted matching)?
+    </div>
+  </div>
+</div>
+
+<div class="flex-container">
+  <div style="width: 70px">
+    <img src="/asset/mhs/chatgpt-icon.png">
+  </div>
+  <div>
+    <div class="box" style="background-color: #064133; text-align: left;">
+"In the context of linear programming for maximum weighted matching, slack is defined as the amount by which the current matching fails to satisfy the optimality conditions for a maximum weight matching. More formally, for a graph $G=(V,E)$ and a matching $M$, the slack of an edge $e$ is defined as:
+
+$$s_e= \begin{cases}w(e)-u(x)-v(y) & \text { if } e \notin M \\\\ u(x)+v(y)-w(e) & \text { if } e \in M\end{cases}$$
+
+where $x$ and $y$ are the endpoints of $e$, $w(e)$ is the weight of $e$, and $u$ and $v$ are dual variables associated with the vertices of $G$. The dual variables are used to derive bounds on the weights of the edges, and are updated during the execution of the primal-dual algorithm.<br><br>
+Intuitively, the slack of an edge measures the amount by which the edge can be "improved" in order to increase the total weight of the matching. A positive slack indicates that the edge can be added to the matching to increase its weight, while a negative slack indicates that the edge is over-saturated and should be removed from the matching. The slack values are used to identify augmenting paths in the graph, which can be used to improve the current matching until it satisfies the optimality conditions for a maximum weight matching."
+    </div>
+  </div>
+</div>
 
 ### "Borrowing" an Implementation
 
