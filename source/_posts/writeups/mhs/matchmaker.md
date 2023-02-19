@@ -34,7 +34,7 @@ points: 9
 description: |
     I've just had the most brilliant idea 😮 I want to write a program that takes all the students and how much they like each other to pair them up so I can maximize the total love in the classroom! Of course, when I say "I," I really mean... "you" ;)  
     Notes: **[SEE BELOW]**  
-    `nc 0.cloud.chals.io 22304`
+    `nc 0.cloud.chals.io [PORT]`
 {% endchallenge %}
 
 {% warning %}
@@ -79,13 +79,13 @@ I've cut the notes provided in half to make it a bit more digestable. Before we 
 {% codeblock lang:py matchmaker.py %}
 from pwn import *
 
-p = remote('0.cloud.chals.io', 22304)
+p = remote('0.cloud.chals.io', [PORT])
 print(p.recvuntilS(b'> '))
 {% endcodeblock %}
 
 {% ccb html:true terminal:true wrapped:true %}
 <span style="color:#F99157">$ </span>python3 matchmaker.py
-[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 22304: Done
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
 86 60 67 84 44 4 36 59 100 63 51 6 92 66 36 99 3 69 55 11 21 66 66 81 21 63 76 44 4 87 13 67 0 97 28 13 68 96 47 49 0 18 63 26 73 68 13 63 47 61 0 53 74 56 6 12 5 66 54 47 79 81 84 43 19 6 62 52 6 100 86 64 1 4 38 89 93 6 72 93 63 46 90 29 81 89 5 9 77 23 87 94 73
 76 0 74 52 56 60 57 78 48 93 85 66 29 70 96 40 76 62 46 66 69 31 99 47 12 42 43 12 47 19 26 8 26 45 29 27 17 14 15 54 57 78 69 73 55 16 88 50 96 97 34 49 78 3 91 53 28 66 28 28 9 38 87 20 66 28 37 38 94 61 96 99 45 39 52 5 27 5 96 41 31 83 86 32 92 35 96 10 2 97 3 19 88
 SKIP_LINE(...)
@@ -337,7 +337,7 @@ def parse_input(data):
         table[i].insert(i, 0)
     return table
 
-p = remote('0.cloud.chals.io', 22304)
+p = remote('0.cloud.chals.io', [PORT])
 data = parse_input(p.recvuntilS(b'> '))
 print(data)
 ```
@@ -353,7 +353,7 @@ def parse_input(data: str) -> list[list[int]]:
     return data
 
 def main() -> None:
-    p = remote('0.cloud.chals.io', 22304)
+    p = remote('0.cloud.chals.io', [PORT])
     data = parse_input(p.recvuntilS(b'> '))
     print(data)
 
@@ -365,7 +365,7 @@ Testing the script:
 
 {% ccb html:true terminal:true wrapped:true %}
 <span style="color:#F99157">$ </span>python3 matchmaker.py
-[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 22304: Done
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
 [[0, 39, 79, 40, 92, 6, 36, 10, 23, 53, 22, 1, 95, 23, 28, 53, 12, 19, 21, 89, 91, 17, 1, 45, 9, 37, 97, 68, 40, 96, 69, 17, 50, 98, 79, 33, 44, 18, 38, 31, 33, 84, 94, 64, 11, 64, 24, 82, 25, 0, 72, 99, 51, 58, 85, 60, 81, 68, 68, 93, 73, 51, 84, 56, 19, 48, 5, 69, 38, 55, 74, 81, 41, 0, 64, 42, 1, 60, 47, 89, 64, 26, 96, 10], [3, 0, 8, 70, 90, 46, 65, 81, 94, 86, 22, 56, 48, 66, 0, 13, 73, 61, 71, 86, 25, 98, 40, 58, 79, 84, 80, 99, 17, 75, 60, 74, 39, 18, 77, 4, 63, 96, 29, 68, 54, 44, 2, 48, 59, 34, 24, 18, 95, 13, 3, 53, 40, 70, 28, 60, 13, 59, 72, 74, 47, 30, 94, 48, 82, 61, 58, 41, 84, 88, 67, 64, 8, 0, 97, 22, 86, 2, 93, 4, 55, 53, 15, 70],
 SKIP_LINE(...)
 {% endccb %}
@@ -403,7 +403,7 @@ def parse_input(data: str) -> list[list[int]]:
     return data
  
 def main() -> None:
-    p = remote('0.cloud.chals.io', 22304)
+    p = remote('0.cloud.chals.io', [PORT])
     data = parse_input(p.recvuntilS(b'> '))
     data = [[0, 0, 100, 0], [0, 100, 0, 0], [0, 100, 0, 0], [100, 0, 0, 0]]
     G: nx.Graph = nx.Graph([(i, j, {'weight': data[i][j] + data[j][i]}) for i in range(len(data)) for j in range(len(data[i])) if i != j])
@@ -436,7 +436,7 @@ def parse_input(data: str) -> list[list[int]]:
     return data
 
 def main() -> None:
-    p = remote('0.cloud.chals.io', 22304)
+    p = remote('0.cloud.chals.io', [PORT])
     for _ in range(3):
         data = [[0, 0, 100, 0], [0, 100, 0, 0], [0, 100, 0, 0], [100, 0, 0, 0]]
         data = parse_input(p.recvuntilS(b'> '))
@@ -457,7 +457,7 @@ Running the script:
 
 {% ccb html:true terminal:true wrapped:true highlight:4 %}
 <span style="color:#F99157">$ </span>python3 matchmaker.py
-[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port 22304: Done
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
 [<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
 Congratulations! Here's your valentine: valentine{l0V3_i5_1n_7he_4ir}
 [<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive
