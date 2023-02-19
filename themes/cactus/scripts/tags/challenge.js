@@ -51,13 +51,13 @@ const members = {
     },
     'flocto': {
         'name': 'flocto',
-        'url': 'javascript:;',
-        'img': undefined
+        'url': 'https://github.com/flocto',
+        'img': 'https://avatars.githubusercontent.com/u/57694588'
     },
     'SuperBeetleGamer': {
         'name': 'SuperBeetleGamer',
-        'url': 'javascript:;',
-        'img': undefined
+        'url': 'https://github.com/SuperBeetleGamer',
+        'img': 'https://avatars.githubusercontent.com/u/81491665'
     }
 };
 

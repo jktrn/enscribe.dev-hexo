@@ -319,6 +319,9 @@ code
   background-color rgba(255,0,0,.05)
   margin 0
   width 100%
+  text-decoration: line-through
+  text-decoration-thickness: 0.2rem
+  text-decoration-color: rgba(255,100,100,.2)
   display inline-block
 
 .code-highlight
@@ -573,3 +576,39 @@ ol.upper-alpha
 .cbb-terminal-style
     background-color: #1D1D1D
 
+.chat-container 
+    display: flex
+    flex-direction: column
+    margin: auto
+    background-color: #161616
+    border-radius: 5px
+    padding: 1rem
+    margin: 1rem 0
+    gap: 1rem
+
+.chat-flex
+    display: flex
+
+.user-text
+    background-color: lighten($color-background, 5%)
+    float: left
+    border-radius: 5px
+    padding: 1rem
+    margin: 5px
+    font-size: 13px
+    position: relative
+
+.profile-picture
+    margin: 5px !important
+    width: 50px !important
+    height: 50px !important
+    border-radius: 10px !important
+
+.chatgpt-text
+    background-color: #064133
+    float: right
+    border-radius: 5px
+    padding: 1rem
+    margin: 5px
+    font-size: 13px
+    position: relative
