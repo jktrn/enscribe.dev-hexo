@@ -12,6 +12,7 @@ description: "Utilize the beautifully crafted Blossom algorithm to maximize weig
 category_column: "mhs/prog"
 permalink: ctfs/mhs/prog/matchmaker/
 thumbnail: /asset/banner/banner-matchmaker.png
+hidden: true
 ---
 
 ![Banner](/asset/banner/banner-matchmaker.png)

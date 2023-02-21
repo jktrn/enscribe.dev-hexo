@@ -10,6 +10,13 @@ description: "From Flask cookie manipulation to ELF integer overflow, here is a 
 category_column: "mhs"
 permalink: ctfs/mhs/compilation/
 thumbnail: /asset/banner/banner-ctfs.png
+hidden: true
+---
+
+### Intro
+
+These writeups are meant for the verification process as part of MHSCTF 2023, and will not be publicly available (with the exception of the writeup for [Matchmaker](/ctfs/mhs/prog/matchmaker), which will be available on February 22nd, 2023). All writeups were created by team DN as a collective.
+
 ---
 
 {% challenge %}
@@ -549,12 +556,13 @@ authors: 0xmmalik
 genre: crypto
 points: 7
 description: |
-    Passing secret notes? That practically *screams* Valentine's Day to me! So, I've devised a super-secure way to encrypt a message so you can send it to that special someone! I used my program to encrypt a Valentine just for you! The only thing is... I don't remember the key. Ah, whatever! Here you go: `V4m\GDMHaDM3WKy6tACXaEuXumQgtJufGEyXTAtIuDm5GEHS`  
+    Passing secret notes? That practically *screams* Valentine's Day to me! So, I've devised a super-secure way to encrypt a message so you can send it to that special someone! I used my program to encrypt a Valentine just for you! The only thing is... I don't remember the key. Ah, whatever! Here you go:  
+    `V4m\GDMHaDM3WKy6tACXaEuXumQgtJufGEyXTAtIuDm5GEHS`  
     The `valentine{...}` wrapper is included in the encrypted text.
 files: '[passing_notes.py](/asset/mhs/passing_notes.py)'
 {% endchallenge %}
 
-We're given a `passing_notes.py` file, alongside the encrypted text:
+<span style="color:#FF9999">**Second blood!**</span> We're given a `passing_notes.py` file, alongside the encrypted text:
 
 ```py passing_notes.py
 from base64 import b64encode
@@ -588,10 +596,21 @@ key = generate_secret_key(10)
 print(encrypt(b'[redacted]', key))
 ```
 
-Decrypting:
+This challenge involves a [Galois field](https://en.wikipedia.org/wiki/Finite_field).
 
-```py
+A field is a mathematical object that has two fundamental operations: addition and multiplication. These operations satisfy certain properties, such as commutativity, associativity, distributivity, and the existence of inverse elements. A field can be either finite or infinite, depending on the number of its elements.
+
+In the case of a Galois field, the number of elements is a power of a prime number. More precisely, a Galois field of order $p^n$ consists of $p^n$ elements, where $p$ is a prime number and $n$ is a positive integer. For example, the Galois field of order $2^6$ consists of 64 elements. A Galois field is also finite, meaning that any number that exceeds 64 loops back around and stays in the field. 
+
+Since in our case it is a prime power, elements in the `GF(2^6)` can be added, subtracted, multiplied, and divided while remaining in the field. This means that any operation done by the key generation is pointless, since multiplying and adding different elements of `GF(2^6)` will still lie within this field. We can utilize this to our advantage, since this greatly reduces our keyspace.
+
+This means the secret key can only be one of the $2^6$ elements in the field. We'll just iterate through each element, reverse the decryption, and find whichever has the flag wrapper and/or is in plaintext.
+
+Here is our solve:
+
+```py passing_notes_solve.py
 from base64 import *
+from sage.all import GF
 
 b64_alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\\="
 
@@ -619,3 +638,39 @@ for i in field:
   except:
     continue
 ```
+
+Running the script:
+
+{% ccb terminal:true html:true highlight:5 %}
+<span style="color:#F99157">$ </span>python3 passing_notes_solve.py
+b'[\x99'
+b'_\xaa\x1b S\x89hS\xb9`\xc0<\xbc!\x19hl\x19\xc2\x84\xa2\xbc\xbc! `\x19T+\xca\xc0...
+b"\xb0\x15\x07v7\x9a\x8c\x0ba\xe8=|\xb9\xa6\xf6\xbbe';X65\xd6\xfa\xba\xaf5\x7fe\x...
+b'valentine{th15_is_4_s3cret_m355age}'
+b'\x0c\xceR\xa2[\xa9j[\x8b\x12\xc8\x0en)\x05jg\x05s\x9c\x99n\xb7\x18\xa2h\x05\x06...
+b'1Wu\xc6\xe0\xf2j\xe0\xd44\x1aW\x92\xbbNj\xf9N\x95\xd1\xfc\x90\t{\xc6\xfaN*\xb93...
+# SKIP_LINE(...)
+{% endccb %}
+
+The flag is `valentine{th15_is_4_s3cret_m355age}`.
+
+---
+
+{% challenge %}
+title: Matchmaker
+level: h2
+solvers:
+- flocto --flag
+- enscribe
+authors: 0xmmalik
+genre: prog
+points: 9
+description: |
+    I've just had the most brilliant idea 😮 I want to write a program that takes all the students and how much they like each other to pair them up so I can maximize the total love in the classroom! Of course, when I say "I," I really mean... "you" ;)  
+    Notes: **[SEE BELOW]**  
+    `nc 0.cloud.chals.io [PORT]`
+{% endchallenge %}
+
+{% info %}
+**Note**: I have an extraordinarily elaborate writeup for this challenge, which is why I've separated it into another blog post. Please visit [here](/ctfs/mhs/prog/matchmaker/) to view it!
+{% endinfo %}
