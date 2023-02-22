@@ -8,13 +8,13 @@ categories:
 tags:
 - osint
 - compilation
-description: "Discover various salient aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition!"
+description: "Discover various pertinent aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition!"
 category_column: "byu/osint"
 permalink: ctfs/byu/osint/osint-compilation/
 thumbnail: /asset/banner/banner-osint.png
 ---
 
-![Banner](/asset/byu/banner.png)
+![Banner](/asset/byu/banner.svg)
 
 ### Intro
 

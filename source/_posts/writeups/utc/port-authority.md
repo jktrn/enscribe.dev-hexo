@@ -14,6 +14,16 @@ permalink: ctfs/utc/prog/port-authority/
 thumbnail: /asset/banner/banner-port-authority.png
 ---
 
+![Banner](/asset/utc/banner.svg)
+
+### Intro
+
+This challenge was part of the Deloitte Hackazon Hacky Holidays "Unlock the City" 2022 CTF (yeah, what a name!). Labeled under the `#ppc` category, which apparently stands for "professional programming challenge", it was the final challenge under the "District 1" segment of the CTF and categorized under the Hard difficulty.
+
+This was the first CTF problem which didn't just challenge my ability to critically think and problem solve - it also challenged my **motor control** and **hand-eye coordination**. Why? *Because I solved it by hand!* I believe this challenge was meant to be solved using 100% programming, but I wanted to challenge myself. This was the process.
+
+---
+
 <div class="flex-container">
 {% challenge %}
 description: |
@@ -36,14 +46,6 @@ points: 5/5 = 350
 {% info %}
 Note: This is an **instance-based** challenge. No website URL will be provided!
 {% endinfo %}
-
-### Intro
-
-This challenge was part of the Deloitte Hackazon Hacky Holidays "Unlock the City" 2022 CTF (yeah, what a name!). Labeled under the `#ppc` category, which apparently stands for "professional programming challenge", it was the final challenge under the "District 1" segment of the CTF and categorized under the Hard difficulty.
-
-This was the first CTF problem which didn't just challenge my ability to critically think and problem solve - it also challenged my **motor control** and **hand-eye coordination**. Why? *Because I solved it by hand!* I believe this challenge was meant to be solved using 100% programming, but I wanted to challenge myself. This was the process.
-
----
 
 ## Foundations
 
@@ -814,8 +816,8 @@ This order allows for the first ship to enter the port within two turns, and pro
 Moving on, we began work on the manual solve process. It was super tedious and involved a lot of mess-ups, especially around the port area. We discovered that the window to turn into the port was extraordinarily small, leading to many runs dying to something like this:
 
 <div class="flex-container">
-    <div>{% cimage url:/asset/utc/death1.png %}</div>
-    <div>{% cimage url:/asset/utc/death2.png %}</div>
+    <div>{% cimage src:/asset/utc/death1.png %}</div>
+    <div>{% cimage src:/asset/utc/death2.png %}</div>
 </div>
 
 We decided it'd be best if we added another obstacle to perfectly turn us into the dock every time. This time around, it would have to be a 90° turn utlizing the middle of the ship instead of the top-left, as each ship is a different length and would therefore turn at different points when within the obstacles's hitbox:

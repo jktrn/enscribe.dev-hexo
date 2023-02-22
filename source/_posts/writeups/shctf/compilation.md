@@ -9,7 +9,7 @@ tags:
 description: "Learn brute-forced format string attacks, blind buffer overflows, and return-oriented programming in this Space Heroes CTF writeup compilation!"
 category_column: "shctf"
 permalink: ctfs/shctf/compilation/
-thumbnail: /asset/banner/banner-guardians.png
+thumbnail: /asset/banner/banner-shctf.png
 alias:
  - ctfs/shctf/pwn/guardians-of-the-galaxy/
  - ctfs/shctf/pwn/vader/
@@ -17,9 +17,11 @@ alias:
  - ctfs/shctf/crypto/rahools-challenge/
 ---
 
+![Banner](/asset/shctf/banner.svg)
+
 ### Intro
 
-So me and a couple of LFGs (looking-for-group) played [Space Heroes CTF](https://ctftime.org/event/1567/), organized by Florida Tech's [FITSEC](https://ctftime.org/team/65296) cybersecurity team. As one of the first CTFs I've played in over a year, it was an amazing learning experience for me being thrown into the mystical world of binary exploitation/pwn. I've made a couple of writeups for the cooler challenges I've solved; enjoy!
+So me and a couple of LFGs (looking-for-groups) played [Space Heroes CTF](https://ctftime.org/event/1567/), organized by Florida Tech's [FITSEC](https://ctftime.org/team/65296) cybersecurity team. As one of the first CTFs I've played in over a year, it was an amazing learning experience for me being thrown into the mystical world of binary exploitation/pwn. I've made a couple of writeups for the cooler challenges I've solved; enjoy!
 
 ---
 
@@ -193,7 +195,7 @@ Firstly, we need to calculate our **offset**. Although we can brute this by simp
 
 Next in line is the process of getting our arguments on the stack. Arguments to be passed into functions are also held in registers -- we need to figure out which ones we need to use to pass the correct arguments (`DARK`, `S1D3`, `OF`, `TH3`, `FORC3`) into `vader()`. Referencing [this x64 cheatsheet](https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf) (as the registers are different depending on the bitness/architecture of the ELF):
 
-> To call a function, the program should place the first six integer or pointer parameters in the registers $rdi, $rsi, $rdx, $rcx, $r8, and $r9; subsequent parameters (or parameters larger than 64 bits) should be pushed onto the stack, with the first argument topmost. The program should then execute the call instruction, which will push the return address onto the stack and jump to the start of the specified function.
+> To call a function, the program should place the first six integer or pointer parameters in the registers `$rdi`, `$rsi`, `$rdx`, `$rcx`, `$r8`, and `$r9`; subsequent parameters (or parameters larger than 64 bits) should be pushed onto the stack, with the first argument topmost. The program should then execute the call instruction, which will push the return address onto the stack and jump to the start of the specified function.
 
 Therefore, we need to put our arguments into `$rdi`, `$rsi`, `$rdx`, `$rcx`, and `$r8`. The main method of doing this is via **gadgets**, or simple assembly instructions that can be used to `pop` specific registers from the stack. After the `pop`, we can repopulate the register with our own address that represents the required string (this address will be located within the binary). Additionally, they almost always have a `ret` instruction at the end to return to *even more* gadgets, therefore creating a **ROP chain**.
 

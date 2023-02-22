@@ -21,6 +21,8 @@ Recently my team ([Project Sekai](https://sekai.team/)) and I played [idekCTF 20
 
 ---
 
+![NMPZ Banner](/asset/idek/banner-nmpz.svg)
+
 <div class="flex-container">
 <div>
 {% challenge %}

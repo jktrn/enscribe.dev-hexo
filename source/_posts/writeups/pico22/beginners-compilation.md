@@ -18,6 +18,8 @@ alias:
  - ctfs/pico22/pwn/ropfu/
 ---
 
+![Banner](/asset/pico22/beginners-compilation/banner.svg)
+
 ## Binary Exploitation
 
 {% challenge %}

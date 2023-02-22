@@ -13,8 +13,8 @@ layout: page
         **Date**: Sep 30 - Oct 02, 2022  
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
-        text: REPO
-        link: https://github.com/project-sekai-ctf/sekaictf-2022
+        text: POSTS
+        link: /categories/ctfs/sekai/
     badge:
         type: darkblue
         text: <i class="fa-solid fa-pen-nib"></i> author
@@ -26,6 +26,9 @@ layout: page
     description: |
         **Date**: Feb 01 — Feb 15, 2023  
         **Team**: DN
+    button:
+        text: POSTS
+        link: /categories/ctfs/mhs/
     badge:
         type: gold
         text: <i class="fa-solid fa-ranking-star"></i> 01/895

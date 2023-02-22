@@ -7,7 +7,7 @@ tags:
 - ctfs
 description: "An introduction to the world of \"Capture-the-Flag\" competitions, what they entail, and why you should play!"
 permalink: blog/wtf-is-a-ctf/
-thumbnail: https://enscribe.dev/asset/banner/banner-ctfs.png
+thumbnail: https://enscribe.dev/asset/banner/banner.png
 ---
 
 ![Banner](/asset/blog/wtf-is-a-ctf/banner.jpg)

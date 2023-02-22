@@ -19,6 +19,8 @@ alias:
  - ctfs/pico22/crypto/pwn/buffer-overflow-3/
 ---
 
+![Banner](/asset/pico22/buffer-overflow/banner.svg)
+
 ### Intro
 
 This is a writeup for the buffer overflow series during the **picoCTF 2022** competition. This was arguably my favorite set of challenges, as beforehand I'd never stepped into the realm of binary exploitation/pwn. I learned a lot from this, so I highly recommend solving it by yourself before referencing this document. Cheers!
