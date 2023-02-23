@@ -5,39 +5,75 @@
 </section>
 
 <section id="writing">
-    <span class="h1"><i class="fa-solid fa-flag"></i> <%= __('writeups') %></span>
-    <div class="card-grid-2">
-        <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
-        <% if (theme.posts_overview.show_all_posts) { %>
-          <% var show_posts = page.posts.sort(field_sort, 'desc') %>
-        <% } else { %>
-          <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
-        <% } %>
-        <% show_posts.each(function(post, i){ %>
-            <% post.categories.forEach(function(item) { %>
-                <% if(item.name == 'ctfs') { %>
-                    <% var [ctfName, articleTitle] = post.title.split(": ") %>
-                    <div class="card index-card-color">
-                        <img src="<%- post.thumbnail %>" alt="<%- post.title %>" style="width: 100%" />
-                        <div class="contents" style="padding-top: 8px">
-                            <span><b><%- `${ctfName}:` %></b></span>
-                            <p class="title-index"><%- articleTitle %></p>
-                            <p class="description-index"><%- post.short_description %></p>
-                            <div>
-                                <span style="float: right;">
-                                    <a href="<%- post.link %>">Read More -></a>
-                                </span>
-                                <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
-            <% }); %>
-        <% }); %>
-    </div>
+  <span class="h1"><i class="fa-solid fa-flag"></i> <%= __('writeups') %></span>
+  <div class="card-grid-2">
+  <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
+  <% if (theme.posts_overview.show_all_posts) { %>
+    <% var show_posts = page.posts.sort(field_sort, 'desc') %>
+  <% } else { %>
+    <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
+  <% } %>
+  <% show_posts.each(function(post, i) { %>
+    <% post.categories.forEach(function(item) { %>
+      <% if(item.name == 'ctfs') { %>
+        <% var [ctfName, articleTitle] = post.title.split(": ") %>
+        <a href="<%- post.permalink %>" style="all: unset;">
+          <div class="card index-card no-highlight">
+            <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
+            <div class="contents-index" style="position: relative;">
+              <div>
+                &lt;<code><%- post.category_column %></code>&gt;
+                <span><b><%- `${ctfName}` %></b>:</span>
+                <p class="title-index"><%- articleTitle %></p>
+                <p class="description-index"><%- post.short_description %></p>
+              </div>
+              <%- partial('_partial/post/date', { post: post, class_name: 'date' }) %>
+              <span style="position: absolute; bottom: 0; right: 0; margin: 1rem;" class="read-more">
+                Read More ->
+              </span>
+            </div>
+          </div>
+        </a>
+      <% } %>
+    <% }); %>
+  <% }); %>
+  </div>
 </section>
 
 <section id="writing">
+  <span class="h1"><i class="fa-solid fa-newspaper"></i> <%= __('articles') %></span>
+  <div class="card-grid-2">
+    <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
+    <% if (theme.posts_overview.show_all_posts) { %>
+      <% var show_posts = page.posts.sort(field_sort, 'desc') %>
+    <% } else { %>
+      <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
+    <% } %>
+    <% show_posts.each(function(post, i) { %>
+      <% post.categories.forEach(function(item) { %>
+        <% if(item.name == "blog") { %>
+          <a href="<%- post.permalink %>" style="all: unset;">
+            <div class="card index-card no-highlight">
+              <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
+              <div class="contents-index" style="position: relative;">
+                <div>
+                  <p class="title-index"><%- post.title %></p>
+                  <p class="description-index"><%- post.short_description %></p>
+                </div>
+                <%- partial('_partial/post/date', { post: post, class_name: 'date' }) %>
+                <span style="position: absolute; bottom: 0; right: 0; margin: 1rem;" class="read-more">
+                  Read More ->
+                </span>
+              </div>
+            </div>
+          </a>
+        <% } %>
+      <% }); %>
+    <% }); %>
+  </div>
+</section>
+
+<!-- <section id="writing">
   <span class="h1"><i class="fa-solid fa-flag"></i> <%= __('writeups') %></span>
   <ul class="post-list">
     <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
@@ -47,21 +83,22 @@
       <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
     <% } %>
     <% show_posts.each(function(post, i){ %>
-        <% post.categories.forEach(function(item) { %>
-            <% if(item.name == 'ctfs') { %>
-                <li class="post-item">
-                    <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-                    <%- partial('_partial/post/split', { post: post }) %>
-            <% } %>
-        <% }); %>
+      <% post.categories.forEach(function(item) { %>
+        <% if(item.name == 'ctfs') { %>
+          <li class="post-item">
+            <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
+            <%- partial('_partial/post/split', { post: post }) %>
+          </li>
+        <% } %>
+      <% }); %>
     <% }); %>
   </ul>
   <% if (theme.posts_overview.show_all_posts) { %>
     <%- partial('_partial/pagination') %>
   <% } %>
-</section>
+</section> -->
 
-<section id="writing">
+<!-- <section id="writing">
     <span class="h1"><i class="fa-solid fa-newspaper"></i> <%= __('articles') %></span>
     <ul class="post-list">
       <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
@@ -71,17 +108,17 @@
         <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
       <% } %>
       <% show_posts.each(function(post, i){ %>
-          <% post.categories.forEach(function(item) { %>
-              <% if(item.name == 'blog') { %>
-                  <li class="post-item">
-                      <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-                      <span><%- partial('_partial/post/title', { post: post, index: true, class_name: '' }) %></span>
-                  </li>
-              <% } %>
-          <% }); %>
+        <% post.categories.forEach(function(item) { %>
+          <% if(item.name == 'blog') { %>
+            <li class="post-item">
+              <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
+                <span><%- partial('_partial/post/title', { post: post, index: true, class_name: '' }) %></span>
+            </li>
+          <% } %>
+        <% }); %>
       <% }); %>
     </ul>
     <% if (theme.posts_overview.show_all_posts) { %>
       <%- partial('_partial/pagination') %>
     <% } %>
-  </section>
+  </section> -->
