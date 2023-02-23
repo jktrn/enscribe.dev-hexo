@@ -9,6 +9,7 @@ tags:
 - programming
 - websocket
 description: "Play a JSON-controlled strategy game through WebSocket! This is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority\"."
+short_description: "A programming challenge involving micromanagement of JSON-controlled ships within a WebSocket-based strategy game."
 category_column: "utc/prog"
 permalink: ctfs/utc/prog/port-authority/
 thumbnail: /asset/banner/banner-port-authority.png

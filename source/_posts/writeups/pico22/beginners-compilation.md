@@ -1,5 +1,5 @@
 ---
-title: "PicoCTF 2022: Beginner's Compilation (WIP)"
+title: "PicoCTF 2022: Beginner's Compilation"
 date: 2022-07-25 12:16:07
 categories:
 - ctfs
@@ -7,6 +7,7 @@ categories:
 tags:
 - compilation
 description: "Learn how to capture-the-flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges in all categories!"
+short_description: "A compilation of in-depth, comprehensive writeups for selected introductory challenges from PicoCTF 2022."
 category_column: "pico22"
 permalink: ctfs/pico22/beginners-compilation/
 thumbnail: /asset/banner/banner-beginners.png

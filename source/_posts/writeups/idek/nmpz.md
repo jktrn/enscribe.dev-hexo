@@ -8,6 +8,7 @@ categories:
 tags:
 - geosint
 description: "NMPZ: no moving, panning, or zooming. This is my writeup for a \"Geoguessr\"-esque OSINT challenge from idekCTF 2022!"
+short_description: "\"No moving, panning, or zooming\" — a GeoGuessr-esque OSINT challenge testing geographical literacy."
 category_column: "idek/osint"
 permalink: ctfs/idek/osint/nmpz/
 thumbnail: /asset/banner/banner-nmpz.png
