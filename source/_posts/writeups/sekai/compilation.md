@@ -6,7 +6,7 @@ categories:
 - sekai
 tags:
 - compilation
-description: "Discover various salient aspects of digital forensic analysis. This is an organizer-written writeup compilation for the SekaiCTF 2022 capture-the-flag competition!"
+description: "An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition."
 short_description: "An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition."
 category_column: "sekai"
 permalink: ctfs/sekai/compilation/

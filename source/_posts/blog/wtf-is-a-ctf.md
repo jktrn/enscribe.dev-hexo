@@ -6,13 +6,12 @@ categories:
 tags:
 - ctfs
 description: "An introduction to the world of \"Capture-the-Flag\" competitions, what they entail, and why you should play!"
+short_description: "An introduction to the world of \"Capture-the-Flag\" competitions, what they entail, and why you should play!"
 permalink: blog/wtf-is-a-ctf/
-thumbnail: https://enscribe.dev/asset/banner/banner.png
+thumbnail: /asset/banner/banner-wtf-ctf.png
 ---
 
-![Banner](/asset/blog/wtf-is-a-ctf/banner.jpg)
-
-<div class="subtitle">Courtesy <a href="https://thedailytexan.com/staff_name/joshua-guenther/">Joshua Guenther</a></div>
+![Banner](/asset/blog/wtf-is-a-ctf/banner.svg)
 
 0-day vulnerabilities. Privilege escalation. Real-time application exploiting and hacking. These are just a few of the countless facets of a **capture-the-flag**, a form of cybersecurity competition in which teams combat each other to accrue points under time pressure. Solve challenges, exploit weaknesses, and climb the leaderboard to earn prizes.
  

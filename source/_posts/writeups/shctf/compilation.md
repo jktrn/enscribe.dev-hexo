@@ -6,7 +6,7 @@ categories:
 - shctf
 tags:
 - compilation
-description: "Learn brute-forced format string attacks, blind buffer overflows, and return-oriented programming in this Space Heroes CTF writeup compilation!"
+description: "Learn brute-forced format string attacks, blind buffer overflows, and return-oriented programming in this writeup compilation from Space Heroes CTF."
 short_description: "Learn brute-forced format strings, return-oriented programming, and other fundamental binary exploitation techniques."
 category_column: "shctf"
 permalink: ctfs/shctf/compilation/

@@ -8,7 +8,7 @@ categories:
 tags:
 - programming
 - algorithm
-description: "Utilize the beautifully crafted Blossom algorithm to maximize weighted matchings. This is my writeup for MHSCTF 2023's \"Matchmaker\" challenge!"
+description: "Utilizing the beautifully crafted Blossom algorithm to maximize weighted matchings—this is my writeup for the challenge \"Matchmaker\" from MHSCTF 2023."
 short_description: "Utilizing Edmonds' beautifully crafted \"Blossom algorithm\" alongside graph theory to maximize weighted matchings."
 category_column: "mhs/prog"
 permalink: ctfs/mhs/prog/matchmaker/

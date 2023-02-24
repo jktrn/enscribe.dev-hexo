@@ -6,7 +6,7 @@ categories:
 - mhs
 tags:
 - compilation
-description: "From Flask cookie manipulation to ELF integer overflow, here is a compilation of writeups for selected challenges from MHSCTF 2023!"
+description: "From Flask cookie manipulation to ELF integer overflow, here is a compilation of writeups for selected challenges from MHSCTF 2023."
 category_column: "mhs"
 permalink: ctfs/mhs/compilation/
 thumbnail: /asset/banner/banner-ctfs.png

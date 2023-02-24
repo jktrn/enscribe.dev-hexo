@@ -8,7 +8,7 @@ categories:
 tags:
 - pwn
 - buffer-overflow
-description: "Learn how to exploit vulnerable C functions to \"stack-smash\" executables! This is my writeup for the picoCTF 2022 binary/pwn series \"Buffer overflow\"."
+description: "Learn how to exploit vulnerable C functions to \"stack-smash\" executables—this is my writeup for the picoCTF 2022 binary/pwn series \"Buffer overflow\"."
 short_description: "Obliterating vulnerable C executables, with finesse. This is a tutorial on how to attack processes with \"buffer overflowing.\""
 category_column: "pico22/pwn"
 permalink: ctfs/pico22/pwn/buffer-overflow-series/

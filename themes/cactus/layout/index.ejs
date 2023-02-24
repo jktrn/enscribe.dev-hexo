@@ -4,8 +4,8 @@
   <% } %>
 </section>
 
-<section id="writing">
-  <span class="h1"><i class="fa-solid fa-flag"></i> <%= __('writeups') %></span>
+<section id="writeups">
+  <span class="h1"><i class="fa-solid fa-flag"></i> writeups</span>
   <div class="card-grid-2">
   <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
   <% if (theme.posts_overview.show_all_posts) { %>
@@ -17,7 +17,7 @@
     <% post.categories.forEach(function(item) { %>
       <% if(item.name == 'ctfs') { %>
         <% var [ctfName, articleTitle] = post.title.split(": ") %>
-        <a href="<%- post.permalink %>" style="all: unset;">
+        <a href="<%- post.path %>" style="all: unset;">
           <div class="card index-card no-highlight">
             <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
             <div class="contents-index" style="position: relative;">
@@ -38,10 +38,11 @@
     <% }); %>
   <% }); %>
   </div>
+<a class="view-all" href="/categories/ctfs/">View all writeups -></a>
 </section>
 
-<section id="writing">
-  <span class="h1"><i class="fa-solid fa-newspaper"></i> <%= __('articles') %></span>
+<section id="articles">
+  <span class="h1"><i class="fa-solid fa-newspaper"></i> articles</span>
   <div class="card-grid-2">
     <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
     <% if (theme.posts_overview.show_all_posts) { %>
@@ -52,7 +53,7 @@
     <% show_posts.each(function(post, i) { %>
       <% post.categories.forEach(function(item) { %>
         <% if(item.name == "blog") { %>
-          <a href="<%- post.permalink %>" style="all: unset;">
+          <a href="<%- post.path %>" style="all: unset;">
             <div class="card index-card no-highlight">
               <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
               <div class="contents-index" style="position: relative;">
@@ -71,54 +72,5 @@
       <% }); %>
     <% }); %>
   </div>
+  <!-- <a class="view-all" href="/categories/blog/">View all articles -></a> -->
 </section>
-
-<!-- <section id="writing">
-  <span class="h1"><i class="fa-solid fa-flag"></i> <%= __('writeups') %></span>
-  <ul class="post-list">
-    <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
-    <% if (theme.posts_overview.show_all_posts) { %>
-      <% var show_posts = page.posts.sort(field_sort, 'desc') %>
-    <% } else { %>
-      <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
-    <% } %>
-    <% show_posts.each(function(post, i){ %>
-      <% post.categories.forEach(function(item) { %>
-        <% if(item.name == 'ctfs') { %>
-          <li class="post-item">
-            <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-            <%- partial('_partial/post/split', { post: post }) %>
-          </li>
-        <% } %>
-      <% }); %>
-    <% }); %>
-  </ul>
-  <% if (theme.posts_overview.show_all_posts) { %>
-    <%- partial('_partial/pagination') %>
-  <% } %>
-</section> -->
-
-<!-- <section id="writing">
-    <span class="h1"><i class="fa-solid fa-newspaper"></i> <%= __('articles') %></span>
-    <ul class="post-list">
-      <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
-      <% if (theme.posts_overview.show_all_posts) { %>
-        <% var show_posts = page.posts.sort(field_sort, 'desc') %>
-      <% } else { %>
-        <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
-      <% } %>
-      <% show_posts.each(function(post, i){ %>
-        <% post.categories.forEach(function(item) { %>
-          <% if(item.name == 'blog') { %>
-            <li class="post-item">
-              <%- partial('_partial/post/date', { post: post, class_name: 'meta' }) %>
-                <span><%- partial('_partial/post/title', { post: post, index: true, class_name: '' }) %></span>
-            </li>
-          <% } %>
-        <% }); %>
-      <% }); %>
-    </ul>
-    <% if (theme.posts_overview.show_all_posts) { %>
-      <%- partial('_partial/pagination') %>
-    <% } %>
-  </section> -->
