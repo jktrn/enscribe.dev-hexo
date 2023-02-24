@@ -17,7 +17,7 @@
     <% post.categories.forEach(function(item) { %>
       <% if(item.name == 'ctfs') { %>
         <% var [ctfName, articleTitle] = post.title.split(": ") %>
-        <a href="<%- post.path %>" style="all: unset;">
+        <a href="<%- post.path %>" style="all: unset; cursor: pointer;">
           <div class="card index-card no-highlight">
             <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
             <div class="contents-index" style="position: relative;">
@@ -53,7 +53,7 @@
     <% show_posts.each(function(post, i) { %>
       <% post.categories.forEach(function(item) { %>
         <% if(item.name == "blog") { %>
-          <a href="<%- post.path %>" style="all: unset;">
+          <a href="<%- post.path %>" style="all: unset; cursor: pointer;">
             <div class="card index-card no-highlight">
               <img src="<%- post.thumbnail %>" alt="<%- post.title %>" />
               <div class="contents-index" style="position: relative;">
