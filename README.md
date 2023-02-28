@@ -2,11 +2,11 @@
 
 ![Banner]
 
-![CodeFactor]
-![Hexo]
-![License]
+[![CodeFactor]](https://www.codefactor.io/repository/github/jktrn/blog)
+[![Hexo]](https://hexo.io)
+[![License]](LICENSE)
 
-[enscribe.dev](https://enscribe.dev) is my personal, statically-deployed blog (and future portfolio)—built with the [Hexo](https://hexo.io) framework and the [Cactus](https://github.com/probberechts/hexo-theme-cactus) theme.
+[enscribe.dev](https://enscribe.dev) is my personal, statically-deployed blog—built with the [Hexo](https://hexo.io) framework and the [Cactus](https://github.com/probberechts/hexo-theme-cactus) theme.
 
 </div>
 
