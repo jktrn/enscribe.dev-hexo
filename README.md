@@ -40,11 +40,9 @@ To initialize a local instance, run `hexo server`.
 ## 📈 Statistics
 
 <div align="center">
-<br>
 
 ![Repobeats]
 
-<br>
 </div>
 
 ---
