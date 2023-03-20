@@ -22,6 +22,19 @@ layout: page
         type: blue
         text: <i class="fa-solid fa-flag"></i> 24.82
     border: 5BAEAE
+<i class="fab fa-wolf-pack-battalion"></i> WolvCTF 2023:
+    description: |
+        **Date**: Mar 17 — Mar 19, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    button:
+        text: POSTS
+        link: /categories/ctfs/wolv23/
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/599
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> 48.66
 <i class="fa-solid fa-crow"></i> MHSCTF 2023:
     description: |
         **Date**: Feb 01 — Feb 15, 2023  

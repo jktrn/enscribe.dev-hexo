@@ -36,12 +36,12 @@ const members = {
     },
     'Battlemonger': {
         'name': 'Battlemonger',
-        'url': 'javascript:;',
+        'url': '#',
         'img': 'https://cdn.discordapp.com/avatars/632614070867984420/a90072cdeafe74ef8ec59fcf3c086fc1.png'
     },
     'neil': {
         'name': 'neil',
-        'url': 'javascript:;',
+        'url': '#',
         'img': 'https://support.discord.com/hc/user_images/l12c7vKVRCd-XLIdDkLUDg.png'
     },
     'blueset': {
@@ -58,6 +58,21 @@ const members = {
         'name': 'SuperBeetleGamer',
         'url': 'https://github.com/SuperBeetleGamer',
         'img': 'https://avatars.githubusercontent.com/u/81491665'
+    },
+    'Legoclones': {
+        'name': 'Legoclones',
+        'url': 'https://github.com/Legoclones',
+        'img': 'https://avatars.githubusercontent.com/u/70449145'
+    },
+    'crazyman': {
+        'name': 'crazyman',
+        'url': 'https://github.com/crazymanarmy',
+        'img': 'https://avatars.githubusercontent.com/u/97594758'
+    },
+    'Violin': {
+        'name': 'Violin',
+        'url': '#',
+        'img': 'https://cdn.discordapp.com/avatars/853302375182762024/5fc668ee5a75015c8246aa8f763a41a0'
     }
 };
 

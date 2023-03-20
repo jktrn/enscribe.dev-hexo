@@ -61,6 +61,15 @@ hexo.extend.tag.register('theorem', (args, content) => {
     async: true
 });
 
+hexo.extend.tag.register('flag', (args, content) => {
+    const parsedArgs = parseArgs(args);
+    const parsedContent = `${htmlTag("i", {class: "fa-solid fa-flag"}, "")} ${conv.makeHtml(content)}`
+    return htmlTag("div", {class: "text-flag no-highlight", ...parsedArgs}, parsedContent, false);
+}, {
+    ends: true,
+    async: true
+});
+
 function parseArgs(arr) {
     let result = {};
     for(const i of arr) {
