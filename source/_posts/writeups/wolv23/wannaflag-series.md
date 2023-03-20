@@ -420,7 +420,7 @@ The password is `Great_Falls_city_60506`, which we can now use to open the sprea
 ![Flaglist](/asset/wolv23/flaglist.png)
 
 {% flag %}
-**WannaFlag IV: Exfiltration**: `buckeye{w3_l0v3_UofM_<3}`
+**WannaFlag IV: Exfiltration**: `wctf{y0ur_fl4gS_b3l0nG_t0_m3_;)}`
 {% endflag %}
 
 ---
