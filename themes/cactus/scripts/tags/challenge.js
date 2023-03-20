@@ -64,11 +64,6 @@ const members = {
         'url': 'https://github.com/Legoclones',
         'img': 'https://avatars.githubusercontent.com/u/70449145'
     },
-    'crazyman': {
-        'name': 'crazyman',
-        'url': 'https://github.com/crazymanarmy',
-        'img': 'https://avatars.githubusercontent.com/u/97594758'
-    },
     'Violin': {
         'name': 'Violin',
         'url': '#',

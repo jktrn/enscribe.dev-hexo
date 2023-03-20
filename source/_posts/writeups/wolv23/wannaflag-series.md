@@ -434,7 +434,6 @@ solvers:
 - enscribe
 - sahuang
 - Violin
-- crazyman
 genre: osint
 points: 500
 description: |
