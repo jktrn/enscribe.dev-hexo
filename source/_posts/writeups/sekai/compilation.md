@@ -328,7 +328,9 @@ os.system('rm xor-files')
 
 Use the `strings` command on `flag.png` to flag the challenge.
 
-Flag: `SEKAI{D4R3_4CC3PT38_4N8_4U5T38}`
+{% flag %}
+**Blind Infection 2**: `SEKAI{D4R3_4CC3PT38_4N8_4U5T38}`
+{% endflag %}
 
 ---
 
@@ -379,7 +381,9 @@ However, opening the `.ttf` file in programs that sort by ASCII, such as [FontFo
 
 ![Visible flag in program window for FontForge](/asset/sekai/broken-converter-flag-fontforge.png)
 
-The flag is underlined: <code>f\\@g:<u>SEKAI{sCR4MBLeD_a5ci1-FONT+GlYPHZ,W3|!.d0n&}</u>"#$%'()*/26789;&lt;=&gt;?JQUVX[]^`bhjkmopqrtuvwxyz~</code>
+{% flag %}
+**Broken Converter**: `SEKAI{sCR4MBLeD_a5ci1-FONT+GlYPHZ,W3|!.d0n&}`
+{% endflag %}
 
 ---
 
@@ -420,7 +424,9 @@ Let's test out typing `flag` on [FontDrop!](https://fontdrop.info/) and changing
 
 ![Changing stylistic sets on FontDrop!](/asset/sekai/mono-flag.gif)
 
-Combining everything together, the flag is `SEKAI{OpenTypeMagicGSUBIsTuringComplete}`.
+{% flag %}
+**flag Mono**: `SEKAI{OpenTypeMagicGSUBIsTuringComplete}`
+{% endflag %}
 
 ---
 
@@ -495,7 +501,11 @@ PID Process CommandTime Command
 1863    bash    2022-08-29 13:45:56.000000    72.48.117.53.84.48.110.95.119.51.95.52.114.51.95.49.110.33.33.33
 {% endccb %}
 
-Those are easily identifiable as ASCII codes. Convert `72 48 117 53 84 48 110 95 119 51 95 52 114 51 95 49 110 33 33 33` to text and get the flag: `SEKAI{H0u5T0n_w3_4r3_1n!!!}`
+Those are easily identifiable as ASCII codes. Convert `72 48 117 53 84 48 110 95 119 51 95 52 114 51 95 49 110 33 33 33` to text and get the flag:
+
+{% flag %}
+**Symbolic Needs 1**: `SEKAI{H0u5T0n_w3_4r3_1n!!!}`
+{% endflag %}
 
 ---
 
@@ -531,7 +541,7 @@ PID PPID    COMM    ARGS
 
 It looks like the scammer was serving some base32 through Netcat. We also notice that it's piped into a `.pyc` file, which is Python bytecode.
 
-Run the command `echo [PUT YOUR BASE32 HERE] | base32 -d > file.pyc` to convert this base32 into a binary. Run the `.pyc` with `python3` and it will give:
+Run the command `echo [PUT YOUR BASE32 HERE] | base32 -d > file.pyc` to convert this base32 into a binary. Let's run the `.pyc` with Python3:
 
 {% ccb html:true terminal:true %}
 <span class="meta prompt_">$ </span>python3 file.pyc 
@@ -742,7 +752,9 @@ To access the private key, go to `My personal account` -> `View paper wallet`:
 
 ![Viewing wallet](/asset/sekai/wallet.png)
 
-The flag is `SEKAI{0x81c458e9fae445de18385a3379513acc8e191e4c2667c85aa0a52a32ec4e6d55}`!
+{% flag %}
+**Symbolic Needs 2**: `SEKAI{0x81c458e9fae445de18385a3379513acc8e191e4c2667c85aa0a52a32ec4e6d55}`
+{% endflag %}
 
 ---
 

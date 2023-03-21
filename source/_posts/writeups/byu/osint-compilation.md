@@ -55,7 +55,11 @@ I did a quick [Google Lens](https://lens.google/) search with my phone with the 
 
 > Jason Turner is a BYU computer science program graduate who works at DreamWorks and created all the data for Po’s character. The statue is a tribute to his success, as well as the University’s program and alumni.
 
-Since the tribute is for Jason Turner, we can assume the signature is below his foot. The flag is `byuctf{Jason_Turner}`.
+Since the tribute is for Jason Turner, we can assume the signature is below his foot.
+
+{% flag %}
+**I don't dream about noodles, dad**: `byuctf{Jason_Turner}`
+{% endflag %}
 
 ---
 
@@ -77,7 +81,10 @@ Reverse Google Search with a "phishing" crib:
 {% cimage src:/asset/byu/sharky2.png width:500 alt:'Sharky Google Search' %}
 
 The [Vanity URL on darkreading.com](https://www.darkreading.com/cloud/vanity-urls-could-be-spoofed-for-social-engineering-attacks)  was published on May 11th, 2022.
-The flag is `byuctf{05-11-22}`.
+
+{% flag %}
+**Oh The Vanity**: `byuctf{05-11-22}`
+{% endflag %}
 
 ---
 
@@ -116,7 +123,9 @@ Hey, look! A Sam! Let's check out their [profile](https://www.mountainproject.co
 
 ![Samuel Profile](/asset/byu/bouldering5.png)
 
-The flag is `byuctf{ju5t_5end_1t_br0_v8bLDrg}`.
+{% flag %}
+**B0uld3r1ng**: `byuctf{ju5t_5end_1t_br0_v8bLDrg}`
+{% endflag %}
 
 ---
 
@@ -176,9 +185,17 @@ Then, while on the go, I checked the location on my phone... And look what we've
 
 {% cimage src:/asset/byu/squatter6.png width:400 %}
 
-Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "From the owner" section isn't on Google Chrome. Screw you Wyatt, and your majestic, plump, baby-blue water  tower. The flag is `byuctf{h0w_d1d_1_st34l_4_w4t3r_t0w3r}`. Once again, screw you Wyatt. I hope your taxes are messed up forevermore.
+Apparently for whatever stupid, scatter-brained, vapid, moronic reason this "From the owner" section isn't on Google Chrome. Screw you Wyatt, and your majestic, plump, baby-blue water tower. The flag is:
 
+{% flag %}
+**Squatter's Rights**: `byuctf{h0w_d1d_1_st34l_4_w4t3r_t0w3r}`
+{% endflag %}
+
+Once again, screw you Wyatt. I hope your taxes are messed up forevermore.
+
+{% info %}
 **Edit (06/02/22)**: This "From the owner" section is [available on Desktop Google Chrome](https://www.google.com/search?q=Wyatt+P.+Memorial+Water+Tower), but only accessible if the knowledge panel is visible, which wasn't the case for me.
+{% endinfo %}
 
 ---
 
@@ -197,12 +214,17 @@ Looks like a challenge regarding an infamous hacking group. Seeing that the flag
 
 {% twitter url:'twitter.com/_JohnHammond/status/1506166671664463875' width:400 %}
   
-The flag is `byuctf{port_scanning_11:22}`.
+{% flag %}
+**Okta? More like OhNah**: `byuctf{port_scanning_11:22}`
+{% endflag %}
 
+{% info %}
 A hint was later added to the challenge:
+
 > think screenshots! it is not on telegram but another platform with that same first letter. tweeted by a famous red head i think
 
 Would have been easier. Love you, John Hammond.
+{% endinfo %}
 
 ---
 
@@ -223,7 +245,11 @@ When we looked up "jesse james famous inscription", we found a [Smithsonian Maga
 
 {% cimage src:/asset/byu/mystery1.png width:600 %}
 
-Removing the dates and names as the description specifies, the flag is `byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}`.
+Removing the dates and names as the description specifies, the flag is:
+
+{% flag %}
+**Murder Mystery**: `byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}`
+{% endflag %}
 
 ---
 
@@ -261,7 +287,11 @@ Most of them were bogus except [///water.probe.calls](https://what3words.com/wat
 
 ![Graeters Google Search](/asset/byu/bday2.png)
 
-The flag is `byuctf{graeters}`. This was a guessy challenge, so don't feel dumb. I felt dumb too.
+{% flag %}
+**Buckeye Billy Birthday**: `byuctf{graeters}`
+{% endflag %}
+
+This was a guessy challenge, so don't feel dumb. I felt dumb too.
 
 ---
 
@@ -315,7 +345,11 @@ My team used steganography tools on this image, and lo and behold:
 
 ![Flag in Steganography Analysis](/asset/byu/blabbin5.png)
 
-The flag is `byuctf{t@lk_0sinty_t0_m3}`. Also an extremely guessy challenge. Screw you, Buckeye Billy. And Wyatt too, if you're reading.
+{% flag %}
+**Buckeye Billy Blabbin'**: `byuctf{t@lk_0sinty_t0_m3}`
+{% endflag %}
+
+Also an extremely guessy challenge. Screw you, Buckeye Billy. And Wyatt too, if you're reading.
 
 ---
 
@@ -370,14 +404,20 @@ The guy at 3:31 is the same as the guy at 2:34, so it's Michael Nesmith from the
 
 Looking up "Monkees 43" on Google, we discover that there's actually an old website called [monkeesrule43.com](https://www.monkeesrule43.com/articles.html).
 
-This is where you guess all the names of the Monkees. Not sure of the logical thought process yet. Flag is `byuctf{micky_dolenz}`.
+This is where you guess all the names of the Monkees... not sure of the logical thought process yet.
 
+{% flag %}
+**43**: `byuctf{micky_dolenz}`
+{% endflag %}
+
+{% info %}
 **Edit (06/02/22)**: The intended solve was to look at [monkeesrule43.com](https://www.monkeesrule43.com/articles.html). In their [FAQ page](https://www.monkeesrule43.com/faq.html), Question 13 asks:
 
 > 13.)  What does the weird writing on Micky's page of the Monkees' 2001 summer tourbook mean?
 > -Micky's page is written in a computer keyboard code. Each letter written stands for the letter to the left of it on a computer keyboard. For example, "Zovlu" means Micky & "Jo!" means Hi!
 
 Damn you, Micky.
+{% endinfo %}
 
 ---
 

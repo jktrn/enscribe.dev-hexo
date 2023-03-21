@@ -178,9 +178,9 @@ Since Brazil had a population of ~215 million in [2022](https://en.wikipedia.org
 
 Trivial! 1/17 down.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{B`\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -192,9 +192,9 @@ Wow... this is the most {% countryflag Russia %} [**Russia**](https://en.wikiped
 
 ![2-lens.png](/asset/idek/2-lens.png)
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BR`\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -210,9 +210,9 @@ It reads "Kalamaja", which upon a quick Google results in a small city district 
 
 ![3-google.png](/asset/idek/3-google.png)
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BRe`\_\_\_\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -233,9 +233,9 @@ The first result identifies a [Stuart Highway](https://en.wikipedia.org/wiki/Stu
 
 Additionally, a key "Australian" identifier would be the orangey dirt on the roadsides, which is common around the country.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReA`\_\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -285,9 +285,9 @@ I did a quick Google search, and found a tweet from the official GeoGuessr [Twit
 
 Apparently, this was one of the strategies that GeoGuessr pros use to quickly identify countries: using the car the Photo Sphere was taken from to their advantage, considered to be part of the "meta" game. The "{% countryflag Kenya %} [**Kenyan**](https://en.wikipedia.org/wiki/Kenya) Snorkel" was one of the more infamous ones, and I had no idea it existed. I was absolutely blown away.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK`\_\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -315,9 +315,9 @@ Yep, that's definitely {% countryflag Iceland %} [**Iceland**](https://en.wikipe
 
 This character will be an underscore (`_`), since the population of Iceland is 376,000 ([2022](https://en.wikipedia.org/wiki/Demographics_of_Iceland)).
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_`\_\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -336,9 +336,9 @@ Definitely [Ulaanbaatar](https://en.wikipedia.org/wiki/Ulaanbaatar), {% countryf
 <div>{% cimage src:/asset/idek/7-comparison.png width:400 sub:"Generic Mongolian plate" %}</div>
 </div>
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m`\_\_\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -354,9 +354,9 @@ No idea! Our original guess was the {% countryflag Philippines %} [Philippines](
 
 In accordance with `E`/`e` as the only likely character, we eventually settled on either {% countryflag "El Salvador" %} [**El Salvador**](https://en.wikipedia.org/wiki/El_Salvador) or {% countryflag Ecuador %} [**Ecuador**](https://en.wikipedia.org/wiki/Ecuador), so this character would be either uppercase or lowercase.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)`\_\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -374,11 +374,9 @@ It looks like it's identified the cityscape as belonging to {% countryflag Monac
 
 Let's add an underscore to the flag, since Monaco's population is 37,308 ([2016](https://en.wikipedia.org/wiki/Demographics_of_Monaco)).
 
-{% info %}
-
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_`\_\_\_\_\_\_\_\_`}`
-
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -394,9 +392,9 @@ Lens results are giving me either {% countryflag Switzerland %} [**Switzerland**
 
 ![10-zoom.png](/asset/idek/10-zoom.png)
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_s`\_\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -415,9 +413,9 @@ Scrolling through the outputs results in distinctly {% countryflag Poland %} [**
 <div>{% cimage src:/asset/idek/11-comparison.png sub:"GeoHints Polish bollard" %}</div>
 </div>
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sP`\_\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -439,9 +437,9 @@ Here's the solution: simply Google "Elektro Weißensteiner" and you'll find that
 
 ![12-google.png](/asset/idek/12-google.png)
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPa`\_\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -490,9 +488,9 @@ The only telling sign here is **road markings**. Since I live in the US, I know 
 
 Alongside this, not a single common word in English starts with the prefix `spau-`, so ruling out the US is a no-brainer. However, the above knowledge about road markings is useful when you have no flag to infer characters from!
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPaC`\_\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -513,9 +511,9 @@ Let's keep inferring from the flag. It currently says `BReAK_m(E/e)_sPaC`, so we
 <div>{% cimage src:/asset/idek/14-comparison.jpg sub:"Ecuadorian plate for commercial vehicles (taxis, buses)" width:400px %}</div>
 </div>
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPaCE`\_\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -549,9 +547,9 @@ So... Belarus was incorrect. However, it had a population under 10 million (simi
 
 So when you see a combination of dilapidation/bleakness and snowiness, Bulgaria, {% countryflag Hungary %} [Hungary](https://en.wikipedia.org/wiki/Hungary), or the {% countryflag "Czech Republic" %} [Czech Republic](https://en.wikipedia.org/wiki/Czech_Republic) would be your best guesses.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPaCEb`\_\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -589,9 +587,9 @@ We can see the rift itself in `16.png` in the top center of the image:
 
 Little meta tricks and trivia like these are what make GeoGuessr such an interesting game.
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPaCEba`\_`}`
-{% endinfo %}
+{% endflag %}
 
 ---
 
@@ -613,9 +611,9 @@ The intended method of identifying the location was to analyze this patch of par
 
 This plant is called [butterbur](https://en.wikipedia.org/wiki/Petasites_japonicus) (*Petasites japonicus*, or simply "The Sakhalin Plant"), and it's native to Sakhalin, Japan, {% countryflag China %} [China](https://en.wikipedia.org/wiki/China), and {% countryflag "North Korea" %}/{% countryflag "South Korea" %} [Korea](https://en.wikipedia.org/wiki/Korea). Apparently, GeoGuessr pros can instantly identify this particular area of Russia from this plant alone!
 
-{% info %}
+{% flag %}
 **Flag Progress**: `idek{BReAK_m(E/e)_sPaCEbaR}`
-{% endinfo %}
+{% endflag %}
 
 ## Afterword
 

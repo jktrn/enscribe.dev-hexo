@@ -315,7 +315,9 @@ This is a really trivial challenge. You can actually google "first recorded remo
 
 {% cimage src:/asset/pico22/beginners-compilation/cve-google.png width:600 %}
 
-The flag is `picoCTF{CVE-2021-34527}`.
+{% flag %}
+**CVE-XXXX-XXXX**: `picoCTF{CVE-2021-34527}`
+{% endflag %}
 
 ---
 
@@ -729,7 +731,9 @@ On line 378 it looks like there's a flag obfuscated with shift cipher. Let's bru
 🠞13 (🠜13)	picoCTF{C7r1F_54V35_71M3}
 {% endccb %}
 
-The flag is `picoCTF{C7r1F_54V35_71M3}`!
+{% flag %}
+**credstuff**: `picoCTF{C7r1F_54V35_71M3}`
+{% endflag %}
 
 ---
 
@@ -757,7 +761,11 @@ We could totally decode this by hand using [Audacity's](https://www.audacityteam
 
 ![Automatic Morse Decoding](/asset/pico22/beginners-compilation/morse-code.gif)
 
-The program outputs `WH47 H47H 90D W20U9H7`. Following the conversion instructions, the final flag is `picoCTF{wh47_h47h_90d_w20u9h7}`. 
+The program outputs `WH47 H47H 90D W20U9H7`. Following the conversion instructions, the final flag is:
+
+{% flag %}
+**morse-code**: `picoCTF{wh47_h47h_90d_w20u9h7}`
+{% endflag %}
 
 {% info %}
 Fun fact: this string is a leetspoken version of "What hath God wrought", which was the first telegraphed message in Morse!
@@ -796,7 +804,9 @@ Look up what we end up finding in the Source tab:
 <tspan sodipodi:role="line" x="107.43014" y="132.11588" style="font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;" id="tspan3752">c 3 d _ [R E D A C T E D] }</tspan>
 {% endccb %}
 
-The flag is `picoCTF{3nh4nc3d_[REDACTED]}` (final part is dynamic 😉).
+{% flag %}
+**Enhance!**: `picoCTF{3nh4nc3d_[REDACTED]}`
+{% endflag %}
 
 ---
 
