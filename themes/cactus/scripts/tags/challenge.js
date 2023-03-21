@@ -96,10 +96,11 @@ hexo.extend.tag.register('challenge', function(args, content) {
 
     obj.description &&= `${conv.makeHtml(obj.description)}`;
     obj.size &&= `style="font-size: ${obj.size}"`
-    obj.genre &&= `<i class="fa-solid fa-tag"></i> <b>genre</b>: ${obj.genre}<br>`;
-    obj.points &&= `<i class="fa-solid fa-circle-plus"></i> <b>points</b>: ${obj.points}<br>`;
-    obj.files &&= `<i class="fa-solid fa-file"></i> <b>files</b>: ${conv.makeHtml(obj.files)}<br>`;
-    let solverText = `<i class="fa-solid fa-user"></i> <b>solvers</b>:<br>`;
+    obj.genre &&= `<i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: ${obj.genre}<br>`;
+    obj.points &&= `<i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: ${obj.points}<br>`;
+    obj.files &&= `<i class="fa-solid fa-file fa-fw"></i> <b>files</b>: ${conv.makeHtml(obj.files)}<br>`;
+    obj.solves &&= `<i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: ${obj.solves}<br>`;
+    let solverText = `<i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br>`;
 
     if(obj.title && obj.level == 'h2') {
         obj.title = `<div class="challenge-title"><h2 id="${obj.title.replace(/\s/g, '-')}" class="chal-title"><a href="#${obj.title.replace(/\s/g, '-')}" class="headerlink" title="${obj.title}"></a>${obj.title}</h2></div>`;
@@ -130,7 +131,7 @@ hexo.extend.tag.register('challenge', function(args, content) {
                 }
             }
         } else {
-            solverText = `<i class="fa-solid fa-user"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.solvers]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.solvers]?.url}">${members[obj.solvers]?.name}</a><br>`
+            solverText = `<i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.solvers]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.solvers]?.url}">${members[obj.solvers]?.name}</a><br>`
         }
     } else {
         solverText = "";
@@ -140,21 +141,21 @@ hexo.extend.tag.register('challenge', function(args, content) {
         if(members[obj.authors]) {
             if(Array.isArray(obj.authors)) {
                 let arr = obj.authors.map(x => `<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[x]?.img}"> <a target="_blank" rel="noopener" href="${members[x]?.url}">${members[x]?.name}</a>`).join("");
-                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+                obj.authors = `<i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: ${arr}<br>`;
             } else {
-                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.authors]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.authors]?.url}">${members[obj.authors]?.name}</a><br>`;
+                obj.authors = `<i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="${members[obj.authors]?.img}"> <a target="_blank" rel="noopener" href="${members[obj.authors]?.url}">${members[obj.authors]?.name}</a><br>`;
             }
         } else {
             if(Array.isArray(obj.authors)) {
                 let arr = obj.authors.map(x => `<br> - ${x}`).join("");
-                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>authors</b>: ${arr}<br>`;
+                obj.authors = `<i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: ${arr}<br>`;
             } else {
-                obj.authors = `<i class="fa-solid fa-square-pen"></i> <b>author</b>: ${obj.authors}<br>`;
+                obj.authors = `<i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: ${obj.authors}<br>`;
             }
         }
     }
 
-    ["title", "description", "hints", "authors", "genre", "solvers", "files", "points", "size"].forEach((element) => {
+    ["title", "description", "hints", "authors", "genre", "solves", "solvers", "files", "points", "size"].forEach((element) => {
         obj[element] ??= "";
     });
 
@@ -167,6 +168,7 @@ hexo.extend.tag.register('challenge', function(args, content) {
                 ${obj.authors}
                 ${obj.genre}
                 ${obj.points}
+                ${obj.solves}
                 ${obj.files}
             </div>
         </div>

@@ -32,6 +32,7 @@ solvers: enscribe
 files: '[image.png](/asset/wolv23/image.png)'
 genre: osint
 points: 188
+solves: 107
 description: |
     Welcome to WolvCTF's OSINT Category! We have a bunch of great OSINT lined up, assuming nothing goes wrong hahahhahahhahah but why would it?  
     For this challenge, find where the image was taken, and look at the Google Maps reviews!  
@@ -212,6 +213,7 @@ solvers:
 - sahuang
 genre: osint
 points: 348
+solves: 75
 description: |
     Ok well.........................something may have gone wrong  
     WannaFlag's ransom demand is insane, there's no way we are paying that. Can you figure out which address the money is being funneled to?  
@@ -226,7 +228,7 @@ We can see the transactions this account has made so far, but the only ones that
 
 ![Goerli 2](/asset/wolv23/goerli2.png)
 
-Looks like there's something that stands out — although there are a lot of "IN" transactions, there's only one "OUT" transaction. This is the transaction that we're looking for, and it's a pretty big one being sent to `0xA01FD0...`. Let's follow the breadcrumb:
+Looks like there's something that stands out — although there are a lot of <span style="background-color: rgba(0, 161, 134, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(0, 161, 134, 0.4); color: rgba(0, 161, 134, 0.8);">IN</span> transactions, there's only one <span style="background-color: rgba(255, 193, 7, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(255, 193, 7, 0.4); color: rgba(255, 193, 7, 0.8);">OUT</span> transaction. This is the transaction that we're looking for, and it's a pretty big one being sent to `0xA01FD0...`. Let's follow the breadcrumb:
 
 ![Goerli 3](/asset/wolv23/goerli3.png)
 
@@ -234,7 +236,7 @@ From here, it seems as if the money is being distributed into several different 
 
 ![Goerli 4](/asset/wolv23/goerli4.png)
 
-However, one outlier amongst these "OUT" transactions exists: the address `0x80710E...`, which funnels these payments into three different accounts:
+However, one outlier amongst these <span style="background-color: rgba(255, 193, 7, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(255, 193, 7, 0.4); color: rgba(255, 193, 7, 0.8);">OUT</span> transactions exists: the address `0x80710E...`, which funnels these payments into three different accounts:
 
 ![Goerli 5](/asset/wolv23/goerli5.png)
 
@@ -242,7 +244,7 @@ Once again, two of these accounts are dummies, and will send money back into `0x
 
 ![Goerli 6](/asset/wolv23/goerli6.png)
 
-There's a suspicious "SELF" transaction on this address. Hovering over it, we can see that Etherscan believes there is a hidden message in the "Input Data" field:
+There's a suspicious <span style="background-color: rgba(173, 181, 189, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(173, 181, 189, 0.4); color: rgba(173, 181, 189, 0.8);">SELF</span> transaction on this address. Hovering over it, we can see that Etherscan believes there is a hidden message in the "Input Data" field:
 
 ![Goerli 7](/asset/wolv23/goerli7.png)
 
@@ -267,6 +269,7 @@ authors: dree
 solvers: enscribe
 genre: osint
 points: 318
+solves: 82
 description: |
     We have some solid leads so far. However, we need our flags back. Find a way to locate their communication and infiltrate their private ransom service, and submit the stolen flag we wanted to use for the first OSINT!  
     From outside intelligence, we know the group sometimes goes by `w4nn4_fl4g`
@@ -311,6 +314,7 @@ authors: dree
 solvers: enscribe
 genre: osint
 points: 491
+solves: 19
 description: |
     Now that we've successfully gotten into their website - I say we figure out what other data they have.  
     Find and crack the master flag list, and submit the flag you see of ours on the list.
@@ -390,26 +394,11 @@ We can now copy the column into a text file, `wordlist.txt`, and use it to crack
 
 Firstly, we need the hash of the spreadsheet. We can use the [`office2john.py`](https://github.com/openwall/john/blob/bleeding-jumbo/run/office2john.py) tool to extract the proper hash:
 
-{% ccb html:true terminal:true %}
-<span class="meta prompt_">$</span> python3 office2john.py /mnt/c/users/jason/downloads/flaglist.xlsx
-flaglist.xlsx:$office$*2007*20*128*16*fc1b72a9c6a0f44e944534547b08d387*9c6e0ab272092ccd21181da4f3465dfd*223ecfbb03444d6a78149e26196e427bc448b5f6
-{% endccb %}
+![office2john.gif](/asset/wolv23/office2john.gif)
 
 After we pipe it into a file, `hash.txt`, we can now finally run `john`:
 
-{% ccb html:true terminal:true highlight:8 %}
-<span class="meta prompt_">$</span> ./john --wordlist=wordlist.txt hash.txt
-Using default input encoding: UTF-8
-Loaded 1 password hash (Office, 2007/2010/2013 [SHA1 256/256 AVX2 8x / SHA512 256/256 AVX2 4x AES])
-Cost 1 (MS Office version) is 2007 for all loaded hashes
-Cost 2 (iteration count) is 50000 for all loaded hashes
-Will run 12 OpenMP threads
-Press 'q' or Ctrl-C to abort, 'h' for help, almost any other key for status
-Great_Falls_city_60506 (flaglist.xlsx)
-1g 0:00:00:00 DONE (2023-03-19 15:35) 7.692g/s 5169p/s 5169c/s 5169C/s Palatine_village_67771..Hanford_city_57932
-Use the "--show" option to display all of the cracked passwords reliably
-Session completed.
-{% endccb %}
+![john.gif](/asset/wolv23/john.gif)
 
 {% info %}
 **Note**: For some reason, `john` when installed with `apt-get` doesn't have Office support (at least for me). Make sure that you are compiling from source if you want to use this tool (or just use `hashcat`)!
@@ -436,6 +425,7 @@ solvers:
 - Violin
 genre: osint
 points: 500
+solves: 6
 description: |
     Alright, I don't know about you but I'm kinda sick of this WannaFlag group. I say we take them down once and for all. Maybe there's a way to figure out who is behind the whole operation...  
     Consider all possible leads and clues so far. This challenge may be the most complex so far.  
@@ -444,7 +434,7 @@ hints:
 - Perhaps we can find the Mastermind's email...
 {% endchallenge %}
 
-This challenge remained unsolved for a long while until the first hint was released for the challenge:
+This challenge remained unsolved for a long while until the first hint was released:
 
 > Perhaps we can find the Mastermind's email...
 
