@@ -31,7 +31,7 @@
     "i18n-iso-countries": "^7.5.0",
     "jquery": "^3.6.3",
     "js-yaml": "^4.1.0",
-    "jsdom": "^21.1.0",
+    "jsdom": "^21.1.2",
     "json-formatter-js": "^2.3.4",
     "renderjson": "^1.4.0",
     "shelljs": "^0.8.5",
