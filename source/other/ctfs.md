@@ -22,6 +22,36 @@ layout: page
         type: blue
         text: <i class="fa-solid fa-flag"></i> 24.82
     border: 5BAEAE
+<i class="fa-solid fa-people-group"></i> CrewCTF 2023:
+    description: |
+        **Date**: Jul 06 — Apr 09, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/382
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> 40.66
+<i class="fa-solid fa-shield-cat"></i> BYUCTF 2023:
+    description: |
+        **Date**: May 19 — May 21, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/542
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> 41.82
+<i class="fa-solid fa-question-circle"></i> UMDCTF 2023:
+    description: |
+        **Date**: Apr 28 — Apr 30, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    badge:
+        type: gold
+        text: <i class="fa-solid fa-ranking-star"></i> 01/745
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> 87.54
 <i class="fab fa-wolf-pack-battalion"></i> WolvCTF 2023:
     description: |
         **Date**: Mar 17 — Mar 19, 2023  
@@ -71,6 +101,16 @@ layout: page
     badge2:
         type: blue
         text: <i class="fa-solid fa-flag"></i> 42.74
+<i class="fa-solid fa-pen-ruler"></i> ångstromCTF 2023:
+    description: |
+        **Date**: Apr 21 — Apr 26, 2023  
+        **Team**: [.;,;.](https://ctftime.org/team/222911)
+    badge:
+        type: silver
+        text: <i class="fa-solid fa-ranking-star"></i> 02/479
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> 76.20
 <i class="fa-solid fa-school"></i> LA CTF 2023:
     description: |
         **Date**: Feb 10 — Feb 12, 2023  
