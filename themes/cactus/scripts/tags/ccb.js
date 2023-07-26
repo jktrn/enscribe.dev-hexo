@@ -66,7 +66,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
     if(parsedArgs.terminal) figureClasses.push("background-color: #1D1D1D;");
 
     const scrollableWrapper = parsedArgs.scrollable ? {style: "height: 400px; overflow: scroll; margin: 1rem 0;"} : {};
-    const wrappedTextStyle  = parsedArgs.wrapped    ? {style: "white-space: pre-wrap;"} : {};
+    const wrappedTextStyle  = parsedArgs.wrapped    ? {style: "white-space: pre-wrap; word-break: break-word;"} : {};
 
     const urlText           = parsedArgs.url_text   ? htmlTag("span", {}, `[${parsedArgs.url_text}]`, false) : "[link]";
     const urlWrapper        = parsedArgs.url        ? htmlTag("a", {href: `https://${parsedArgs.url}`}, urlText , false) : "";
