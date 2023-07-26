@@ -8,8 +8,8 @@ categories:
 tags:
 - programming
 - algorithm
-description: "An eccentric story about Bob, a carnival game and guessing games involving 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series \"gcd-query\"."
-short_description: "An eccentric story about Bob, a carnival game and 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series \"gcd-query\"."
+description: "An eccentric story about Bob, Chinese Remainder Theorem and 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series \"gcd-query\"!"
+short_description: "An eccentric story about Bob, Chinese Remainder Theorem and the guessing of 2048-bit integers with only a GCD leak."
 category_column: "actf/algo"
 permalink: ctfs/actf/algo/gcd-query/
 thumbnail: /asset/banner/banner-gcd-query.png
