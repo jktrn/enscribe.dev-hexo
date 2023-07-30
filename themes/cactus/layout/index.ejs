@@ -11,7 +11,7 @@
   <% if (theme.posts_overview.show_all_posts) { %>
     <% var show_posts = page.posts.sort(field_sort, 'desc') %>
   <% } else { %>
-    <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
+    <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 4) %>
   <% } %>
   <% show_posts.each(function(post, i) { %>
     <% post.categories.forEach(function(item) { %>
@@ -41,14 +41,14 @@
 <a class="view-all" href="/categories/ctfs/">View all writeups -></a>
 </section>
 
-<section id="articles">
+<!-- <section id="articles">
   <span class="h1"><i class="fa-solid fa-newspaper"></i> articles</span>
   <div class="card-grid-2">
     <% var field_sort = theme.posts_overview.sort_updated ? 'updated' : 'date' %>
     <% if (theme.posts_overview.show_all_posts) { %>
       <% var show_posts = page.posts.sort(field_sort, 'desc') %>
     <% } else { %>
-      <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 5) %>
+      <% var show_posts = site.posts.sort(field_sort, 'desc').limit(theme.posts_overview.post_count || 4) %>
     <% } %>
     <% show_posts.each(function(post, i) { %>
       <% post.categories.forEach(function(item) { %>
@@ -72,5 +72,5 @@
       <% }); %>
     <% }); %>
   </div>
-  <!-- <a class="view-all" href="/categories/blog/">View all articles -></a> -->
-</section>
+  <a class="view-all" href="/categories/blog/">View all articles -></a>
+</section> -->
