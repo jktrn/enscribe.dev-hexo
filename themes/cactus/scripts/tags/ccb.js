@@ -62,10 +62,9 @@ hexo.extend.tag.register('ccb', function (args, content) {
 
     // Building HTML
     let figureClasses = [];
-    if(parsedArgs.scrollable) figureClasses.push("margin: 0;"); 
+    if(parsedArgs.scrollable) figureClasses.push("height: 400px; overflow: scroll; margin: 1rem 0;"); 
     if(parsedArgs.terminal) figureClasses.push("background-color: #1D1D1D;");
 
-    const scrollableWrapper = parsedArgs.scrollable ? {style: "height: 400px; overflow: scroll; margin: 1rem 0;"} : {};
     const wrappedTextStyle  = parsedArgs.wrapped    ? {style: "white-space: pre-wrap; word-break: break-word;"} : {};
 
     const urlText           = parsedArgs.url_text   ? htmlTag("span", {}, `[${parsedArgs.url_text}]`, false) : "[link]";
@@ -79,7 +78,7 @@ hexo.extend.tag.register('ccb', function (args, content) {
 
     const langText          = htmlTag("figure", {class: `highlight ${parsedArgs.lang}`, style: figureClasses.join(" ")});
 
-    return htmlTag("div", {...scrollableWrapper}, langText + htmlTag("table", {}, captionWrapper + htmlTag("tr", {}, gutter1Wrapper + gutter2Wrapper + htmlTag("td", {class: "code"}, htmlTag("pre", {...wrappedTextStyle}, highlighted, false), false), false), false), false);
+    return htmlTag("div", {}, langText + htmlTag("table", {}, captionWrapper + htmlTag("tr", {}, gutter1Wrapper + gutter2Wrapper + htmlTag("td", {class: "code"}, htmlTag("pre", {...wrappedTextStyle}, highlighted, false), false), false), false), false);
 }, {
     ends: true,
     async: true

@@ -35,7 +35,7 @@ description: |
     `nc amt.rs 31692`
 solvers: enscribe
 solves: 43
-genre: osint
+genre: algo
 points: 475
 {% endchallenge %}
 
@@ -331,7 +331,7 @@ description: |
     `nc amt.rs 31693`
 solvers: enscribe
 solves: 34
-genre: osint
+genre: algo
 points: 481
 {% endchallenge %}
 

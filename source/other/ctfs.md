@@ -8,6 +8,20 @@ layout: page
 ---
 
 {% grid columns:2 %}
+<i class="fa-solid fa-music"></i> SekaiCTF 2023:
+    description: |
+        **Date**: Sep 25 - Sept 27, 2023  
+        **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
+    button:
+        text: POSTS
+        link: /categories/ctfs/sekaictf-2023/
+    badge:
+        type: darkblue
+        text: <i class="fa-solid fa-pen-nib"></i> author
+    badge2:
+        type: blue
+        text: <i class="fa-solid fa-flag"></i> PENDING
+    border: 5BAEAE
 <i class="fa-solid fa-music"></i> SekaiCTF 2022:
     description: |
         **Date**: Sep 30 - Oct 02, 2022  
