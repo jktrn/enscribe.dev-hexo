@@ -492,7 +492,7 @@ Finally, we can run:
 <span class="meta prompt_">$ </span>dwarf2json linux --elf vmlinux-5.15.0-43-generic > ubuntu22.json
 {% endccb %}
 
-Copy the symbol table to `volatility3/volatility3/symbols/linux`, and your profile should be set up. The symbols are also available [here](symbols.zip)!
+Copy the symbol table to `volatility3/volatility3/symbols/linux`, and your profile should be set up!
 
 Once we have a valid `symbols.json`, we can run Volatility 3 plugins. The first one we always run is `linux.bash`, to display bash history:
 

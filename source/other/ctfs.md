@@ -13,7 +13,7 @@ layout: page
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: POSTS
-        link: /categories/ctfs/sekaictf-2023/
+        link: /categories/blog/sekaictf-2023/
     badge:
         type: darkblue
         text: <i class="fa-solid fa-pen-nib"></i> author
@@ -27,7 +27,7 @@ layout: page
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: POSTS
-        link: /categories/ctfs/sekai/
+        link: /categories/blog/sekaictf-2022/
     badge:
         type: darkblue
         text: <i class="fa-solid fa-pen-nib"></i> author
@@ -71,7 +71,7 @@ layout: page
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: POSTS
-        link: /categories/ctfs/wolv23/
+        link: /categories/blog/wolvctf-2023/
     badge:
         type: gold
         text: <i class="fa-solid fa-ranking-star"></i> 01/599
@@ -84,7 +84,7 @@ layout: page
         **Team**: DN
     button:
         text: POSTS
-        link: /categories/ctfs/mhs/
+        link: /categories/blog/mhsctf-2023/
     badge:
         type: gold
         text: <i class="fa-solid fa-ranking-star"></i> 01/895
@@ -94,7 +94,7 @@ layout: page
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: POSTS
-        link: /categories/ctfs/idek/
+        link: /categories/blog/idekctf-2023/
     badge:
         type: gold
         text: <i class="fa-solid fa-ranking-star"></i> 01/846
@@ -107,7 +107,7 @@ layout: page
         **Team**: [<i class="fa-solid fa-music"></i> Project Sekai](https://sekai.team/)
     button:
         text: POSTS
-        link: /categories/ctfs/byu/
+        link: /categories/blog/byuctf-2022/
     badge:
         type: gold
         text: <i class="fa-solid fa-ranking-star"></i> 01/435
@@ -177,7 +177,7 @@ layout: page
         <b>Team</b>: [<i class="fa-solid fa-file-code"></i> View Source](https://ctftime.org/team/175828)
     button:
         text: POSTS
-        link: /categories/ctfs/utc/
+        link: /categories/blog/dhhutc-2022/
     badge:
         type: brown
         text: <i class="fa-solid fa-ranking-star"></i> 29/919
@@ -187,7 +187,7 @@ layout: page
         <b>Team</b>: WhileSEC
     button:
         text: POSTS
-        link: /categories/ctfs/byu/
+        link: /categories/blog/byuctf-2022/
     badge:
         type: darkbrown
         text: <i class="fa-solid fa-ranking-star"></i> 36/778
@@ -197,12 +197,8 @@ layout: page
         <b>Team</b>: NLE CHAKRA
     button:
         text: POSTS
-        link: /categories/ctfs/pico22/
+        link: /categories/blog/picoctf-2022/
     badge:
         type: darkbrown
         text: <i class="fa-solid fa-ranking-star"></i> 86/1329
 {% endgrid %}
-
-{% box %}
-Don't know WTF a CTF is? [**Read this article**](/blog/wtf-is-a-ctf/)!
-{% endbox %}

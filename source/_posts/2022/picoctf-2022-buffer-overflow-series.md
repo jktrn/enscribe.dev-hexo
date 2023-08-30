@@ -35,7 +35,7 @@ This is a writeup for the buffer overflow series during the **picoCTF 2022** com
 title: Buffer overflow 0
 level: h2
 description: |
-    Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available [here](asset/pico22/buffer-overflow/vuln-0). You can view source [here](asset/pico22/buffer-overflow/vuln-0.c), and connect with it using:  
+    Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available [here](/static/picoctf-2022/buffer-overflow/vuln-0). You can view source [here](/static/picoctf-2022/buffer-overflow/vuln-0.c), and connect with it using:  
     `nc saturn.picoctf.net 65535`
 hints:
   - 1. How can you trigger the flag to print?
@@ -48,7 +48,7 @@ authors:
 genre: pwn/binary
 solvers: enscribe
 points: 100
-files: '[vuln](asset/pico22/buffer-overflow/vuln-0), [vuln.c](asset/pico22/buffer-overflow/vuln-0.c)'
+files: '[vuln](/static/picoctf-2022/buffer-overflow/vuln-0), [vuln.c](/static/picoctf-2022/buffer-overflow/vuln-0.c)'
 {% endchallenge %}
 
 {% ccb caption:checksec.sh url:'github.com/slimm609/checksec.sh' url_text:'github link' html:true terminal:true %}
@@ -139,7 +139,7 @@ title: Buffer overflow 1
 level: h2
 description: |
   Control the return address.  
-  Now we're cooking! You can overflow the buffer and return to the flag function in the [program](asset/pico22/buffer-overflow/vuln-1). You can view source [here](asset/pico22/buffer-overflow/vuln-1.c). And connect with it using:  
+  Now we're cooking! You can overflow the buffer and return to the flag function in the [program](/static/picoctf-2022/buffer-overflow/vuln-1). You can view source [here](/static/picoctf-2022/buffer-overflow/vuln-1.c). And connect with it using:  
   `nc saturn.picoctf.net [PORT]`
 hints:
   - 1. Make sure you consider big Endian vs small Endian.
@@ -151,7 +151,7 @@ authors:
 genre: pwn/binary
 solvers: enscribe
 points: 200
-files: '[vuln](asset/pico22/buffer-overflow/vuln-1), [vuln.c](asset/pico22/buffer-overflow/vuln-1.c)'
+files: '[vuln](/static/picoctf-2022/buffer-overflow/vuln-1), [vuln.c](/static/picoctf-2022/buffer-overflow/vuln-1.c)'
 {% endchallenge %}
 
 {% warning %}
@@ -358,7 +358,7 @@ Our binary is in little endian, we know that 44 `A`s are needed in order to reac
 Win is at `0x80491f6`, but we need to convert it to the little endian format. You can do this with the pwntools `p32()` command, which results in `\xf6\x91\x04\x08`.
 Let's make a final visual of our payload:
 
-![Payload Visual](asset/pico22/buffer-overflow/payload-visual.png)
+![Payload Visual](static/picoctf-2022/buffer-overflow/payload-visual.png)
 
 Let's write our payload and send it to the remote server with Python3/pwntools:
 
@@ -510,8 +510,8 @@ title: Buffer overflow 2
 level: h2
 description: |
   Control the return address and arguments.  
-  This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](asset/pico22/buffer-overflow/vuln-2)?  
-  You can view source [here](asset/pico22/buffer-overflow/vuln-2.c). And connect with it using:  
+  This time you'll need to control the arguments to the function you return to! Can you get the flag from this [program](/static/picoctf-2022/buffer-overflow/vuln-2)?  
+  You can view source [here](/static/picoctf-2022/buffer-overflow/vuln-2.c). And connect with it using:  
   `nc saturn.picoctf.net [PORT]`
 hints:
   - 1. Try using GDB to print out the stack once you write to it.
@@ -522,7 +522,7 @@ authors:
 genre: pwn/binary
 solvers: enscribe
 points: 300
-files: '[vuln](asset/pico22/buffer-overflow/vuln-2), [vuln.c](asset/pico22/buffer-overflow/vuln-2.c)'
+files: '[vuln](/static/picoctf-2022/buffer-overflow/vuln-2), [vuln.c](/static/picoctf-2022/buffer-overflow/vuln-2.c)'
 {% endchallenge %}
 
 {% warning %}
@@ -635,7 +635,7 @@ We can apply a lot from what we learned in `Buffer overflow 1`. The first thing 
 
 The next thing we need to know about is the way functions are laid out on the stack. Let's recall the diagram I drew out earlier:
 
-![Stack Diagram](asset/pico22/buffer-overflow/stack-visual2.png)
+![Stack Diagram](static/picoctf-2022/buffer-overflow/stack-visual2.png)
 
 If we want to call a function with parameters, we'll need to include the base pointer alongside a return address, which can simply be `main()`. With this, we can basically copy our script over from `Buffer overflow 1` with a few tweaks to the payload:
 

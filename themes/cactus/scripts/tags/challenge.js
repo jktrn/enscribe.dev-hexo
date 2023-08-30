@@ -32,12 +32,12 @@ const members = {
     'sahuang': {
         'name': 'sahuang',
         'url': 'https://github.com/sahuang',
-        'img': 'https://cdn.discordapp.com/avatars/111834400383070208/4eb453ae0e3cda1b9c783e85e0a65692.png'
+        'img': 'https://avatars.githubusercontent.com/u/26035292'
     },
     'Battlemonger': {
         'name': 'Battlemonger',
         'url': '#',
-        'img': 'https://cdn.discordapp.com/avatars/632614070867984420/a90072cdeafe74ef8ec59fcf3c086fc1.png'
+        'img': 'https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256'
     },
     'neil': {
         'name': 'neil',

@@ -297,7 +297,7 @@ Well, that doesn't really help. However, we can see the post's original content 
 
 ![Unddit](/static/wolvctf-2023/unddit.png)
 
-The secret [website](wanna-flag-d60bf7cd-012a-4fcc-9a4c-e60eca6b653f-tlejfksioa-ul.a.run.app) provided leads us to this:
+The secret website provided leads us to this:
 
 ![Website](/static/wolvctf-2023/website.png)
 

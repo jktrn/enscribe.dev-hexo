@@ -37,7 +37,6 @@ genre: osint
 points: 474
 description: |
     Are you as good as Rainbolt at GeoGuessr? Prove your skills by geo-guessing these 17 countries.
-files: '[nmpz.zip](/static/idekctf-2023/nmpz.zip)'
 {% endchallenge %}
 </div>
 <div>

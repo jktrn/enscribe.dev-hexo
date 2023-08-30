@@ -102,7 +102,7 @@ solvers:
     - enscribe
     - Battlemonger
 points: 416
-files: '[b0uld3r1ng.png](/static/byuctf-2022/b0uld3r1ng1.png)'
+files: '[b0uld3r1ng.png](/static/byuctf-2022/bouldering1.png)'
 {% endchallenge %}
 
 Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the `Lizard's Mouth Rock` in Santa Barbara County, California:
