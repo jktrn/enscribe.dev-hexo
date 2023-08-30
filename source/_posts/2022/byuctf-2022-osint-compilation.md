@@ -14,7 +14,7 @@ category_column: "osint"
 permalink: blog/byuctf-2022/osint-compilation/
 thumbnail: /static/byuctf-2022/banner.png
 alias:
- - ctf/byu/osint/osint-compilation
+ - ctfs/byu/osint/osint-compilation
 ---
 
 ![Banner](/static/byuctf-2022/banner.svg)
