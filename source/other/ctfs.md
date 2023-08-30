@@ -3,7 +3,6 @@ title: CTFs · enscribe.dev
 description: "Information, statistics, and writeups for all of my previous cybersecurity Capture the Flag (CTF) competitions."
 thumbnail: /static/banner.png
 permalink: /ctfs/
-hidden: true
 layout: page
 ---
 

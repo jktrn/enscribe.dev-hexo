@@ -96,7 +96,7 @@ theme: cactus
 deploy:
   type: git
   repo: https://github.com/jktrn/enscribe.dev.git
-  branch: master
+  branch: gh-pages
 
 alias:
   profiles/github/index.html: https://github.com/jktrn/
