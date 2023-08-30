@@ -36,7 +36,7 @@ tags_overview: false
 #   - sort_updated: sort posts by last modification date instead of creation date.
 posts_overview:
   show_all_posts: false
-  post_count: 4
+  post_count: 8
   sort_updated: false
 
 # Customize the archive view.
@@ -75,20 +75,20 @@ logo:
   enabled: true
   width: 50
   height: 50
-  url: /asset/favicon.png
+  url: /static/favicon.png
   gravatar: false
   grayout: true
 
 
 favicon:
   desktop:
-    url: /asset/favicon.png
+    url: /static/favicon.png
     gravatar: false
   android:
-    url: /asset/favicon.png
+    url: /static/favicon.png
     gravatar: false
   apple:
-    url: /asset/favicon.png
+    url: /static/favicon.png
     gravatar: false
 
 # The color scheme that should be used to highlight codeblocks.

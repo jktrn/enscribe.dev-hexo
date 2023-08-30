@@ -2,7 +2,7 @@
 title: Profiles · enscribe.dev
 date: 2022-04-05 16:20:02
 description: "My social media/gaming profiles alongside methods of contact."
-thumbnail: https://enscribe.dev/asset/banner/banner-contact.png
+thumbnail: /static/banner.png
 hidden: true
 layout: page
 permalink: /profiles/
