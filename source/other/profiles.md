@@ -87,7 +87,7 @@ permalink: /profiles/
 </style>
 
 <button class="pushable" style="margin-top:1.5rem">
-    <a href="https://enscribe.dev/profile/discord">
+    <a href="/profiles/discord">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
@@ -97,7 +97,7 @@ permalink: /profiles/
 </button>
 
 <button class="pushable">
-    <a href="https://enscribe.dev/profile/github">
+    <a href="/profiles/github">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
@@ -107,17 +107,17 @@ permalink: /profiles/
 </button>
 
 <button class="pushable">
-    <a href="https://enscribe.dev/profile/youtube">
+    <a href="/profiles/twitter">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
-            <i class="fa-brands fa-youtube"></i> youtube
+            <i class="fa-brands fa-x-twitter"></i> twitter
         </span>
     </a>
 </button>
 
 <button class="pushable">
-    <a href="https://enscribe.dev/profile/ctftime">
+    <a href="/profiles/ctftime">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
@@ -129,7 +129,7 @@ permalink: /profiles/
 ## <i class="fa-solid fa-gamepad"></i>
 
 <button class="pushable">
-    <a href="https://enscribe.dev/profile/osu">
+    <a href="/profiles/osu">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">
@@ -139,17 +139,7 @@ permalink: /profiles/
 </button>
 
 <button class="pushable">
-    <a href="https://enscribe.dev/profile/steam">
-        <span class="shadow"></span>
-        <span class="edge"></span>
-        <span class="front">
-            <i class="fa-brands fa-steam"></i> steam
-        </span>
-    </a>
-</button>
-
-<button class="pushable">
-    <a href="https://enscribe.dev/profile/tetrio">
+    <a href="/profiles/tetrio">
         <span class="shadow"></span>
         <span class="edge"></span>
         <span class="front">

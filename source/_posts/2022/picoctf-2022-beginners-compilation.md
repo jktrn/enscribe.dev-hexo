@@ -13,10 +13,12 @@ permalink: blog/picoctf-2022/beginners-compilation/
 thumbnail: /static/picoctf-2022/beginners-compilation/banner.png
 alias:
  - ctfs/pico22/beginners-compilation/
+ - ctfs/pico/beginners-compilation/
  - ctfs/pico22/crypto/basic-mod1/
  - ctfs/pico22/crypto/basic-mod1-2/
  - ctfs/pico22/pwn/basic-file-exploit/
  - ctfs/pico22/crypto/pwn/cve-xxxx-xxxx/
+ - ctfs/pico22/pwn/cve-xxxx-xxxx/
  - ctfs/pico22/pwn/ropfu/
 ---
 

@@ -5,7 +5,7 @@
 # Site
 title: "enscribe.dev"
 # subtitle:
-heading: "Hey! My name's Jason, and I go by the handle **enscribe/jktrn** on pretty much every account. I do a lot of things to find fulfillment ⁠— I enjoy cybersecurity [capture-the-flag](https://enscribe.dev/profile/ctftime) competitions, [rhythm games](https://enscribe.dev/profile/osu), [beautiful READMEs](https://github.com/project-sekai-ctf/sekaictf-2022), gluttony, [web development](https://github.com/jktrn/enscribe.dev/) and [Tetris](https://enscribe.dev/profile/tetrio). You'll mainly find CTF writeups around here, which I've poured lots of love into. Thanks for stopping by! 	(・ω・)ノ"
+heading: "Hey! My name's Jason, and I go by the handle **enscribe/jktrn** on pretty much every account. I do a lot of things to find fulfillment ⁠— I enjoy cybersecurity [capture-the-flag](https://enscribe.dev/profiles/ctftime) competitions, [rhythm games](https://enscribe.dev/profiles/osu), [beautiful READMEs](https://github.com/project-sekai-ctf/sekaictf-2022), gluttony, [web development](https://github.com/jktrn/enscribe.dev/) and [Tetris](https://enscribe.dev/profiles/tetrio). You'll mainly find CTF writeups around here, which I've poured lots of love into. Thanks for stopping by! 	(・ω・)ノ"
 keywords:
 author: enscribe
 language: en
@@ -99,24 +99,24 @@ deploy:
   branch: master
 
 alias:
-  profile/github/index.html: https://github.com/jktrn/
-  profile/youtube/index.html: https://www.youtube.com/c/enscribe_yt?sub_confirmation=1/
-  profile/instagram/index.html: https://www.instagram.com/enscribe/
-  profile/reddit/index.html: https://www.reddit.com/user/_Enscribe/
-  profile/osu/index.html: https://osu.ppy.sh/u/enscribe/
-  profile/tetrio/index.html: https://ch.tetr.io/u/stickspin/
-  profile/steam/index.html: https://steamcommunity.com/id/Enscribe/
-  profile/spotify/index.html: https://open.spotify.com/user/190ew3n8ykzdzexi8w094a79r?si=593d39b17e424aac/
-  profile/discord/index.html: https://discord.com/users/268178914982100994/
-  profile/mail/index.html: mailto:contact@enscribe.dev
-  profile/ctftime/index.html: https://ctftime.org/user/130832/
-  profile/twitter/index.html: https://twitter.com/pwnscribe/
+  profiles/github/index.html: https://github.com/jktrn/
+  profiles/youtube/index.html: https://www.youtube.com/c/jktrn?sub_confirmation=1/
+  profiles/instagram/index.html: https://www.instagram.com/enscribe/
+  profiles/reddit/index.html: https://www.reddit.com/user/_Enscribe/
+  profiles/osu/index.html: https://osu.ppy.sh/u/enscribe/
+  profiles/tetrio/index.html: https://ch.tetr.io/u/stickspin/
+  profiles/steam/index.html: https://steamcommunity.com/id/enscribe/
+  profiles/spotify/index.html: https://open.spotify.com/user/190ew3n8ykzdzexi8w094a79r?si=593d39b17e424aac/
+  profiles/discord/index.html: https://discord.com/users/268178914982100994/
+  profiles/mail/index.html: mailto:contact@enscribe.dev
+  profiles/ctftime/index.html: https://ctftime.org/user/130832/
+  profiles/twitter/index.html: https://twitter.com/enscry/
 
 hide_posts:
   enable: true
   filter: hidden
   public_generators: []
-  noindex: true
+  noindex: false
   
 sitemap:
   path: 

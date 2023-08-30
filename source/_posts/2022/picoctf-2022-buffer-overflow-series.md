@@ -15,6 +15,8 @@ permalink: blog/picoctf-2022/buffer-overflow-series/
 thumbnail: /static/picoctf-2022/buffer-overflow/banner.png
 alias:
  - ctfs/pico22/pwn/buffer-overflow-series/
+ - ctfs/pico22/pwn/buffer-overflow-0/
+ - ctfs/pico22/pwn/buffer-overflow-1/
  - ctfs/pico22/crypto/pwn/buffer-overflow-0/
  - ctfs/pico22/crypto/pwn/buffer-overflow-1/
  - ctfs/pico22/crypto/pwn/buffer-overflow-2/
