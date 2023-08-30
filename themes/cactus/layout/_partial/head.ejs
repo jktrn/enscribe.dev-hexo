@@ -75,9 +75,6 @@
     <% if (theme.rss === '' && config.feed && config.feed.path) { %>
       <% theme.rss = config.feed.path %>
     <% } %>
-    <% if (theme.rss) { %>
-      <link rel="alternate" href="<%= url_for(theme.rss) %>" title="<%= config.title %>" type="application/atom+xml" />
-    <% } %>
 	<!-- mathjax -->
 	<% if (theme.mathjax.enabled) {%>
 		<script type="text/x-mathjax-config">
