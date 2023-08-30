@@ -1,19 +1,20 @@
 ---
-title: "PicoCTF 2022: Buffer Overflow series"
+title: "PicoCTF 2022: Buffer Overflow Series"
 date: 2022-06-16 12:16:08
 categories:
-- ctfs
-- pico22
+- blog
+- picoctf-2022
 - pwn
 tags:
 - pwn
 - buffer-overflow
 description: "Learn how to exploit vulnerable C functions to \"stack-smash\" executables—this is my writeup for the picoCTF 2022 binary/pwn series \"Buffer overflow\"."
 short_description: "Obliterating vulnerable C executables, with finesse. This is a tutorial on how to attack processes with \"buffer overflowing.\""
-category_column: "pico22/pwn"
-permalink: ctfs/pico22/pwn/buffer-overflow-series/
+category_column: "pwn"
+permalink: blog/picoctf-2022/buffer-overflow-series/
 thumbnail: /static/picoctf-2022/buffer-overflow/banner.png
 alias:
+ - ctfs/pico22/pwn/buffer-overflow-series/
  - ctfs/pico22/crypto/pwn/buffer-overflow-0/
  - ctfs/pico22/crypto/pwn/buffer-overflow-1/
  - ctfs/pico22/crypto/pwn/buffer-overflow-2/

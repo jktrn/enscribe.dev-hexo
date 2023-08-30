@@ -1,18 +1,20 @@
 ---
-title: "BYUCTF 2022: OSINT Compilation"
+title: "BYUCTF 2022: OSINT Writeup Compilation"
 date: 2022-05-28 18:02:04
 categories:
-- ctfs
-- byu
+- blog
+- byuctf-2022
 - osint
 tags:
 - osint
 - compilation
 description: "Discover various pertinent aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition."
 short_description: "We solved 9 out of 9 OSINT challenges from the BYUCTF 2022 capture-the-flag competition. This was the process."
-category_column: "byu/osint"
-permalink: ctfs/byu/osint/osint-compilation/
+category_column: "osint"
+permalink: blog/byuctf-2022/osint-compilation/
 thumbnail: /static/byuctf-2022/banner.png
+alias:
+ - ctf/byu/osint/osint-compilation
 ---
 
 ![Banner](/static/byuctf-2022/banner.svg)

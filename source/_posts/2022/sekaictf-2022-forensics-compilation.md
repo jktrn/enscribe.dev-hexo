@@ -1,16 +1,20 @@
 ---
-title: "SekaiCTF 2022: Forensics Compilation"
+title: "SekaiCTF 2022: Forensics Writeup Compilation"
 date: 2022-11-28 19:20:05
 categories:
-- ctfs
-- sekai
+- blog
+- sekaictf-2022
+- forensics
 tags:
 - compilation
+- forensics
 description: "An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition."
 short_description: "An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition."
-category_column: "sekai"
-permalink: ctfs/sekai/compilation/
+category_column: "forensics"
+permalink: blog/sekaictf-2022/forensics-compilation/
 thumbnail: /static/sekaictf-2022/banner.png
+alias:
+ - ctfs/sekai/compilation/
 ---
 
 ![Banner](/static/sekaictf-2022/banner.svg)

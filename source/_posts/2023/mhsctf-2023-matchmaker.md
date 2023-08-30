@@ -1,18 +1,20 @@
 ---
-title: "MHSCTF 2023: Matchmaker (Programming)"
+title: "MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"
 date: 2023-02-14 11:08:53
 categories:
-- ctfs
-- mhs
-- prog
+- blog
+- mhsctf-2023
+- ppc
 tags:
 - programming
 - algorithm
 description: "Utilizing the beautifully crafted Blossom algorithm to maximize weighted matchings—this is my writeup for the challenge \"Matchmaker\" from MHSCTF 2023."
 short_description: "Utilizing Edmonds' beautifully crafted \"Blossom algorithm\" alongside graph theory to maximize weighted matchings."
-category_column: "mhs/prog"
-permalink: ctfs/mhs/prog/matchmaker/
+category_column: "ppc"
+permalink: blog/mhsctf-2023/matchmaker/
 thumbnail: /static/mhsctf-2023/banner.png
+alias:
+ - ctfs/mhs/prog/matchmaker/
 ---
 
 ![Banner](/static/mhsctf-2023/banner.svg)

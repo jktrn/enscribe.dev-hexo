@@ -15,7 +15,7 @@
   <% } %>
   <% show_posts.each(function(post, i) { %>
     <% post.categories.forEach(function(item) { %>
-      <% if(item.name == 'ctfs') { %>
+      <% if(item.name == 'blog') { %>
         <% var [ctfName, articleTitle] = post.title.split(": ") %>
         <a href="<%- post.path %>" style="all: unset; cursor: pointer;">
           <div class="card index-card no-highlight">

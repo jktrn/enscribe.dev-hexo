@@ -2,17 +2,19 @@
 title: "AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"
 date: 2023-07-24 00:00:00
 categories:
-- ctfs
-- actf
-- prog
+- blog
+- actf-2022
+- ppc
 tags:
 - programming
 - algorithm
 description: "An eccentric story about Bob, Chinese Remainder Theorem and 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series \"gcd-query\"!"
 short_description: "An eccentric story about Bob, Chinese Remainder Theorem and the guessing of 2048-bit integers with only a GCD leak."
-category_column: "actf/algo"
-permalink: ctfs/actf/algo/gcd-query/
+category_column: "ppc"
+permalink: blog/actf-2023/gcd-query/
 thumbnail: /static/actf-2023/banner.png
+alias:
+ - ctfs/actf/algo/gcd-query/
 ---
 
 ![Banner](/static/actf-2023/banner.svg)

@@ -1,17 +1,19 @@
 ---
-title: "WolvCTF 2023: WannaFlag Series"
+title: "WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"
 date: 2023-03-17 00:00:00
 categories:
-- ctfs
-- wolv23
+- blog
+- wolvctf-2023
 - osint
 tags: 
 - osint
 description: "Hunting down a flag-stealing ransomware group with the power of OSINT — from Ethereum breadcrumbs to TF2 workshop maps, this is my writeup for the WannaFlag series from WolvCTF 2023."
 short_description: "Hunting down a flag-stealing ransomware group with the power of OSINT — from Ethereum breadcrumbs to TF2 workshop maps."
-category_column: "wolv23/osint"
-permalink: ctfs/wolv23/osint/wannaflag/
+category_column: "osint"
+permalink: blog/wolvctf-2023/wannaflag-series/
 thumbnail: /static/wolvctf-2023/banner.png
+alias:
+ - ctfs/wolv23/osint/wannaflag/
 ---
 
 ![WannaFlag Banner](/static/wolvctf-2023/banner.svg)

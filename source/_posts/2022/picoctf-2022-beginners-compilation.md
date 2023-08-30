@@ -1,17 +1,18 @@
 ---
-title: "PicoCTF 2022: Beginner's Compilation"
+title: "PicoCTF 2022: Beginner's Writeup Compilation"
 date: 2022-07-25 12:16:07
 categories:
-- ctfs
-- pico22
+- blog
+- picoctf-2022
 tags:
 - compilation
 description: "Learn how to capture-the-flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges in all categories!"
 short_description: "A compilation of in-depth, comprehensive writeups for selected introductory challenges from PicoCTF 2022."
-category_column: "pico22"
-permalink: ctfs/pico22/beginners-compilation/
+category_column: "compilation"
+permalink: blog/picoctf-2022/beginners-compilation/
 thumbnail: /static/picoctf-2022/beginners-compilation/banner.png
 alias:
+ - ctfs/pico22/beginners-compilation/
  - ctfs/pico22/crypto/basic-mod1/
  - ctfs/pico22/crypto/basic-mod1-2/
  - ctfs/pico22/pwn/basic-file-exploit/

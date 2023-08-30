@@ -1,17 +1,19 @@
 ---
-title: "idekCTF 2022: NMPZ (OSINT)"
+title: "idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"
 date: 2023-01-15 18:26:32
 categories:
-- ctfs
-- idek
+- blog
+- idekctf-2023
 - osint
 tags:
-- geosint
+- geoint
 description: "\"No moving, panning, or zooming\" — a GeoGuessr-esque OSINT challenge from idekCTF 2022 testing geographical literacy."
 short_description: "\"No moving, panning, or zooming\" — a GeoGuessr-esque OSINT challenge testing geographical literacy."
-category_column: "idek/osint"
-permalink: ctfs/idek/osint/nmpz/
+category_column: "osint"
+permalink: blog/idekctf-2023/nmpz/
 thumbnail: /static/idekctf-2023/banner.png
+alias:
+ - ctfs/idek/osint/nmpz/
 ---
 
 ![Banner](/static/idekctf-2023/banner.svg)

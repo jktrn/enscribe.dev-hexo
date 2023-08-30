@@ -2,16 +2,17 @@
 title: "Space Heroes CTF: Writeup Compilation"
 date: 2022-04-06 10:33:54
 categories:
-- ctfs
-- shctf
+- blog
+- shctf-2022
 tags:
 - compilation
 description: "Learn brute-forced format string attacks, blind buffer overflows, and return-oriented programming in this writeup compilation from Space Heroes CTF."
 short_description: "Learn brute-forced format strings, return-oriented programming, and other fundamental binary exploitation techniques."
 category_column: "shctf"
-permalink: ctfs/shctf/compilation/
+permalink: blog/shctf-2022/writeup-compilation/
 thumbnail: /static/shctf-2022/banner.png
 alias:
+ - ctfs/shctf/compilation/
  - ctfs/shctf/pwn/guardians-of-the-galaxy/
  - ctfs/shctf/pwn/vader/
  - ctfs/shctf/pwn/warmup-to-the-dark-side/

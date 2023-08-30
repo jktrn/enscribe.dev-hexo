@@ -1,18 +1,20 @@
 ---
-title: "Hacky Holidays 2022: Port Authority"
+title: "Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"
 date: 2022-07-27 23:07:37
 categories:
-- ctfs
-- utc
-- prog
+- blog
+- dhhutc-2022
+- ppc
 tags: 
 - programming
 - websocket
-description: "Play a JSON-controlled strategy game through WebSocket—this is my writeup for the Hackazon Unlock the City programming challenge \"Port Authority.\""
+description: "Play a JSON-controlled strategy game through WebSocket—this is my writeup for the Hacky Holidays Unlock the City programming challenge \"Port Authority.\""
 short_description: "A programming challenge involving micromanagement of JSON-controlled ships within a WebSocket-based strategy game."
-category_column: "utc/prog"
-permalink: ctfs/utc/prog/port-authority/
+category_column: "ppc"
+permalink: blog/dhhutc-2022/port-authority/
 thumbnail: /static/dhhutc-2022/banner.png
+alias:
+ - ctfs/utc/prog/port-authority/
 ---
 
 ![Banner](/static/dhhutc-2022/banner.svg)

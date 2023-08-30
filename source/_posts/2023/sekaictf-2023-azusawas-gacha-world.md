@@ -2,7 +2,7 @@
 title: "SekaiCTF 2023: A Hackable Unity Implementation of Project Sekai's Gacha System"
 date: 2023-08-27 09:00:00
 categories:
-- ctfs
+- blog
 - sekaictf-2023
 - reverse
 tags:
@@ -11,7 +11,7 @@ tags:
 - reverse-engineering
 description: "I created a fully functional, hackable replica of Project Sekai's gacha system for SekaiCTF 2023. This was my design process."
 short_description: "I created a fully functional, hackable replica of Project Sekai's gacha system for SekaiCTF 2023. This was my design process."
-category_column: "sekaictf-2023"
+category_column: "reverse"
 permalink: blog/sekaictf-2023/azusawas-gacha-world/
 thumbnail: /static/sekaictf-2023/banner.webp
 ---
