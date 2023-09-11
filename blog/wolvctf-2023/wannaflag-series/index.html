@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Hunting down a flag-stealing ransomware group with the power of OSINT — from Ethereum breadcrumbs to TF2 workshop maps, this is my writeup for the WannaFlag series from WolvCTF 2023.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT">
+<meta property="og:url" content="https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Hunting down a flag-stealing ransomware group with the power of OSINT — from Ethereum breadcrumbs to TF2 workshop maps, this is my writeup for the WannaFlag series from WolvCTF 2023.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/wolvctf-2023/banner.png">
+<meta property="article:published_time" content="2023-03-17T07:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:13:06.379Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="osint">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/wolvctf-2023/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/actf-2023/gcd-query/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/mhsctf-2023/matchmaker/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&text=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&title=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&is_video=false&description=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT&body=Check out this article: https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&title=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&name=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-I:-An-Introduction"><span class="toc-number"></span> <span class="toc-text">WannaFlag I: An Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-II:-Payments"><span class="toc-number"></span> <span class="toc-text">WannaFlag II: Payments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-III:-Infiltration"><span class="toc-number"></span> <span class="toc-text">WannaFlag III: Infiltration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-IV:-Exfiltration"><span class="toc-number"></span> <span class="toc-text">WannaFlag IV: Exfiltration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-V:-The-Mastermind"><span class="toc-number"></span> <span class="toc-text">WannaFlag V: The Mastermind</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-03-17T07:00:00.000Z" itemprop="datePublished">Mar 17, 2023</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/wolvctf-2023/">wolvctf-2023</a> › <a class="category-link" href="/categories/blog/wolvctf-2023/osint/">osint</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/osint/" rel="tag">osint</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/wolvctf-2023/banner.svg" alt="WannaFlag Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>Over the last weekend, I played in WolvSec’s second CTF iteration with <a target="_blank" rel="noopener" href="https://sekai.team/">Project Sekai</a> — <a target="_blank" rel="noopener" href="https://ctftime.org/event/1866">WolvCTF 2023</a>. We placed first in the open division, and throughout the solving process I became intrigued by a specific series of challenges placed under the OSINT category: <strong>WannaFlag</strong>. Telling a story of a supposed ransomware group which had been terrorizing the CTF community for the past several months, these series of challenges offered an opportunity for players to track down this group’s means of operation. Ultimately, the goal was to find WannaFlag’s kingpin through all possible methods.</p>
+<p>Project Sekai was the first to blood the entire series. Here was our thought process, notes, and conclusions.</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="WannaFlag-I:-An-Introduction" class="chal-title"><a href="#WannaFlag-I:-An-Introduction" class="headerlink" title="WannaFlag I: An Introduction"></a>WannaFlag I: An Introduction</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: dree<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 188<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 107<br>
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/wolvctf-2023/image.png">image.png</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Welcome to WolvCTF's OSINT Category! We have a bunch of great OSINT lined up, assuming nothing goes wrong hahahhahahhahah but why would it?<br />
+For this challenge, find where the image was taken, and look at the Google Maps reviews!<br />
+<strong>Note</strong>: Flags can be found in standard format <code>wctf{...}</code> for ALL OSINT challenges   
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>We’re first given a little bit of a warmup: find the location of the following object, and to view its Google Reviews:</p>
+<p><img src="/static/wolvctf-2023/image.png" alt="image.png"></p>
+<p>Simple task! These types of challenges, often called GEOINT (geospacial intelligence), can be trivial if there is a landmark object situated within the image — in this case, we have some public art resembling a black cube. We can use <a target="_blank" rel="noopener" href="https://lens.google/">Google Lens</a> to identify it:</p>
+<p><img src="/static/wolvctf-2023/lens.png" alt="lens.png"></p>
+<p>Looks like Google’s given us a hit: this is “The Cube,” a public art installation in the University of Michigan. Let’s take a look at the Google Reviews:</p>
+<p><img src="/static/wolvctf-2023/reviews.png" alt="reviews.png"></p>
+<p>This <code>netcat wanna-flag-i dot wolvctf dot io one three three seven</code> can be converted to a command: <code>nc wanna-flag-i.wolvctf.io 1337</code>. Let’s connect to this server to see what it has to say:</p>
+<div><figure class="highlight text" style="height: 400px; overflow: scroll; margin: 1rem 0; background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$</span> nc wanna-flag-i.wolvctf.io 1337
+== proof-of-work: disabled ==
+Good job finding the Cube! It's a favorite destination among UofM students!
+Anyways here is the flag:
+wctf{sp1n
+Huh???? Where did the rest of the flag g
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+██╗    ██╗ █████╗ ███╗   ██╗███╗   ██╗ █████╗ ███████╗██╗      █████╗  ██████╗
+██║    ██║██╔══██╗████╗  ██║████╗  ██║██╔══██╗██╔════╝██║     ██╔══██╗██╔════╝
+██║ █╗ ██║███████║██╔██╗ ██║██╔██╗ ██║███████║█████╗  ██║     ███████║██║  ███╗
+██║███╗██║██╔══██║██║╚██╗██║██║╚██╗██║██╔══██║██╔══╝  ██║     ██╔══██║██║   ██║
+╚███╔███╔╝██║  ██║██║ ╚████║██║ ╚████║██║  ██║██║     ███████╗██║  ██║╚██████╔╝
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝
+HAHAHHAHAHHAHA Ohhhhh man what an easy CTF to pwn
+
+And I mean also really?? At least make a geo-osint KIND of difficult
+The CTF is HOSTED by UofM where else would that dumb cube be????
+
+Oh man ok well organizers if you want your "challenge" back or flags or whatever send 500,000 Goerli here:
+0x08f5AF98610aE4B93cD0A856682E6319bF1be8a6
+
+Who knows maybe we'll take more flags if you don't pay in time >:)
+#YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs
+#YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs
+#YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs #YourFlagsBelongToUs
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+                       ______
+                    .-"      "-.
+                   /            \
+       _          |              |          _
+      ( \         |,  .-.  .-.  ,|         / )
+       > "=._     | )(__/  \__)( |     _.=" <
+      (_/"=._"=._ |/     /\     \| _.="_.="\_)
+             "=._ (_     ^^     _)"_.="
+                 "=\__|IIIIII|__/="")
+                _.="| \IIIIII/ |"=._
+      _     _.="_.="\          /"=._"=._     _
+     ( \_.="_.="     `--------`     "=._"=._/ )
+      > _.="                            "=._ <
+     (_/                                    \_)
+██╗    ██╗ █████╗ ███╗   ██╗███╗   ██╗ █████╗ ███████╗██╗      █████╗  ██████╗
+██║    ██║██╔══██╗████╗  ██║████╗  ██║██╔══██╗██╔════╝██║     ██╔══██╗██╔════╝
+██║ █╗ ██║███████║██╔██╗ ██║██╔██╗ ██║███████║█████╗  ██║     ███████║██║  ███╗
+██║███╗██║██╔══██║██║╚██╗██║██║╚██╗██║██╔══██║██╔══╝  ██║     ██╔══██║██║   ██║
+╚███╔███╔╝██║  ██║██║ ╚████║██║ ╚████║██║  ██║██║     ███████╗██║  ██║╚██████╔╝
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝
+██╗    ██╗ █████╗ ███╗   ██╗███╗   ██╗ █████╗ ███████╗██╗      █████╗  ██████╗
+██║    ██║██╔══██╗████╗  ██║████╗  ██║██╔══██╗██╔════╝██║     ██╔══██╗██╔════╝
+██║ █╗ ██║███████║██╔██╗ ██║██╔██╗ ██║███████║█████╗  ██║     ███████║██║  ███╗
+██║███╗██║██╔══██║██║╚██╗██║██║╚██╗██║██╔══██║██╔══╝  ██║     ██╔══██║██║   ██║
+╚███╔███╔╝██║  ██║██║ ╚████║██║ ╚████║██║  ██║██║     ███████╗██║  ██║╚██████╔╝
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝
+██╗    ██╗ █████╗ ███╗   ██╗███╗   ██╗ █████╗ ███████╗██╗      █████╗  ██████╗
+██║    ██║██╔══██╗████╗  ██║████╗  ██║██╔══██╗██╔════╝██║     ██╔══██╗██╔════╝
+██║ █╗ ██║███████║██╔██╗ ██║██╔██╗ ██║███████║█████╗  ██║     ███████║██║  ███╗
+██║███╗██║██╔══██║██║╚██╗██║██║╚██╗██║██╔══██║██╔══╝  ██║     ██╔══██║██║   ██║
+╚███╔███╔╝██║  ██║██║ ╚████║██║ ╚████║██║  ██║██║     ███████╗██║  ██║╚██████╔╝
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝
+Also all of you John OSINTs on twitter need to leave us alone</pre></td></tr></table></div>
+
+<p>Well… that was unexpected. Let’s first digest what in the world just happened to this netcat:</p>
+<ul>
+<li>Our flag is cut off midway, and WannaFlag supposedly “pwns” the server</li>
+<li>We’re told to pay 500,000 Goerli to the wallet <code>0x08f5AF98610aE4B93...</code></li>
+<li>This hashtag <code>#YourFlagsBelongToUs</code> is spammed everywhere throughout the message</li>
+<li>The group tells “John OSINTs” to leave them alone on Twitter</li>
+</ul>
+<p>There’s a small connection here, but it’s not immediately obvious. We can actually search for this hashtag on Twitter, revealing a tweet from none other than <code>@JohnOSINT_</code> himself:</p>
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: auto"><a target="_blank" rel="noopener" href="https://twitter.com/JohnOSINT_/status/1634680651768270848"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: auto"><a target="_blank" rel="noopener" href="https://https//twitter.com/JohnOSINT_/status/1634682918764429313"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>A simple <a target="_blank" rel="noopener" href="https://www.base64decode.org/">base64 decode</a> of the exfiltrated string gives us our first flag: </p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>WannaFlag I: An Introduction</strong>: <code>wctf{uhhh_wh3r3_d1d_4ll_0ur_fl4gs_g0?}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="WannaFlag-II:-Payments" class="chal-title"><a href="#WannaFlag-II:-Payments" class="headerlink" title="WannaFlag II: Payments"></a>WannaFlag II: Payments</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/70449145"> <a target="_blank" rel="noopener" href="https://github.com/Legoclones">Legoclones</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: dree<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 348<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 75<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Ok well…………………….something may have gone wrong<br />
+WannaFlag's ransom demand is insane, there's no way we are paying that. Can you figure out which address the money is being funneled to?<br />
+From the ransom note: send 500,000 Goerli to <code>0x08f5AF98610aE4B93cD0A856682E6319bF1be8a6</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Our next step involves figuring out where this ransom money is being funneled to. We can use <a target="_blank" rel="noopener" href="https://etherscan.io/">Etherscan</a>‘s <a target="_blank" rel="noopener" href="https://goerli.etherscan.io/">Goerli Testnet Explorer</a> for transactions involving the address <code>0x08f5AF98610aE4B93cD0A856682E6319bF1be8a6</code>:</p>
+<p><img src="/static/wolvctf-2023/goerli.png" alt="Goerli"></p>
+<p>We can see the transactions this account has made so far, but the only ones that are relevant would be the ones done before the competition started (since those would be part of the challenge creation process). These are the following transactions the account has made within this reasonable scope:</p>
+<p><img src="/static/wolvctf-2023/goerli2.png" alt="Goerli 2"></p>
+<p>Looks like there’s something that stands out — although there are a lot of <span style="background-color: rgba(0, 161, 134, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(0, 161, 134, 0.4); color: rgba(0, 161, 134, 0.8);">IN</span> transactions, there’s only one <span style="background-color: rgba(255, 193, 7, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(255, 193, 7, 0.4); color: rgba(255, 193, 7, 0.8);">OUT</span> transaction. This is the transaction that we’re looking for, and it’s a pretty big one being sent to <code>0xA01FD0...</code>. Let’s follow the breadcrumb:</p>
+<p><img src="/static/wolvctf-2023/goerli3.png" alt="Goerli 3"></p>
+<p>From here, it seems as if the money is being distributed into several different accounts. Upon checking these transactions, though, these addresses actually just loop back the crypto into the original <code>0x08f5AF...</code> wallet. Here is an example of one of these “dummy” accounts, <code>0xc527ad...</code>; the second transaction on this list sends money back in a seeming “loop”:</p>
+<p><img src="/static/wolvctf-2023/goerli4.png" alt="Goerli 4"></p>
+<p>However, one outlier amongst these <span style="background-color: rgba(255, 193, 7, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(255, 193, 7, 0.4); color: rgba(255, 193, 7, 0.8);">OUT</span> transactions exists: the address <code>0x80710E...</code>, which funnels these payments into three different accounts:</p>
+<p><img src="/static/wolvctf-2023/goerli5.png" alt="Goerli 5"></p>
+<p>Once again, two of these accounts are dummies, and will send money back into <code>0x08f5AF...</code>. However, one of these accounts, <code>0x64E69A...</code>, will send money to a completely new address, <code>0x79616B...</code>, where the trail ends:</p>
+<p><img src="/static/wolvctf-2023/goerli6.png" alt="Goerli 6"></p>
+<p>There’s a suspicious <span style="background-color: rgba(173, 181, 189, 0.1); padding: 2px 9px; border-radius: 0.375rem; border: 1px solid rgba(173, 181, 189, 0.4); color: rgba(173, 181, 189, 0.8);">SELF</span> transaction on this address. Hovering over it, we can see that Etherscan believes there is a hidden message in the “Input Data” field:</p>
+<p><img src="/static/wolvctf-2023/goerli7.png" alt="Goerli 7"></p>
+<p>If we take a look at the transaction hash and click on the “More Details” button, we find the flag in the “Input Data” section when decoding it into UTF-8:</p>
+<p><img src="/static/wolvctf-2023/goerli8.png" alt="Goerli 8"></p>
+<p>If you’re lost, I made a visualization of the transactions which took place, highlighting the breadcrumbs which eventually led to the flag:</p>
+<p><img src="/static/wolvctf-2023/transactions.svg" alt="Transactions"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>WannaFlag II: Payments</strong>: <code>wctf{g1v3_m3_b4cK_mY_cRypT0!!11!}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="WannaFlag-III:-Infiltration" class="chal-title"><a href="#WannaFlag-III:-Infiltration" class="headerlink" title="WannaFlag III: Infiltration"></a>WannaFlag III: Infiltration</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: dree<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 318<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 82<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                We have some solid leads so far. However, we need our flags back. Find a way to locate their communication and infiltrate their private ransom service, and submit the stolen flag we wanted to use for the first OSINT!<br />
+From outside intelligence, we know the group sometimes goes by <code>w4nn4_fl4g</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>We’re now given a keyphrase to work with: <code>w4nn4_fl4g</code>. We can search for the specific term on Google by wrapping it in quotes, and our first result is a subreddit, <a target="_blank" rel="noopener" href="https://www.reddit.com/r/w4nn4_fl4g/">r&#x2F;w4nn4_fl4g</a>:</p>
+<p><img src="/static/wolvctf-2023/reddit.png" alt="Reddit"></p>
+<p>Looking through the small amount of posts on this locked subreddit, we can find three users in particular which have access to post permissions (alongside one moderator): <code>u/w4nn4fl4g_admin</code>, <code>u/RemarkableDiamond443</code>, and <code>u/[deleted]</code>. None of the posts and memes were particularly interesting or relevant, but one thing stuck out in particular: the deleted user. We can find the username of the user through querying <a target="_blank" rel="noopener" href="https://camas.unddit.com/">camas.unddit.com</a> for a specific comment in <code>r/w4nn4_fl4g</code>; let’s utilize the comment “sorry” they left under <a target="_blank" rel="noopener" href="https://www.reddit.com/r/w4nn4_fl4g/comments/11p6utf/questions/">this post</a>:</p>
+<p><img src="/static/wolvctf-2023/query1.png" alt="First Query"></p>
+<p>We found the original username of the deleted user: <code>u/Chemical_Bread1558</code>! We can now query for posts the user made under the subreddit:</p>
+<p><img src="/static/wolvctf-2023/query2.png" alt="Second Query"></p>
+<p>We’ve got a hit on a <a target="_blank" rel="noopener" href="https://reddit.com/11p5w72">moderator-deleted post</a>. Let’s check it out:</p>
+<p><img src="/static/wolvctf-2023/deleted-post.png" alt="Deleted Post"></p>
+<p>Well, that doesn’t really help. However, we can see the post’s original content by using the Unddit tool once again — simply replace the <code>reddit</code> in the URL with <code>unddit</code> to see deleted comments:</p>
+<p><img src="/static/wolvctf-2023/unddit.png" alt="Unddit"></p>
+<p>The secret website provided leads us to this:</p>
+<p><img src="/static/wolvctf-2023/website.png" alt="Website"></p>
+<p>We’ve managed to recover the flag from the first OSINT challenge, but it’s actually meant to be submitted as part of the third:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>WannaFlag III: Infiltration</strong>: <code>wctf{sp1nnnNn_tH3_cUb333e3E}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="WannaFlag-IV:-Exfiltration" class="chal-title"><a href="#WannaFlag-IV:-Exfiltration" class="headerlink" title="WannaFlag IV: Exfiltration"></a>WannaFlag IV: Exfiltration</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: dree<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 491<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 19<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Now that we've successfully gotten into their website - I say we figure out what other data they have.<br />
+Find and crack the master flag list, and submit the flag you see of ours on the list.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p><span style="color:#FF9999"><strong>First blood!</strong></span> We’re now tasked with analyzing the contents of their website. Scouring through the source code, we find two extra pages: <code>/ctfs.html</code> and <code>/prices.html</code>:</p>
+<p><img src="/static/wolvctf-2023/website-ctfs.png" alt="CTFs"></p>
+<p><img src="/static/wolvctf-2023/website-prices.png" alt="Prices"></p>
+<p>We’ve also got a footer with various social medias (which are all unsurprisingly rickrolls):</p>
+<p><img src="/static/wolvctf-2023/website-footer.png" alt="Footer"></p>
+<p>However, on the <code>/ctfs.html</code> page, upon further inspection of the source code we find a secret page, <code>/data.html</code>, linked under the Instagram icon:</p>
+<figure class="highlight html"><figcaption><span>ctfs.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">footer</span> <span class="attr">class</span>=<span class="string">&quot;w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;topFunction()&quot;</span> <span class="attr">class</span>=<span class="string">&quot;w3-button w3-light-grey&quot;</span> <span class="attr">title</span>=<span class="string">&quot;Go to top&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-arrow-up w3-margin-right w3-light-grey&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span>To Top<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;w3-xlarge w3-section&quot;</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- small logo with redirecting link --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://youtu.be/dQw4w9WgXcQ&quot;</span> &lt;<span class="attr">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-twitter w3-hover-opacity&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;data.html&quot;</span> &lt;<span class="attr">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-instagram w3-hover-opacity&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://youtu.be/dQw4w9WgXcQ&quot;</span> &lt;<span class="attr">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-github w3-hover-opacity&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- page link --&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Accessing the secret page reveals a secret download link:</p>
+<p><img src="/static/wolvctf-2023/website-data.png" alt="Data"></p>
+<p>Downloading the file, we find a <code>flaglist.xlsx</code>, a Microsoft Excel document. There is an issue, however — the spreadsheet is completely encrypted via password protection, and we cannot import it to Google Sheets:</p>
+<p><img src="/static/wolvctf-2023/fail.png" alt="Fail"></p>
+<p>Let’s see what we can do about this. Inspecting the source code of <code>/data.html</code>, we actually find that the file is being sourced from a GitHub account, <code>fl4gpwners</code>:</p>
+<figure class="highlight html"><figcaption><span>data.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;left topp&quot;</span>&gt;</span>If you made it to this page, you must be an 3l1t3 h4x0r that&#x27;s one of us. Nobody else wouldve sifted through those rickrolls. The stolen flag list is below. <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://raw.githubusercontent.com/fl4gpwners/flaglist/main/flaglist.xlsx&quot;</span> <span class="attr">class</span>=<span class="string">&quot;button leftmar &quot;</span>&gt;</span>List of Flags<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>      </span><br><span class="line">It&#x27;s encrypted so you still need the password duhhh</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/static/wolvctf-2023/github.png" alt="GitHub"></p>
+<p>There happens to be an extraordinarily convenient <code>password-repo</code> repository on this GitHub account, which reveals a <code>passwords_stub.lst</code> file:</p>
+<p><img src="/static/wolvctf-2023/password-repo.png" alt="Password Repo"></p>
+<p>Unfortunately, none of the passwords in this list were accepted by the spreadsheet. However, it reveals extraordinarily useful information: the password list is a stub (as hinted by part of the filename), and the real password of the spreadsheet was likely part of the original document.</p>
+<p>Let’s further analyze the passwords which were given to us. We have the name of a U.S. city&#x2F;town, followed by a number of some kind. Googling the city followed by the number reveals that the number is actually the population of the city which proceeds it; this means that <code>Concord_city</code> has a population of <code>105186</code>, <code>Baton_Rouge_city</code> has a population of <code>225128</code>, etc. We can use this information to our advantage to reassemble the password list, assuming it is every U.S. city&#x2F;town followed by its population.</p>
+<p>Upon further research, the population of the city was discovered to be sourced from the U.S. 2020 Census. <a target="_blank" rel="noopener" href="https://www.census.gov/data/tables/time-series/demo/popest/2020s-total-cities-and-towns.html">Census.gov</a>, their official website, has various datasets of “Annual Estimates of the Resident Population for Incorporated Places of 50,000 or More.” Importing the data into Google Sheets, we can see that this was the exact dataset which was used to generate the stub:</p>
+<p><img src="/static/wolvctf-2023/census.png" alt="Census"></p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: See how the term "city", "munincipality", and "village" were lowercase in <code>password_stub.lst</code>? This is because the census uses these terms to categorize urban areas in the United States, and are not actually part of the area's name. That is also why there are some entries which have two "cities" in their name (e.g. <code>Oklahoma City city</code>), as city is both part of the official city name and categorization.</div>
+
+<p>Let’s create a wordlist from this data. Although we can export it as a <code>.csv</code> and run a Python script to filter out the passwords, we can simply create a spreadsheet formula on another column to create the wordlist:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>Spreadsheet formula</span></figcaption><tr><td class="code"><pre>=SUBSTITUTE(SUBSTITUTE(LEFT(B5,FIND(<span class="string">&quot;,&quot;</span>,B5)-<span class="number">1</span>),<span class="string">&quot; &quot;</span>,<span class="string">&quot;_&quot;</span>),<span class="string">&quot;,&quot;</span>,<span class="string">&quot;&quot;</span>)&amp;<span class="string">&quot;_&quot;</span>&amp;SUBSTITUTE(C5,<span class="string">&quot;,&quot;</span>,<span class="string">&quot;&quot;</span>)</pre></td></tr></table></div>
+
+<p><img src="/static/wolvctf-2023/wordlist.png" alt="Wordlist"></p>
+<p>We can now copy the column into a text file, <code>wordlist.txt</code>, and use it to crack the spreadsheet. We’ll be utilizing the <code>john</code> tool to achieve this.</p>
+<p>Firstly, we need the hash of the spreadsheet. We can use the <a target="_blank" rel="noopener" href="https://github.com/openwall/john/blob/bleeding-jumbo/run/office2john.py"><code>office2john.py</code></a> tool to extract the proper hash:</p>
+<p><img src="/static/wolvctf-2023/office2john.gif" alt="office2john.gif"></p>
+<p>After we pipe it into a file, <code>hash.txt</code>, we can now finally run <code>john</code>:</p>
+<p><img src="/static/wolvctf-2023/john.gif" alt="john.gif"></p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: For some reason, <code>john</code> when installed with <code>apt-get</code> doesn't have Office support (at least for me). Make sure that you are compiling from source if you want to use this tool (or just use <code>hashcat</code>)!</div>
+
+<p>The password is <code>Great_Falls_city_60506</code>, which we can now use to open the spreadsheet:</p>
+<p><img src="/static/wolvctf-2023/flaglist.png" alt="Flaglist"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>WannaFlag IV: Exfiltration</strong>: <code>wctf{y0ur_fl4gS_b3l0nG_t0_m3_;)}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="WannaFlag-V:-The-Mastermind" class="chal-title"><a href="#WannaFlag-V:-The-Mastermind" class="headerlink" title="WannaFlag V: The Mastermind"></a>WannaFlag V: The Mastermind</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://cdn.discordapp.com/avatars/853302375182762024/5fc668ee5a75015c8246aa8f763a41a0"> <a target="_blank" rel="noopener" href="#">Violin</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: dree<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 500<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 6<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Alright, I don't know about you but I'm kinda sick of this WannaFlag group. I say we take them down once and for all. Maybe there's a way to figure out who is behind the whole operation…<br />
+Consider all possible leads and clues so far. This challenge may be the most complex so far.<br />
+No games or programs need to be downloaded, or users messaged.
+                <br><details><summary><b>Hints</b>:</summary><br>Perhaps we can find the Mastermind's email…<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>This challenge remained unsolved for a long while until the first hint was released:</p>
+<blockquote>
+<p>Perhaps we can find the Mastermind’s email…</p>
+</blockquote>
+<p>This immediately gave us a starting path to work with. We can find the email address of the user from the commit history of <code>fl4gpwners</code>; I found it from the <a target="_blank" rel="noopener" href="https://github.com/fl4gpwners/flaglist/commit/9c689f4c2e0582d20577a951bf72ae243d65146a.patch">patch</a> of the commit which uploaded <code>flaglist.xlsx</code> to the <code>flaglist</code> repository:</p>
+<p><img src="/static/wolvctf-2023/patch.png" alt="Patch"></p>
+<p>We’ve found a <code>civilianengi3421@proton.me</code> — from here, although various email OSINT strategies yielded no results (e.g. <a target="_blank" rel="noopener" href="https://epieos.com/">Epieos</a>), a simple keyword search on Google resulted in a <a target="_blank" rel="noopener" href="https://gamebanana.com/members/2530374">GameBanana</a> profile:</p>
+<p><img src="/static/wolvctf-2023/gamebanana.png" alt="GameBanana"></p>
+<p>Let’s take a look at this user. They currently have one submission, a map titled <a target="_blank" rel="noopener" href="https://gamebanana.com/wips/74502"><code>jump_forklift</code></a> for the game <a target="_blank" rel="noopener" href="https://www.teamfortress.com/">Team Fortress 2</a>:</p>
+<p><img src="/static/wolvctf-2023/gamebanana-submission.png" alt="GameBanana Submission"></p>
+<p>Check out that screenshot: it has a snippet of a Discord link, <code>discord.gg/aY4Wuy...</code>. It seems cut off, however, so we’ll have to try and recover the rest of the invite.</p>
+<p>Although we actually attempted to brute force the invite code (simply a two-character combination of <code>A-Z, a-z, 0-9</code>), we ended up completely IP rate-limited by Discord. So, like any logical person would do, I tried to open the map in the game itself.</p>
+<p>To download maps into TF2, you need to subscribe to its respective workshop on Steam. Although GameBanana never explicitly provided the Steam account for this user (or so I believe), their Steam account conveniently had the same as their GameBanana, <code>civilianengi3421</code>:</p>
+<p><img src="/static/wolvctf-2023/steam.png" alt="Steam"></p>
+<p>Here is the <a target="_blank" rel="noopener" href="https://steamcommunity.com/sharedfiles/filedetails/?id=2945817953">workshop</a> item associated with <code>jump_forklift</code>:</p>
+<p><img src="/static/wolvctf-2023/workshop.png" alt="Workshop"></p>
+<p>After subscribing to the item, I booted up TF2 for the first time in a couple of years to check out what was going on. </p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: The challenge explicitly states that you <strong>do not</strong> need to download any games or programs. I just simply took the easy route and did so, anyways!</div>
+
+<p>We can navigate to the “Create Server” menu and select the map at the bottom:</p>
+<p><img src="/static/wolvctf-2023/forklift.png" alt="Forklift"></p>
+<p>I entered the map and lo and behold, the Discord invite was fully visible:</p>
+<p><img src="/static/wolvctf-2023/discord-link.png" alt="Discord Link"></p>
+<p>Let’s join the server… or not, I guess:</p>
+<p><img src="/static/wolvctf-2023/invalid.png" alt="Invalid"></p>
+<p>Although this hiccup had my team scratching their heads for a while, we eventually stumbled upon a discrepancy in the invite link presented in the screenshot and the one in the map — the screenshot’s initial characters are <code>aY4Wuy...</code>, while the map has <code>aYWuyn...</code>. Let’s try adding the missing character <code>4</code> to the invite link:</p>
+<p><img src="/static/wolvctf-2023/valid.png" alt="Valid"></p>
+<p>We’ve successfully gained access to the server! Let’s take a look around:</p>
+<p><img src="/static/wolvctf-2023/discord.png" alt="Discord"></p>
+<p>Although there’s nothing of relevance in any of the channels, we see that the server has two individuals who have interacted with each other: <code>rocketjumper3005</code> and <code>s0llym41n3006</code>, who had left the server earlier. Let’s run a Sherlock search on these two users and see what we can find:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> python3 sherlock.py rocketjumper3005
+[<span style="color:#277FFF"><b>*</b></span>] Checking username rocketjumper3005 on:
+
+[<span style="color:#47D4B9"><b>+</b></span>] Coil: https://coil.com/u/rocketjumper3005
+
+[<span style="color:#277FFF"><b>*</b></span>] Search completed with 1 results</pre></td></tr></table></div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> python3 sherlock.py s0llym41n3006
+[<span style="color:#277FFF"><b>*</b></span>] Checking username s0llym41n3006 on:
+
+[<span style="color:#47D4B9"><b>+</b></span>] Coil: https://coil.com/u/s0llym41n3006
+[<span style="color:#47D4B9"><b>+</b></span>] Pastebin: https://pastebin.com/u/s0llym41n3006
+
+[<span style="color:#277FFF"><b>*</b></span>] Search completed with 2 results</pre></td></tr></table></div>
+
+<p>Coil was a false-positive, but that Pastebin account for the second user was a hit. Visiting their account reveals an interesting <a target="_blank" rel="noopener" href="https://pastebin.com/GYJvaUNe">paste</a>:</p>
+<p><img src="/static/wolvctf-2023/paste.png" alt="Paste"></p>
+<p>The paste reveals that the <code>rocketjumper3005</code> user had been keeping their schoolwork in the Discord server, and it had been visible using BetterDiscord’s <a target="_blank" rel="noopener" href="https://github.com/JustOptimize/return-ShowHiddenChannels">ShowHiddenChannels</a> plugin. The following image was attached:</p>
+<p><img src="/static/wolvctf-2023/screenshot.png" alt="Screenshot"></p>
+<p>We’re given a couple hints to pick at: <code>rocketjumper3005</code>‘s real name is Corey, and he had been working on his application to “TNISO University.” Let’s run a Google search for “corey tniso university” on DuckDuckGo:</p>
+<p><img src="/static/wolvctf-2023/tniso-search.png" alt="TNISO Search"></p>
+<p>We’ve got him! This “Corey Jacobs” actually has a <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/corey-jacobs-27259826a/">LinkedIn</a> profile:</p>
+<p><img src="/static/wolvctf-2023/corey.png" alt="Corey"></p>
+<p>Expanding the “About” section reveals… some interesting text:</p>
+<p><img src="/static/wolvctf-2023/corey2.png" alt="About"></p>
+<p>A <a target="_blank" rel="noopener" href="https://www.base64decode.org/">base64 decode</a> reveals our final flag:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>WannaFlag V: The Mastermind</strong>: <code>wctf{y0u_c4n_r0ck3tjUmp_bUt_y0u_c4nt_h1d3}</code></div>
+
+<hr>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>This was an extraordinarily well-designed challenge. A lot of OSINT nowadays isn’t creative at all, and doesn’t employ any sort of “out-of-the-box” thinking. The WannaFlag series, however, was my breath of fresh air — it brought in some really wacky and unique stuff, like the TF2 map&#x2F;Steam (the Excel password cracking bit was more forensics, but that’s just part of the nature of OSINT in general). I hope to see more of these types of challenges in the future. Here is a compiled list of tools that I used throughout the challenge — I hope you find them useful:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://lens.google/">Google Lens</a></li>
+<li><a target="_blank" rel="noopener" href="https://goerli.etherscan.io/">Goerli Testnet Explorer</a></li>
+<li><a target="_blank" rel="noopener" href="https://camas.unddit.com/">Unddit</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sherlock-project/sherlock">Sherlock.py</a></li>
+<li><a target="_blank" rel="noopener" href="https://epieos.com/">Epieos</a></li>
+<li><a target="_blank" rel="noopener" href="https://archive.org/">Wayback Machine</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-I:-An-Introduction"><span class="toc-number"></span> <span class="toc-text">WannaFlag I: An Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-II:-Payments"><span class="toc-number"></span> <span class="toc-text">WannaFlag II: Payments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-III:-Infiltration"><span class="toc-number"></span> <span class="toc-text">WannaFlag III: Infiltration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-IV:-Exfiltration"><span class="toc-number"></span> <span class="toc-text">WannaFlag IV: Exfiltration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WannaFlag-V:-The-Mastermind"><span class="toc-number"></span> <span class="toc-text">WannaFlag V: The Mastermind</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&text=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&title=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&is_video=false&description=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT&body=Check out this article: https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&title=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/wolvctf-2023/wannaflag-series/&name=WolvCTF 2023: Hunting Down a Flag-Stealing Ransomware Group with OSINT&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

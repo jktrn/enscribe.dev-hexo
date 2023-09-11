@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Discover various pertinent aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BYUCTF 2022: OSINT Writeup Compilation">
+<meta property="og:url" content="https://enscribe.dev/blog/byuctf-2022/osint-compilation/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Discover various pertinent aspects of digital open-source intelligence. This is my OSINT writeup compilation for the BYUCTF 2022 capture-the-flag competition.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/byuctf-2022/banner.png">
+<meta property="article:published_time" content="2022-05-29T01:02:04.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:34:26.689Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="osint">
+<meta property="article:tag" content="compilation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/byuctf-2022/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>BYUCTF 2022: OSINT Writeup Compilation</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/picoctf-2022/buffer-overflow-series/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/shctf-2022/writeup-compilation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/byuctf-2022/osint-compilation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&text=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&title=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&is_video=false&description=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BYUCTF 2022: OSINT Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/byuctf-2022/osint-compilation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&title=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&name=BYUCTF 2022: OSINT Writeup Compilation&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-don't-dream-about-noodles,-dad"><span class="toc-number"></span> <span class="toc-text">I don&#39;t dream about noodles, dad</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oh-The-Vanity"><span class="toc-number"></span> <span class="toc-text">Oh The Vanity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B0uld3r1ng"><span class="toc-number"></span> <span class="toc-text">B0uld3r1ng</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Squatter's-Rights"><span class="toc-number"></span> <span class="toc-text">Squatter&#39;s Rights</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Okta?-More-like-OhNah"><span class="toc-number"></span> <span class="toc-text">Okta? More like OhNah</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Murder-Mystery"><span class="toc-number"></span> <span class="toc-text">Murder Mystery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buckeye-Billy-Birthday"><span class="toc-number"></span> <span class="toc-text">Buckeye Billy Birthday</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buckeye-Billy-Blabbin'"><span class="toc-number"></span> <span class="toc-text">Buckeye Billy Blabbin&#39;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#43"><span class="toc-number"></span> <span class="toc-text">43</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        BYUCTF 2022: OSINT Writeup Compilation
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-29T01:02:04.000Z" itemprop="datePublished">May 28, 2022</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/byuctf-2022/">byuctf-2022</a> › <a class="category-link" href="/categories/blog/byuctf-2022/osint/">osint</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/compilation/" rel="tag">compilation</a>, <a class="tag-link-link" href="/tags/osint/" rel="tag">osint</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/byuctf-2022/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>So, we played BYUCTF 2022. There were <strong>9 OSINT challenges</strong>. 9. It was absolutely party-time for a CTF player w&#x2F; OSINT-emphasis like me, and a tragedy for people who dislike the inherently guessy nature behind the genre. Our team managed to solve them all, so here was our (albeit flawed) thought process behind it.</p>
+<p><strong>Important note</strong>: Some of our lines of reasoning don’t make sense at all. That’s normal for this category, and it comes from a crap ton of brainstorming, guesswork, and admin communication. I’ll try my best to include wrong paths that we took, but for the sake of brevity some of it will be omitted.</p>
+<p>Oh, also, here is a haiku to express my carnal, passionate, burning hatred for OSINT:</p>
+<blockquote><p><em>“Eternal Resentment”</em><br>Submerged in my tears,<br>I yearn for painless release.<br>The dreadful OSINT…</p>
+<footer><strong>-enscribe</strong></footer></blockquote>
+
+<p>Thank you, and enjoy.</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="I-don't-dream-about-noodles,-dad" class="chal-title"><a href="#I-don't-dream-about-noodles,-dad" class="headerlink" title="I don't dream about noodles, dad"></a>I don't dream about noodles, dad</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/byuctf-2022/po1.png">po.png</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Whose signature is found beneath Po's foot?<br />
+Flag format&#58; <code>byuctf{Firstname_Lastname}</code><br><br>
+<img src="/static/byuctf-2022/po1.png" width="200" alt="Po from Kung Fu Panda" sub="po.png"></img><div class="subtitle">po.png</div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>I did a quick <a target="_blank" rel="noopener" href="https://lens.google/">Google Lens</a> search with my phone with the keyword “BYU” attached and <a target="_blank" rel="noopener" href="https://universe.byu.edu/2012/09/27/5-campus-locations-you-didnt-know-existed/">this</a> article turned up:</p>
+<p><img src="/static/byuctf-2022/po2.png" width="500" alt="The Daily Universe" sub="Credit to &lt;i&gt;The Daily Universe&lt;&#x2F;i&gt;"></img><div class="subtitle">Credit to <i>The Daily Universe</i></div></p>
+
+<blockquote>
+<p>Jason Turner is a BYU computer science program graduate who works at DreamWorks and created all the data for Po’s character. The statue is a tribute to his success, as well as the University’s program and alumni.</p>
+</blockquote>
+<p>Since the tribute is for Jason Turner, we can assume the signature is below his foot.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>I don't dream about noodles, dad</strong>: <code>byuctf{Jason_Turner}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Oh-The-Vanity" class="chal-title"><a href="#Oh-The-Vanity" class="headerlink" title="Oh The Vanity"></a>Oh The Vanity</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/byuctf-2022/sharky1.png">sharky.png</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                The vanity and audacity of these scammers and their phishing attacks are just getting ridiculous. I read an article this month about a new way to mask phishing campaigns. They even included this photo. Find the date the article was published.<br />
+Flag format&#58; <code>byuctf{mm-dd-yyyy}</code><br><br>
+<img src="/static/byuctf-2022/sharky1.png" width="400" alt="sharky.png" sub="sharky.png"></img><div class="subtitle">sharky.png</div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Reverse Google Search with a “phishing” crib:</p>
+<p><img src="/static/byuctf-2022/sharky2.png" width="500" alt="Sharky Google Search"></img></p>
+
+<p>The <a target="_blank" rel="noopener" href="https://www.darkreading.com/cloud/vanity-urls-could-be-spoofed-for-social-engineering-attacks">Vanity URL on darkreading.com</a>  was published on May 11th, 2022.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Oh The Vanity</strong>: <code>byuctf{05-11-22}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="B0uld3r1ng" class="chal-title"><a href="#B0uld3r1ng" class="headerlink" title="B0uld3r1ng"></a>B0uld3r1ng</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 416<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/byuctf-2022/bouldering1.png">b0uld3r1ng.png</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                I met a guy named Sam while climbing here in California. Can't remember what it's called though. Kinda looks like reptilian don't you think?<br><br>
+<img src="/static/byuctf-2022/bouldering1.png" width="400" alt="b0uld3r1ng.png" sub="b0uld3r1ng.png"></img><div class="subtitle">b0uld3r1ng.png</div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Once again, I used Google Lens to figure out where the location of this image was. Turns out to be a place called the <code>Lizard&#39;s Mouth Rock</code> in Santa Barbara County, California:</p>
+<p><img src="/static/byuctf-2022/bouldering2.png" alt="Lizard&#39;s Mouth"></p>
+<p>The image given to us is a direct screenshot of an image posted by Maps contributor <a target="_blank" rel="noopener" href="https://www.google.com/maps/contrib/104742787928495148360">Jonathan P.</a>, although that has little relevance to the challenge.</p>
+<p>Moving on, although we have the location of the image taken the flag is in <em>explicit format</em>, meaning that it’s somewhere on the internet wrapped with <code>byuctf&#123;...&#125;</code>. We noticed that a guy named “Sam” was mentioned, so we guessed that we could find him leaving a review of the place on a platform.</p>
+<p>We checked through the following platforms: Yelp, Google Reviews, TripAdvisor, AllTrails⁠—yet, we couldn’t find a recent reviewer by the name of Sam. Luckily, one of my team members searched up “Bouldering Lizard’s Mouth” (based on the challenge name) and happened to stumble across <a target="_blank" rel="noopener" href="https://www.mountainproject.com/area/105885134/the-lizards-mouth">this website</a>:</p>
+<p><img src="/static/byuctf-2022/bouldering3.png" alt="Bouldering Website" sub="The Lizard&#39;s Mouth on Mountain Project"></img><div class="subtitle">The Lizard's Mouth on Mountain Project</div></p>
+
+<p>We scrolled down to the “Reviews” section and found this:</p>
+<p><img src="/static/byuctf-2022/bouldering4.png" alt="Bouldering Comments"></p>
+<p>Hey, look! A Sam! Let’s check out their <a target="_blank" rel="noopener" href="https://www.mountainproject.com/user/201354492/samuel-sender">profile</a>:</p>
+<p><img src="/static/byuctf-2022/bouldering5.png" alt="Samuel Profile"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>B0uld3r1ng</strong>: <code>byuctf{ju5t_5end_1t_br0_v8bLDrg}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Squatter's-Rights" class="chal-title"><a href="#Squatter's-Rights" class="headerlink" title="Squatter's Rights"></a>Squatter's Rights</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 489<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/byuctf-2022/squatter1.png">geoguesser.png</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Somehow, somewhere, something in this picture has a flag, but my friend Blue Orca won’t tell me where it is!!!! Can you help me??<br><br>
+<img src="/static/byuctf-2022/squatter1.png" width="400" sub="geoguesser.png"></img><div class="subtitle">geoguesser.png</div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Hey, look! Another Google Lens problem! Although there’s a lot of blue water towers out there, I luckily stumbled across one that looked really similar in Flint, Michigan:</p>
+<p><img src="/static/byuctf-2022/squatter2.png" width="300"></img></p>
+
+<p>Going to the <a target="_blank" rel="noopener" href="http://www.eureka4you.com/water-michigan/MI-Flint1.htm">webpage</a>, it mentions that this water tower is in “Genesee County. Mid Michigan.”, so with a quick Maps search I stumble across the “Wyatt P. Memorial Water Tower”:</p>
+<p><img src="/static/byuctf-2022/squatter3.png" width="600"></img></p>
+
+<p>This is where the rabbit hole begins. I looked around the reviews section of this place and found the absolute weirdest, most hilarious reviews of all time:</p>
+<blockquote><p>In all my days, I have never seen such a magnificent water tower.  Being in its presence has given me powers beyond comprehension.  I have mastered flight in the downward direction.  I have 100% recall of events that happened to me in the last 5 minutes.  I have also discovered I am completely invisible when no one is looking.   This water tower has changed my view of who I am, and my ultimate potential.</p>
+<footer><strong>- Robert Skouson</strong></footer></blockquote>
+
+<p>This guy even claims it to be holy water:</p>
+<blockquote><p>This water from Wyatt P. Memorial Water tower has changed the way I see water, and drink it. Every time I see this water tower, it makes me want quality water. Forget Poland Spring or Fiji. This is quality water! You know how in the Book of John Chapter 2, the Savior Jesus Christ turned water into wine? Well he actually turned already good wine to water from Wyatt P. Memorial Water tower.</p>
+<footer><strong>- Nicholas Martinez</strong></footer></blockquote>
+
+<p>This one might be my favorite:</p>
+<blockquote><p>Professionally speaking as a water tower enthusiast, this has to be one of the best water towers that I’ve ever visited and I’ve visited thousands. The divine structure of the 10 legs leading to the plumply, robust water basin is enough to get any man excited. The satisfying twang as you bang the side wall sends shivers down even the most hardened of souls. Never before has such a feat been attempted and accomplished. Truly this should be the EIGHTIETH WONDER OF THE WORLD.</p><footer><strong>- McKay Lush</strong></footer></blockquote>
+
+<p>I actually stumbled across the person it’s named after, <code>Wyatt Pangerl</code>, and I was super curious as to what the hell was going on:</p>
+<p><img src="/static/byuctf-2022/squatter4.png" alt="Wyatt"></p>
+<p>So I opened a ticket. Turns out, this Wyatt guy, a member of their team, managed to get the water tower named after himself after a series of divine, godlike social engineering strategies (assumedly to the county) and exploitation of the <a target="_blank" rel="noopener" href="https://homeguides.sfgate.com/squatters-rights-law-california-45887.html">Squatter’s Rights</a> law in California. He also claimed the location on Google Maps and put his burner phone there as well, which we called (he didn’t pick up). When I found his Facebook (will not disclose), I saw a multitude of his friends commenting hilarious crap, calling him “ICONIC.” and a “LEGEND.” for managing to make it happen.</p>
+<p>Yet, there was no flag.</p>
+<p>I continued to look around and managed to fall deeper into the rabbit hole, OSINTing everything between the model of <a target="_blank" rel="noopener" href="https://www.kbb.com/chrysler/crossfire/2006/">Wyatt’s car</a>, a Chrysler Crossfire 2006 (🤣) to where his parents file taxes… I even managed to get an award from a head admin for being a dumbass:</p>
+<p><img src="/static/byuctf-2022/squatter5.png" alt="Award"></p>
+<p>Then, while on the go, I checked the location on my phone… And look what we’ve got:</p>
+<p><img src="/static/byuctf-2022/squatter6.png" width="400"></img></p>
+
+<p>Apparently for whatever stupid, scatter-brained, vapid, moronic reason this “From the owner” section isn’t on Google Chrome. Screw you Wyatt, and your majestic, plump, baby-blue water tower. The flag is:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Squatter's Rights</strong>: <code>byuctf{h0w_d1d_1_st34l_4_w4t3r_t0w3r}</code></div>
+
+<p>Once again, screw you Wyatt. I hope your taxes are messed up forevermore.</p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Edit (06/02/22)</strong>: This "From the owner" section is <a target="_blank" rel="noopener" href="https://www.google.com/search?q=Wyatt+P.+Memorial+Water+Tower">available on Desktop Google Chrome</a>, but only accessible if the knowledge panel is visible, which wasn't the case for me.</div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Okta?-More-like-OhNah" class="chal-title"><a href="#Okta?-More-like-OhNah" class="headerlink" title="Okta? More like OhNah"></a>Okta? More like OhNah</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 490<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Recently, the group known as LAPSUS$ released indications they breached Microsoft &amp; one of the Largest SSO companies, Okta. In some of their leaks they hinted that "most of the time if you don't do anything like <strong><em><em></em></strong></em>__, you won't be detected".<br>Flag format&#58; <code>byuctf{answer:timestamp in format HH:MM}</code>, two word answer seperated by an underscore.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Looks like a challenge regarding an infamous hacking group. Seeing that the flag asks for a timestamp and the language is pseudo-colloquial, I’d safely assume that this text mentioned somewhere came from a messaging board. I downloaded <em>Telegram</em>, their main method of communication with the real world, joining their <a target="_blank" rel="noopener" href="https://t.me/minsaudebr">announcements board</a>, yet upon a <kbd>Ctrl</kbd> + <kbd>F</kbd> I couldn’t find this message anywhere. Their board mentions a <a target="_blank" rel="noopener" href="https://t.me/saudechat">group chat</a>, but it was recently purged and terminated. When the admin confirmed that this wasn’t the intended solution, I moved towards looking for screenshots surrounding the Okta leak. Our team found this <a target="_blank" rel="noopener" href="https://twitter.com/_JohnHammond/status/1506166671664463875">tweet from John Hammond</a> after a while:</p>
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 400"><a target="_blank" rel="noopener" href="https://twitter.com/_JohnHammond/status/1506166671664463875"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Okta? More like OhNah</strong>: <code>byuctf{port_scanning_11:22}</code></div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> A hint was later added to the challenge:
+<blockquote>
+  think screenshots! it is not on telegram but another platform with that same first letter. tweeted by a famous red head i think
+</blockquote>
+Would have been easier. Love you, John Hammond.</div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Murder-Mystery" class="chal-title"><a href="#Murder-Mystery" class="headerlink" title="Murder Mystery"></a>Murder Mystery</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 499<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                While searching for secrets of the past, you find a scrap of paper that contains the following information:<br><br><code>0110111001110010011010000111000001101001011001000100110001001011110100001111</code><br>June 29, 1902<br><br>Because you’re great at OSINT, you trace this information back to a famous inscription. What is that inscription?<br>Flag&#58; <code>byuctf{inscription_with_underscores}</code><br>Note&#58; the flag will not include the name or dates found in the inscription.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Instantly, we moved to <a target="_blank" rel="noopener" href="https://gchq.github.io/CyberChef/">Cyberchef</a> for the binary conversion, and it resulted in <code>nrhpidLKÐ</code>. We thought it was garbage at first, until a teammate noticed “NRHP ID” within the string, which is related to the <a target="_blank" rel="noopener" href="https://history.idaho.gov/nrhp/">National Register of Historic Places</a>. Since there’s a historic date also in the description, we can immediately conclude that this is the correct path to take. We isolated the last part and converted it into decimal instead - <code>80002319</code>.</p>
+<p>Following the trail for <code>NRHP ID 80002319</code>, we found this <a target="_blank" rel="noopener" href="https://en.upwiki.one/wiki/Jesse_James_Home_Museum">UpWiki Page</a> About the “Jesse James Home Museum”, which is the location registered under this ID.</p>
+<p>When we looked up “jesse james famous inscription”, we found a <a target="_blank" rel="noopener" href="https://photocontest.smithsonianmag.com/photocontest/detail/the-original-grave-site-of-jesse-james-located-in-the-yard-of-the-james-fam/">Smithsonian Magazine</a> page that photographs Mr. James’ grave:</p>
+<p><img src="/static/byuctf-2022/mystery1.png" width="600"></img></p>
+
+<p>Removing the dates and names as the description specifies, the flag is:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Murder Mystery</strong>: <code>byuctf{murdered_by_a_traitor_and_coward_whose_name_is_not_worthy_to_appear_here}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buckeye-Billy-Birthday" class="chal-title"><a href="#Buckeye-Billy-Birthday" class="headerlink" title="Buckeye Billy Birthday"></a>Buckeye Billy Birthday</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 500<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Buckeye Billy, our lovely, nutty, history loving friend, has a birthday coming up! Billy is as cryptic as can be, and we have no idea what to get him for his birthday. We did find three hints on written on his desk. Can you help us find where we should buy a gift from?<br />
+<a target="_blank" rel="noopener" href="https://mywordle.strivemath.com/?word=sokhc">Hint 1</a> <a target="_blank" rel="noopener" href="https://mywordle.strivemath.com/?word=yocod">Hint 2</a> <a target="_blank" rel="noopener" href="https://mywordle.strivemath.com/?word=lffep">Hint 3</a><br />
+format&#58; <code>byuctf{storename}</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>I took a look at the three hints, and they were Wordle games that resulted in <code>WATER</code>, <code>CALLS</code>, and <code>PROBE</code>. Since we were looking for a shop (meaning a location), we immediately turned to <a target="_blank" rel="noopener" href="https://what3words.com/">what3words</a> and stumbled across <a target="_blank" rel="noopener" href="https://what3words.com/water.calls.probe">this location</a> in Charlotte, Ohio:</p>
+<p><img src="/static/byuctf-2022/bday1.png" alt="Water Calls Probe"></p>
+<p>We tried a couple of stores around the area to no avail, until an admin told us in a ticket that we were in the wrong place. By extension, we decided to try out various permutations of <code>water</code>, <code>calls</code> and <code>probe</code>:</p>
+<table>
+<thead>
+<tr>
+<th>what3word address</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/water.calls.probe">&#x2F;&#x2F;&#x2F;water.calls.probe</a></td>
+<td>Charlotte, North Carolina</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/calls.water.probe">&#x2F;&#x2F;&#x2F;calls.water.probe</a></td>
+<td>Detroit, Michigan</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/probe.water.calls">&#x2F;&#x2F;&#x2F;probe.water.calls</a></td>
+<td>Houston, Texas</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/water.probe.calls">&#x2F;&#x2F;&#x2F;water.probe.calls</a></td>
+<td>Cincinnati, Ohio</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/calls.probe.water">&#x2F;&#x2F;&#x2F;calls.probe.water</a></td>
+<td>Albuquerque, New Mexico</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://w3w.co/probe.calls.water">&#x2F;&#x2F;&#x2F;probe.calls.water</a></td>
+<td>Eastbourne, London</td>
+</tr>
+</tbody></table>
+<p>Most of them were bogus except <a target="_blank" rel="noopener" href="https://what3words.com/water.probe.calls">&#x2F;&#x2F;&#x2F;water.probe.calls</a>, which was on E. McMillan St, Cincinnati, Ohio. We assumed it was correct (and admin later confirmed) because the nickname “Buckeye Billy” comes from the fact that he loves the <a target="_blank" rel="noopener" href="https://ohiostatebuckeyes.com/">Ohio State University Buckeyes</a> football team. (Bonus: The Ohio Buckeye is a type of nut, and the description says that he is “nutty”). Our teammate somehow connected “history-loving” to old stores in Cincinnati, Ohio, and upon a Google search we found:</p>
+<p><img src="/static/byuctf-2022/bday2.png" alt="Graeters Google Search"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Buckeye Billy Birthday</strong>: <code>byuctf{graeters}</code></div>
+
+<p>This was a guessy challenge, so don’t feel dumb. I felt dumb too.</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Buckeye-Billy-Blabbin'" class="chal-title"><a href="#Buckeye-Billy-Blabbin'" class="headerlink" title="Buckeye Billy Blabbin'"></a>Buckeye Billy Blabbin'</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 500<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Buckeye Billy discovered social media. And probably posts too much. Try to see what you can find. for this problem and others!<br />
+Flag will be completely visible once solved! You will see <code>byuctf{}</code>.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Step 0 is to find his social media account, which we did by searching “Buckeye Billy” on <a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye">Twitter</a>:</p>
+<p><img src="/static/byuctf-2022/blabbin1.png" alt="Buckeye Twitter"></p>
+<p>We scoured his Twitter account on the Wayback Machine for it to no avail (and even found some <a target="_blank" rel="noopener" href="https://web.archive.org/web/20220415232856/https://twitter.com/William_buckeye/status/1515109844771999745">deleted stuff</a> from a previous internal CTF).</p>
+<p>I slowly began to despise him… that Buckeye Billy. That stupid, perfectly circular nuthead with the even stupider BYU sombrero. We gave up on the challenge and I cried to the admin until he got annoyed and agreed to post a global hint:</p>
+<blockquote>
+<p>the more billy tweeted about something, the more of a hint it might be. The flag is on his account someplace.</p>
+</blockquote>
+<p>He tweeted a lot about song lyrics:</p>
+<div class="flex-container">
+    <div>
+        <div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 300"><a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye/status/1515237428025462785"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div>
+        <div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 300"><a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye/status/1515238210577657857"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div>
+        <div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 300"><a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye/status/1515237017579229185"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+</div>
+
+<p>We decided it would be best to create a list of songs, in addition to counting occurrences of topics he discussed (for brainstorming purposes). We ended up with this list:</p>
+<p><img src="/static/byuctf-2022/blabbin3.png" alt="Occurrences List"></p>
+<p>Hey, check that out in the Songs list. “3 Words”, “One Place”, “Greater”, “Ice Cream”? That sounds a lot like our previous challenge, <code>Buckeye Billy Birthday</code>. Looks like these were meant to be solved in tandem. By extension, “Man in the Mirror” and “Magic Mirror” were also hinted at, and we found a <a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye/status/1515113600750219265">tweet</a> of Billy posing in front of a mirror with a BYU hat. Uncoincidentally, this is the only mention of BYU in his entire profile (I believe):</p>
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 500"><a target="_blank" rel="noopener" href="https://twitter.com/William_buckeye/status/1515113600750219265"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>My team used steganography tools on this image, and lo and behold:</p>
+<p><img src="/static/byuctf-2022/blabbin5.png" alt="Flag in Steganography Analysis"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Buckeye Billy Blabbin'</strong>: <code>byuctf{t@lk_0sinty_t0_m3}</code></div>
+
+<p>Also an extremely guessy challenge. Screw you, Buckeye Billy. And Wyatt too, if you’re reading.</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="43" class="chal-title"><a href="#43" class="headerlink" title="43"></a>43</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://support.discord.com/hc/user_images/l12c7vKVRCd-XLIdDkLUDg.png"> <a target="_blank" rel="noopener" href="#">neil</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 500<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                It’s at your fingertips!! Who made this code?<br />
+<code>S fsu om yjr aogr 3"45`</code><br />
+format&#58; <code>byuctf{blank_blank}</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Looks like something the <a target="_blank" rel="noopener" href="https://www.dcode.fr/cipher-identifier">DCode Cipher Identifier</a> could figure out:</p>
+<div><figure class="highlight text" style=""><table><tr><td class="code"><pre>dCode&#x27;s analyzer suggests to investigate:
+Keyboard Shift Cipher ■■■■■■■■■▪
+Substitution Cipher ▪
+Shift Cipher ▪
+Homophonic Cipher ▫
+ROT Cipher ▫</pre></td></tr></table></div>
+
+<p>I threw it into their <a target="_blank" rel="noopener" href="https://www.dcode.fr/keyboard-shift-cipher">Keyboard Shift Cipher</a> and got this:</p>
+<div><figure class="highlight text" style=""><table><tr><td class="code"><pre>qwerty → A day in the \ife 2:34
+qwerty ← D gdi p, ukt spht 4A56
+qwerty ↓↻ W va7 ln ume slf4 e:v6
+qwerty ↑4 S fsu om yjr aogr 3_45
+qwerty ↓4 S fsu om yjr aogr 3{45</pre></td></tr></table></div>
+
+<p>“A Day in the Life” is a song by the <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=usNsCeOV4GM">Beatles</a> (a fascinatingly good one too), and I took a look the decoded timestamp <code>2:34</code> in the music video:</p>
+<p><img src="/static/byuctf-2022/43-1.png" alt="Beatles video"></p>
+<p>Although I couldn’t find who the person in the timestamp was, someone in the comments named the individuals at timestamps:</p>
+<p><img src="/static/byuctf-2022/43-2.png" alt="Comments"></p>
+<p><img src="/static/byuctf-2022/43-3.png" alt="Nesmith"></p>
+<p>The guy at 3:31 is the same as the guy at 2:34, so it’s Michael Nesmith from the Monkees.</p>
+<p>Looking up “Monkees 43” on Google, we discover that there’s actually an old website called <a target="_blank" rel="noopener" href="https://www.monkeesrule43.com/articles.html">monkeesrule43.com</a>.</p>
+<p>This is where you guess all the names of the Monkees… not sure of the logical thought process yet.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>43</strong>: <code>byuctf{micky_dolenz}</code></div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Edit (06/02/22)</strong>: The intended solve was to look at <a target="_blank" rel="noopener" href="https://www.monkeesrule43.com/articles.html">monkeesrule43.com</a>. In their <a target="_blank" rel="noopener" href="https://www.monkeesrule43.com/faq.html">FAQ page</a>, Question 13 asks:
+<blockquote>
+  13.)  What does the weird writing on Micky's page of the Monkees' 2001 summer tourbook mean?
+  -Micky's page is written in a computer keyboard code. Each letter written stands for the letter to the left of it on a computer keyboard. For example, "Zovlu" means Micky &amp; "Jo!" means Hi!
+</blockquote>
+Damn you, Micky.</div>
+
+<hr>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-don't-dream-about-noodles,-dad"><span class="toc-number"></span> <span class="toc-text">I don&#39;t dream about noodles, dad</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oh-The-Vanity"><span class="toc-number"></span> <span class="toc-text">Oh The Vanity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B0uld3r1ng"><span class="toc-number"></span> <span class="toc-text">B0uld3r1ng</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Squatter's-Rights"><span class="toc-number"></span> <span class="toc-text">Squatter&#39;s Rights</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Okta?-More-like-OhNah"><span class="toc-number"></span> <span class="toc-text">Okta? More like OhNah</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Murder-Mystery"><span class="toc-number"></span> <span class="toc-text">Murder Mystery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buckeye-Billy-Birthday"><span class="toc-number"></span> <span class="toc-text">Buckeye Billy Birthday</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buckeye-Billy-Blabbin'"><span class="toc-number"></span> <span class="toc-text">Buckeye Billy Blabbin&#39;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#43"><span class="toc-number"></span> <span class="toc-text">43</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/byuctf-2022/osint-compilation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&text=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&title=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&is_video=false&description=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BYUCTF 2022: OSINT Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/byuctf-2022/osint-compilation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&title=BYUCTF 2022: OSINT Writeup Compilation"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/byuctf-2022/osint-compilation/&name=BYUCTF 2022: OSINT Writeup Compilation&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

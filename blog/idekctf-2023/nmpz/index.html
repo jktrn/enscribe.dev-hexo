@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="&quot;No moving, panning, or zooming&quot; — a GeoGuessr-esque OSINT challenge from idekCTF 2022 testing geographical literacy.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge">
+<meta property="og:url" content="https://enscribe.dev/blog/idekctf-2023/nmpz/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="&quot;No moving, panning, or zooming&quot; — a GeoGuessr-esque OSINT challenge from idekCTF 2022 testing geographical literacy.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/idekctf-2023/banner.png">
+<meta property="article:published_time" content="2023-01-16T02:26:32.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:14:06.212Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="geoint">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/idekctf-2023/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/mhsctf-2023/matchmaker/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/sekaictf-2022/forensics-compilation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/idekctf-2023/nmpz/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&text=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&title=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&is_video=false&description=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge&body=Check out this article: https://enscribe.dev/blog/idekctf-2023/nmpz/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&title=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&name=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NMPZ"><span class="toc-number"></span> <span class="toc-text">NMPZ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-png"><span class="toc-number">1.</span> <span class="toc-text">1.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-png"><span class="toc-number">2.</span> <span class="toc-text">2.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-png"><span class="toc-number">3.</span> <span class="toc-text">3.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-png"><span class="toc-number">4.</span> <span class="toc-text">4.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-png"><span class="toc-number">5.</span> <span class="toc-text">5.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-The-Infamous-Snorkel"><span class="toc-number">5.1.</span> <span class="toc-text">GeoGuessr Meta: The Infamous Snorkel</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-png"><span class="toc-number">6.</span> <span class="toc-text">6.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-png"><span class="toc-number">7.</span> <span class="toc-text">7.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-png"><span class="toc-number">8.</span> <span class="toc-text">8.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-png"><span class="toc-number">9.</span> <span class="toc-text">9.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-png"><span class="toc-number">10.</span> <span class="toc-text">10.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-png"><span class="toc-number">11.</span> <span class="toc-text">11.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-png"><span class="toc-number">12.</span> <span class="toc-text">12.png</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pit-Stop"><span class="toc-number"></span> <span class="toc-text">Pit Stop</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-png"><span class="toc-number">1.</span> <span class="toc-text">13.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-png"><span class="toc-number">2.</span> <span class="toc-text">14.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-png"><span class="toc-number">3.</span> <span class="toc-text">15.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#The-Guesswork-Begins"><span class="toc-number">3.1.</span> <span class="toc-text">The Guesswork Begins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-Snow-Coverage"><span class="toc-number">3.2.</span> <span class="toc-text">GeoGuessr Meta: Snow Coverage</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-png"><span class="toc-number">4.</span> <span class="toc-text">16.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-Rifts-in-the-Sky"><span class="toc-number">4.1.</span> <span class="toc-text">GeoGuessr Meta: Rifts in the Sky</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-png"><span class="toc-number">5.</span> <span class="toc-text">17.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-The-Sakhalin-Plant"><span class="toc-number">5.1.</span> <span class="toc-text">GeoGuessr Meta: The Sakhalin Plant</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Afterword"><span class="toc-number"></span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resources"><span class="toc-number"></span> <span class="toc-text">Resources</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-01-16T02:26:32.000Z" itemprop="datePublished">Jan 15, 2023</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/idekctf-2023/">idekctf-2023</a> › <a class="category-link" href="/categories/blog/idekctf-2023/osint/">osint</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/geoint/" rel="tag">geoint</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/idekctf-2023/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>Recently my team (<a target="_blank" rel="noopener" href="https://sekai.team/">Project Sekai</a>) and I played <a target="_blank" rel="noopener" href="https://ctftime.org/event/1839">idekCTF 2022*</a> (with an asterisk… because it’s 2023), which was an extraordinarily “race against the clock”-esque CTF with a ridiculously large pool of challenges - 58 of them, over a 48-hour runtime. We managed to snag a 1st place finish after countless hours of <em>not</em> touching grass (despite analyzing it throughout this challenge), and I would like to share my personal favorite OSINT challenge of the competition - “NMPZ”, an acronym in the <a target="_blank" rel="noopener" href="https://geoguessr.com/">GeoGuessr</a> community for “no <strong>moving</strong>, <strong>panning</strong>, or <strong>zooming</strong>.” Although my team hadn’t 100% correctly solved the challenge (we inferred part of the flag), here was our thought process tackling it. Enjoy!</p>
+<hr>
+<p><img src="/static/idekctf-2023/banner-nmpz.svg" alt="NMPZ Banner"></p>
+<div class="flex-container">
+<div>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="NMPZ" class="chal-title"><a href="#NMPZ" class="headerlink" title="NMPZ"></a>NMPZ</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: jazzzooo<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 474<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Are you as good as Rainbolt at GeoGuessr? Prove your skills by geo-guessing these 17 countries.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> <span class="built_in">tree</span>
+<span class="string">.</span>
+<span class="string">├──</span> <span class="number">1.png</span>
+<span class="string">├──</span> <span class="number">2.png</span>
+...
+<span class="string">├──</span> <span class="number">17.png</span>
+<span class="string">└──</span> <span class="meta prompt_">README</span></pre></td></tr></table></div>
+</div>
+</div>
+
+<p>The provided <code>README</code> file contains the following:</p>
+<div><figure class="highlight text" style=""><table><figcaption><span>README(.txt)</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre>Figure out in which country each image was taken.
+The first letter of every country's name will create the flag.
+Countries with over 10 million inhabitants will have a capital letter.
+Countries with less than one million inhabitants become an underscore.</pre></td></tr></table></div>
+
+<p>Here is a table of the provided example flag (<code>idek&#123;TEST_flAg&#125;</code>), and how the flag construction works:</p>
+<div class="table-center">
+
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Country of Origin</th>
+<th><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population">Population</a></th>
+<th>Flag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>⠀</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1.png</td>
+<td><img src="https://flagcdn.com/24x18/tr.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Turkey">Turkey</a></td>
+<td>84,680,273 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Turkey">2021</a>)</td>
+<td><code>T</code></td>
+</tr>
+<tr>
+<td>2.png</td>
+<td><img src="https://flagcdn.com/24x18/ec.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ecuador">Ecuador</a></td>
+<td>18,145,568 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Ecuador">2023</a>)</td>
+<td><code>E</code></td>
+</tr>
+<tr>
+<td>3.png</td>
+<td><img src="https://flagcdn.com/24x18/es.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Spain">Spain</a></td>
+<td>47,615,034 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Spain">2022</a>)</td>
+<td><code>S</code></td>
+</tr>
+<tr>
+<td>4.png</td>
+<td><img src="https://flagcdn.com/24x18/th.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Thailand">Thailand</a></td>
+<td>66,883,467 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Thailand">2023</a>)</td>
+<td><code>T</code></td>
+</tr>
+<tr>
+<td>5.png</td>
+<td><img src="https://flagcdn.com/24x18/va.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vatican_City">Vatican City</a></td>
+<td>825 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vatican_City#Demographics">2019</a>)</td>
+<td><code>_</code></td>
+</tr>
+<tr>
+<td>6.png</td>
+<td><img src="https://flagcdn.com/24x18/fi.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Finland">Finland</a></td>
+<td>5,528,796 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Finland">2022</a>)</td>
+<td><code>f</code></td>
+</tr>
+<tr>
+<td>7.png</td>
+<td><img src="https://flagcdn.com/24x18/lt.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lithuania">Lithuania</a></td>
+<td>2,839,020 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Lithuania">2022</a>)</td>
+<td><code>l</code></td>
+</tr>
+<tr>
+<td>8.png</td>
+<td><img src="https://flagcdn.com/24x18/ar.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Argentina">Argentina</a></td>
+<td>47,327,407 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Argentina">2022</a>)</td>
+<td><code>A</code></td>
+</tr>
+<tr>
+<td>9.png</td>
+<td><img src="https://flagcdn.com/24x18/ge.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Georgia_(country)">Georgia</a></td>
+<td>3,688,600 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Georgia_(country)">2022</a>)</td>
+<td><code>g</code></td>
+</tr>
+</tbody></table>
+</div>
+<br>
+
+<p>We’re given… 17 different screenshots of locations on <a target="_blank" rel="noopener" href="https://www.google.com/streetview/">Google Street View</a>. Currently, our goal is to find the country of origin for each and every single one of these screenshots, and to combine each letter together to form the flag (as per the <code>README</code>). Here’s a quick preview of all of them:</p>
+<div style="height:400px; overflow-y: auto; margin: 1rem 0; background-color:rgb(29,29,29); padding:1rem; border-radius:5px;">
+
+<div class=""><div class="card-grid"><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">1.png</p>
+            <p class="description">Captured: March 2022<br><br>
+<img src="/static/idekctf-2023/1.png" alt="1.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">2.png</p>
+            <p class="description">Captured: November 2011<br><br>
+<img src="/static/idekctf-2023/2.png" alt="2.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">3.png</p>
+            <p class="description">Captured: June 2019<br><br>
+<img src="/static/idekctf-2023/3.png" alt="3.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">4.png</p>
+            <p class="description">Captured: December 2014<br><br>
+<img src="/static/idekctf-2023/4.png" alt="4.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">5.png</p>
+            <p class="description">Captured: September 2021<br><br>
+<img src="/static/idekctf-2023/5.png" alt="5.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">6.png</p>
+            <p class="description">Captured: August 2013<br><br>
+<img src="/static/idekctf-2023/6.png" alt="6.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">7.png</p>
+            <p class="description">Captured: November 2014<br><br>
+<img src="/static/idekctf-2023/7.png" alt="7.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">8.png</p>
+            <p class="description">Captured: April 2013<br><br>
+<img src="/static/idekctf-2023/8.png" alt="8.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">9.png</p>
+            <p class="description">Captured: August 2014<br><br>
+<img src="/static/idekctf-2023/9.png" alt="9.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">10.png</p>
+            <p class="description">Captured: November 2014<br><br>
+<img src="/static/idekctf-2023/10.png" alt="10.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">11.png</p>
+            <p class="description">Captured: September 2012<br><br>
+<img src="/static/idekctf-2023/11.png" alt="11.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">12.png</p>
+            <p class="description">Captured: November 2022<br><br>
+<img src="/static/idekctf-2023/12.png" alt="12.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">13.png</p>
+            <p class="description">Captured: October 2020<br><br>
+<img src="/static/idekctf-2023/13.png" alt="13.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">14.png</p>
+            <p class="description">Captured: June 2015<br><br>
+<img src="/static/idekctf-2023/14.png" alt="14.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">15.png</p>
+            <p class="description">Captured: March 2012<br><br>
+<img src="/static/idekctf-2023/15.png" alt="15.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">16.png</p>
+            <p class="description">Captured: June 2016<br><br>
+<img src="/static/idekctf-2023/16.png" alt="16.png" /></p>
+        </div>
+        
+        </div><div class="card" style="">
+        
+        <div class="contents">
+            <p class="title">17.png</p>
+            <p class="description">Captured: June 2013<br><br>
+<img src="/static/idekctf-2023/17.png" alt="17.png" /></p>
+        </div>
+        
+        </div></div></div>
+
+</div>
+
+<p>Let’s get to work.</p>
+<hr>
+<h3 id="1-png"><a href="#1-png" class="headerlink" title="1.png"></a>1.png</h3><p><img src="/static/idekctf-2023/1.png" alt="1.png"></p>
+<p>Looks like we’re on a waterfront walkway with a beautiful view of a harbor. A quick <a target="_blank" rel="noopener" href="https://lens.google/">Google Lens</a> results in a “<a target="_blank" rel="noopener" href="https://www.google.com/search?q=mureta+da+urca">Muerta da Urca</a>“ in Rio de Janeiro, <img src="https://flagcdn.com/24x18/br.png" class="inline-image"> <strong><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Brazil">Brazil</a></strong>:</p>
+<p><img src="/static/idekctf-2023/1-lens.png" alt="1-lens.png"></p>
+<p>Oh, yeah, there’s totally a World Wonder in the background by the way… <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)">Christ the Redeemer</a>:</p>
+<p><img src="/static/idekctf-2023/1-christ.png" width="500px"></img></p>
+
+<p>Since Brazil had a population of ~215 million in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Brazil">2022</a>, it’ll be capitalized in the flag. For brevity’s sake, I’ll be omitting the populations from here on out - however, I’ll still include them (alongside sources) in the upcoming progress tables.</p>
+<p>Trivial! 1&#x2F;17 down.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{B</code>_________________<code>}</code></div>
+
+<hr>
+<h3 id="2-png"><a href="#2-png" class="headerlink" title="2.png"></a>2.png</h3><p><img src="/static/idekctf-2023/2.png" alt="2.png"></p>
+<p>Wow… this is the most <img src="https://flagcdn.com/24x18/ru.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Russia"><strong>Russia</strong></a> photo I’ve ever seen! If you don’t believe me, here’s a Google Lens of the very evident <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Saint_Basil%27s_Cathedral">St. Basil’s Cathedral</a> looming in the background:</p>
+<p><img src="/static/idekctf-2023/2-lens.png" alt="2-lens.png"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BR</code>________________<code>}</code></div>
+
+<hr>
+<h3 id="3-png"><a href="#3-png" class="headerlink" title="3.png"></a>3.png</h3><p><img src="/static/idekctf-2023/3.png" alt="3.png"></p>
+<p>Finally, no more trivial landmarks in the background! Looks like we’re now on the roadside of some European business-y area. I quickly noticed a name on the brown sign attached to the streetlight:</p>
+<p><img src="/static/idekctf-2023/3-zoom.png" width="500px"></img></p>
+
+<p>It reads “Kalamaja”, which upon a quick Google results in a small city district in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tallinn">Tallinn</a>, <img src="https://flagcdn.com/24x18/ee.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Estonia"><strong>Estonia</strong></a>: </p>
+<p><img src="/static/idekctf-2023/3-google.png" alt="3-google.png"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BRe</code>______________<code>}</code></div>
+
+<hr>
+<h3 id="4-png"><a href="#4-png" class="headerlink" title="4.png"></a>4.png</h3><p><img src="/static/idekctf-2023/4.png" alt="4.png"></p>
+<p>The middle of nowhere… a classic. Let’s see what the Google Lens yields:</p>
+<p><img src="/static/idekctf-2023/4-lens.png" alt="4-lens.png"></p>
+<p>The first result identifies a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Stuart_Highway">Stuart Highway</a>, which runs straight through central <img src="https://flagcdn.com/24x18/au.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Australia"><strong>Australia</strong></a> (a.k.a. the middle of nowhere). Also, if you look closely, there’s a reflector sign in the center of the photo which looks exactly like the Australian bollard on <a target="_blank" rel="noopener" href="https://geohints.com/Bollards">geohints.com</a>, a resource for GeoGuessr players: </p>
+<div class="flex-container">
+<div><p><img src="/static/idekctf-2023/4-bollard.png" sub="Zoomed in bollard"></img><div class="subtitle">Zoomed in bollard</div></p></div>
+<div><p><img src="/static/idekctf-2023/4-comparison.png" sub="GeoHints Australian bollard"></img><div class="subtitle">GeoHints Australian bollard</div></p></div>
+</div>
+
+<p>Additionally, a key “Australian” identifier would be the orangey dirt on the roadsides, which is common around the country.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReA</code>____________<code>}</code></div>
+
+<hr>
+<h3 id="5-png"><a href="#5-png" class="headerlink" title="5.png"></a>5.png</h3><p><img src="/static/idekctf-2023/5.png" alt="5.png"></p>
+<p>This one was extraordinarily rough. According to the author themselves:</p>
+<blockquote><p>its hilarious that every single person got one country wrong, but the letter was the same so it didnt matter… you included ;)</p>
+<footer><strong>- jazzzooo</strong></footer></blockquote>
+
+<p>…and apparently this was the one that everyone was messing up!</p>
+<p>Let’s move on to my approach. I noticed a few things:</p>
+<p><img src="/static/idekctf-2023/5-lettered.svg" alt="5-lettered.png"></p>
+<ol class="upper-alpha">
+    <li>The extraordinarily ambiguous "Third St" on top of the grey SUV in front of us</li>
+    <li>The words "Al-Siraad Plaza" plastered to the side of the grey building on the left</li>
+    <li>The words "Ab-Furqan" on the poster above the white/green checkered wall on the left</li>
+    <li>Arabic script on the walls of the white/green building on the right</li>
+    <li>An advertisement for "Peri Peri Pizza" on the far right</li>
+    <li>Consistently yellow license plates</li>
+</ol>
+
+<p>All signs point to an Arabic-speaking country. In addition, since we solved each image out of order (and knew the next character would be an underscore) the flag contained the word segment <code>BREA-</code>, which only had three possibilities to form a proper word: <code>BREAD</code>, <code>BREAK</code>, and <code>BREAM</code> (which we ruled out due to unlikeliness). As a result, we simply guessed the country to be <img src="https://flagcdn.com/24x18/kz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kazakhstan"><strong>Kazakhstan</strong></a> (even though it doesn’t have official Google Street View coverage and Arabic isn’t a nationally recognized language).</p>
+<h4 id="GeoGuessr-Meta-The-Infamous-Snorkel"><a href="#GeoGuessr-Meta-The-Infamous-Snorkel" class="headerlink" title="GeoGuessr Meta: The Infamous Snorkel"></a>GeoGuessr Meta: The Infamous Snorkel</h4><p>Now… here is the absolutely crazy part. After solving the challenge, the author revealed to me what the actual country was:</p>
+<blockquote><p>do you see the little snorkel on the right front corner of your car in 5.png?<br>i implore you to google “geoguessr snorkel” haha</p>
+<footer><strong>- jazzzooo</strong></footer></blockquote>
+
+<p>I had no idea what they were talking about, so I zoomed in on the car and lo and behold, snorkel:</p>
+<p><img src="/static/idekctf-2023/5-snorkel.png" width="400px"></img></p>
+
+<p>I did a quick Google search, and found a tweet from the official GeoGuessr <a target="_blank" rel="noopener" href="https://twitter.com/geoguessr/">Twitter</a> account:</p>
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: 400"><a target="_blank" rel="noopener" href="https://twitter.com/geoguessr/status/1564621460034969606"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Apparently, this was one of the strategies that GeoGuessr pros use to quickly identify countries: using the car the Photo Sphere was taken from to their advantage, considered to be part of the “meta” game. The “<img src="https://flagcdn.com/24x18/ke.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kenya"><strong>Kenyan</strong></a> Snorkel” was one of the more infamous ones, and I had no idea it existed. I was absolutely blown away.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK</code>____________<code>}</code></div>
+
+<hr>
+<h3 id="6-png"><a href="#6-png" class="headerlink" title="6.png"></a>6.png</h3><p><img src="/static/idekctf-2023/6.png" alt="6.png"></p>
+<p>Ah, yes, another “middle of nowhere.” This time, however, it’s a bit easier! Here’s the Google Lens yield:</p>
+<p><img src="/static/idekctf-2023/6-lens.png" alt="6-lens.png"></p>
+<p>Yep, that’s definitely <img src="https://flagcdn.com/24x18/is.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Iceland"><strong>Iceland</strong></a>. Here are some things you use to identify Iceland:</p>
+<ul>
+<li>99% of the time there will be overcast skies</li>
+<li>Off-green, almost yellow-ish grass. Here is an example from <a target="_blank" rel="noopener" href="https://geohints.com/Scenery">GeoHints</a>:</li>
+</ul>
+<p><img src="/static/idekctf-2023/6-geohints.png" alt="6-geohints.png"></p>
+<ul>
+<li>Bollards! These ones are bright yellow with a diagonally pointed top, and a white reflector:</li>
+</ul>
+<div class="flex-container">
+<div><p><img src="/static/idekctf-2023/6-bollard.png" sub="Zoomed in bollard"></img><div class="subtitle">Zoomed in bollard</div></p></div>
+<div><p><img src="/static/idekctf-2023/6-comparison.png" sub="GeoHints Icelandic bollard"></img><div class="subtitle">GeoHints Icelandic bollard</div></p></div>
+</div>
+
+<p>This character will be an underscore (<code>_</code>), since the population of Iceland is 376,000 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Iceland">2022</a>).</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_</code>___________<code>}</code></div>
+
+<hr>
+<h3 id="7-png"><a href="#7-png" class="headerlink" title="7.png"></a>7.png</h3><p><img src="/static/idekctf-2023/7.png" alt="7.png"></p>
+<p>Wow… I’ve never seen a neighborhood this massive with not a single piece of foliage in sight. Here’s the Google Lens output:</p>
+<p><img src="/static/idekctf-2023/7-lens.png" alt="7-lens.png"></p>
+<p>Definitely <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ulaanbaatar">Ulaanbaatar</a>, <img src="https://flagcdn.com/24x18/mn.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://https//en.wikipedia.org/wiki/Mongolia"><strong>Mongolia</strong></a>! We confirmed it with the license plate of the car on the left:</p>
+<div class="flex-container">
+<div><p><img src="/static/idekctf-2023/7-plate.png" width="400" sub="Zoomed in plate"></img><div class="subtitle">Zoomed in plate</div></p></div>
+<div><p><img src="/static/idekctf-2023/7-comparison.png" width="400" sub="Generic Mongolian plate"></img><div class="subtitle">Generic Mongolian plate</div></p></div>
+</div>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m</code>__________<code>}</code></div>
+
+<hr>
+<h3 id="8-png"><a href="#8-png" class="headerlink" title="8.png"></a>8.png</h3><p><img src="/static/idekctf-2023/8.png" alt="8.png"></p>
+<p>This was arguably one of the hardest to solve (and one that we got incorrect). Here’s the Google Lens output:</p>
+<p><img src="/static/idekctf-2023/8-lens.png" alt="8-lens.png"></p>
+<p>No idea! Our original guess was the <img src="https://flagcdn.com/24x18/ph.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Philippines">Philippines</a> or <img src="https://flagcdn.com/24x18/id.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Indonesia">Indonesia</a>, but <code>BReAK_m(P/I)_</code> didn’t make any sense. We moved on to the next image and discovered it was an underscore (<code>_</code>), and eventually came to the conclusion that the country had to either start with <code>E</code> or <code>Y</code> to make any sense (to make either <code>BReAK_m</code>(<code>Y</code>&#x2F;<code>y</code>) or <code>BReAK_m</code>(<code>E</code>&#x2F;<code>e</code>)). The only recognized country which starts with Y is <img src="https://flagcdn.com/24x18/ye.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Yemen">Yemen</a>, which was an unlikely guess because of the consistent greenery, foliage, and hills (in the Arabian Peninsula, practically all desert). </p>
+<p>In accordance with <code>E</code>&#x2F;<code>e</code> as the only likely character, we eventually settled on either <img src="https://flagcdn.com/24x18/sv.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/El_Salvador"><strong>El Salvador</strong></a> or <img src="https://flagcdn.com/24x18/ec.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ecuador"><strong>Ecuador</strong></a>, so this character would be either uppercase or lowercase.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)</code>________<code>}</code></div>
+
+<hr>
+<h3 id="9-png"><a href="#9-png" class="headerlink" title="9.png"></a>9.png</h3><p><img src="/static/idekctf-2023/9.png" alt="9.png"></p>
+<p>A Photo Sphere in the middle of the sea! Looks like we’re in a pretty large city, and it’s giving off tourist resort-y vibes. Here’s the Google Lens output:</p>
+<p><img src="/static/idekctf-2023/9-lens.png" alt="9-lens.png"></p>
+<p>It looks like it’s identified the cityscape as belonging to <img src="https://flagcdn.com/24x18/mc.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Monaco"><strong>Monaco</strong></a>. It’s even identified the facade of one of the buildings in the city as the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Op%C3%A9ra_de_Monte-Carlo">Opéra de Monte-Carlo</a>:</p>
+<p><img src="/static/idekctf-2023/9-facade.png" alt="9-facade.png"></p>
+<p>Let’s add an underscore to the flag, since Monaco’s population is 37,308 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Monaco">2016</a>).</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_</code>________<code>}</code></div>
+
+<hr>
+<h3 id="10-png"><a href="#10-png" class="headerlink" title="10.png"></a>10.png</h3><p><img src="/static/idekctf-2023/10.png" alt="10.png"></p>
+<p>We’re now given a small town in the hills of an assumingly European country (overall house aesthetic). Here’s the Google Lens output:</p>
+<p><img src="/static/idekctf-2023/10-lens.png" alt="10-lens.png"></p>
+<p>Lens results are giving me either <img src="https://flagcdn.com/24x18/ch.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Switzerland"><strong>Switzerland</strong></a> or <img src="https://flagcdn.com/24x18/no.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Norway"><strong>Norway</strong></a>. My suspicions for Switzerland were confirmed when I saw its recognizable square flag hanging off one of the houses:</p>
+<p><img src="/static/idekctf-2023/10-zoom.png" alt="10-zoom.png"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_s</code>_______<code>}</code></div>
+
+<hr>
+<h3 id="11-png"><a href="#11-png" class="headerlink" title="11.png"></a>11.png</h3><p><img src="/static/idekctf-2023/11.png" alt="11.png"></p>
+<p>Splat in the middle of an inconspicuous-looking suburb! Here’s the Google Lens output when you focus in on the bollards on the street (since there’s nothing of interest anywhere else):</p>
+<p><img src="/static/idekctf-2023/11-lens.png" alt="11-lens.png"></p>
+<p>Scrolling through the outputs results in distinctly <img src="https://flagcdn.com/24x18/pl.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Poland"><strong>Polish</strong></a> bollards:</p>
+<div class="flex-container">
+<div><p><img src="/static/idekctf-2023/11-bollard.png" sub="Zoomed in bollard"></img><div class="subtitle">Zoomed in bollard</div></p></div>
+<div><p><img src="/static/idekctf-2023/11-comparison.png" sub="GeoHints Polish bollard"></img><div class="subtitle">GeoHints Polish bollard</div></p></div>
+</div>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sP</code>______<code>}</code></div>
+
+<hr>
+<h3 id="12-png"><a href="#12-png" class="headerlink" title="12.png"></a>12.png</h3><p><img src="/static/idekctf-2023/12.png" alt="12.png"></p>
+<p>More Europe! Here’s the Google Lens output:</p>
+<p><img src="/static/idekctf-2023/12-lens.png" alt="12-lens.png"></p>
+<p>It looks like it’s so generically European that Google Lens can’t seem to pin a single country down. Let’s zoom in to see any pertinent details:</p>
+<p><img src="/static/idekctf-2023/12-zoom.png" alt="12-zoom.png"></p>
+<p>The vertical sign reads “ELEKTRO”, whilst the lower horizontal sign reads “Weißensteiner”, two distinctly German words (with the latter being a surname, romanized into “<a target="_blank" rel="noopener" href="https://forebears.io/surnames/weissensteiner">Weissensteiner</a>“). Although we could automatically assume  <img src="https://flagcdn.com/24x18/de.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Germany">Germany</a>, there are multiple other German-speaking European countries, so we’ll have to narrow it down further.</p>
+<p>Here’s the solution: simply Google “Elektro Weißensteiner” and you’ll find that it’s an electronics store based in <img src="https://flagcdn.com/24x18/at.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Austria"><strong>Austria</strong></a>:</p>
+<p><img src="/static/idekctf-2023/12-google.png" alt="12-google.png"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPa</code>_____<code>}</code></div>
+
+<hr>
+<h2 id="Pit-Stop"><a href="#Pit-Stop" class="headerlink" title="Pit Stop"></a>Pit Stop</h2><p>We’ve now come to a completely arbitrary stopping point - from here on out, each <code>.png</code> will become exponentially harder… so let’s just recap what we’ve gotten so far. Note that incorrect countries will be <em>italicized</em>:</p>
+<div class="table-center">
+
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Country of Origin</th>
+<th><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population">Population</a></th>
+<th>Flag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>⠀</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#1-png">1.png</a></td>
+<td><img src="https://flagcdn.com/24x18/br.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Brazil">Brazil</a></td>
+<td>215,652,035 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Brazil">2023</a>)</td>
+<td><code>B</code></td>
+</tr>
+<tr>
+<td><a href="#2-png">2.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ru.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Russia">Russia</a></td>
+<td>146,980,061 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Russia">2022</a>)</td>
+<td><code>R</code></td>
+</tr>
+<tr>
+<td><a href="#3-png">3.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ee.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Estonia">Estonia</a></td>
+<td>1,331,796 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Estonia">2022</a>)</td>
+<td><code>e</code></td>
+</tr>
+<tr>
+<td><a href="#4-png">4.png</a></td>
+<td><img src="https://flagcdn.com/24x18/au.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Australia">Australia</a></td>
+<td>26,033,493 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Australia">2023</a>)</td>
+<td><code>A</code></td>
+</tr>
+<tr>
+<td><a href="#5-png">5.png</a></td>
+<td><img src="https://flagcdn.com/24x18/kz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kazakhstan"><em>Kazakhstan</em></a></td>
+<td>19,392,112 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Kazakhstan">2023</a>)</td>
+<td><code>K</code></td>
+</tr>
+<tr>
+<td><a href="#6-png">6.png</a></td>
+<td><img src="https://flagcdn.com/24x18/is.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Iceland">Iceland</a></td>
+<td>385,230 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Iceland">2022</a>)</td>
+<td><code>_</code></td>
+</tr>
+<tr>
+<td><a href="#7-png">7.png</a></td>
+<td><img src="https://flagcdn.com/24x18/mn.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mongolia">Mongolia</a></td>
+<td>3,477,605 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Mongolia">2023</a>)</td>
+<td><code>m </code></td>
+</tr>
+<tr>
+<td><a href="#8-png">8.png</a></td>
+<td><img src="https://flagcdn.com/24x18/sv.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/El_Salvador"><em>El Salvador</em></a> &#x2F; <img src="https://flagcdn.com/24x18/ec.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ecuador"><em>Ecuador</em></a></td>
+<td>6,825,935 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_El_Salvador">2021</a>) &#x2F; 18,145,568 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Ecuador">2023</a>)</td>
+<td><code>e</code>&#x2F;<code>E</code></td>
+</tr>
+<tr>
+<td><a href="#9-png">9.png</a></td>
+<td><img src="https://flagcdn.com/24x18/mc.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Monaco">Monaco</a></td>
+<td>39,150 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Monaco">2021</a>)</td>
+<td><code>_</code></td>
+</tr>
+<tr>
+<td><a href="#10-png">10.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ch.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Switzerland">Switzerland</a></td>
+<td>8,789,726 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Switzerland">2022</a>)</td>
+<td><code>s</code></td>
+</tr>
+<tr>
+<td><a href="#11-png">11.png</a></td>
+<td><img src="https://flagcdn.com/24x18/pl.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Poland">Poland</a></td>
+<td>37,796,000 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Poland">2022</a>)</td>
+<td><code>P</code></td>
+</tr>
+<tr>
+<td><a href="#12-png">12.png</a></td>
+<td><img src="https://flagcdn.com/24x18/at.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Austria">Austria</a></td>
+<td>9,090,868 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Austria">2022</a>)</td>
+<td><code>a</code></td>
+</tr>
+</tbody></table>
+</div>
+<br>
+
+<p>Let’s proceed with the rest of this challenge.</p>
+<hr>
+<h3 id="13-png"><a href="#13-png" class="headerlink" title="13.png"></a>13.png</h3><p><img src="/static/idekctf-2023/13.png" alt="13.png"></p>
+<p>This is probably the quintessential “North America” picture ever - impossibly flat land, a random city skyline in the background, and huge fields. A Google Lens search yields nothing we don’t already know:</p>
+<p><img src="/static/idekctf-2023/13-lens.png" alt="13-lens.png"></p>
+<p>Currently, our only issue here is telling between either <img src="https://flagcdn.com/24x18/ca.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Canada">Canada</a> or the <img src="https://flagcdn.com/24x18/us.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/United_States">United States</a>. Let’s narrow it down a bit more.</p>
+<p>The only telling sign here is <strong>road markings</strong>. Since I live in the US, I know that two-way roads (with one lane per direction) are typically marked with either <strong>broken double</strong> yellow lines or <strong>solid double</strong> yellow lines. Although <strong>single dashed</strong> yellow lines exist in the US, they are much more common in Canada (albeit still existing in the US). Here’s a diagram I threw up, which you can combine with the overall “feel” of an image to make a calculated guess:</p>
+<p><img src="/static/idekctf-2023/13-streets.svg" alt="13-streets.svg"></p>
+<p>Alongside this, not a single common word in English starts with the prefix <code>spau-</code>, so ruling out the US is a no-brainer. However, the above knowledge about road markings is useful when you have no flag to infer characters from!</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPaC</code>____<code>}</code></div>
+
+<hr>
+<h3 id="14-png"><a href="#14-png" class="headerlink" title="14.png"></a>14.png</h3><p><img src="/static/idekctf-2023/14.png" alt="14.png"></p>
+<p>This one was actually really, really clever. Although a Google Lens yields nothing of use (since its viewpoint is a random tropical area), take a look at the bottom right-hand corner of the image:</p>
+<p><img src="/static/idekctf-2023/14-bottom.png" alt="14-bottom.png"></p>
+<p>Is that an acute accent mark on top of the letter I (<code>í</code>)? Inferring from the shape of the other letters, it looks like this segment of the word spells out <code>-íal</code>, which many Spanish words end with. We can safely narrow this down to a Latin-American&#x2F;Spanish-speaking country.</p>
+<p>Let’s keep inferring from the flag. It currently says <code>BReAK_m(E/e)_sPaC</code>, so we can safely guess that the next country should start with <code>e</code> or <code>E</code> to continue the next likely word, “space.” <img src="https://flagcdn.com/24x18/ec.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ecuador">Ecuador</a> and <img src="https://flagcdn.com/24x18/sv.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/El_Salvador">El Salvador</a> are the only Spanish-speaking countries that start with <code>e</code> or <code>E</code>, and I was able to narrow it down to Ecuador solely from the license plate of the car on the right, which looks like a taxi:</p>
+<div class="flex-container">
+<div><p><img src="/static/idekctf-2023/14-plate.png" sub="Zoomed in plate" width="400px"></img><div class="subtitle">Zoomed in plate</div></p></div>
+<div><p><img src="/static/idekctf-2023/14-comparison.jpg" sub="Ecuadorian plate for commercial vehicles (taxis, buses)" width="400px"></img><div class="subtitle">Ecuadorian plate for commercial vehicles (taxis, buses)</div></p></div>
+</div>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPaCE</code>___<code>}</code></div>
+
+<hr>
+<h3 id="15-png"><a href="#15-png" class="headerlink" title="15.png"></a>15.png</h3><p><img src="/static/idekctf-2023/15.png" alt="15.png"></p>
+<p>We are now presented with… some dilapidated, snowy houses! This will be difficult to narrow down.</p>
+<p>Google Lens yielded nothing of use, but I did identify some Cyrillic writing on the dumpster to the left:</p>
+<p><img src="/static/idekctf-2023/15-bin.png" alt="15-bin.png"></p>
+<p>When a Google search for a “KMA” trash company in Eastern Europe&#x2F;Russia resulted in nothing relevant, I became absolutely stumped with this challenge. </p>
+<h4 id="The-Guesswork-Begins"><a href="#The-Guesswork-Begins" class="headerlink" title="The Guesswork Begins"></a>The Guesswork Begins</h4><p>This was around the time my team started to suspect the flag for the challenge read “break me spacebar”, which is a meme in the GeoGuessr community for how content creator <a target="_blank" rel="noopener" href="https://www.youtube.com/@georainbolt">Rainbolt</a> hits his spacebar really loudly when guessing a location on the map:</p>
+<p><img src="/static/idekctf-2023/15-spacebar.png" alt="15-spacebar.png"></p>
+<p>In accordance with the word “spacebar”, I narrowed the country down to the only Russian-speaking country (in terms of officially recognized languages) with starts with “B”: <img src="https://flagcdn.com/24x18/by.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Belarus">Belarus</a>. </p>
+<h4 id="GeoGuessr-Meta-Snow-Coverage"><a href="#GeoGuessr-Meta-Snow-Coverage" class="headerlink" title="GeoGuessr Meta: Snow Coverage"></a>GeoGuessr Meta: Snow Coverage</h4><p>So… Belarus was incorrect. However, it had a population under 10 million (similarly to the correct answer), meaning that the letter <code>b</code> was correct, regardless. The real country this image was taken in was <img src="https://flagcdn.com/24x18/bg.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bulgaria">Bulgaria</a>, which a pro player would guess due to the typical snow coverage of Google Street View. According to this <a target="_blank" rel="noopener" href="https://somerandomstuff1.wordpress.com/2019/02/08/geoguessr-the-top-tips-tricks-and-techniques/#bulgaria">GeoGuessr Tips</a> article:</p>
+<blockquote>
+<p>Hungary is one of three European countries that can have similar, bleak, winter scenery with trees without leaves and snowfall beside the road. The other two countries are Bulgaria and small parts of Czechia.</p>
+</blockquote>
+<blockquote>
+<p>Much of Bulgarian Street View was taken in winter and thus the trees are often without leaves and the Street View scenes in Bulgaria are often fairly bleak. Within Europe, Hungary and parts of Czechia have similar bleak wintery scenery. Bulgaria is one of the poorest countries in Europe and the Bulgarian roads reflect this fact. These roads are commonly crumbling and filled with cracks and holes.</p>
+</blockquote>
+<p>So when you see a combination of dilapidation&#x2F;bleakness and snowiness, Bulgaria, <img src="https://flagcdn.com/24x18/hu.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hungary">Hungary</a>, or the <img src="https://flagcdn.com/24x18/cz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Czech_Republic">Czech Republic</a> would be your best guesses.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPaCEb</code>__<code>}</code></div>
+
+<hr>
+<h3 id="16-png"><a href="#16-png" class="headerlink" title="16.png"></a>16.png</h3><p><img src="/static/idekctf-2023/16.png" alt="16.png"></p>
+<p>Beautiful hills and mountains… However, I genuinely have no idea where this could be!</p>
+<p>Let’s start off with what little we have, and analyze the black and white chevron marker in the center of the image:</p>
+<p><img src="/static/idekctf-2023/16-zoom.png" alt="16-zoom.png"></p>
+<p>I initially scoured the internet for countries which use this specific chevron and came across this map, courtesy of user <a target="_blank" rel="noopener" href="https://www.reddit.com/r/geoguessr/comments/lwa9wr/map_of_european_road_curve_chevron_signs/">u&#x2F;isaacSW</a> on the <a target="_blank" rel="noopener" href="https://www.reddit.com/r/geoguessr/">r&#x2F;geoguessr</a> subreddit:</p>
+<p><img src="/static/idekctf-2023/16-map.webp" alt="16-map.webp"></p>
+<p>According to this map, the only countries which use white-on-black turn chevrons are the <img src="https://flagcdn.com/24x18/gb.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/United_Kingdom">United Kingdom</a>, <img src="https://flagcdn.com/24x18/ch.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Switzerland">Switzerland</a>, <img src="https://flagcdn.com/24x18/it.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Italy">Italy</a>, <img src="https://flagcdn.com/24x18/gr.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Greece">Greece</a>, <img src="https://flagcdn.com/24x18/al.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Albania">Albania</a>, and occasionally <img src="https://flagcdn.com/24x18/es.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Spain">Spain</a>.</p>
+<p>Since this part of the flag says “spacebar”, the only choice which starts with “A” is Albania, so we will be using <code>a</code> for this character.</p>
+<h4 id="GeoGuessr-Meta-Rifts-in-the-Sky"><a href="#GeoGuessr-Meta-Rifts-in-the-Sky" class="headerlink" title="GeoGuessr Meta: Rifts in the Sky"></a>GeoGuessr Meta: Rifts in the Sky</h4><p>After the challenge was completed, the author revealed something really interesting about this image… “<strong>rifts in the sky</strong>“:</p>
+<div class="twitter-wrapper"><blockquote class="twitter-tweet tw-align-center" data-theme="dark" style="width: auto"><a target="_blank" rel="noopener" href="https://twitter.com/pchaltv/status/1562906335125336067"></a></blockquote></div><script async="" defer="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Apparently, for countries like Albania, <img src="https://flagcdn.com/24x18/me.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Montenegro">Montenegro</a>, and <img src="https://flagcdn.com/24x18/sn.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Senegal">Senegal</a>, there are camera imperfections in the Photo Sphere which result in creases in the sky:</p>
+<p><img src="/static/idekctf-2023/16-rift.png" alt="16-rift.png"></p>
+<p>We can see the rift itself in <code>16.png</code> in the top center of the image:</p>
+<p><img src="/static/idekctf-2023/16-rift2.png" alt="16-rift2.png"></p>
+<p>Little meta tricks and trivia like these are what make GeoGuessr such an interesting game.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPaCEba</code>_<code>}</code></div>
+
+<hr>
+<h3 id="17-png"><a href="#17-png" class="headerlink" title="17.png"></a>17.png</h3><p><img src="/static/idekctf-2023/17.png" alt="17.png"></p>
+<p>To be honest, we didn’t solve this one at all - we just completed the sentence “break me spacebar” and guessed the last character was either <code>R</code> or <code>r</code>. Our original <img src="https://flagcdn.com/24x18/kh.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cambodia">Cambodia</a> guess didn’t make any sense, anyways :P</p>
+<h4 id="GeoGuessr-Meta-The-Sakhalin-Plant"><a href="#GeoGuessr-Meta-The-Sakhalin-Plant" class="headerlink" title="GeoGuessr Meta: The Sakhalin Plant"></a>GeoGuessr Meta: The Sakhalin Plant</h4><p>The author of the challenge revealed that the last location was <img src="https://flagcdn.com/24x18/ru.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Russia"><strong>Russia</strong></a>, on the large island of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Sakhalin">Sakhalin</a> north of <img src="https://flagcdn.com/24x18/jp.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Japan">Japan</a>:</p>
+<p><img src="/static/idekctf-2023/17-map.png" width="500px"></img></p>
+
+<p>The intended method of identifying the location was to analyze this patch of particular foliage in the image:</p>
+<p><img src="/static/idekctf-2023/17-plant.png" width="400px"></img></p>
+
+<p>This plant is called <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Petasites_japonicus">butterbur</a> (<em>Petasites japonicus</em>, or simply “The Sakhalin Plant”), and it’s native to Sakhalin, Japan, <img src="https://flagcdn.com/24x18/cn.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/China">China</a>, and <img src="https://flagcdn.com/24x18/kp.png" class="inline-image">&#x2F;<img src="https://flagcdn.com/24x18/kr.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Korea">Korea</a>. Apparently, GeoGuessr pros can instantly identify this particular area of Russia from this plant alone!</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Flag Progress</strong>: <code>idek{BReAK_m(E/e)_sPaCEbaR}</code></div>
+
+<h2 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h2><p>With this, the entire flag is revealed, and was successfully submitted with a lowercase <code>e</code> for the eighth character (the country was actually <img src="https://flagcdn.com/24x18/sz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Eswatini">Eswatini</a>); the flag is <code>idek&#123;BReAK_me_sPaCEbaR&#125;</code>.</p>
+<p>This challenge would have not been possible if the flag wasn’t made up of recognizable English words. When we were approaching the end, we simply inferred that the last bit spelled “spacebar” - although we could have brute forced all 8 different capitalizations of “bar” (2^3) by the time we finished “sPaCE”, we felt like doing so would have detracted from the fun of the challenge.</p>
+<p>Overall, I didn’t just learn more about GEOSINT-style challenges - I came to a greater understanding of how absolutely massive Earth is. I guess that’s part of the fun in playing GeoGuessr!</p>
+<p>Here is a final table of all the countries (and what I guessed incorrectly):</p>
+<div class="table-center">
+
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Correct Country</th>
+<th><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population">Population</a></th>
+<th>Flag</th>
+<th>Incorrect Guess</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>⠀</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#1-png">1.png</a></td>
+<td><img src="https://flagcdn.com/24x18/br.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Brazil">Brazil</a></td>
+<td>215,652,035 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Brazil">2023</a>)</td>
+<td><code>B</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#2-png">2.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ru.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Russia">Russia</a></td>
+<td>146,980,061 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Russia">2022</a>)</td>
+<td><code>R</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#3-png">3.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ee.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Estonia">Estonia</a></td>
+<td>1,331,796 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Estonia">2022</a>)</td>
+<td><code>e</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#4-png">4.png</a></td>
+<td><img src="https://flagcdn.com/24x18/au.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Australia">Australia</a></td>
+<td>26,033,493 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Australia">2023</a>)</td>
+<td><code>A</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#5-png">5.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ke.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kenya">Kenya</a></td>
+<td>47,564,296 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Kenya">2019</a>)</td>
+<td><code>K</code></td>
+<td><img src="https://flagcdn.com/24x18/kz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kazakhstan">Kazakhstan</a></td>
+</tr>
+<tr>
+<td><a href="#6-png">6.png</a></td>
+<td><img src="https://flagcdn.com/24x18/is.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Iceland">Iceland</a></td>
+<td>385,230 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Iceland">2022</a>)</td>
+<td><code>_</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#7-png">7.png</a></td>
+<td><img src="https://flagcdn.com/24x18/mn.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mongolia">Mongolia</a></td>
+<td>3,477,605 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Mongolia">2023</a>)</td>
+<td><code>m </code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#8-png">8.png</a></td>
+<td><img src="https://flagcdn.com/24x18/sz.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Eswatini">Eswatini</a></td>
+<td>1,202,000 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Eswatini">2021</a>)</td>
+<td><code>e</code></td>
+<td><img src="https://flagcdn.com/24x18/sv.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/El_Salvador">El Salvador</a></td>
+</tr>
+<tr>
+<td><a href="#9-png">9.png</a></td>
+<td><img src="https://flagcdn.com/24x18/mc.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Monaco">Monaco</a></td>
+<td>39,150 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Monaco">2021</a>)</td>
+<td><code>_</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#10-png">10.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ch.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Switzerland">Switzerland</a></td>
+<td>8,789,726 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Switzerland">2022</a>)</td>
+<td><code>s</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#11-png">11.png</a></td>
+<td><img src="https://flagcdn.com/24x18/pl.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Poland">Poland</a></td>
+<td>37,796,000 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Poland">2022</a>)</td>
+<td><code>P</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#12-png">12.png</a></td>
+<td><img src="https://flagcdn.com/24x18/at.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Austria">Austria</a></td>
+<td>9,090,868 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Austria">2022</a>)</td>
+<td><code>a</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#13-png">13.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ca.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Canada">Canada</a></td>
+<td>39,082,640 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Canada">2023</a>)</td>
+<td><code>C</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#14-png">14.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ec.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ecuador">Ecuador</a></td>
+<td>18,146,244 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Ecuador">2023</a>)</td>
+<td><code>E</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#15-png">15.png</a></td>
+<td><img src="https://flagcdn.com/24x18/bg.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bulgaria">Bulgaria</a></td>
+<td>6,520,314 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Bulgaria">2021</a>)</td>
+<td><code>b</code></td>
+<td><img src="https://flagcdn.com/24x18/by.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Belarus">Belarus</a></td>
+</tr>
+<tr>
+<td><a href="#16-png">16.png</a></td>
+<td><img src="https://flagcdn.com/24x18/al.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Albania">Albania</a></td>
+<td>2,829,741 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Albania">2021</a>)</td>
+<td><code>a</code></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#17-png">17.png</a></td>
+<td><img src="https://flagcdn.com/24x18/ru.png" class="inline-image"> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Russia">Russia</a></td>
+<td>146,980,061 (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Demographics_of_Russia">2022</a>)</td>
+<td><code>R</code></td>
+<td></td>
+</tr>
+</tbody></table>
+</div>
+<br>
+
+<h2 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h2><p>Here are some of the websites I used throughout the challenge-solving process:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://geohints.com/">GeoHints</a> - Provides images and key characteristics of every covered country in Google Street View</li>
+<li><a target="_blank" rel="noopener" href="https://geotips.net/">GeoTips</a> - Lots of meta stuff (e.g. camera quality, cars vs. trekkers, etc.)</li>
+<li><a target="_blank" rel="noopener" href="https://www.reddit.com/r/geoguessr/">r&#x2F;geoguessr</a> - Useful community diagrams and wiki</li>
+<li><a target="_blank" rel="noopener" href="https://somerandomstuff1.wordpress.com/2019/02/08/geoguessr-the-top-tips-tricks-and-techniques/">The Digital Labyrinth - GeoGuessr</a> - An absolutely massive blog post with everything you need to know about the game and its tricks</li>
+<li><a target="_blank" rel="noopener" href="http://www.worldlicenseplates.com/">World License Plates</a> - Scanned license plates of the majority of countries, including old and new designs</li>
+<li><a target="_blank" rel="noopener" href="https://lens.google/">Google Lens</a> - A powerful image recognition tool which can identify objects, text, landmarks, foliage, you name it and provide similar images</li>
+</ul>
+<hr>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NMPZ"><span class="toc-number"></span> <span class="toc-text">NMPZ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-png"><span class="toc-number">1.</span> <span class="toc-text">1.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-png"><span class="toc-number">2.</span> <span class="toc-text">2.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-png"><span class="toc-number">3.</span> <span class="toc-text">3.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-png"><span class="toc-number">4.</span> <span class="toc-text">4.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-png"><span class="toc-number">5.</span> <span class="toc-text">5.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-The-Infamous-Snorkel"><span class="toc-number">5.1.</span> <span class="toc-text">GeoGuessr Meta: The Infamous Snorkel</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-png"><span class="toc-number">6.</span> <span class="toc-text">6.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-png"><span class="toc-number">7.</span> <span class="toc-text">7.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-png"><span class="toc-number">8.</span> <span class="toc-text">8.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-png"><span class="toc-number">9.</span> <span class="toc-text">9.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-png"><span class="toc-number">10.</span> <span class="toc-text">10.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-png"><span class="toc-number">11.</span> <span class="toc-text">11.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-png"><span class="toc-number">12.</span> <span class="toc-text">12.png</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pit-Stop"><span class="toc-number"></span> <span class="toc-text">Pit Stop</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-png"><span class="toc-number">1.</span> <span class="toc-text">13.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-png"><span class="toc-number">2.</span> <span class="toc-text">14.png</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-png"><span class="toc-number">3.</span> <span class="toc-text">15.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#The-Guesswork-Begins"><span class="toc-number">3.1.</span> <span class="toc-text">The Guesswork Begins</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-Snow-Coverage"><span class="toc-number">3.2.</span> <span class="toc-text">GeoGuessr Meta: Snow Coverage</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-png"><span class="toc-number">4.</span> <span class="toc-text">16.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-Rifts-in-the-Sky"><span class="toc-number">4.1.</span> <span class="toc-text">GeoGuessr Meta: Rifts in the Sky</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-png"><span class="toc-number">5.</span> <span class="toc-text">17.png</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoGuessr-Meta-The-Sakhalin-Plant"><span class="toc-number">5.1.</span> <span class="toc-text">GeoGuessr Meta: The Sakhalin Plant</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Afterword"><span class="toc-number"></span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resources"><span class="toc-number"></span> <span class="toc-text">Resources</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/idekctf-2023/nmpz/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&text=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&title=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&is_video=false&description=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge&body=Check out this article: https://enscribe.dev/blog/idekctf-2023/nmpz/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&title=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/idekctf-2023/nmpz/&name=idekCTF 2022: “No Moving, Panning, or Zooming”, a GeoGuessr-style OSINT Challenge&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

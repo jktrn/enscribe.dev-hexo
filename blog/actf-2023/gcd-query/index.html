@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="An eccentric story about Bob, Chinese Remainder Theorem and 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series &quot;gcd-query&quot;!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers">
+<meta property="og:url" content="https://enscribe.dev/blog/actf-2023/gcd-query/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="An eccentric story about Bob, Chinese Remainder Theorem and 2048-bit integers. This is my writeup for the AmateursCTF 2023 programming series &quot;gcd-query&quot;!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/actf-2023/banner.png">
+<meta property="article:published_time" content="2023-07-24T07:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-30T18:25:56.294Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/actf-2023/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/sekaictf-2023/azusawas-gacha-world/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/wolvctf-2023/wannaflag-series/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/actf-2023/gcd-query/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/actf-2023/gcd-query/&text=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/actf-2023/gcd-query/&title=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/actf-2023/gcd-query/&is_video=false&description=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers&body=Check out this article: https://enscribe.dev/blog/actf-2023/gcd-query/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/actf-2023/gcd-query/&title=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/actf-2023/gcd-query/&name=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcd-query-v1"><span class="toc-number"></span> <span class="toc-text">gcd-query-v1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Chinese-Remainder-Theorem"><span class="toc-number">1.</span> <span class="toc-text">The Chinese Remainder Theorem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tne-Modular-Arithmetic-Nerd%E2%80%99s-Favorite-Carnival-Game"><span class="toc-number">2.</span> <span class="toc-text">Tne Modular Arithmetic Nerd’s Favorite Carnival Game</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementation"><span class="toc-number">3.</span> <span class="toc-text">Implementation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcd-query-v2"><span class="toc-number"></span> <span class="toc-text">gcd-query-v2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-07-24T07:00:00.000Z" itemprop="datePublished">Jul 24, 2023</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/actf-2022/">actf-2022</a> › <a class="category-link" href="/categories/blog/actf-2022/ppc/">ppc</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/algorithm/" rel="tag">algorithm</a>, <a class="tag-link-link" href="/tags/programming/" rel="tag">programming</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/actf-2023/banner.svg" alt="Banner"></p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Notice</strong>: I'm in the process of moving this blog to NextJS! For a better reading experience, I suggest you check out the <a target="_blank" rel="noopener" href="https://test-blog-jktrn.vercel.app/blog/actf-2023-gcd-query"><strong>updated version of this website</strong></a>, which is temporarily deployed on Vercel.</div>
+
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>High school CTF team <a target="_blank" rel="noopener" href="https://ctftime.org/team/175828">View Source</a> and I participated in <a target="_blank" rel="noopener" href="https://ctftime.org/event/1983">AmateursCTF 2023</a>, placing 2nd both overall and in the student division. Although there were over 64 challenges to tackle throughout the four-day submission period, I personally only put emphasis on the OSINT and algorithm categories. Within these categories lay an interesting challenge: the <code>gcd-query</code> series, which I solved with an implementation of a very special algorithm. This was my process (paired alongside a lengthy analogy)!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="gcd-query-v1" class="chal-title"><a href="#gcd-query-v1" class="headerlink" title="gcd-query-v1"></a>gcd-query-v1</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: algo<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 475<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 43<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                I wonder if this program leaks enough information for you to get the flag with less than 2048 queries… It probably does. I'm sure you can figure out how.<br />
+<code>nc amt.rs 31692</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>We’re initially provided with an attachment <code>main.py</code> and a remote server <code>amt.rs:31692</code>. The server component contains the following:</p>
+<figure class="highlight python"><figcaption><span>v1 Attachment</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/local/bin/python</span></span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> gcd</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getRandomInteger</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    x = getRandomInteger(<span class="number">2048</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1412</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            n, m = <span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>(<span class="string">&quot;n m: &quot;</span>).split())</span><br><span class="line">            <span class="keyword">assert</span> m &gt; <span class="number">0</span></span><br><span class="line">            <span class="built_in">print</span>(gcd(x + n, m))</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;bad input. you *die*&quot;</span>)</span><br><span class="line">            exit(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;x: &quot;</span>)) != x:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;get better lol&quot;</span>)</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+
+<p>Let’s go over step-by-step what this server is up to:</p>
+<ul>
+<li>For ten iterations, a long <code>x</code> is created by pycrypto’s <a target="_blank" rel="noopener" href="https://pythonhosted.org/pycrypto/Crypto.Util.number-module.html#getRandomInteger"><code>getRandomInteger(n)</code></a>, which returns a random integer with up to $n$ bits in length. $n &#x3D; 2048$; this is an absolutely mindbendingly large number — up to 617 digits long! You absolutely do not want to see what 617 digits looks like in decmimal:</li>
+</ul>
+<p><img src="/static/actf-2023/2048.svg" alt="2048-bit Visual"></p>
+<ul>
+<li>For each iteration of <code>x</code>, the user gets prompted to enter two integers <code>n</code> and <code>m</code>. Once the assertion that <code>m &gt; 0</code> is passed, <code>n</code> and <code>m</code> are passed into a function <code>gcd(x + n, m)</code>, which returns the <strong>greatest common divisor</strong> of <code>x + n</code> and <code>m</code>. This occurs for 1412 iterations.</li>
+<li>After the iterations have completed, the user is then prompted to guess the value of <code>x</code>. If the guess is correct, the next iteration of <code>x</code> begins. This process is repeated nine more times until the flag is printed.</li>
+</ul>
+<p>Here is a quick visual depicting what’s going on:</p>
+<p><img src="/static/actf-2023/visualization.svg" alt="Source Code Graphical Visualization"></p>
+<p>Paying close attention to the right side of this graphic, we can see that there’s only a couple specific points at which we can interact with the server: when we pick the <code>n</code> and <code>m</code> to send, and when we guess the value of <code>x</code>. The question now is: what values should we be picking for <code>n</code> and <code>m</code> which reveal the most information about <code>x</code>, and how do we use this information to obtain its actual value?</p>
+<h3 id="The-Chinese-Remainder-Theorem"><a href="#The-Chinese-Remainder-Theorem" class="headerlink" title="The Chinese Remainder Theorem"></a>The Chinese Remainder Theorem</h3><div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Recall</strong>: The <em>modulus</em> is the remainder of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euclidean_division">Euclidian division</a> (division with remainder) of one number by another. For example, $2 = 12 \pmod{5}$.  
+However, this is different from the <strong>congruence modulo</strong> relation, represented by the congruence symbol $\equiv$ and often expressed as $a \equiv b \pmod{m}$. When two numbers $a$ and $b$ are congruent modulo $m$, it means that:
+<ol>
+<li>$a$ and $b$ have the same remainder when divided by $m$</li>
+<li>$a - b$ is divisible by $m$ (i.e. $m \mid (a - b)$)</li>
+<li>There is an integer $k$ such that $a = km + b$</li>
+</ol>
+As such, $12 \equiv 2 \pmod{5}$ is true, but $12 = 2 \pmod{5}$ is obviously false.</div>
+
+<p>We start with a concept called a “system of congruences.” A system of congruences is a set of equations of the form $x \equiv a_i \pmod{m_i}$, where $a_i$, $b_i$, and $m_i$ are integers. The $m_i$ values are called the <strong>moduli</strong> of the system. Here’s a quick example of this:</p>
+<p>$$<br>\begin{cases}<br>x &amp;\equiv 1 \pmod{2} \newline<br>x &amp;\equiv 2 \pmod{3} \newline<br>x &amp;\equiv 3 \pmod{5}<br>\end{cases}<br>$$</p>
+<p>In this system, we have three congruences with moduli $2$, $3$, and $5$. The goal is to find a value for $x$ that satisfies all three congruences simultaneously.</p>
+<p>Thus, we can apply the Chinese Remainder Theorem:</p>
+<div class="text-theorem no-highlight"><i class="fa-solid fa-square-check"></i> <strong>Chinese Remainder Theorem</strong>: Given pairwise coprime integers $n_1, n_2, …, n_k$ and arbitrary integers $a_1, a_2, …, a_k$, the system of simultaneous congruences
+$$
+\begin{cases}
+    x \equiv a_1 \pmod{n_1} \\
+    x \equiv a_2 \pmod{n_2} \\
+    \vdots \\
+    x \equiv a_k \pmod{n_k}
+\end{cases}
+$$
+has a solution, and the solution is unique modulo $N = n_1 n_2 \cdots n_k$.</div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> Although the Chinese Remainder Theorem is often stated with pairwise coprime moduli (meaning that for a set of moduli $M = \{n_1, n_2, \ldots, n_k\}$, $\gcd(n_i, n_j) = 1$ for all $i \neq j$), it can be extended to non-coprime moduli. However, doing so does not guarantee a solution — this will become increasingly relevant as we get towards our implementation process.</div>
+
+<p>You may be asking: what the hell does this have to do with guessing the giant integer that we’ve been given? Well, I’ve concocted a little example here to demonstrate how we can use this theorem to our advantage.</p>
+<h3 id="Tne-Modular-Arithmetic-Nerd’s-Favorite-Carnival-Game"><a href="#Tne-Modular-Arithmetic-Nerd’s-Favorite-Carnival-Game" class="headerlink" title="Tne Modular Arithmetic Nerd’s Favorite Carnival Game"></a>Tne Modular Arithmetic Nerd’s Favorite Carnival Game</h3><p><img src="/static/actf-2023/carnival-visual.svg" alt="Carnival Game"></p>
+<p>Let’s say little Bob over at the bottom right goes to a carnival game booth and is asked to guess a number on a ball behind the operator. Obviously, since we’re omnipotent observers in this fantastical 2D universe of cute little cartoon circle people, we know that the number is $x &#x3D; 727$. However, Bob doesn’t know shit. He’s really good at modular arithmetic though, so he’ll have a lot of fun with this one.</p>
+<p>Bob’s told that he can give the operator a piece of paper with two integers of his arbitrary choice: <code>n</code> and <code>m</code>. As long as <code>m</code> is above 0, the operator will always give him back a piece of paper with <code>n</code> and <code>m</code> passed into  <code>gcd(x + n, m)</code>. However, the operator’s shift is about to end soon, and he estimates that he’ll probably accept only about three pieces of paper from Bob until he closes shop.</p>
+<p>Bob goes back to his table. He’s flabbergasted. How in the world is he going to guess that number with only three pieces of information? He rummages around his little noggin and recollects himself. Let’s see what he’s thinking:</p>
+<p><img src="/static/actf-2023/bob-thinking.svg" alt="Bob Thinking"></p>
+<p>Uh… thanks, I guess? Well, he has a good point, but since I guarantee that nobody read it (because it’s too long for the average CTF player’s attention span) I’ll give a brief TL;DR here.</p>
+<p>Bob’s saying that per the definition of a “greatest common divisor,” in the scenario $d &#x3D; \gcd(a, b)$, both $a \pmod{d} &#x3D; 0$ and $b \pmod{d} &#x3D; 0$ is true. Since we’re given the function <code>d = gcd(x + n, m)</code>, we can therefore say that $(x + n) \pmod{d} &#x3D; 0$ and $m \pmod{d} &#x3D; 0$.</p>
+<p>We can introduce an integer $k$ into the mix and rewrite $(x + n) \pmod{d} &#x3D; 0$ as $\frac{(x + n)}{d} &#x3D; k$. Let’s algebraify this up to get to the state that we want it to:</p>
+<p>$$<br>\frac{(x + n)}{d} &#x3D; k \\<br>(x + n) &#x3D; kd \\<br>x \equiv kd - n \pmod{d} \\<br>x \equiv -n \pmod{d}<br>$$</p>
+<p>Replacing $d$ with the <code>gcd()</code> function:</p>
+<p>$$<br>x \equiv -n \pmod{\gcd(x + n, m)}<br>$$</p>
+<p>Doesn’t that look very, very familiar to the system of congruences that we were talking about earlier? Now, all we need to do is decide what values of $n$ and $m$ to pick.</p>
+<p>Bob’s decided that his three attempts is nowhere near enough attempts to do anything reasonable with a fixed offset $n$. He’s discovered something a bit more clever: <strong>what if you changed the value of $n$ every time?</strong> In doing so, it provides information about the offset from 0 modulo that GCD. He’s selected the following values for $n$:</p>
+<p>$$<br>\begin{cases}<br>n_1 &amp;&#x3D; 0 \\<br>n_2 &amp;&#x3D; -1 \\<br>n_3 &amp;&#x3D; -2<br>\end{cases}<br>$$</p>
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> Note: Bob's chosen negative values for $n_2$ and $n_3$ because of the earlier relation established, $x \equiv -n \pmod{\gcd(x + n, m)}$. Making $$n$$ negative creates positive remainders.</div>
+
+<p>For $m$, Bob chooses a very large <strong>primorial</strong>:</p>
+<div class="text-definition no-highlight"><i class="fa-solid fa-book"></i> <strong>Primorial</strong>: For the $n$th prime number $p_n$, the primorial $p_n\#$ is defined as the product of the first $n$ primes:
+$$
+p_n\# = \prod_{k=1}^n p_k
+$$
+where $p_k$ is the prime number.</div>
+
+<p>Primorials have the special property in that since they’re the product of the first $n$ primes, they’re guaranteed to have a lot of prime factors. When thrown into the <code>gcd()</code> function, this will give us tons of information about the prime factors of $x$ since we’re a lot more likely to get a hit (a miss would be if $\gcd(x + n, m) &#x3D; 1$).</p>
+<p>Bob’s ended up deciding on $m &#x3D; p_{11}\#$. He pulls out his laptop and calculates it with Python:</p>
+<figure class="highlight py"><figcaption><span>Calculating Primorials</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> mul</span><br><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> prime</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"></span><br><span class="line">N = <span class="number">11</span></span><br><span class="line"></span><br><span class="line">product = <span class="keyword">lambda</span> arr: reduce(mul, arr)</span><br><span class="line">primes = <span class="keyword">lambda</span> n: [prime(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n + <span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line">primorial = product(primes_list := primes(N))</span><br><span class="line"><span class="built_in">print</span>(primes_list)</span><br><span class="line"><span class="built_in">print</span>(primorial)</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span style="color:#DC3958">$</span> python3 primorial.py
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+200560490130</pre></td></tr></table></div>
+
+<p>Bob’s now ready to go! He walks up to the operator and hands him his pieces of paper. The operator hastily hands him back three pieces of paper with the resulting GCDs:</p>
+<p><img src="/static/actf-2023/handing-papers.svg" alt="Bob Handing Papers"></p>
+<p>Now he knows that:</p>
+<p>$$<br>\begin{cases}<br>x \equiv 0 \pmod{1} \\<br>x \equiv 1 \pmod{66} \\<br>x \equiv 2 \pmod{145}<br>\end{cases}<br>$$</p>
+<p>and he can apply the Chinese Remainder Theorem to solve for $x$. Bob opens back up his laptop and runs the following code:</p>
+<figure class="highlight py"><figcaption><span>Solving the Carnival Puzzle</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt</span><br><span class="line"></span><br><span class="line">remainders = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">moduli = [<span class="number">1</span>, <span class="number">66</span>, <span class="number">145</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(crt(moduli, remainders)[<span class="number">0</span>] <span class="keyword">if</span> crt(moduli, remainders) <span class="keyword">else</span> <span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span style="color:#DC3958">$</span> python3 crt.py
+727</pre></td></tr></table></div>
+
+<p>Bob’s got the number! Congratulations, Bob!</p>
+<p><img src="/static/actf-2023/congrats-bob.svg" alt="Congrats, Bob!"></p>
+<h3 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h3><p>Hopefully through this example, you’ve gained a bit of intuition on where CRT is derived from, why we chose those particular values, and why it works. Now, let’s apply this to the actual challenge.</p>
+<p>Here is the script that I used to solve this challenge. It’s very straightforward and readable in comparison to other scripts I’ve seen, so I felt it was redundant to go through the step-by-step process. I’ve added comments to explain what’s going on.</p>
+<figure class="highlight py"><figcaption><span>gcd-query-v1.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt</span><br><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> primorial</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate the 256th primorial</span></span><br><span class="line">N = <span class="number">2</span>**<span class="number">8</span></span><br><span class="line">primorial = primorial(N)</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&#x27;amt.rs&#x27;</span>, <span class="number">31692</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    remainders = []</span><br><span class="line">    moduli = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="number">1412</span>)):</span><br><span class="line">        n = -j</span><br><span class="line">        m = primorial</span><br><span class="line">        p.sendlineafter(<span class="string">b&#x27;n m: &#x27;</span>, <span class="built_in">bytes</span>(<span class="string">f&#x27;<span class="subst">&#123;n&#125;</span> <span class="subst">&#123;m&#125;</span>&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Append positive j and the GCD result to remainders and moduli</span></span><br><span class="line">        remainders.append(j)</span><br><span class="line">        moduli.append(<span class="built_in">int</span>(p.recvlineS()))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Apply Chinese Remainder Theorem on the generated congruence system</span></span><br><span class="line">    result = crt(moduli, remainders)[<span class="number">0</span>]</span><br><span class="line">    log.info(<span class="string">f&#x27;Guessing result <span class="subst">&#123;result&#125;</span>...&#x27;</span>)</span><br><span class="line">    p.sendlineafter(<span class="string">b&#x27;x: &#x27;</span>, <span class="built_in">bytes</span>(<span class="built_in">str</span>(result), <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">log.success(p.recvallS())</span><br></pre></td></tr></table></figure>
+
+<p>Let’s run the script on the remote server:</p>
+<div><figure class="highlight text" style="height: 400px; overflow: scroll; margin: 1rem 0; background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#DC3958">$</span> python3 gcd-query-v1.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to amt.rs on port 31692: Done
+100%|████████████████████████████████████████████████| 1412/1412 [01:40<00:00, 14.04it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 13811095902755644846482198689370064280419582878881370588339407663501153599097195284332635926638411305942258944052308307425884540419653139328201177574618591335420779939401302525262761668546835553119134415209843691758490750645864747951903178159493692989313764187586990059771738586045200163035018216446295060384470539168062305034511452235970979419117273140216310229843138043113643676083166573964512431632513584641493571186432113808788793049942365375202657327092823486073026339330473573167785284165209471461667235221858615401687572827124962884033918145410980294471831046866805979291987510822776208660898664193371502076369...
+100%|████████████████████████████████████████████████| 1412/1412 [01:39<00:00, 14.18it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 24067367100536683843481948076922477560798163483852376131506889605591036635118679499844242052966702222929625069993864001971991784523537397460489925865068254860456001028818287785908306185765071348619009610111507264477178797372871676258725033282034274029344720156895866898205325400301005606977551498118657975147925827017550691718920569276772375658283583669123223351383666410176219776924217313135666297206365499851033368053009731956567238895862545761556922844594607957247284759673600341901489257778669955325852703488640180914304223573157449663595250722203844469185404430056776595901097370576506862193119930831160153039645...
+100%|████████████████████████████████████████████████| 1412/1412 [01:42<00:00, 13.73it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 7685947172198127107777374667140678037806540421611756768106993632815330391087682127761106281389571374683486036542219393848222956427456311509150767156618253036564165465877103809489418131493044562907409848106468095552829305154616093814537698857191866611405848665535095301533085044115738792583824412519602803896340117760062826548466221367283600448847746972947351204926974932363255643590572461847866131212915876781930382244418815057097926767432358949295853031446962377393616573125245033720888867119691231138082380781540624653902647240454815666606971400673655259741239065245766051836162679683854318266521387362235339818963...
+100%|████████████████████████████████████████████████| 1412/1412 [01:48<00:00, 12.96it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 28766597769066741230993303926175357282954768621233983144247678673049812708196765345415367655618893220733421356772068739001346432681969591602594000222935708614736440936324186157291043386940251492732071082955951404839783470962507206296695705772074953353546686886779924440978723433609048598598557281139170990533603117402151358229049939138057179004531916123178096145539893434618636827593836703383290710315795175927215739591698425024135973070441559270137929182535000574864967444140896001119156515670962563767514223212280621106522255581529578812057211426495559846747556429983130401676611828235555517439427391088312200114340...
+100%|████████████████████████████████████████████████| 1412/1412 [01:48<00:00, 12.96it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 18677865908712209418730292654495724290528015510849858170490326355917878128672697854412093924844953163531044998001901092328085313583550146789000037524845877889213383321493193527654231781920756937019622080934588887712014723043748042773932440938345206132177553968803673898406541136240569574800190461899894265810140460486655043391890259966104420844165420881554658957162718918577408662447920231593944600773563355101328960702284671589526558563130043732776075973109889576802320970196034207684109511514803796952372219472313970655379778369020701807058741890165241070828680239075259918663032394171833038787909487851805314448855...
+100%|████████████████████████████████████████████████| 1412/1412 [01:48<00:00, 13.04it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 11836304072505940760905398461025892318706585845650403696307459093367797596638544732184279765210985819028521462466659807744822525225803985864600241663739335757162123665479918660034002791253847913555642278244324401618077147970750599192781639662548591816262731603920094166899224650569096625236689552770883756297212091569908376860048642542934085934566447138965676494758498143342092937071252542730569085822506016460475594952618479964682242645697696278787543882802499332735666538165978355896706100386750883766313015341113034064919164380613692392893978943240510241390029989518020435933206590980911069595815998565379069909389...
+100%|████████████████████████████████████████████████| 1412/1412 [01:41<00:00, 13.96it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 24420317305481938235298816362557385961714901243708043773212938107240257747575084932010962245916115390272993933485519074175413937032219229340852213726095989669920838194928305315596794542040319098487745543566184511761273969488130776737327461785375756602677264323848990754751137123554424297870859009175724453359380143043353234606272818695542001911680712268305408158942520319373201023864766813929760605476351460653167923702044806507429823017011764363703007211685200696996786931196521238655621661875819296934888297861611356597802643815992467649175717154699654523758457803470066054358275486505747893429992866200270596751661...
+100%|████████████████████████████████████████████████| 1412/1412 [01:41<00:00, 13.88it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 8746291504496083705140234574423923063059898747805616503433378954631117111728432658171757653262574759520885819600709214831440637441682872538488457078503354842623369405387792688967753515150540937598749631247461920903968813846190627144355870774195605725620782391303120773103714215960469406131157602962890188334776881890375489689159892019798284385240341860588296227193890430441913365280249935967752362698906808472066477044546437447680420530404664353015954160203510906286156917563841786143548435782146501639423205167799462812075950205027561610970211630045995943417742820399866853970400326052614548186021028377532627871871...
+100%|████████████████████████████████████████████████| 1412/1412 [01:40<00:00, 14.04it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 3776413613793582995242313256619110085658321586908926663317897349018550337476212258001071782419149912458930815766646550905337728235723272307300941378102274620677732536698577550109310923000424024247688263149196304346054985707956034894436449516525188403790594363585031931796537049874831484362274536023181224802004917294072535858788876951492192929873860801099312063749164291473720602843643395639623020123560780204286718457892996637266933865612558076298859165369386500999104085401312934963056223158856645251058491411254518324928110474142394413979203565229916374507552727133704100494765430582149582181194711798933201266021...
+100%|████████████████████████████████████████████████| 1412/1412 [01:40<00:00, 14.04it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 1918394921512833068322813834316966022087953894715768422110215181294946514179366813169888547301240804065469118491966955739537769705481715671974513435395758846983078501045506154549423946256752609980460175712801980425200034239297194967213554421865155886790770452738651550235456908807289298689411961528971586844393153811563148549039163519157171048516600236632351978597301720067795049402110382108201111192361352987205533077861286786308995238804327546009181093588939942796532972223963350139247226287706412840852858507637203561823774800941737820339261986921678654613897476089927020657074799151225998589947737942511343979790...
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (45B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to amt.rs port 31692
+[<span style="color:#47D4B9"><b>+</b></span>] amateursCTF{probabilistic_binary_search_ftw}</pre></td></tr></table></div>
+
+<p>We’ve solved <code>gcd-query-v1</code>!</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>gcd-query-v1</strong>: <code>amateursCTF{probabilistic_binary_search_ftw}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="gcd-query-v2" class="chal-title"><a href="#gcd-query-v2" class="headerlink" title="gcd-query-v2"></a>gcd-query-v2</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: algo<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 481<br>
+                <i class="fa-solid fa-star fa-fw"></i> <b>solves</b>: 34<br>
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                I thought that skittles1412's querying system wasn't optimized enough, so I created my own. My system is so much more optimized than his!<br />
+<code>nc amt.rs 31693</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Of course there’s a continuation. Let’s see what attachment we’re given now:</p>
+<figure class="highlight python"><figcaption><span>v2 Attachment</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/local/bin/python</span></span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> gcd</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getRandomInteger</span><br><span class="line"></span><br><span class="line">x = getRandomInteger(<span class="number">128</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        n, m = <span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>(<span class="string">&quot;n m: &quot;</span>).split())</span><br><span class="line">        <span class="keyword">assert</span> m &gt; <span class="number">0</span></span><br><span class="line">        <span class="built_in">print</span>(gcd(x + n, m))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;bad input. you *die*&quot;</span>)</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;x: &quot;</span>)) == x:</span><br><span class="line">    <span class="built_in">print</span>(flag)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;get better lol&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>It seems that they haven’t changed much. The only things that are different are:</p>
+<ul>
+<li><code>getRandomInteger()</code>‘s <code>n</code> value has been reduced from 2048 to 128 bits (~39 digits)</li>
+<li>We no longer need to complete ten iterations of different random integers; now it’s only one iteration of a single random integer</li>
+<li>We only get 16 iterations of <code>gcd()</code> instead of 1412</li>
+</ul>
+<p>Well, first step is to try and rerun the same script that we used for <code>gcd-query-v1</code> with some minor edits:</p>
+<div><figure class="highlight python" style=""><table><figcaption><span>gcd-query-v2 Solve Attempt</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">+</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">+</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">⁠—</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">⁠—</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">⁠—</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt
+<span class="keyword">from</span> sympy <span class="keyword">import</span> primorial
+<span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm
+<span class="keyword">from</span> pwn <span class="keyword">import</span> *
+
+<span class="comment"># Generate the 256th primorial</span>
+N = <span class="number">2</span>**<span class="number">8</span>
+primorial = primorial(N)
+
+<div class="diff-highlight-del">p = remote(<span class="string">&#x27;amt.rs&#x27;</span>, <span class="number">31692</span>)</div>
+<div class="diff-highlight-add">p = remote(<span class="string">&#x27;amt.rs&#x27;</span>, <span class="number">31693</span>)</div>
+
+<div class="diff-highlight-del"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</div>
+    remainders = []
+    moduli = []
+
+<div class="diff-highlight-del">    <span class="keyword">for</span> j <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="number">1412</span>)):</div>
+<div class="diff-highlight-add">    <span class="keyword">for</span> j <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(<span class="number">16</span>)):</div>
+        n = -j
+        m = primorial
+        p.sendlineafter(<span class="string">b&#x27;n m: &#x27;</span>, <span class="built_in">bytes</span>(<span class="string">f&#x27;<span class="subst">{n}</span> <span class="subst">{m}</span>&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>))
+
+        <span class="comment"># Append positive j and the GCD result to remainders and moduli</span>
+        remainders.append(j)
+        moduli.append(<span class="built_in">int</span>(p.recvlineS()))
+
+    <span class="comment"># Apply Chinese Remainder Theorem on the generated congruence system</span>
+    result = crt(moduli, remainders)[<span class="number">0</span>]
+    log.info(<span class="string">f&#x27;Guessing result <span class="subst">{result}</span>...&#x27;</span>)
+    p.sendlineafter(<span class="string">b&#x27;x: &#x27;</span>, <span class="built_in">bytes</span>(<span class="built_in">str</span>(result), <span class="string">&#x27;utf-8&#x27;</span>))
+
+log.success(p.recvallS())</pre></td></tr></table></div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#DC3958">$</span> python3 gcd-query-v2.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to amt.rs on port 31693: Done
+100%|█████████████████████████████████████████████████████| 16/16 [00:01<00:00, 11.55it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 621207498018765489399784775...
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (15B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to amt.rs port 31693
+[<span style="color:#47D4B9"><b>+</b></span>] get better lol</pre></td></tr></table></div>
+
+<p>Well, that didn’t work. We’re correctly parsing input and a number is being generated, but for some reason the server is telling us to “get better lol”.</p>
+<p>I added some print statements to see what we were getting in our moduli and remainder arrays:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#DC3958">$</span> python3 algo5.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to amt.rs on port 31693: Done
+100%|█████████████████████████████████████████████████████| 16/16 [00:01<00:00, 11.45it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Moduli: [2090, 21, 2, 1, 1942352142, 85, 254, 3, 6874, 1, 390, 341, 5392666, 141, 2, 2485]
+[<span style="color:#277FFF"><b>*</b></span>] Remainders: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 24101417952332326654560233907130...
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (15B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to amt.rs port 31693
+[<span style="color:#47D4B9"><b>+</b></span>] get better lol</pre></td></tr></table></div>
+
+<p>Wow, check out that moduli array… that’s not even nearly enough prime factors to accurately apply CRT. Let’s increase the primorial then for increased chances:</p>
+<div><figure class="highlight python" style=""><table><figcaption><span>Changing Primorial</span></figcaption><tr><td class="gutter"><pre><span class="line">⁠6</span><br><span class="line">7</span><br><span class="line">⁠+</span><br><span class="line">⁠+</span><br><span class="line">8</span><br></pre></td><td class="gutter"><pre><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><div class="diff-highlight-del"><span class="comment"># Generate the 256th primorial</span></div>
+<div class="diff-highlight-del">N = <span class="number">2</span>**<span class="number">8</span></div>
+<div class="diff-highlight-add"><span class="comment"># Generate the 1024th primorial</span></div>
+<div class="diff-highlight-add">N = <span class="number">2</span>**<span class="number">10</span></div>
+primorial = primorial(N)</pre></td></tr></table></div>
+
+<p>Let’s try running the script again:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#DC3958">$</span> python3 gcd-query-v2.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to amt.rs on port 31693: Done
+100%|█████████████████████████████████████████████████████| 16/16 [00:01<00:00, 11.16it/s]
+[<span style="color:#277FFF"><b>*</b></span>] Guessing result 330896654198662695248401611762768684627...
+[<span style="color:#47D4B9"><b>+</b></span>] Receiving all data: Done (15B)
+[<span style="color:#277FFF"><b>*</b></span>] Closed connection to amt.rs port 31693
+[<span style="color:#47D4B9"><b>+</b></span>] amateursCTF{crt_really_is_too_op...wtf??!??!?!?must_be_cheating!!...i_shouldn't've_removed_query_number_cap.}</pre></td></tr></table></div>
+
+<p>We’ve managed to solve the entire challenge with only 16 queries!</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>gcd-query-v2</strong>: <code>amateursCTF{crt_really_is_too_op...wtf??!??!?!?must_be_cheating!!...i_shouldn't've_removed_query_number_cap.}</code></div>
+
+<hr>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>Thanks to everyone from <a target="_blank" rel="noopener" href="https://ctf.amateurs.team/">les amateurs</a> for hosting this CTF! I had a lot of fun solving these challenges and I hope to see more from you guys in the future. I’d also like to credit Quasar, <a target="_blank" rel="noopener" href="https://www.cryptohack.org/user/SuperBeetleGamer/">SuperBeetleGamer</a>, and <a target="_blank" rel="noopener" href="https://ctftime.org/user/121085">flocto</a> for helping me wrap my head around CRT in general throughout the process of writing this (because I almost always learn along the way). I hope you learned something like I did!</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Chinese_remainder_theorem">Wikipedia: Chinese Remainder Theorem</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Primorial">Wikipedia: Primorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://brilliant.org/wiki/chinese-remainder-theorem/">Brilliant: Chinese Remainder Theorem</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcd-query-v1"><span class="toc-number"></span> <span class="toc-text">gcd-query-v1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Chinese-Remainder-Theorem"><span class="toc-number">1.</span> <span class="toc-text">The Chinese Remainder Theorem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tne-Modular-Arithmetic-Nerd%E2%80%99s-Favorite-Carnival-Game"><span class="toc-number">2.</span> <span class="toc-text">Tne Modular Arithmetic Nerd’s Favorite Carnival Game</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementation"><span class="toc-number">3.</span> <span class="toc-text">Implementation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcd-query-v2"><span class="toc-number"></span> <span class="toc-text">gcd-query-v2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">2.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/actf-2023/gcd-query/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/actf-2023/gcd-query/&text=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/actf-2023/gcd-query/&title=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/actf-2023/gcd-query/&is_video=false&description=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers&body=Check out this article: https://enscribe.dev/blog/actf-2023/gcd-query/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/actf-2023/gcd-query/&title=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/actf-2023/gcd-query/&name=AmateursCTF 2023: Chinese Remainder Theorem, Carnival Games and 2048-bit Integers&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

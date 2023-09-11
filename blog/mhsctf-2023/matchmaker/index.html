@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Utilizing the beautifully crafted Blossom algorithm to maximize weighted matchings—this is my writeup for the challenge &quot;Matchmaker&quot; from MHSCTF 2023.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching">
+<meta property="og:url" content="https://enscribe.dev/blog/mhsctf-2023/matchmaker/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Utilizing the beautifully crafted Blossom algorithm to maximize weighted matchings—this is my writeup for the challenge &quot;Matchmaker&quot; from MHSCTF 2023.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/mhsctf-2023/banner.png">
+<meta property="article:published_time" content="2023-02-14T19:08:53.000Z">
+<meta property="article:modified_time" content="2023-08-30T18:25:56.296Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/mhsctf-2023/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/wolvctf-2023/wannaflag-series/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/idekctf-2023/nmpz/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/mhsctf-2023/matchmaker/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&text=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&title=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&is_video=false&description=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching&body=Check out this article: https://enscribe.dev/blog/mhsctf-2023/matchmaker/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&title=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&name=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%B8-Matchmaker"><span class="toc-number"></span> <span class="toc-text">🌸 Matchmaker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Graph-Theory-Fundamentals"><span class="toc-number">1.</span> <span class="toc-text">Graph Theory Fundamentals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Blossom-Algorithm"><span class="toc-number">2.</span> <span class="toc-text">The Blossom Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Augmenting-Paths"><span class="toc-number">2.1.</span> <span class="toc-text">Augmenting Paths</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Blossoms-and-Blossom-Contraction"><span class="toc-number">2.2.</span> <span class="toc-text">Blossoms (and Blossom Contraction)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Primal-Dual-Method"><span class="toc-number">3.</span> <span class="toc-text">Primal-Dual Method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9CBorrowing%E2%80%9D-an-Implementation"><span class="toc-number">4.</span> <span class="toc-text">“Borrowing” an Implementation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Parsing-Input"><span class="toc-number">4.1.</span> <span class="toc-text">Parsing Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Maximum-Weight-Matching"><span class="toc-number">4.2.</span> <span class="toc-text">Maximum Weight Matching</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">5.</span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">6.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-14T19:08:53.000Z" itemprop="datePublished">Feb 14, 2023</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/mhsctf-2023/">mhsctf-2023</a> › <a class="category-link" href="/categories/blog/mhsctf-2023/ppc/">ppc</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/algorithm/" rel="tag">algorithm</a>, <a class="tag-link-link" href="/tags/programming/" rel="tag">programming</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/mhsctf-2023/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>I was recently invited by the academic team “DN” (the name, surprisingly, has no inappropriate connotation) to compete in Mentor High School’s second CTF iteration, <a target="_blank" rel="noopener" href="https://ctftime.org/event/1861">MHSCTF 2023</a>. Although the competition ran for 15 days, we maxed out their 11 challenges in <strong>just under 16 hours</strong> (ignoring solve resets) and managed to take first place. This writeup was part of the verification process, which came with prize-receiving — enjoy!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="🌸-Matchmaker" class="chal-title"><a href="#🌸-Matchmaker" class="headerlink" title="🌸 Matchmaker"></a>🌸 Matchmaker</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/57694588"> <a target="_blank" rel="noopener" href="https://github.com/flocto">flocto</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: 0xmmalik<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: prog<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 9<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                I've just had the most brilliant idea 😮 I want to write a program that takes all the students and how much they like each other to pair them up so I can maximize the total love in the classroom! Of course, when I say "I," I really mean… "you" ;)<br />
+Notes: <strong>[SEE BELOW]</strong><br />
+<code>nc 0.cloud.chals.io [PORT]</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Warning</strong>: Discrete math, graph theory, and combinatorial optimization ahead! If you're unfamiliar with the mathematical symbols used in this writeup, reference this dropdown:
+<details>
+  <summary><b>Complicated Math Symbols</b>:</summary>
+    <ul>
+        <li>$\sum$ - Summation</li>
+        <li>$\in$ - Element of</li>
+        <li>$\notin$ - Not an element of</li>
+        <li>$\subset$ - Proper subset of</li>
+        <li>$\subseteq$ - Subset of</li>
+        <li>$\emptyset$ - Empty set</li>
+        <li>$\forall$ - For all</li>
+        <li>$\exists$ - There exists</li>
+        <li>$\nexists$ - There does not exist</li>
+        <li>$\in$ - Element of</li>
+        <li>$\notin$ - Not an element of</li>
+        <li>$\ni$ - Contains as member</li>
+        <li>$\not\ni$ - Does not contain as member</li>
+        <li>$\setminus$ - Set minus (drop)</li>
+        <li>$\oplus$ - Direct sum</li>
+        <li>$\cup$ - Union</li>
+        <li>$\cap$ - Intersection</li>
+        <li>$x'$ - Prime</li>
+    </ul>
+</details></div>
+
+<p><span style="color:#FF9999"><strong>First blood!</strong></span> Here are the notes the author provided alongside the challenge description, abridged for brevity:</p>
+<div class="box" style="text-align: left; padding: 5px;"><ul>
+<li>The connection times out after 60 seconds, and there will be 3 iterations.</li>
+<li>The input will be given in $N$ lines, where $N$ represents the number of students. The first line represents the zeroth student, the second line represents the first student, and so on ($50 &lt; N &lt; 100$, $N \bmod 2 = 0$).</li>
+<li>Each line of input contains $N - 1$ integers $R$ (ranged $0 &lt; R &lt; 100$, inclusive); $R$ represents a student's rating of another student at that index, repeated for everybody but themselves.</li>
+</ul></div>
+
+<p>I’ve cut the notes provided in half to make it a bit more digestable. Before we continue, let’s see some sample input from the server for context:</p>
+<figure class="highlight py"><figcaption><span>matchmaker.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, [PORT])</span><br><span class="line"><span class="built_in">print</span>(p.recvuntilS(<span class="string">b&#x27;&gt; &#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#F99157">$ </span>python3 matchmaker.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
+86 60 67 84 44 4 36 59 100 63 51 6 92 66 36 99 3 69 55 11 21 66 66 81 21 63 76 44 4 87 13 67 0 97 28 13 68 96 47 49 0 18 63 26 73 68 13 63 47 61 0 53 74 56 6 12 5 66 54 47 79 81 84 43 19 6 62 52 6 100 86 64 1 4 38 89 93 6 72 93 63 46 90 29 81 89 5 9 77 23 87 94 73
+76 0 74 52 56 60 57 78 48 93 85 66 29 70 96 40 76 62 46 66 69 31 99 47 12 42 43 12 47 19 26 8 26 45 29 27 17 14 15 54 57 78 69 73 55 16 88 50 96 97 34 49 78 3 91 53 28 66 28 28 9 38 87 20 66 28 37 38 94 61 96 99 45 39 52 5 27 5 96 41 31 83 86 32 92 35 96 10 2 97 3 19 88
+<div class="skip-highlight">...</div></pre></td></tr></table></div>
+
+<p>We can do a bit of analysis on what we’ve received so far.</p>
+<div style="display: flex;">
+  <div style="flex: 1;">
+    <p>The first line, <code>86 60 67...</code>, can be translated into:
+    <ul>
+      <li>Student 0 -&gt; Student 1 = 86</li>
+      <li>Student 0 -&gt; Student 2 = 60</li>
+      <li>Student 0 -&gt; Student 3 = 67</li>
+    </ol>
+  </div>
+  <div style="flex: 1;">
+    <p>Let's do the same thing for the second line, <code>76 0 74...</code>:</p>
+    <ul>
+      <li>Student 1 -&gt; Student 0 = 76</li>
+      <li>Student 1 -&gt; Student 2 = 0</li>
+      <li>Student 1 -&gt; Student 3 = 74</li>
+    </ol>
+  </div>
+</div>
+
+<p>Notice how the student will always skip their own index, which aligns with the author’s notes detailing how the integers “represent the students ratings of everybody but themselves.” Let’s continue with the rest of the notes:</p>
+<div class="box" style="text-align: left; padding: 5px;"><ul>
+<li>Determine the pairings that maximize the students' ratings for each other<ul>
+<li><strong>Example</strong>: If Student 1 -&gt; Student 7 = 98 and Student 7 -&gt; Student 1 = 87, and Students 1 and 7 are paired, the "score" of this pairing would be $98 + 87 = 185$</li></ul></li>
+<li>The output should list all maximized pairs (including duplicates; order of the pairs does not matter)<ul>
+<li><strong>Example</strong>: If Student 0 -&gt; Student 3, Student 1 -&gt; Student 2, and Student 4 -&gt; Student 5, the desired output is: <code>0,3;1,2;2,1;3,0;4,5;5,4</code></li></ul></li>
+<li>The connection will close if the output is incorrect, and reiterate if correct</li>
+</ul></div>
+
+<p>Let’s crack on with the actual algorithm which will be used for solving this!</p>
+<h3 id="Graph-Theory-Fundamentals"><a href="#Graph-Theory-Fundamentals" class="headerlink" title="Graph Theory Fundamentals"></a>Graph Theory Fundamentals</h3><p>This challenge is a classic example of a concept called “maximum weight matching,” which is fundamental in <strong>graph theory</strong> and <strong>discrete mathematics</strong>. Although there is a relatively high prerequisite knowledge floor for understanding these concepts, I’ll explain them as best as I can.</p>
+<p>Firstly, let’s define a <strong>graph</strong>. A graph is a set of <strong>vertices</strong> (or nodes), which are connected by <strong>edges</strong>. Not to be confused with the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cartesian_coordinate_system">Cartesian coordinate system</a>, graphs are represented by the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ordered_pair">ordered pair</a> $G &#x3D; (V,\ E)$ in which $V$ is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Set_(mathematics)">set</a> of vertices and $E$ is a set of edges:</p>
+<p><img src="/static/mhsctf-2023/graph.svg" alt="Graph"></p>
+<div class="text-definition no-highlight"><i class="fa-solid fa-book"></i> <strong>Definition</strong>: A set of edges $E$ is defined as $E \subset \{(x, y)\ |\ (x, y) \in V^2 \textrm{ and } x \neq y\}$. By this definition, $x$ and $y$ are the vertices that are connected to the edge $e$, called the <strong>endpoints</strong>. It can also be said that $e$ is <strong>incident</strong> to $x$ and $y$.</div>
+
+<p>We can create a <strong>matching</strong> $M \subseteq E$ within the graph $G$, in which $M$ is a collection of edges such that every vertex $v$ of $V$ is incident to at <u>most</u> one edge of $M$ (meaning two edges cannot share the same vertex). When the highest possible <strong>cardinality</strong> (number of matches) of $G$ is reached, the matching is considered <strong>maximum</strong>, and any vertex $v$ not incident to any edge in $M$ is considered <strong>exposed</strong>. </p>
+<div class="text-definition no-highlight"><i class="fa-solid fa-book"></i> <strong>Definition</strong>: Formally, a matching $M$ is said to be <strong>maximum</strong> if for any other matching $M'$, $|M| \geq |M'|$. In other words, $M$ is the largest matching possible.</div>
+
+<p>For example, the following is a maximum matching performed on the graph above:</p>
+<p><img src="/static/mhsctf-2023/matching.svg" alt="Matching"></p>
+<div class="text-definition no-highlight"><i class="fa-solid fa-book"></i> <strong>Definition</strong>: Since there is an exposed vertex in this graph (and because the size of $V$ is odd), $G$ is not considered <strong>perfect</strong>. A <strong>perfect maximum matching</strong> occurs when the size of $V$ is even (or $|V|/2 = |E|$) and there are no exposed vertices.</div>
+
+<p>Now, let’s put <strong>weights</strong> into consideration (i.e. the students’ ratings). With a <strong>weighted graph</strong> $G &#x3D; (V,\ E,\ w)$, we can attribute a function $w$ that assigns a weight $w(e)$ to each edge $e \in E$ (defining $w : E \rightarrow \mathbb{N}$):</p>
+<p><img src="/static/mhsctf-2023/weights.svg" alt="Weights"></p>
+<p>The total weight of a matching $M$, written as $w(M)$, can be defined as:</p>
+<p>$$<br>w(M) &#x3D; \sum_{e \in M}w(e) \\<br>$$</p>
+<p>Solving for $w(M)$ in the example graph above:</p>
+<p>$$<br>w(M) &#x3D; w((1, 2)) + w((3, 4)) + w((5, 6)) + w((8, 9)) \\<br>w(M) &#x3D; 5 + 2 + 9 + 6 &#x3D; 22<br>$$</p>
+<p>Our goal is to maximize $w(M)$ — it is <em>definitely</em> not maximized above, since $W(M)$ is not at its highest possible value. We will be tackling it with a combination of two different concepts: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Blossom_algorithm">Edmonds’ blossom algorithm</a>, and the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Duality_(optimization)">primal-dual method</a>. Although the blossom algorithm is typically meant for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Maximum_cardinality_matching">maximum cardinality matching</a> (maximizing the size of $M$ itself, and running in $\href{https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Big_O_notation}{\mathcal{O}}(|E||V|^2)$ time), utilizing it as a subroutine alongside the primal-dual method of linear programming creates a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Maximum_weight_matching">maximum weight matching</a> (and running in $\mathcal{O}(|V|^3)$ time).</p>
+<p>Firstly, let’s get started with how it works.</p>
+<h3 id="The-Blossom-Algorithm"><a href="#The-Blossom-Algorithm" class="headerlink" title="The Blossom Algorithm"></a>The Blossom Algorithm</h3><p>The core idea behind the blossom algorithm itself involves two concepts: <strong>augmenting paths</strong> and <strong>blossoms</strong> (alongside <strong>blossom contraction</strong>).</p>
+<h4 id="Augmenting-Paths"><a href="#Augmenting-Paths" class="headerlink" title="Augmenting Paths"></a>Augmenting Paths</h4><p>Given a graph $G &#x3D; (V,\ E)$, a path $P$ in $G$ can be considered an <strong>alternating path</strong> if edges in the path are alternatively <u>in</u> $M$ and <u>not in</u> $M$. <strong>Augmenting paths</strong> are a type of alternating, odd-length path that starts and ends with two exposed vertices:</p>
+<p><img src="/static/mhsctf-2023/augmenting-paths.svg" alt="Augmenting Paths"></p>
+<p>As we can see, $P$ is considered an augmenting path because it ends with two exposed vertices. Augmenting paths are special in that they can <strong>augment</strong> (“to improve”, as per the name) the size of $M$ by one edge. To do so, simply swap the edges in $P$ that are <u>in</u> $M$ with the edges that are <u>not in</u> $M$:</p>
+<p><img src="/static/mhsctf-2023/augmented-path.svg" alt="Augmented Path"></p>
+<div class="text-definition no-highlight"><i class="fa-solid fa-book"></i> <strong>Definition</strong>: A <strong>matching augmentation</strong> along an augmenting path $P$ is a process by which $M$ is replaced by $M'$, defined as such:
+$$
+M' = M \oplus P = (M \setminus P) \cup (P \setminus M)
+$$
+This implies that $|M \oplus P| = |M| + 1$.</div>
+
+<p>The reason why augmenting paths are so fundamental to the blossom algorithm is that it directly computes a maximum matching — we can reiterate the process of finding augmenting paths until no more are available in $G$. This is described well with <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Berge%27s_theorem">Berge’s Theorem</a>:</p>
+<div class="text-theorem no-highlight"><i class="fa-solid fa-square-check"></i> <strong>Theorem</strong>: A matching $M$ in a graph $G$ is maximum <u>if and only if</u> there is no $M$-augmenting path in $G$.</div>
+
+<p>Here is high-level pseudocode which describes this recursive iteration:</p>
+<div><figure class="highlight text" style=""><table><figcaption><span>Blossom: Finding Maximum Matching</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span style="color:#e9d3b6"><b>procedure</b></span> <span style="color:#f06431">find_maximum_matching</span>(<span style="color:#f79a32">G</span>, <span style="color:#f79a32">M</span>)
+    <span style="color:#dc3958">P</span> = <span style="color:#f06431">find_augmenting_path</span>(<span style="color:#f79a32">G</span>, <span style="color:#f79a32">M</span>)
+    <span style="color:#e9d3b6"><b>if</b></span>  <span style="color:#dc3958">P</span> == [] <span style="color:#e9d3b6"><b>then</b></span>
+        <span style="color:#e9d3b6"><b>return</b></span> M
+    <span style="color:#e9d3b6"><b>else</b></span>
+        <span style="color:#dc3958">MP</span> = <span style="color:#f06431">augment_matching</span>(<span style="color:#f79a32">M</span>, <span style="color:#dc3958">P</span>)
+        <span style="color:#e9d3b6"><b>return</b></span> <span style="color:#f06431">find_maximum_matching</span>(<span style="color:#f79a32">G</span>, <span style="color:#dc3958">MP</span>)
+    <span style="color:#e9d3b6"><b>end if</b></span>
+<span style="color:#e9d3b6"><b>end procedure</b></span></pre></td></tr></table></div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: Under the context of the above pseudocode, <code>find_augmenting_path()</code> will always start at an exposed vertex, running a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Breadth-first_search">breadth-first search</a> to find an augmenting path.</div>
+
+<p>Therefore, the blossom algorithm will always terminate with a maximum matching.</p>
+<h4 id="Blossoms-and-Blossom-Contraction"><a href="#Blossoms-and-Blossom-Contraction" class="headerlink" title="Blossoms (and Blossom Contraction)"></a>Blossoms (and Blossom Contraction)</h4><p>The second concept that we need to understand are <strong>blossoms</strong>. Given a graph $G$ and a matching $M$, a blossom $B$ is a “cycle” within $G$ which consists of $2k + 1$ edges, of which exactly $k$ belong to $M$ (a blossom with two matches would have $2(2) + 1 &#x3D; 5$ edges).</p>
+<p>Let’s say the algorithm created matchings in a graph with a blossom — although it isn’t the maximum matching possible, we cannot augment it any further because the technically available augmenting path is longer than the shortest available path, therefore terminating subotimally:</p>
+<p><img src="/static/mhsctf-2023/blossom.svg" alt="Blossom"></p>
+<p>This is where <strong>blossom contraction</strong> comes in. The idea is to contract the blossom $B$ into a single “super-vertex” $v_B$, and to treat it as a single vertex in the graph:</p>
+<p><img src="/static/mhsctf-2023/blossom-contraction.svg" alt="Blossom Contraction"></p>
+<p>From there, we can find valid augmenting paths to augment $M$:</p>
+<p><img src="/static/mhsctf-2023/augmented-blossom.svg" alt="Augmented Blossom"></p>
+<p>Finally, we can expand the blossom $B$ back into its original form, to reveal the maximum matching:</p>
+<p><img src="/static/mhsctf-2023/expanded-blossom.svg" alt="Expanded Blossom"></p>
+<div class="text-theorem no-highlight"><i class="fa-solid fa-square-check"></i> <strong>Theorem</strong>: If $G'$ a the graph formed after contraction of a blossom $B$ in $G$, then $G$ has an augmenting path <u>if and only if</u> $G'$ has an augmenting path.<br />
+(This is called the <strong>Blossoms Theorem</strong>, or the <strong>Main Theorem of Botany</strong>)</div>
+
+<p>With the fundamental concepts of this beautiful algorithm covered, the only thing we need to wrap our heads around is how to adopt this with weighted graphs. I’ll be referencing Galil’s <a target="_blank" rel="noopener" href="http://www.cs.kent.edu/~dragan/GraphAn/p23-galil.pdf">Efficient Algorithms for Finding Maximum Matching in Graphs</a> for this section.</p>
+<h3 id="Primal-Dual-Method"><a href="#Primal-Dual-Method" class="headerlink" title="Primal-Dual Method"></a>Primal-Dual Method</h3><p>So… the primal-dual method. I’ve been personally studying this topic (alongside linear programming in general, from which this method is derived from) for the past couple days after I solved the challenge, and let’s just say that I absolutely have no clue what is going on:</p>
+<p><img src="/static/mhsctf-2023/scary-math.png" alt="Scary Math"></p>
+<p>Like any other reasonable person would do if they were stuck, I asked ChatGPT-3 about how it worked. Here’s what it had to say regarding the process:</p>
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Warning</strong>: The following text is generated by AI, and may not be 100% accurate. Please refer to the aforementioned paper for more information.<br />
+Also note that this information was generated <strong>after</strong> our team solved the challenge, during the writeup process — the AI was not involved in the process of solving it.</div>
+
+<div class="chat-container">
+    <div class="chat-flex">
+        <img class="profile-picture" src="https://www.gravatar.com/avatar/bac00b54948ebf5ea072824aeafa890f?d=identicon&s=256" alt="User Profile Picture">
+        <div class="user-text">
+            Explain the primal-dual method to someone completely new to algorithms and graph theory.
+        </div>
+    </div>
+    <div class="chat-flex">
+        <img class="profile-picture" src="/static/mhsctf-2023/chatgpt-icon.png" alt="ChatGPT Profile Picture">
+        <div class="chatgpt-text">
+            The primal problem is the original problem that we want to solve, and the dual problem is a related problem that helps us solve the primal problem. In graph theory, the primal problem might be to find the shortest path between two nodes in a graph, while the dual problem might be to find the minimum cost to connect all the nodes in the graph.<br><br>The method works by starting with a feasible solution to the dual problem and iteratively improving it until it becomes the optimal solution. At each step, the method adjusts the primal and dual variables to satisfy a set of complementary slackness conditions, which ensure that the solution is both feasible and optimal.
+        </div>
+    </div>
+    <div class="chat-flex">
+        <img class="profile-picture" src="https://www.gravatar.com/avatar/bac00b54948ebf5ea072824aeafa890f?d=identicon&s=256" alt="User Profile Picture">
+        <div class="user-text">
+            Can you explain what slack is in linear programming (under the context of maximum weighted matching)?
+        </div>
+    </div>
+    <div class="chat-flex">
+        <img class="profile-picture" src="/static/mhsctf-2023/chatgpt-icon.png" alt="ChatGPT Profile Picture">
+        <div class="chatgpt-text">
+            In the context of linear programming for maximum weighted matching, slack is defined as the amount by which the current matching fails to satisfy the optimality conditions for a maximum weight matching. More formally, for a graph $G=(V,E)$ and a matching $M$, the slack of an edge $e$ is defined as:
+            $$s_e= \begin{cases}w(e)-u(x)-v(y) & \text { if } e \notin M \\\\ u(x)+v(y)-w(e) & \text { if } e \in M\end{cases}$$
+            where $x$ and $y$ are the endpoints of $e$, $w(e)$ is the weight of $e$, and $u$ and $v$ are dual variables associated with the vertices of $G$. The dual variables are used to derive bounds on the weights of the edges, and are updated during the execution of the primal-dual algorithm.<br><br>
+            Intuitively, the slack of an edge measures the amount by which the edge can be "improved" in order to increase the total weight of the matching. A positive slack indicates that the edge can be added to the matching to increase its weight, while a negative slack indicates that the edge is over-saturated and should be removed from the matching. The slack values are used to identify augmenting paths in the graph, which can be used to improve the current matching until it satisfies the optimality conditions for a maximum weight matching.
+        </div>
+    </div>
+    <div class="chat-flex">
+        <img class="profile-picture" src="https://www.gravatar.com/avatar/bac00b54948ebf5ea072824aeafa890f?d=identicon&s=256" alt="User Profile Picture">
+        <div class="user-text">
+            How can you combine the Blossom algorithm and the primal-dual method together?
+        </div>
+    </div>
+    <div class="chat-flex">
+        <img class="profile-picture" src="/static/mhsctf-2023/chatgpt-icon.png" alt="ChatGPT Profile Picture">
+        <div class="chatgpt-text">
+            The Blossom algorithm and the primal-dual method can be combined to solve the maximum weight matching problem in graphs. The idea is to use the primal-dual method to find a feasible solution, and then use the Blossom algorithm to improve the solution by finding augmenting paths.<br><br>
+            The primal-dual method involves maintaining a set of potentials, which are used to determine the reduced cost of adding an edge to the current matching. The reduced cost is defined as the difference between the sum of the potentials of the two endpoints of the edge and the weight of the edge. The algorithm then finds an augmenting path using a shortest path algorithm, such as Dijkstra's algorithm, with respect to the reduced costs.<br><br>
+            The Blossom algorithm can be used to improve the solution found by the primal-dual method by finding augmenting paths that are not shortest paths. The Blossom algorithm finds augmenting paths by contracting blossoms, which are odd-length cycles with alternating unmatched and matched edges. The contracted blossom is then treated as a single vertex in the graph, and the algorithm proceeds to find augmenting paths in the contracted graph.<br><br>
+            By combining the two methods, the algorithm can find a maximum weight matching in the graph. The primal-dual method provides a good initial solution, while the Blossom algorithm improves the solution by finding augmenting paths that are not shortest paths. The algorithm terminates when there are no more augmenting paths to be found.
+        </div>
+    </div>
+</div>
+
+<p>Take what you will from this information. I’ll just sweep it under the rug right now, since we’ll simply be “borrowing” an implementation of the above algorithm to solve this challenge. Let me know if you are knowledgable in this area and would like to contribute to this section!</p>
+<h3 id="“Borrowing”-an-Implementation"><a href="#“Borrowing”-an-Implementation" class="headerlink" title="“Borrowing” an Implementation"></a>“Borrowing” an Implementation</h3><p>Yes, the blossom algorithm is the most elegant thing I’ve ever seen. No, I am absolutely never going to implement it from scratch. I’m not even going to try. Yes, it’s super fun to visualize and understand the concepts, but could you even imagine trying to implement this in code, and deal with “neighbors” and “forests” and “visited nodes?” I can’t.</p>
+<p>Currently, we have tried two implementations which work for this challenge in Python3.9: <a target="_blank" rel="noopener" href="http://jorisvr.nl/article/maximum-matching">van Rantwijk’s</a>, and the <a target="_blank" rel="noopener" href="https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.matching.max_weight_matching.html">NetworkX</a> Python library. Both run in $\mathcal{O}(n^3)$ time, which is still reasonable for our range of $50 &lt; N &lt; 100$, $N \bmod 2 &#x3D; 0$. <a target="_blank" rel="noopener" href="https://web.eecs.umich.edu/~pettie/papers/ApproxMWM-JACM.pdf">Duan and Pettie</a> overview an approximate method for maximum weight matching, which runs in linear time.</p>
+<p>We’ll begin by parsing the input.</p>
+<h4 id="Parsing-Input"><a href="#Parsing-Input" class="headerlink" title="Parsing Input"></a>Parsing Input</h4><p>Let’s start with a quick recap of what the netcat server gave us. We have $N$ lines, with $N$ representing the amount of students in the classroom (in addition to being an even amount). Each line will contain $N - 1$ integers $w$ representing the rating that student has for the individual at that index (accommodating for the skipped index representing themselves).</p>
+<p>We can pass the input into a variable <code>data</code> with <a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/tubes.html#pwnlib.tubes.tube.tube.recvuntilS"><code>pwntools</code></a>‘s <code>recvuntilS</code> method, which will receive data until it sees the specified string. We’ll use <code>b&#39;&gt; &#39;</code> as the string to stop at, since that’s the prompt the server gives us.</p>
+<p>Once we have the data, let’s convert it into something we can work with — we’ll make a 2x2 matrix so we can access both the student and their rating of another. We should also insert a 0 at the index which the student skipped themselves so the matchings don’t get screwed up:</p>
+<figure class="highlight py"><figcaption><span>matchmaker.py: Parsing Input</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> remote</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_input</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="comment"># [:-1] Removes the trailing &#x27;&gt; &#x27;</span></span><br><span class="line">    data = data.splitlines()[:-<span class="number">1</span>]</span><br><span class="line">    data = [x.split() <span class="keyword">for</span> x <span class="keyword">in</span> data]</span><br><span class="line">    table = [[<span class="built_in">int</span>(x) <span class="keyword">for</span> x <span class="keyword">in</span> row] <span class="keyword">for</span> row <span class="keyword">in</span> data]</span><br><span class="line">    <span class="comment"># Insert 0 at the index which the student skipped themselves</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)):</span><br><span class="line">        table[i].insert(i, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> table</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, [PORT])</span><br><span class="line">data = parse_input(p.recvuntilS(<span class="string">b&#x27;&gt; &#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>Let’s do some premature optimization and type hinting because I’m a nerd:</p>
+<figure class="highlight py"><figcaption><span>matchmaker.py: Parsing Input (optimized/typed)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> remote</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_input</span>(<span class="params">data: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">list</span>[<span class="built_in">int</span>]]:</span><br><span class="line">    data = [<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, x.split())) <span class="keyword">for</span> x <span class="keyword">in</span> data.splitlines()[:-<span class="number">1</span>]]</span><br><span class="line">    [data[i].insert(i, <span class="number">0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data))]</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>() -&gt; <span class="literal">None</span>:</span><br><span class="line">    p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, [PORT])</span><br><span class="line">    data = parse_input(p.recvuntilS(<span class="string">b&#x27;&gt; &#x27;</span>))</span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>Testing the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#F99157">$ </span>python3 matchmaker.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
+[[0, 39, 79, 40, 92, 6, 36, 10, 23, 53, 22, 1, 95, 23, 28, 53, 12, 19, 21, 89, 91, 17, 1, 45, 9, 37, 97, 68, 40, 96, 69, 17, 50, 98, 79, 33, 44, 18, 38, 31, 33, 84, 94, 64, 11, 64, 24, 82, 25, 0, 72, 99, 51, 58, 85, 60, 81, 68, 68, 93, 73, 51, 84, 56, 19, 48, 5, 69, 38, 55, 74, 81, 41, 0, 64, 42, 1, 60, 47, 89, 64, 26, 96, 10], [3, 0, 8, 70, 90, 46, 65, 81, 94, 86, 22, 56, 48, 66, 0, 13, 73, 61, 71, 86, 25, 98, 40, 58, 79, 84, 80, 99, 17, 75, 60, 74, 39, 18, 77, 4, 63, 96, 29, 68, 54, 44, 2, 48, 59, 34, 24, 18, 95, 13, 3, 53, 40, 70, 28, 60, 13, 59, 72, 74, 47, 30, 94, 48, 82, 61, 58, 41, 84, 88, 67, 64, 8, 0, 97, 22, 86, 2, 93, 4, 55, 53, 15, 70],
+<div class="skip-highlight">...</div></pre></td></tr></table></div>
+
+<p>Nice. Let’s move on to the actual algorithm.</p>
+<h4 id="Maximum-Weight-Matching"><a href="#Maximum-Weight-Matching" class="headerlink" title="Maximum Weight Matching"></a>Maximum Weight Matching</h4><p>This solve utilizes the <a target="_blank" rel="noopener" href="https://networkx.org/">NetworkX</a> library’s <a target="_blank" rel="noopener" href="https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.matching.max_weight_matching.html"><code>algorithms.matching.max_weight_matching</code></a> function, which takes a NetworkX <code>Graph</code> class as input (the equivalent of $G$) and returns a set of tuples (e.g. <code>&#123;(29, 14), (48, 21), (0, 39), (23, 19), ...&#125;</code>) representing the endpoints of the edges in $M$.</p>
+<p>We’ll import <code>networkx.algorithms.matching</code> as <code>matching</code> for our blossom algorithm wrapper, and <code>networkx</code> as <code>nx</code> for our <code>Graph</code> class. In terms of weight, we need to convert the students’ ratings into “biweights” (e.g. $w(0, 1) + w(1, 0)$) because the ratings they have for each other aren’t necessarily symmetric:</p>
+<p><img src="/static/mhsctf-2023/biweight.svg" alt="Biweight"></p>
+<p>Each “biweight” now represents the total score of the match, which was mentioned in the author’s notes. We’ll be able to pass this into the <code>max_weight_matching</code> function as the <code>weight</code> parameter.</p>
+<p>To test the algorithm, we’ll use the following dummy input (note that inverse repetition is allowed):</p>
+<div><figure class="highlight text" style=""><table><tr><td class="code"><pre><b>Input</b>: [[0, 0, 100, 0], [0, 100, 0, 0], [0, 100, 0, 0], [100, 0, 0, 0]]
+<b>Expected Output</b>: [(0, 3), (1, 2), (2, 1), (3, 0)]</pre></td></tr></table></div>
+
+
+<p>In theory, the following script should pair the zeroth student with the third student, and the first student with the second:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>matchmaker.py: Maximum Weight Matching (test case)</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="gutter"><pre><span class="line">⁠—</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">⁠—</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><div class="diff-highlight-del"><span class="keyword">from</span> pwn <span class="keyword">import</span> remote</div>
+<div class="diff-highlight-add"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</div>
+<div class="diff-highlight-add"><span class="keyword">import</span> networkx.algorithms.matching <span class="keyword">as</span> matching</div>
+
+<span class="keyword">def</span> <span class="title function_">parse_input</span>(<span class="params">data: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">list</span>[<span class="built_in">int</span>]]:
+    data = [<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, x.split())) <span class="keyword">for</span> x <span class="keyword">in</span> data.splitlines()[:-<span class="number">1</span>]]
+    [data[i].insert(i, <span class="number">0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data))]
+    <span class="keyword">return</span> data
+ 
+<span class="keyword">def</span> <span class="title function_">main</span>() -&gt; <span class="literal">None</span>:
+<div class="diff-highlight-del">    p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, [PORT])</div>
+<div class="diff-highlight-del">    data = parse_input(p.recvuntilS(<span class="string">b&#x27;&gt; &#x27;</span>))</div>
+<div class="diff-highlight-add">    data = [[<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]]</div>
+<div class="diff-highlight-add">    G: nx.Graph = nx.Graph([(i, j, {<span class="string">&#x27;weight&#x27;</span>: data[i][j] + data[j][i]}) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data[i])) <span class="keyword">if</span> i != j])</div>
+<div class="diff-highlight-add">    M: <span class="built_in">set</span>[<span class="built_in">tuple</span>] = matching.max_weight_matching(G, maxcardinality=<span class="literal">True</span>)</div>
+<div class="diff-highlight-add">    M_S: <span class="built_in">list</span>[<span class="built_in">tuple</span>] = <span class="built_in">sorted</span>(<span class="built_in">list</span>(M) + [(b, a) <span class="keyword">for</span> a, b <span class="keyword">in</span> M])</div>
+<div class="diff-highlight-add">    <span class="built_in">print</span>(data)</div>
+<div class="diff-highlight-del">    <span class="built_in">print</span>(M_S)</div>
+<div class="diff-highlight-add"></div>
+<span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:
+    main()</pre></td></tr></table></div>
+
+<p>Testing the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#F99157">$ </span>python3 matchmaker.py
+[(0, 3), (1, 2), (2, 1), (3, 0)]</pre></td></tr></table></div>
+
+<p>The script works locally! Let’s alter it to include the three iterations (alongside the correct formatting, e.g. <code>0,3;1,2;2,1;3,0;4,5;5,4</code>) so that it can work with the remote server:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>matchmaker.py: Final Script</span></figcaption><tr><td class="gutter"><pre><span class="line">+</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">10</span><br><span class="line">+</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">+</span><br><span class="line">14</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">—</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">—</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="keyword">from</span> pwn <span class="keyword">import</span> remote</div>
+<span class="keyword">import</span> networkx <span class="keyword">as</span> nx
+<span class="keyword">import</span> networkx.algorithms.matching <span class="keyword">as</span> matching
+
+<span class="keyword">def</span> <span class="title function_">parse_input</span>(<span class="params">data: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">list</span>[<span class="built_in">int</span>]]:
+    data = [<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, x.split())) <span class="keyword">for</span> x <span class="keyword">in</span> data.splitlines()[:-<span class="number">1</span>]]
+    [data[i].insert(i, <span class="number">0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data))]
+    <span class="keyword">return</span> data
+
+<span class="keyword">def</span> <span class="title function_">main</span>() -&gt; <span class="literal">None</span>:
+<div class="diff-highlight-add">    p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, [PORT])</div>
+<div class="diff-highlight-add">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</div>
+<div class="diff-highlight-del">        data = [[<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]]</div>
+<div class="diff-highlight-add">        data = parse_input(p.recvuntilS(<span class="string">b&#x27;&gt; &#x27;</span>))</div>
+        G: nx.Graph = nx.Graph([(i, j, {<span class="string">&#x27;weight&#x27;</span>: data[i][j] + data[j][i]}) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data[i])) <span class="keyword">if</span> i != j])
+        M: <span class="built_in">set</span>[<span class="built_in">tuple</span>] = matching.max_weight_matching(G, maxcardinality=<span class="literal">True</span>)
+        M_S: <span class="built_in">list</span>[<span class="built_in">tuple</span>] = <span class="built_in">sorted</span>(<span class="built_in">list</span>(M) + [(b, a) <span class="keyword">for</span> a, b <span class="keyword">in</span> M])
+<div class="diff-highlight-add">        result: <span class="built_in">str</span> = <span class="string">&#x27;;&#x27;</span>.join([<span class="string">f&#x27;<span class="subst">{a}</span>,<span class="subst">{b}</span>&#x27;</span> <span class="keyword">for</span> a, b <span class="keyword">in</span> M_S])</div>
+<div class="diff-highlight-del">        <span class="built_in">print</span>(data)</div>
+<div class="diff-highlight-add">        p.sendline(result.encode())</div>
+<div class="diff-highlight-add"></div>
+<div class="diff-highlight-add">    p.interactive()</div>
+
+<span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:
+    main()</pre></td></tr></table></div>
+
+<p>Running the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span style="color:#F99157">$ </span>python3 matchmaker.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to 0.cloud.chals.io on port <span style="color:#696969">[PORT]</span>: Done
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+<div class="code-highlight">Congratulations! Here's your valentine: valentine{l0V3_i5_1n_7he_4ir}</div>
+[<span style="color:#277FFF"><b>*</b></span>] Got EOF while reading in interactive</pre></td></tr></table></div>
+
+<p>We’ve successfully performed a maximum weight matching utilizing the blossom algorithm and the primal-dual method!</p>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>Wow, this challenge was definitely a rabbit hole. Even though the author never actually intended for us to go this deep into the math behind it (and for me to skip out on my Calculus classes to learn graph theory and discrete math), I really don’t like ignoring concepts (or in this case, a wrapper function) simply because their prerequisite knowledge floors are either too high or too intimidating. Obviously I was a lost sheep when I was initially researching the blossom algorithm (as this is my first algo challenge, ever), but I just love the feeling when you tear through all the layers abstractions and finally get to the juicy, low-level bits. </p>
+<p>I’m glad that our team was able to get first blood one this one, and I’m glad this beautiful algorithm was the first one I’ve learned. I hope you enjoyed this writeup, and I hope you learned something new!</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://personal.math.ubc.ca/~anstee/math523/523Matching.pdf">Anstee (UBC): “MATH 523: Primal-Dual Maximum Weight Matching Algorithm” (2012)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www5.in.tum.de/lehre/vorlesungen/fundalg/WS11/fundalg09.pdf">Bader (TUM): “Fundamental Algorithms, Chapter 9: Weighted Graphs (2011)</a></li>
+<li><a target="_blank" rel="noopener" href="https://brilliant.org/wiki/blossom-algorithm/">Blossom Algorithm (Brilliant)</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Blossom_algorithm">Blossom Algorithm (Wikipedia)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.dartmouth.edu/~ac/Teach/CS105-Winter05/Notes/kavathekar-scribe.pdf">Chakrabarti (Dartmouth): “Maximum Matching” (2005)</a></li>
+<li><a target="_blank" rel="noopener" href="https://web.eecs.umich.edu/~pettie/papers/ApproxMWM-JACM.pdf">Duan, Pettie: “Linear-Time Approximation for Maximum Weight Matching” (2014)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cs.kent.edu/~dragan/GraphAn/p23-galil.pdf">Galil: “Efficient Algorithms for Finding Maximum Matching in Graphs” (1986)</a></li>
+<li><a target="_blank" rel="noopener" href="https://math.mit.edu/~goemans/18433S09/matching-notes.pdf">Goemans (MIT): “1. Lecture notes on bipartite matching” (2009)</a></li>
+<li><a target="_blank" rel="noopener" href="https://math.mit.edu/~goemans/18433S15/matching-nonbip-notes.pdf">Goemans (MIT): “2. Lecture notes on non-bipartite matching” (2015)</a></li>
+<li><a target="_blank" rel="noopener" href="https://web.archive.org/web/20081230183603/http://www.cs.berkeley.edu/~karp/greatalgo/lecture05.pdf">Karp (UC Berkeley): “Edmonds’s Non-Bipartite Matching Algorithm” (2006)”</a></li>
+<li><a target="_blank" rel="noopener" href="https://codeforces.com/blog/entry/92339">Monogon: “Blossom Algorithm for General Matching in O(n^3)” (2021)</a></li>
+<li><a target="_blank" rel="noopener" href="https://networkx.org/documentation/stable/reference/algorithms/matching.html">NetworkX Documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.math.cmu.edu/~mradclif/teaching/301F15/Matchings.pdf">Radcliffe (CMU): “Math 301: Matchings in Graphs”</a></li>
+<li><a target="_blank" rel="noopener" href="https://stanford.edu/~rezab/classes/cme323/S16/projects_reports/shoemaker_vare.pdf">Shoemaker, Vare: “Edmonds’ Blossom Algorithm” (2016)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3roPs1Bvg1Q">Sláma: “The Blossom algorithm” (2021)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.columbia.edu/~cs2035/courses/ieor6614.S16/index.html">Stein (Columbia): “Handouts - Matchings” (2016)</a></li>
+<li><a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~satishr/cs270/sp11/rough-notes/matching.pdf">Vazirani (UC Berkeley): “Lecture 3: Maximum Weighted Matchings”</a></li>
+<li><a target="_blank" rel="noopener" href="http://jorisvr.nl/article/maximum-matching">van Rantwijk: “Maximum Weighted Matching” (2008)</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%B8-Matchmaker"><span class="toc-number"></span> <span class="toc-text">🌸 Matchmaker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Graph-Theory-Fundamentals"><span class="toc-number">1.</span> <span class="toc-text">Graph Theory Fundamentals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Blossom-Algorithm"><span class="toc-number">2.</span> <span class="toc-text">The Blossom Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Augmenting-Paths"><span class="toc-number">2.1.</span> <span class="toc-text">Augmenting Paths</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Blossoms-and-Blossom-Contraction"><span class="toc-number">2.2.</span> <span class="toc-text">Blossoms (and Blossom Contraction)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Primal-Dual-Method"><span class="toc-number">3.</span> <span class="toc-text">Primal-Dual Method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%9CBorrowing%E2%80%9D-an-Implementation"><span class="toc-number">4.</span> <span class="toc-text">“Borrowing” an Implementation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Parsing-Input"><span class="toc-number">4.1.</span> <span class="toc-text">Parsing Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Maximum-Weight-Matching"><span class="toc-number">4.2.</span> <span class="toc-text">Maximum Weight Matching</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">5.</span> <span class="toc-text">Afterword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#References"><span class="toc-number">6.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/mhsctf-2023/matchmaker/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&text=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&title=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&is_video=false&description=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching&body=Check out this article: https://enscribe.dev/blog/mhsctf-2023/matchmaker/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&title=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/mhsctf-2023/matchmaker/&name=MHSCTF 2023: Edmonds’ Blossom Algorithm for Maximum Weighted Matching&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

